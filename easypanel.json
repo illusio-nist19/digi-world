@@ -1,0 +1,56 @@
+{
+  "services": [
+    {
+      "type": "postgres",
+      "data": {
+        "serviceName": "database",
+        "databaseName": "digi-world"
+      }
+    },
+    {
+      "type": "app",
+      "data": {
+        "serviceName": "store",
+        "source": {
+          "type": "github",
+          "owner": "illusio-nist19",
+          "repo": "digi-world",
+          "ref": "main",
+          "path": "/frontend",
+          "autoDeploy": true
+        },
+        "build": {
+          "type": "dockerfile",
+          "file": "Dockerfile"
+        },
+        "env": "NODE_ENV=production\nNEXT_PUBLIC_SITE_URL=https://digi-world.online\nNEXT_PUBLIC_API_URL=https://api.digi-world.online\nNEXT_PUBLIC_DEFAULT_LOCALE=ar\nNEXT_PUBLIC_SUPPORT_EMAIL=hello@digi-world.online\nNEXT_PUBLIC_SAR_PER_USD=3.75\nNEXT_PUBLIC_PROOF_MODE=studio\nNEXT_PUBLIC_WHATSAPP=\nNEXT_PUBLIC_META_PIXEL_ID=\nNEXT_PUBLIC_TIKTOK_PIXEL_ID=\nNEXT_PUBLIC_SNAP_PIXEL_ID=",
+        "domains": [
+          { "host": "digi-world.online", "https": true, "port": 3000, "path": "/" },
+          { "host": "www.digi-world.online", "https": true, "port": 3000, "path": "/" }
+        ]
+      }
+    },
+    {
+      "type": "app",
+      "data": {
+        "serviceName": "api",
+        "source": {
+          "type": "github",
+          "owner": "illusio-nist19",
+          "repo": "digi-world",
+          "ref": "main",
+          "path": "/backend",
+          "autoDeploy": true
+        },
+        "build": {
+          "type": "dockerfile",
+          "file": "Dockerfile"
+        },
+        "env": "APP_ENV=production\nAPP_VERSION=1.0.0\nDATABASE_URL=postgres://postgres:$(PASSWORD)@$(PROJECT_NAME)_database:5432/digi-world?sslmode=disable\nFRONTEND_ORIGINS=https://digi-world.online,https://www.digi-world.online\nCHECKOUT_MODE=lead\nDELIVERY_MODE=manual\nPROOF_MODE=studio\nSHEET_WEBHOOK_URL=\nSHEET_WEBHOOK_SECRET=\nCAPI_REQUIRE_CONSENT=false\nRESEND_FROM=Digi World <hello@digi-world.online>\nCHECKOUT_RATE_PER_MIN=10",
+        "domains": [
+          { "host": "api.digi-world.online", "https": true, "port": 8000, "path": "/" }
+        ]
+      }
+    }
+  ]
+}

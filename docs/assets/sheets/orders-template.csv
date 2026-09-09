@@ -1,0 +1,1 @@
+type,order_id,created_at,status,customer_name,customer_email,locale,currency,subtotal,discount,upsell_total,grand_total,items_json,offer_types,upsell_sku,upsell_accepted,source,utm_source,utm_medium,utm_campaign,utm_content,utm_term,fbclid,ttclid,sccid,fbp,fbc,landing_page,referrer,user_agent,ip,event_id_purchase,event_id_lead,checkout_mode,notes

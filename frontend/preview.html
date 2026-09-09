@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Digi World — أنظمة رقمية. مو ملفات.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Instrument+Sans:wght@400;500&family=Syne:wght@600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #0B0C0E; --ink-2: #14151A; --ink-3: #1C1E26;
+      --gold: #C6A35A; --gold-2: #E2C98A;
+      --ivory: #F4EFE6; --ivory-2: #FAF7F2;
+      --stone: #8A8478; --line: #2A2C34; --danger: #C45C4A;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: var(--ink); color: var(--ivory); }
+    body { font-family: "Instrument Sans", "IBM Plex Sans Arabic", sans-serif; min-height: 100vh; }
+    [dir="rtl"] body { font-family: "IBM Plex Sans Arabic", "Instrument Sans", sans-serif; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
+    .display { font-family: Syne, "IBM Plex Sans Arabic", sans-serif; letter-spacing: -0.02em; }
+    .wrap { width: min(1200px, calc(100% - 40px)); margin-inline: auto; }
+    header {
+      position: sticky; top: 0; z-index: 40; height: 72px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      background: rgba(11,12,14,.8); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line);
+      padding-inline: max(20px, calc(50% - 600px));
+    }
+    .logo { display: flex; align-items: center; gap: 12px; }
+    .circle {
+      width: 36px; height: 36px; border-radius: 50%; background: var(--gold); color: var(--ink);
+      display: grid; place-items: center; font-family: Syne, sans-serif; font-weight: 700; font-size: 12px;
+    }
+    nav { display: flex; gap: 28px; font-size: 14px; color: rgba(244,239,230,.8); }
+    .end { display: flex; gap: 8px; align-items: center; }
+    .icon-btn, .lang {
+      height: 44px; min-width: 44px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--line);
+      display: grid; place-items: center; position: relative;
+    }
+    .badge {
+      position: absolute; top: -4px; inset-inline-end: -4px; background: var(--gold); color: var(--ink);
+      border-radius: 999px; font-size: 10px; min-width: 18px; height: 18px; display: grid; place-items: center; font-weight: 700;
+    }
+    .btn {
+      height: 48px; padding: 0 24px; border-radius: 999px; background: var(--gold); color: var(--ink); font-weight: 500;
+      display: inline-grid; place-items: center;
+    }
+    .btn:hover { background: var(--gold-2); }
+    .ghost { background: transparent; color: var(--ivory); border: 1px solid rgba(244,239,230,.2); }
+    .hero { min-height: 88vh; display: grid; align-items: center; padding: 48px 0 64px; position: relative; overflow: hidden; }
+    .hero::before {
+      content: ""; position: absolute; inset: 0;
+      background: radial-gradient(circle at 20% 20%, rgba(198,163,90,.16), transparent 42%),
+                  linear-gradient(135deg, #1a1610, #0B0C0E 55%);
+    }
+    .hero-grid { position: relative; display: grid; gap: 40px; align-items: center; }
+    @media (min-width: 900px) { .hero-grid, .split, .pdp { grid-template-columns: 1fr 1fr; } nav.desk { display: flex; } .ham { display: none; } }
+    @media (max-width: 899px) { nav.desk { display: none; } .hero h1 { font-size: 36px !important; } }
+    h1 { font-size: 56px; line-height: 1.15; }
+    .sub { margin-top: 18px; max-width: 520px; font-size: 18px; line-height: 1.8; color: rgba(244,239,230,.75); }
+    .gold { color: var(--gold); }
+    .stone { color: var(--stone); }
+    .cover {
+      height: 100%; min-height: 240px; border-radius: 16px; overflow: hidden; position: relative;
+      background: linear-gradient(145deg, #1a1510, #0B0C0E);
+      border: 1px solid var(--line);
+    }
+    .cover .inner { position: relative; z-index: 1; height: 100%; min-height: 240px; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; }
+    .cover::after {
+      content: ""; position: absolute; inset: -20% -10% auto auto; width: 180px; height: 180px;
+      border: 1px solid rgba(198,163,90,.25); border-radius: 50%;
+    }
+    .stage { position: relative; height: 420px; }
+    .stage .a { position: absolute; inset: 32px; }
+    .stage .b { position: absolute; inset-inline-start: 0; top: 32px; width: 140px; height: 190px; transform: rotate(-8deg); }
+    .stage .c { position: absolute; inset-inline-end: 0; bottom: 16px; width: 140px; height: 190px; transform: rotate(7deg); }
+    .grid4 { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+    .card { background: var(--ink-3); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+    .card .pad { padding: 16px; }
+    .light { background: var(--ivory-2); color: var(--ink); padding: 80px 0; }
+    .section { padding: 80px 0; }
+    .pillars { display: grid; gap: 16px; }
+    @media (min-width: 800px) { .pillars { grid-template-columns: repeat(3, 1fr); } }
+    .box { border: 1px solid var(--line); border-radius: 16px; padding: 22px; }
+    footer { border-top: 1px solid rgba(198,163,90,.25); padding: 56px 0 24px; }
+    .fgrid { display: grid; gap: 28px; }
+    @media (min-width: 900px) { .fgrid { grid-template-columns: 1.3fr 1fr 1fr 1fr 1fr; } }
+    footer a, footer p { color: rgba(244,239,230,.8); font-size: 14px; line-height: 1.9; }
+    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,.55); z-index: 50; }
+    .drawer {
+      position: fixed; top: 0; inset-inline-end: 0; height: 100%; width: min(420px, 100%);
+      background: var(--ink-2); z-index: 51; border-inline-start: 1px solid var(--line);
+      display: flex; flex-direction: column; box-shadow: 0 24px 80px rgba(0,0,0,.35);
+    }
+    .modal {
+      position: fixed; inset-inline: 16px; top: 8%; z-index: 61; width: min(520px, calc(100% - 32px)); margin-inline: auto;
+      background: var(--ink-2); border: 1px solid var(--line); border-radius: 16px; padding: 28px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.35);
+    }
+    .dim { position: fixed; inset: 0; background: rgba(0,0,0,.65); z-index: 60; }
+    input, textarea {
+      width: 100%; height: 48px; border-radius: 12px; border: 1px solid var(--line);
+      background: rgba(244,239,230,.1); color: var(--ivory); padding: 0 12px; margin-top: 6px;
+    }
+    textarea { height: 120px; padding: 12px; }
+    .tile { width: 100%; text-align: start; border: 1px solid var(--line); background: var(--ink-3); border-radius: 16px; padding: 16px; margin-bottom: 10px; }
+    .tile.on { border-color: var(--gold); background: rgba(198,163,90,.12); }
+    .sticky { position: sticky; bottom: 0; background: rgba(11,12,14,.92); border-top: 1px solid var(--line); padding: 12px 16px; display: none; }
+    @media (max-width: 899px) { .sticky.pdp-only { display: flex; gap: 12px; align-items: center; } }
+    .stars { color: var(--gold); letter-spacing: 2px; }
+    .menu { position: fixed; inset: 0; background: rgba(11,12,14,.96); z-index: 70; padding: 24px; display: none; }
+    .menu.open { display: block; }
+    .menu a { display: block; font-size: 28px; font-family: Syne, "IBM Plex Sans Arabic", sans-serif; margin: 18px 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <button class="icon-btn ham" id="ham" aria-label="menu">☰</button>
+      <a class="logo" href="#/home">
+        <span class="circle">DW</span>
+        <span class="display" style="font-size:19px">Digi World</span>
+      </a>
+    </div>
+    <nav class="desk" id="nav"></nav>
+    <div class="end">
+      <button class="lang" id="lang"></button>
+      <button class="icon-btn" id="cartBtn" aria-label="cart">👜<span class="badge" id="count" hidden>0</span></button>
+    </div>
+  </header>
+  <div class="menu" id="menu"></div>
+  <main id="app"></main>
+  <footer>
+    <div class="wrap fgrid">
+      <div>
+        <div class="logo"><span class="circle">DW</span><strong class="display">Digi World</strong></div>
+        <p id="footLine" style="margin-top:14px"></p>
+      </div>
+      <div id="f1"></div><div id="f2"></div><div id="f3"></div>
+      <div><p class="gold" style="font-size:12px;letter-spacing:.18em">SOCIAL</p><p>TikTok<br>Snapchat<br>Instagram<br>YouTube</p></div>
+    </div>
+    <p class="stone" style="text-align:center;font-size:12px;margin-top:28px;padding-bottom:12px">© 2026 Digi World · digi-world.online</p>
+  </footer>
+
+  <div id="cartOverlay" class="overlay" hidden></div>
+  <aside id="drawer" class="drawer" hidden></aside>
+  <div id="checkDim" class="dim" hidden></div>
+  <div id="checkout" class="modal" hidden></div>
+  <div id="upsellDim" class="dim" hidden style="z-index:70;display:grid;place-items:center"></div>
+
+  <script>
+    const P = [
+      { slug:"creator-os", sku:"DW-SYS-001", type:"system", col:"creator-lab", name:{ar:"نظام الصانع",en:"Creator OS"}, sub:{ar:"نظام المحتوى للي تعب ينزل عشوائي.",en:"The content OS for people done posting at random."}, h1:{ar:"انشر كاستوديو. مو كمood.",en:"Post like a studio. Not like a mood."}, pair:"hook-vault", pairPrice:34, xs:["hook-vault","faceless-studio","caption-machine"], up:{slug:"faceless-studio",price:11}, issued:184, pool:500, reviews:86, contains:{ar:["هوك OS","سكربت UGC","خريطة 30 يوم"],en:["Hook OS","UGC scripts","30-day map"]}, tone:"#2a2118" },
+      { slug:"faceless-studio", sku:"DW-SYS-002", type:"system", col:"creator-lab", name:{ar:"استوديو بدون وجه",en:"Faceless Studio"}, sub:{ar:"قناة بدون وجه، بس شكلها استوديو.",en:"A faceless channel that still looks expensive."}, h1:{ar:"قناة بدون وجه، وشكلها غالي.",en:"A faceless brand that still looks expensive."}, pair:"creator-os", pairPrice:34, xs:["creator-os","hook-vault","ad-swipe"], up:{slug:"hook-vault",price:11}, issued:141, pool:500, reviews:64, contains:{ar:["نيتش","سكربت","B-roll"],en:["Niche","Scripts","B-roll"]}, tone:"#1c2833" },
+      { slug:"hook-vault", sku:"DW-SYS-003", type:"system", col:"creator-lab", name:{ar:"خزنة الهوكس",en:"Hook Vault"}, sub:{ar:"1,200 هوك مصنّفة حسب المنصة والإحساس.",en:"1,200 hooks sorted by platform and emotion."}, h1:{ar:"ابدأ بجملة ما يقدرون يتجاوزونها.",en:"Open with a line they can’t scroll past."}, pair:"caption-machine", pairPrice:27, xs:["creator-os","caption-machine"], up:{slug:"caption-machine",price:9}, issued:219, pool:500, reviews:112, contains:{ar:["تيك توك","سناب","ريلز"],en:["TikTok","Snap","Reels"]}, tone:"#2c1c20" },
+      { slug:"ai-operator", sku:"DW-SYS-004", type:"system", col:"ai-command", name:{ar:"مشغّل الذكاء",en:"AI Operator"}, sub:{ar:"وقف سوالف مع الشات. شغّل الذكاء كأنه موظف.",en:"Stop chatting. Operate AI like staff."}, h1:{ar:"خلّ الذكاء يشتغل كموظف.",en:"Make AI behave like staff."}, pair:"offer-engine", pairPrice:34, xs:["offer-engine","time-command"], up:{slug:"offer-engine",price:11}, issued:97, pool:500, reviews:51, contains:{ar:["أدوار","بوابات جودة","إيقاع أسبوعي"],en:["Roles","Quality gates","Weekly cadence"]}, tone:"#1a2430" },
+      { slug:"offer-engine", sku:"DW-SYS-005", type:"system", col:"ai-command", name:{ar:"محرّك العرض",en:"Offer Engine"}, sub:{ar:"تسعّر، تركّب، وتقول العرض بحيث القرار يصير سهل.",en:"Price, stack, and say the offer so people stop thinking."}, h1:{ar:"عرض واضح، جملة “بفكر” تموت.",en:"An offer so clear, “I’ll think about it” dies."}, pair:"ai-operator", pairPrice:34, xs:["ai-operator","creator-os"], up:{slug:"ai-operator",price:11}, issued:88, pool:500, reviews:43, contains:{ar:["معمار العرض","سلالم سعر","إغلاق"],en:["Offer architecture","Price ladders","Close"]}, tone:"#2a2418" },
+      { slug:"wealth-os", sku:"DW-SYS-006", type:"system", col:"wealth-os", name:{ar:"نظام الثروة",en:"Wealth OS"}, sub:{ar:"فلوسك بصيغة مشغّل، مو إكسل خوف.",en:"See money like an operator, not a panic sheet."}, h1:{ar:"اعرف فلوسك رايحة وين.",en:"Know where your money actually goes."}, pair:"time-command", pairPrice:34, xs:["offer-engine","time-command"], up:{slug:"offer-engine",price:11}, issued:76, pool:500, reviews:39, contains:{ar:["دخل","صرف","90 يوم"],en:["Income","Spend","90-day map"]}, tone:"#1c281c" },
+      { slug:"glow-ritual", sku:"DW-SYS-007", type:"system", col:"glow-ritual", name:{ar:"طقوس التوهج",en:"Glow Ritual"}, sub:{ar:"طقس خاص، عشان توقفين تبدأين من صفر كل أحد.",en:"A private ritual so you stop restarting every Sunday."}, h1:{ar:"صيري اللي ما تبدأ من صفر.",en:"Become the woman who doesn’t restart."}, pair:"time-command", pairPrice:34, xs:["time-command"], up:{slug:"time-command",price:11}, issued:122, pool:500, reviews:71, contains:{ar:["صباح/ليل","جلد/جسم/ذهن","21 يوم"],en:["AM/PM","Skin/body/mind","21-day install"]}, tone:"#2c2028" },
+      { slug:"time-command", sku:"DW-SYS-008", type:"system", col:"wealth-os", name:{ar:"قيادة الوقت",en:"Time Command"}, sub:{ar:"نظام انتباه للي أجندته تكذب عليه.",en:"Attention OS for people whose calendar is lying."}, h1:{ar:"خذ ساعاتك من جوالك.",en:"Take your hours back from your own phone."}, pair:"wealth-os", pairPrice:34, xs:["wealth-os","ai-operator"], up:{slug:"wealth-os",price:11}, issued:61, pool:500, reviews:28, contains:{ar:["شغل عميق","أمر أسبوعي","إغلاق"],en:["Deep work","Weekly command","Shutdown"]}, tone:"#1c2230" },
+      { slug:"caption-machine", sku:"DW-ADD-001", type:"addon", col:"creator-lab", name:{ar:"مكينة الكابشنز",en:"Caption Machine"}, sub:{ar:"كابشن يوقف الإصبع.",en:"Captions that stop the thumb."}, h1:{ar:"الكابشن جزء من النظام.",en:"The caption is part of the system."}, pair:"hook-vault", pairPrice:27, xs:[], up:{slug:"launch-sprint",price:9}, issued:203, pool:800, reviews:44, contains:{ar:["قوالب إحساس"],en:["Emotion frames"]}, tone:"#2a2218" },
+      { slug:"ad-swipe", sku:"DW-ADD-002", type:"addon", col:"creator-lab", name:{ar:"سوايپ الإعلان",en:"Ad Creative Swipe"}, sub:{ar:"زوايا إعلان، مو نسخ.",en:"Ad angles. Not stolen ads."}, h1:{ar:"اعلن بنفس لغة الدار.",en:"Advertise in the house language."}, pair:"faceless-studio", pairPrice:31, xs:[], up:{slug:"launch-sprint",price:9}, issued:90, pool:800, reviews:21, contains:{ar:["UGC"],en:["UGC structures"]}, tone:"#241828" },
+      { slug:"launch-sprint", sku:"DW-ADD-003", type:"addon", col:"ai-command", name:{ar:"سباق الإطلاق 30 يوم",en:"30-Day Launch Sprint"}, sub:{ar:"30 يوم تركيب. مو نية.",en:"30 days of install. Not intention."}, h1:{ar:"إطلاق بجدول، مو بحماس.",en:"Launch on a calendar, not a mood."}, pair:"offer-engine", pairPrice:31, xs:[], up:{slug:"the-vault",price:67}, issued:54, pool:800, reviews:18, contains:{ar:["يوم بيوم"],en:["Day by day"]}, tone:"#1c2828" },
+      { slug:"the-vault", sku:"DW-VAULT-001", type:"vault", col:"the-vault", name:{ar:"خزنة Digi World",en:"The Digi World Vault"}, sub:{ar:"الثمانية أنظمة + الإضافات. الدار كاملة.",en:"All 8 systems + add-ons. The whole house."}, h1:{ar:"الدار كاملة. مفتاح واحد.",en:"The house. Every system. One key."}, pair:"the-vault", pairPrice:149, xs:[], up:{slug:"the-vault",price:67}, issued:41, pool:300, reviews:19, contains:{ar:["8 أنظمة","3 إضافات"],en:["8 systems","3 add-ons"]}, tone:"#C6A35A" }
+    ];
+    const COLS = [
+      {slug:"creator-lab", name:{ar:"مختبر الصانع",en:"Creator Lab"}, sub:{ar:"شكل استوديو. مو مزاج.",en:"Look like a studio. Not a mood."}},
+      {slug:"ai-command", name:{ar:"قيادة الذكاء",en:"AI Command"}, sub:{ar:"الذكاء كموظف.",en:"AI as staff."}},
+      {slug:"wealth-os", name:{ar:"الثروة",en:"Wealth"}, sub:{ar:"فلوسك ووقتك.",en:"Money and hours."}},
+      {slug:"glow-ritual", name:{ar:"طقوس التوهج",en:"Glow Ritual"}, sub:{ar:"طقس خاص.",en:"Private ritual."}},
+      {slug:"the-vault", name:{ar:"الخزنة",en:"The Vault"}, sub:{ar:"الدار كاملة.",en:"The house."}}
+    ];
+    const gp = s => P.find(p => p.slug === s);
+    let locale = localStorage.getItem("dw_locale") || "ar";
+    let route = "home";
+    let param = "";
+    let cart = JSON.parse(localStorage.getItem("dw_cart") || "[]");
+    let offer = "duo";
+    let lastOrder = null;
+    let upsellTimer = null;
+
+    const ar = () => locale === "ar";
+    const save = () => localStorage.setItem("dw_cart", JSON.stringify(cart));
+    const total = () => cart.reduce((s,l) => s + l.price, 0);
+    const has = slug => cart.some(l => l.slug === slug);
+
+    function setLocale(l) {
+      locale = l;
+      localStorage.setItem("dw_locale", l);
+      document.documentElement.lang = l;
+      document.documentElement.dir = l === "ar" ? "rtl" : "ltr";
+      renderChrome();
+      render();
+    }
+
+    function cover(p, title) {
+      return `<div class="cover" style="background:linear-gradient(145deg, ${p.tone||"#1a1510"}, #0B0C0E)">
+        <div class="inner">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start">
+            <span class="circle" style="width:28px;height:28px;font-size:10px">DW</span>
+            <span style="font-size:10px;border:1px solid rgba(244,239,230,.2);border-radius:999px;padding:3px 8px">Drop 01 — 2026</span>
+          </div>
+          <div>
+            <p class="gold" style="font-size:11px;font-family:Syne">${p.sku||""}</p>
+            <p class="display" style="font-size:22px;margin-top:4px">${title||p.name[locale]}</p>
+            <p class="stone" style="font-size:11px;margin-top:8px">A Digi World original</p>
+          </div>
+        </div>
+      </div>`;
+    }
+
+    function card(p) {
+      const price = p.type === "vault" ? 97 : p.type === "addon" ? 12 : 19;
+      return `<a class="card" href="#/${p.type==="vault"||true?"system":"system"}/${p.slug}">
+        <div style="aspect-ratio:4/5">${cover(p)}</div>
+        <div class="pad">
+          <p class="gold" style="font-size:10px;letter-spacing:.16em">DROP 01 — 2026</p>
+          <h3 class="display" style="font-size:18px;margin:6px 0">${p.name[locale]}</h3>
+          <p class="stone" style="font-size:13px">${p.sub[locale]}</p>
+          <p class="stars" style="margin:8px 0">★★★★★ <span class="stone" style="letter-spacing:0">4.9 · ${p.reviews}</span></p>
+          <div style="display:flex;justify-content:space-between;align-items:end">
+            <div><p class="display gold" style="font-size:22px">$${price}</p><p class="stone" style="font-size:11px">USD · ${ar()?"خزنة فورية":"instant vault"}</p></div>
+            <span class="btn" style="height:36px;padding:0 12px;font-size:12px">${ar()?"شوف النظام":"View system"}</span>
+          </div>
+          <p class="stone" style="font-size:12px;margin-top:8px">${p.issued} / ${p.pool} ${ar()?"رخصة هذا الدروب":"licenses this drop"}</p>
+        </div>
+      </a>`;
+    }
+
+    function renderChrome() {
+      document.getElementById("nav").innerHTML = (ar()
+        ? [["#/collections","المتجر"],["#/collections","الأنظمة"],["#/about","الدار"],["#/contact","تواصل"]]
+        : [["#/collections","Shop"],["#/collections","Systems"],["#/about","About"],["#/contact","Contact"]]
+      ).map(([h,l]) => `<a href="${h}">${l}</a>`).join("");
+      document.getElementById("lang").textContent = ar() ? "EN" : "ع";
+      document.getElementById("footLine").textContent = ar()
+        ? "دار تُصدر أنظمة رقمية أصلية للصنّاع والمشغّلين. مش سوق ملفات."
+        : "A house that issues original digital systems. Not a file bazaar.";
+      document.getElementById("f1").innerHTML = `<p class="gold" style="font-size:12px;letter-spacing:.18em">${ar()?"المتجر":"SHOP"}</p>` + COLS.map(c => `<p><a href="#/collection/${c.slug}">${c.name[locale]}</a></p>`).join("");
+      document.getElementById("f2").innerHTML = `<p class="gold" style="font-size:12px;letter-spacing:.18em">${ar()?"الدار":"HOUSE"}</p><p><a href="#/about">${ar()?"من نحن":"About"}</a><br><a href="#/contact">${ar()?"تواصل":"Contact"}</a></p>`;
+      document.getElementById("f3").innerHTML = `<p class="gold" style="font-size:12px;letter-spacing:.18em">${ar()?"قانوني":"LEGAL"}</p><p>${ar()?"خصوصية · شروط · ضمان":"Privacy · Terms · Guarantee"}</p>`;
+      const n = cart.length;
+      const b = document.getElementById("count");
+      b.hidden = !n; b.textContent = n;
+      document.getElementById("menu").innerHTML = `<button id="closeMenu" style="float:${ar()?"left":"right"}">✕</button>` + document.getElementById("nav").innerHTML;
+    }
+
+    function home() {
+      const sys = P.filter(p => p.type==="system");
+      const vault = gp("the-vault");
+      return `
+      <section class="hero"><div class="wrap hero-grid">
+        <div>
+          <p class="gold" style="font-size:12px;letter-spacing:.22em">${ar()?"استوديو الأنظمة الرقمية":"A STUDIO FOR DIGITAL SYSTEMS"}</p>
+          <h1 class="display" style="margin-top:14px">${ar()?"وقف تجمع ملفات. خذ نظام عليه اسم.":"Stop collecting files. Own a system with a name."}</h1>
+          <p class="sub">${ar()?"Digi World دار تُصدر أنظمة للصنّاع والمشغّلين والطقوس الخاصة. مش سوق قوالب.":"Digi World issues operating systems for creators, operators, and private rituals. Not a template bazaar."}</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:28px">
+            <a class="btn" href="#/system/the-vault">${ar()?"ادخل الخزنة":"Enter the vault"}</a>
+            <a class="btn ghost" href="#/collections">${ar()?"شوف الأنظمة":"See the systems"}</a>
+          </div>
+          <p class="stone" style="margin-top:28px;font-size:14px">Drop 01 — 2026 · 4.9 · ${ar()?"تسليم فوري لكل العالم":"Instant worldwide"}</p>
+        </div>
+        <div class="stage">
+          <div class="a">${cover(vault)}</div>
+          <div class="b">${cover(sys[0])}</div>
+          <div class="c">${cover(sys[3])}</div>
+        </div>
+      </div></section>
+      <section class="light"><div class="wrap split" style="display:grid;gap:48px;align-items:center">
+        <div style="aspect-ratio:4/5">${cover({sku:"STUDIO",name:{ar:"الدار",en:"The house"},tone:"#2a2118"}, ar()?"الدار":"The house")}</div>
+        <div>
+          <p class="gold">● ${ar()?"نظام معتمد DW":"DW Certified System"}</p>
+          <h2 class="display" style="font-size:42px;margin-top:12px">${ar()?"تعبت تجمع ملفات وتسميها شغل؟":"Tired of collecting files and calling it work?"}</h2>
+          <p style="margin-top:16px;line-height:1.9;color:#4a463e;font-size:18px">${ar()?"Digi World يبيعك نظام. مو PDF مرمي في الدرايف. كل قطعة أصلية، برقم تسلسلي، من استوديو واحد.":"Digi World sells you a system. Not a PDF dumped in Drive. Original, serialled, from one studio."}</p>
+        </div>
+      </div></section>
+      <section class="section"><div class="wrap">
+        <p class="gold" style="letter-spacing:.2em;font-size:12px">DROP 01</p>
+        <h2 class="display" style="font-size:42px;margin:8px 0 28px">${ar()?"الأنظمة":"The systems"}</h2>
+        <div class="grid4">${sys.map(card).join("")}</div>
+        <a href="#/system/the-vault" class="card" style="display:grid;grid-template-columns:2fr 3fr;margin-top:28px">
+          <div>${cover(vault)}</div>
+          <div class="pad" style="padding:32px">
+            <p class="gold">${ar()?"الخزنة":"THE VAULT"}</p>
+            <h3 class="display" style="font-size:32px;margin:8px 0">${vault.h1[locale]}</h3>
+            <p class="stone">${vault.sub[locale]}</p>
+            <p class="display gold" style="font-size:28px;margin-top:12px">$97 <span class="stone" style="text-decoration:line-through;font-size:16px">$188</span></p>
+          </div>
+        </a>
+      </div></section>
+      <section class="section" style="border-top:1px solid var(--line)"><div class="wrap">
+        <h2 class="display" style="font-size:32px">${ar()?"المجموعات":"Collections"}</h2>
+        <div class="grid4" style="margin-top:24px">${COLS.filter(c=>c.slug!=="the-vault").map(c=>`<a class="box" href="#/collection/${c.slug}"><p class="display" style="font-size:22px">${c.name[locale]}</p><p class="stone" style="margin-top:8px">${c.sub[locale]}</p></a>`).join("")}</div>
+      </div></section>
+      <section class="light"><div class="wrap">
+        <h2 class="display" style="font-size:36px">${ar()?"ليش Digi World":"Why Digi World"}</h2>
+        <div class="pillars" style="margin-top:28px">
+          ${[
+            [ar()?"أصلي":"Original", ar()?"ما نلف ملفات غيرنا.":"We don’t wrap other people’s files."],
+            [ar()?"معتمد":"Certified", ar()?"رقم تسلسلي. رخصة. ختم DW.":"A serial. A license. A DW stamp."],
+            [ar()?"فوري · العالم":"Instant worldwide", ar()?"متجر أونلاين فقط.":"Online only. The vault reaches you anywhere."]
+          ].map(([t,d])=>`<div class="box" style="border-color:#E6E0D4"><p class="display" style="font-size:24px">${t}</p><p style="margin-top:10px;color:#4a463e">${d}</p></div>`).join("")}
+        </div>
+      </div></section>
+      <section class="section"><div class="wrap">
+        <h2 class="display" style="font-size:28px">${ar()?"العلم ورا التصميم":"The science behind the house"}</h2>
+        <div class="pillars" style="margin-top:20px">
+          ${[
+            [ar()?"نية التنفيذ":"Implementation intentions", ar()?"نظام متى/إذن يشتغل أكثر من هدف على ورق.":"When/then systems beat paper goals."],
+            [ar()?"هوية":"Identity", ar()?"الدار مو ملف مخفي.":"A house, not a hidden file."],
+            [ar()?"حمل معرفي":"Cognitive load", ar()?"خزنة واحدة. تسلسل واضح.":"One vault. Sequenced."]
+          ].map(([t,d])=>`<div class="box"><p class="gold">${t}</p><p class="stone" style="margin-top:8px">${d}</p></div>`).join("")}
+        </div>
+      </div></section>
+      <div style="border:solid var(--line);border-width:1px 0;padding:18px 0;overflow:hidden;white-space:nowrap" class="stone">
+        ${" · ".repeat(1)}${ar()?"«أول مرة أحس إن المحتوى شغل دار» — رخصة Creator OS · 4.9 · Drop 01":"“First time my content felt like a house.” — Creator OS license · 4.9 · Drop 01"}${" · "}
+      </div>
+      <section class="section"><div class="wrap" style="text-align:center">
+        <h2 class="display" style="font-size:32px">${ar()?"نفس اللغة في سناب وتيك توك":"The same language on Snap & TikTok"}</h2>
+        <div class="pillars" style="margin-top:28px">${[1,2,3].map(n=>`<div style="aspect-ratio:9/16;max-width:240px;margin:auto;border:1px solid var(--line);border-radius:32px;padding:12px;background:var(--ink-3)"><div style="height:100%;border-radius:24px;padding:16px;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(#14151A,#0B0C0E)"><p class="gold" style="font-size:10px">UGC · 0${n}</p><p class="display" style="font-size:22px">${ar()?"وقف تجمع ملفات.":"Stop collecting files."}</p><p class="stone" style="font-size:12px">@digiworld</p></div></div>`).join("")}</div>
+      </div></section>
+      <section class="light"><div class="wrap" style="text-align:center;max-width:640px">
+        <h2 class="display" style="font-size:32px">${ar()?"ضمان الدار":"House guarantee"}</h2>
+        <p style="margin-top:14px;line-height:1.9;color:#4a463e">${ar()?"ما ناسبك خلال 7 أيام؟ راسلنا. تسليم رقمي فوري. رخصة شخصية. المتجر أونلاين فقط.":"Doesn’t fit in 7 days? Write us. Instant digital. Personal license. Online only."}</p>
+      </div></section>
+      <section class="section"><div class="wrap box" style="text-align:center;border-color:rgba(198,163,90,.4);padding:56px 24px">
+        <h2 class="display" style="font-size:40px">${ar()?"من 19$. الدار من 97$.":"From $19. The house at $97."}</h2>
+        <p class="stone" style="margin:12px 0 24px">${ar()?"السعر فلتر. مو اعتذار.":"Price is a filter. Not an apology."}</p>
+        <a class="btn" href="#/collections">${ar()?"ادخل المتجر":"Enter the shop"}</a>
+      </div></section>`;
+    }
+
+    function collections() {
+      return `<section class="section"><div class="wrap">
+        <p class="gold" style="letter-spacing:.2em;font-size:12px">DROP 01</p>
+        <h1 class="display" style="font-size:48px">${ar()?"المجموعات":"Collections"}</h1>
+        ${COLS.map(c => `<div style="margin-top:48px"><h2 class="display" style="font-size:28px">${c.name[locale]}</h2><p class="stone">${c.sub[locale]}</p><div class="grid4" style="margin-top:16px">${P.filter(p=>c.slug==="the-vault"?p.type==="vault":p.col===c.slug).map(card).join("")}</div></div>`).join("")}
+      </div></section>`;
+    }
+
+    function collection() {
+      const c = COLS.find(x => x.slug === param);
+      if (!c) return "<p class='wrap section'>404</p>";
+      const items = P.filter(p => c.slug==="the-vault" ? p.type==="vault" : p.col===c.slug);
+      return `<section class="section"><div class="wrap split" style="display:grid;gap:32px;align-items:center">
+        <div style="aspect-ratio:16/9">${cover({sku:"DROP 01", name:c.name, tone:"#1a1610"}, c.name[locale])}</div>
+        <div><p class="gold">DROP 01 — 2026</p><h1 class="display" style="font-size:48px">${c.name[locale]}</h1><p class="sub">${c.sub[locale]}</p></div>
+      </div></section>
+      <section class="section" style="padding-top:0"><div class="wrap grid4">${items.map(card).join("")}</div></section>
+      <section class="light"><div class="wrap split" style="display:grid;gap:40px;align-items:center">
+        <div><h2 class="display" style="font-size:36px">${ar()?"مو ملفات. أنظمة.":"Not files. Systems."}</h2><p style="margin-top:14px;color:#4a463e;line-height:1.9">${ar()?"هذي المجموعة جزء من دار واحدة.":"This collection belongs to one house."}</p></div>
+        <div style="aspect-ratio:4/5">${cover({sku:"DW",name:{ar:"أصل",en:"Original"},tone:"#14151A"}, ar()?"أصل الدار":"House original")}</div>
+      </div></section>
+      ${c.slug!=="the-vault"?`<div class="wrap section"><a class="box" href="#/system/the-vault" style="display:block;text-align:center;border-color:rgba(198,163,90,.4)"><p class="gold">${ar()?"افتح الدار":"Unlock the house"}</p><p class="display" style="font-size:28px;margin-top:8px">${ar()?"الخزنة كاملة — 97$":"The whole vault — $97"}</p></a></div>`:""}`;
+    }
+
+    function system() {
+      const p = gp(param);
+      if (!p) return "<p class='wrap section'>404</p>";
+      const pair = gp(p.pair);
+      const price = () => p.type==="addon" ? 12 : p.type==="vault" ? (offer==="duo"?149:97) : offer==="duo"?29:offer==="pair"?p.pairPrice:19;
+      window.__price = price;
+      window.__p = p;
+      return `<section class="section"><div class="wrap pdp" style="display:grid;gap:40px;align-items:start">
+        <div>${[0,1,2,3].map(()=>`<div style="aspect-ratio:4/5;margin-bottom:12px">${cover(p)}</div>`).join("")}</div>
+        <div>
+          <p class="gold">● ${ar()?"نظام معتمد DW":"DW Certified System"}</p>
+          <p class="gold" style="font-size:12px;margin-top:8px">${p.sku} · ${ar()?"أصل Digi World":"A Digi World original"}</p>
+          <h1 class="display" style="font-size:42px;margin:10px 0">${p.h1[locale]}</h1>
+          <p class="stone" style="font-size:18px">${p.sub[locale]}</p>
+          <p class="stars" style="margin:12px 0">★★★★★ <span class="stone">4.9 · ${p.reviews}</span></p>
+          <p class="stone" style="font-size:13px">${p.issued} / ${p.pool} ${ar()?"رخصة هذا الدروب":"licenses this drop"}</p>
+          <div style="height:6px;background:var(--line);border-radius:99px;margin:8px 0 18px"><div style="height:100%;width:${Math.round(p.issued/p.pool*100)}%;background:var(--gold);border-radius:99px"></div></div>
+          ${p.type==="system"?`
+            <button class="tile ${offer==="solo"?"on":""}" data-off="solo"><b>${ar()?"ركّب النظام":"Install this system"}</b><br><span class="stone" style="font-size:12px">${ar()?"رخصة واحدة":"1 license"}</span><span style="float:${ar()?"left":"right"}" class="display gold">$19</span></button>
+            <button class="tile ${offer==="duo"?"on":""}" data-off="duo"><b>${ar()?"رخصتين":"Two licenses"}</b> <span class="gold" style="font-size:11px">${ar()?"الأكثر اختياراً":"Most chosen"}</span><br><span class="stone" style="font-size:12px">${ar()?"توفر 9$":"save $9"}</span><span style="float:${ar()?"left":"right"}" class="display gold">$29</span></button>
+            <button class="tile ${offer==="pair"?"on":""}" data-off="pair"><b>${ar()?"ثنائية":"Pair it"}</b><br><span class="stone" style="font-size:12px">${p.name[locale]} + ${pair?pair.name[locale]:""}</span><span style="float:${ar()?"left":"right"}" class="display gold">$${p.pairPrice}</span></button>`:""}
+          ${p.type==="vault"?`
+            <button class="tile ${offer!=="duo"?"on":""}" data-off="vault"><b>${ar()?"الخزنة":"The vault"}</b><span style="float:${ar()?"left":"right"}" class="display gold">$97</span></button>
+            <button class="tile ${offer==="duo"?"on":""}" data-off="duo"><b>${ar()?"خزنتين":"Dual vault"}</b><span style="float:${ar()?"left":"right"}" class="display gold">$149</span></button>`:""}
+          <p class="display gold" style="font-size:40px;margin:12px 0 4px">$${price()} <span class="stone" style="font-size:14px">USD ${ar()?`· ≈ ${Math.round(price()*3.75)} ر.س`:""}</span></p>
+          <p class="stone" style="font-size:12px;margin-bottom:14px">${ar()?"خزنة فورية · معتمد DW":"instant vault · DW certified"}</p>
+          <button class="btn" style="width:100%" id="addBtn">${ar()?"أضف للخزنة":"Add to vault"}</button>
+          <p class="stone" style="font-size:12px;margin-top:10px">${ar()?"رخصة شخصية · تسليم رقمي فوري":"Personal license · instant digital"}</p>
+        </div>
+      </div></section>
+      <section class="light"><div class="wrap split" style="display:grid;gap:40px;align-items:center">
+        <div style="aspect-ratio:4/5">${cover(p)}</div>
+        <div><h2 class="display" style="font-size:36px">${ar()?"هذا النظام وش هو":"What this system is"}</h2><ul style="margin-top:18px;line-height:2">${p.contains[locale].map(x=>`<li>— ${x}</li>`).join("")}</ul></div>
+      </div></section>
+      <section class="section"><div class="wrap split" style="display:grid;gap:40px;align-items:center">
+        <div><h2 class="display" style="font-size:32px">${ar()?"لمن":"Who it’s for"}</h2><p class="stone" style="margin-top:12px;line-height:1.9">${ar()?"للي تعب من الملفات الرخيصة ويبي دار.":"For people done with cheap files who want a house."}</p></div>
+        <div style="aspect-ratio:4/5">${cover(p)}</div>
+      </div></section>
+      <div class="wrap section"><a class="box" href="#/system/the-vault" style="display:block;text-align:center;border-color:rgba(198,163,90,.4)">${ar()?"افتح الدار كاملة — 97$":"Unlock the whole house — $97"}</a></div>
+      <div class="sticky pdp-only"><span class="display gold" style="font-size:22px">$${price()}</span><button class="btn" style="flex:1" id="addBtn2">${ar()?"أضف للخزنة":"Add to vault"}</button></div>`;
+    }
+
+    function about() {
+      return `<section class="section"><div class="wrap" style="max-width:720px">
+        <p class="gold">${ar()?"الدار":"THE HOUSE"}</p>
+        <h1 class="display" style="font-size:48px;margin-top:10px">${ar()?"ما نبيع ملفات. نُصدر أنظمة.":"We don’t sell files. We issue systems."}</h1>
+        <p class="sub">${ar()?"Digi World استوديو. كل نظام يتصمم عندنا، يترقم، ينرخص، وينزل دروب.":"Digi World is a studio. Every system is designed here, serialled, licensed, and dropped."}</p>
+      </div></section>
+      <section class="light"><div class="wrap split" style="display:grid;gap:40px;align-items:center">
+        <div style="aspect-ratio:4/5">${cover({sku:"DW STUDIO",name:{ar:"الاستوديو",en:"The studio"},tone:"#1a1510"})}</div>
+        <div><h2 class="display" style="font-size:36px">${ar()?"ليش ما نبيع ملفات":"Why we don’t sell files"}</h2><p style="margin-top:14px;color:#4a463e;line-height:1.9">${ar()?"الملف الرخيص يعلّمك تجمع. النظام يعلّمك تركّب.":"Cheap files teach hoarding. Systems teach install."}</p></div>
+      </div></section>
+      <section class="section"><div class="wrap"><a class="btn" href="#/collections">${ar()?"ادخل المتجر":"Enter the shop"}</a></div></section>`;
+    }
+
+    function contact() {
+      return `<section class="section"><div class="wrap" style="max-width:520px">
+        <h1 class="display" style="font-size:42px">${ar()?"تواصل":"Contact"}</h1>
+        <p class="stone" style="margin:12px 0 8px">${ar()?"نرد خلال 24 ساعة.":"We reply within 24 hours."}</p>
+        <p><a class="gold" href="mailto:hello@digi-world.online">hello@digi-world.online</a></p>
+        <form style="margin-top:28px" onsubmit="event.preventDefault();alert(ar()?'وصلنا.':'Got it.');">
+          <label class="stone">${ar()?"الاسم":"Name"}<input required></label>
+          <label class="stone" style="display:block;margin-top:12px">Email<input dir="ltr" type="email" required></label>
+          <label class="stone" style="display:block;margin-top:12px">${ar()?"الرسالة":"Message"}<textarea></textarea></label>
+          <button class="btn" style="width:100%;margin-top:14px">${ar()?"أرسل":"Send"}</button>
+        </form>
+      </div></section>`;
+    }
+
+    function thanks() {
+      const o = lastOrder || JSON.parse(sessionStorage.getItem("dw_last_order")||"null");
+      if (!o) return `<section class="section"><div class="wrap" style="text-align:center"><h1 class="display">${ar()?"ما لقينا الطلب":"We couldn’t find that order"}</h1><a class="gold" href="#/contact">${ar()?"تواصل":"Contact"}</a></div></section>`;
+      return `<section class="section"><div class="wrap" style="max-width:520px;text-align:center">
+        <div class="circle" style="width:64px;height:64px;margin:auto;font-size:18px">DW</div>
+        <h1 class="display" style="font-size:42px;margin-top:18px">${ar()?"تم. أنت داخل.":"You’re in."}</h1>
+        <p class="stone" style="margin-top:12px">${ar()?`راجع ${o.email}. فتحنا خزنتك.`:`Check ${o.email}. We’ve opened your vault.`}</p>
+        <p class="display gold" style="margin:18px 0">${o.id}</p>
+        <div class="box" style="text-align:start">${o.lines.map(l=>`<p style="display:flex;justify-content:space-between"><span>${gp(l.slug).name[locale]} · ${l.offer}</span><span class="gold">$${l.price}</span></p>`).join("")}<p style="display:flex;justify-content:space-between;margin-top:8px" class="display"><span>${ar()?"المجموع":"Total"}</span><span class="gold">$${o.total}</span></p></div>
+        <ol class="stone" style="text-align:start;margin:24px auto;line-height:2"><li>${ar()?"افتح الإيميل.":"Open email."}</li><li>${ar()?"حمّل ابدأ من هنا.":"Download start-here."}</li><li>${ar()?"ركّب أول إيقاع هالأسبوع.":"Install the first cadence this week."}</li></ol>
+        <a class="btn ghost" href="#/collections">${ar()?"ارجع للأنظمة":"Back to systems"}</a>
+      </div></section>`;
+    }
+
+    function render() {
+      const map = { home, collections, collection, system, about, contact, thanks };
+      document.getElementById("app").innerHTML = (map[route] || home)();
+      bindPage();
+      window.scrollTo(0,0);
+    }
+
+    function bindPage() {
+      document.querySelectorAll("[data-off]").forEach(el => el.onclick = () => { offer = el.dataset.off; render(); });
+      const add = () => { addCurrent(); openCart(); };
+      const a = document.getElementById("addBtn");
+      const b = document.getElementById("addBtn2");
+      if (a) a.onclick = add;
+      if (b) b.onclick = add;
+    }
+
+    function addCurrent() {
+      const p = gp(param);
+      if (!p) return;
+      const price = p.type==="addon" ? 12 : p.type==="vault" ? (offer==="duo"?149:97) : offer==="duo"?29:offer==="pair"?p.pairPrice:19;
+      const label = offer==="duo" ? (ar()?"رخصتين":"2 licenses") : offer==="pair" ? (ar()?"ثنائي":"Pair") : (ar()?"رخصة":"1 license");
+      cart = cart.filter(l => l.sku !== p.sku);
+      cart.push({ sku:p.sku, slug:p.slug, offer, price, label });
+      save(); renderChrome();
+    }
+
+    function openCart() {
+      const d = document.getElementById("drawer");
+      const o = document.getElementById("cartOverlay");
+      d.hidden = false; o.hidden = false;
+      const first = cart[0] ? gp(cart[0].slug) : null;
+      const vaulted = has("the-vault");
+      const xs = (!vaulted && first) ? first.xs.map(gp).filter(p => p && !has(p.slug)).slice(0,3) : [];
+      d.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--line)">
+          <h2 class="display" style="font-size:22px">${ar()?"خزنتك":"Your vault"}</h2>
+          <button id="closeCart">✕</button>
+        </div>
+        <div style="flex:1;overflow:auto;padding:16px 20px">
+          ${cart.length? cart.map((l,i)=> {
+            const p = gp(l.slug);
+            return `<div class="box" style="display:flex;gap:10px;margin-bottom:10px">
+              <div style="width:56px;height:72px;overflow:hidden;border-radius:8px">${cover(p)}</div>
+              <div style="flex:1"><p class="display">${p.name[locale]}</p><p class="stone" style="font-size:12px">${l.label}</p><p class="gold display">$${l.price}</p></div>
+              <button data-rm="${i}" class="stone">✕</button>
+            </div>`;
+          }).join("") : `<p class="stone">${ar()?"الخزنة فاضية. خذ نظام.":"Empty. Choose a system."}</p>`}
+          ${vaulted?`<p class="box">${ar()?"أنت ماسك الخزنة. الدار كاملة.":"You’re holding the vault."}</p>`:""}
+          ${xs.length?`<p class="gold" style="font-size:12px;letter-spacing:.16em;margin:16px 0 8px">${ar()?"كمّل النظام":"COMPLETE THE SYSTEM"}</p>`+xs.map(p=>`<div class="box" style="display:flex;gap:10px;align-items:center;margin-bottom:8px"><div style="width:44px;height:56px;overflow:hidden;border-radius:6px">${cover(p)}</div><div style="flex:1"><p>${p.name[locale]}</p><p class="gold">$${p.price|| (p.type==="addon"?12:19)}</p></div><button class="btn" style="height:36px;padding:0 12px" data-xs="${p.slug}">${ar()?"أضف":"Add"}</button></div>`).join(""):""}
+        </div>
+        <div style="padding:16px 20px;border-top:1px solid var(--line)">
+          <p style="display:flex;justify-content:space-between">${ar()?"المجموع":"Subtotal"} <span class="display gold" style="font-size:22px">$${total()}</span></p>
+          <p class="stone" style="font-size:11px;margin:8px 0">${ar()?"تسليم رقمي فوري · رخصة شخصية":"Instant digital · personal license"}</p>
+          <button class="btn" style="width:100%" id="toCheck" ${cart.length?"":"disabled"}>${ar()?"أكّد بياناتك":"Confirm details"}</button>
+          <button style="width:100%;margin-top:8px" class="stone" id="keep">${ar()?"كمّل تسوّق":"Continue shopping"}</button>
+        </div>`;
+      d.querySelector("#closeCart").onclick = closeCart;
+      d.querySelector("#keep").onclick = closeCart;
+      o.onclick = closeCart;
+      d.querySelectorAll("[data-rm]").forEach(el => el.onclick = () => { cart.splice(+el.dataset.rm,1); save(); renderChrome(); openCart(); });
+      d.querySelectorAll("[data-xs]").forEach(el => el.onclick = () => {
+        const p = gp(el.dataset.xs);
+        cart.push({ sku:p.sku, slug:p.slug, offer:"solo", price: p.type==="addon"?12:p.type==="vault"?97:19, label: ar()?"رخصة":"1 license" });
+        save(); renderChrome(); openCart();
+      });
+      d.querySelector("#toCheck").onclick = () => { if (cart.length) openCheckout(); };
+    }
+    function closeCart() {
+      document.getElementById("drawer").hidden = true;
+      document.getElementById("cartOverlay").hidden = true;
+    }
+
+    function openCheckout() {
+      closeCart();
+      document.getElementById("checkDim").hidden = false;
+      const m = document.getElementById("checkout");
+      m.hidden = false;
+      m.innerHTML = `
+        <p class="gold" style="letter-spacing:.18em;font-size:12px">${ar()?"آخر خطوة":"LAST STEP"}</p>
+        <h2 class="display" style="font-size:32px;margin:8px 0">${ar()?"قربت تصير لك":"Almost yours"}</h2>
+        <p class="stone">${ar()?"الاسم والإيميل. الخزنة توصلك.":"Name + email. We send the vault."}</p>
+        <div class="box" style="margin:16px 0">${cart.map(l=>`<p style="display:flex;justify-content:space-between"><span>${gp(l.slug).name[locale]} · ${l.label}</span><span class="gold">$${l.price}</span></p>`).join("")}
+        <p style="display:flex;justify-content:space-between;margin-top:8px">${ar()?"المجموع":"Total"} <span class="display gold" style="font-size:22px">$${total()} USD</span></p></div>
+        <p class="stone" style="font-size:12px;margin-bottom:12px">${ar()?"تقييم 4.9 · رخص محدودة هذا الدروب":"4.9 rating · limited licenses this drop"}</p>
+        <form id="cf">
+          <label class="stone">${ar()?"الاسم":"Name"}<input name="name" required></label>
+          <label class="stone" style="display:block;margin-top:10px">Email<input name="email" type="email" dir="ltr" required></label>
+          <button class="btn" style="width:100%;margin-top:14px">${ar()?"أرسل لي الخزنة":"Get my vault"}</button>
+          <p class="stone" style="font-size:11px;text-align:center;margin-top:8px">${ar()?"وصلك الإيميل خلال دقايق.":"We email your next step in minutes."}</p>
+        </form>`;
+      document.getElementById("checkDim").onclick = closeCheck;
+      document.getElementById("cf").onsubmit = e => {
+        e.preventDefault();
+        const fd = new FormData(e.target);
+        lastOrder = { id: "DW"+Date.now().toString(36).toUpperCase(), name: fd.get("name"), email: fd.get("email"), lines: [...cart], total: total() };
+        sessionStorage.setItem("dw_last_order", JSON.stringify(lastOrder));
+        closeCheck();
+        openUpsell();
+      };
+    }
+    function closeCheck() {
+      document.getElementById("checkDim").hidden = true;
+      document.getElementById("checkout").hidden = true;
+    }
+
+    function pickUpsell() {
+      if (has("the-vault")) return null;
+      const first = cart[0] && gp(cart[0].slug);
+      if (first && first.up && !has(first.up.slug)) return first.up;
+      if (!has("launch-sprint")) return { slug:"launch-sprint", price:9 };
+      if (!has("the-vault")) return { slug:"the-vault", price:67 };
+      return null;
+    }
+
+    function openUpsell() {
+      const u = pickUpsell();
+      if (!u) return goThanks();
+      const p = gp(u.slug);
+      const box = document.getElementById("upsellDim");
+      box.hidden = false;
+      let s = 12;
+      box.innerHTML = `<div class="modal" style="position:relative;top:auto;text-align:center">
+        <p class="display gold" style="font-size:42px" id="sec">12</p>
+        <h3 class="display" style="font-size:26px;margin:8px 0">${ar()?"لحظة — في باب لسه مفتوح":"Wait — one door still open"}</h3>
+        <p class="stone">${ar()?`${p.name.ar} بـ ${u.price}$. السعر هذا ما ينحط في الموقع.`:`${p.name.en} at $${u.price}. Never this price on the site.`}</p>
+        <button class="btn" style="width:100%;margin-top:20px" id="yes">${ar()?`أضفه — ${u.price}$`:`Add it — $${u.price}`}</button>
+        <button class="stone" style="width:100%;margin-top:10px" id="no">${ar()?"لا، كمل":"No thanks"}</button>
+      </div>`;
+      const tick = () => { s--; const el = document.getElementById("sec"); if (!el) return; el.textContent = s; if (s<=0) goThanks(); };
+      upsellTimer = setInterval(tick, 1000);
+      document.getElementById("yes").onclick = () => {
+        lastOrder.lines.push({ sku:p.sku, slug:p.slug, offer:"upsell", price:u.price, label:"upsell" });
+        lastOrder.total += u.price;
+        sessionStorage.setItem("dw_last_order", JSON.stringify(lastOrder));
+        goThanks();
+      };
+      document.getElementById("no").onclick = goThanks;
+    }
+
+    function goThanks() {
+      clearInterval(upsellTimer);
+      document.getElementById("upsellDim").hidden = true;
+      cart = []; save(); renderChrome();
+      location.hash = "#/thanks";
+    }
+
+    document.getElementById("lang").onclick = () => setLocale(ar() ? "en" : "ar");
+    document.getElementById("cartBtn").onclick = openCart;
+    document.getElementById("ham").onclick = () => document.getElementById("menu").classList.add("open");
+    document.getElementById("menu").onclick = e => {
+      if (e.target.id === "closeMenu" || e.target.tagName === "A") document.getElementById("menu").classList.remove("open");
+    };
+
+    function parseHash() {
+      const h = (location.hash || "#/home").replace(/^#\//,"");
+      const [r, p] = h.split("/");
+      route = r || "home";
+      param = p || "";
+      if (route === "system") offer = gp(param)?.type === "addon" ? "addon" : "duo";
+      renderChrome();
+      render();
+    }
+    window.addEventListener("hashchange", parseHash);
+    setLocale(locale);
+    parseHash();
+  </script>
+</body>
+</html>

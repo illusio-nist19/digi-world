@@ -1,0 +1,23 @@
+Digi World — Drop 01 vault kit (operator)
+
+DELIVERY_MODE=manual. After each lead/order:
+1. Confirm the row in Postgres + the Google Sheet.
+2. Email the matching ZIP from this folder (or Google Drive) to customer_email.
+3. Subject: Your Digi World vault · {order_id}
+4. Attach the SKU zip. Always include this start-here.
+
+SKU files to zip (create when the real systems are ready):
+- DW-SYS-001 creator-os
+- DW-SYS-002 faceless-studio
+- DW-SYS-003 hook-vault
+- DW-SYS-004 ai-operator
+- DW-SYS-005 offer-engine
+- DW-SYS-006 wealth-os
+- DW-SYS-007 glow-ritual
+- DW-SYS-008 time-command
+- DW-ADD-001 caption-machine
+- DW-ADD-002 ad-swipe
+- DW-ADD-003 launch-sprint
+- DW-VAULT-001 the-vault (all of the above)
+
+Each zip must contain start-here first. Serial on the cover matches the SKU.

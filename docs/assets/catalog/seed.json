@@ -1,0 +1,201 @@
+{
+  "drop": "Drop 01 — 2026",
+  "currency": "USD",
+  "license_pool_default": 500,
+  "collections": [
+    {
+      "slug": "creator-lab",
+      "name_en": "Creator Lab",
+      "name_ar": "مختبر الصانع",
+      "sub_en": "Systems for people who publish.",
+      "sub_ar": "أنظمة للي ينشرون.",
+      "image": "/images/collections/creator-lab.jpg"
+    },
+    {
+      "slug": "ai-command",
+      "name_en": "AI Command",
+      "name_ar": "قيادة الذكاء",
+      "sub_en": "Operate AI like staff.",
+      "sub_ar": "شغّل الذكاء كموظف.",
+      "image": "/images/collections/ai-command.jpg"
+    },
+    {
+      "slug": "wealth-os",
+      "name_en": "Wealth",
+      "name_ar": "الثروة",
+      "sub_en": "Money and time as an operator.",
+      "sub_ar": "الفلوس والوقت بصيغة مشغّل.",
+      "image": "/images/collections/wealth.jpg"
+    },
+    {
+      "slug": "glow-ritual",
+      "name_en": "Glow Ritual",
+      "name_ar": "طقوس التوهج",
+      "sub_en": "Private luxury rituals.",
+      "sub_ar": "طقوس خاصة، شكلها غالي.",
+      "image": "/images/collections/glow.jpg"
+    },
+    {
+      "slug": "the-vault",
+      "name_en": "The Vault",
+      "name_ar": "الخزنة",
+      "sub_en": "The whole house. One key.",
+      "sub_ar": "الدار كاملة. مفتاح واحد.",
+      "image": "/images/collections/vault.jpg"
+    }
+  ],
+  "products": [
+    {
+      "sku": "DW-SYS-001",
+      "slug": "creator-os",
+      "type": "system",
+      "collection": "creator-lab",
+      "serial": "DW-SYS-001",
+      "price_cents": 1900,
+      "pair_sku": "hook-vault",
+      "upsell_sku": "faceless-studio",
+      "upsell_price_cents": 1100,
+      "cross_sell": ["hook-vault", "faceless-studio", "caption-machine"]
+    },
+    {
+      "sku": "DW-SYS-002",
+      "slug": "faceless-studio",
+      "type": "system",
+      "collection": "creator-lab",
+      "serial": "DW-SYS-002",
+      "price_cents": 1900,
+      "pair_sku": "creator-os",
+      "upsell_sku": "hook-vault",
+      "upsell_price_cents": 1100,
+      "cross_sell": ["creator-os", "hook-vault", "ad-swipe"]
+    },
+    {
+      "sku": "DW-SYS-003",
+      "slug": "hook-vault",
+      "type": "system",
+      "collection": "creator-lab",
+      "serial": "DW-SYS-003",
+      "price_cents": 1900,
+      "pair_sku": "caption-machine",
+      "pair_price_cents": 2700,
+      "upsell_sku": "caption-machine",
+      "upsell_price_cents": 900,
+      "cross_sell": ["creator-os", "caption-machine"]
+    },
+    {
+      "sku": "DW-SYS-004",
+      "slug": "ai-operator",
+      "type": "system",
+      "collection": "ai-command",
+      "serial": "DW-SYS-004",
+      "price_cents": 1900,
+      "pair_sku": "offer-engine",
+      "upsell_sku": "offer-engine",
+      "upsell_price_cents": 1100,
+      "cross_sell": ["offer-engine", "time-command"]
+    },
+    {
+      "sku": "DW-SYS-005",
+      "slug": "offer-engine",
+      "type": "system",
+      "collection": "ai-command",
+      "serial": "DW-SYS-005",
+      "price_cents": 1900,
+      "pair_sku": "ai-operator",
+      "upsell_sku": "ai-operator",
+      "upsell_price_cents": 1100,
+      "cross_sell": ["ai-operator", "creator-os"]
+    },
+    {
+      "sku": "DW-SYS-006",
+      "slug": "wealth-os",
+      "type": "system",
+      "collection": "wealth-os",
+      "serial": "DW-SYS-006",
+      "price_cents": 1900,
+      "pair_sku": "time-command",
+      "upsell_sku": "offer-engine",
+      "upsell_price_cents": 1100,
+      "cross_sell": ["offer-engine", "time-command"]
+    },
+    {
+      "sku": "DW-SYS-007",
+      "slug": "glow-ritual",
+      "type": "system",
+      "collection": "glow-ritual",
+      "serial": "DW-SYS-007",
+      "price_cents": 1900,
+      "gender": "feminine",
+      "pair_sku": "time-command",
+      "upsell_sku": "time-command",
+      "upsell_price_cents": 1100,
+      "cross_sell": ["time-command"]
+    },
+    {
+      "sku": "DW-SYS-008",
+      "slug": "time-command",
+      "type": "system",
+      "collection": "wealth-os",
+      "serial": "DW-SYS-008",
+      "price_cents": 1900,
+      "pair_sku": "wealth-os",
+      "upsell_sku": "wealth-os",
+      "upsell_price_cents": 1100,
+      "cross_sell": ["wealth-os", "ai-operator"]
+    },
+    {
+      "sku": "DW-ADD-001",
+      "slug": "caption-machine",
+      "type": "addon",
+      "collection": "creator-lab",
+      "price_cents": 1200,
+      "upsell_sku": "hook-vault",
+      "upsell_price_cents": 1100,
+      "cross_sell": ["hook-vault", "creator-os"]
+    },
+    {
+      "sku": "DW-ADD-002",
+      "slug": "ad-swipe",
+      "type": "addon",
+      "collection": "creator-lab",
+      "price_cents": 1200,
+      "upsell_sku": "faceless-studio",
+      "upsell_price_cents": 1100,
+      "cross_sell": ["faceless-studio", "offer-engine"]
+    },
+    {
+      "sku": "DW-ADD-003",
+      "slug": "launch-sprint",
+      "type": "addon",
+      "collection": "ai-command",
+      "price_cents": 1200,
+      "upsell_sku": "offer-engine",
+      "upsell_price_cents": 1100,
+      "cross_sell": ["offer-engine", "creator-os"]
+    },
+    {
+      "sku": "DW-VAULT-001",
+      "slug": "the-vault",
+      "type": "vault",
+      "collection": "the-vault",
+      "price_cents": 9700,
+      "compare_cents": 18800,
+      "duo_price_cents": 14900,
+      "includes": [
+        "DW-SYS-001",
+        "DW-SYS-002",
+        "DW-SYS-003",
+        "DW-SYS-004",
+        "DW-SYS-005",
+        "DW-SYS-006",
+        "DW-SYS-007",
+        "DW-SYS-008",
+        "DW-ADD-001",
+        "DW-ADD-002",
+        "DW-ADD-003"
+      ],
+      "upsell_sku": null,
+      "cross_sell": []
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #0b0c0e;
+  --color-ink-2: #14151a;
+  --color-ink-3: #1c1e26;
+  --color-gold: #c6a35a;
+  --color-gold-2: #e2c98a;
+  --color-ivory: #f4efe6;
+  --color-ivory-2: #faf7f2;
+  --color-stone: #8a8478;
+  --color-line: #2a2c34;
+  --color-line-light: #e6e0d4;
+  --color-danger: #c45c4a;
+  --color-proof: #3e8c6a;
+  --font-display: var(--font-syne), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-instrument), var(--font-arabic), ui-sans-serif, system-ui, sans-serif;
+}
+
+.font-wordmark {
+  font-family: var(--font-syne), ui-sans-serif, system-ui, sans-serif;
+}
+
+html[dir="rtl"] {
+  --font-display: var(--font-arabic), var(--font-syne), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-arabic), var(--font-instrument), ui-sans-serif, system-ui, sans-serif;
+}
+
+html,
+body {
+  background: var(--color-ink);
+  color: var(--color-ivory);
+}
+
+::selection {
+  background: #c6a35a;
+  color: #0b0c0e;
+}
+
+input,
+textarea {
+  outline: none;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #c6a35a;
+  outline-offset: 2px;
+}

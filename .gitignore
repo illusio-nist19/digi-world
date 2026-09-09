@@ -1,0 +1,15 @@
+.env
+.env.local
+.env.*.local
+.tools/
+ops/secrets.env
+node_modules/
+.next/
+out/
+__pycache__/
+.venv/
+venv/
+*.pyc
+.DS_Store
+dist/
+*.log
