@@ -3,7 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
 import { getCatalog, systems } from "@/lib/catalog";
-import { loc } from "@/lib/types";
+import { loc, money } from "@/lib/types";
 import { Container, ProductCard, Split, StarRow } from "@/components/ui";
 import { routing } from "@/i18n/routing";
 
@@ -53,6 +53,20 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         <h2 className="mt-3 font-display text-4xl">{t("introTitle")}</h2>
         <p className="mt-4 text-ivory/80">{t("introBody")}</p>
       </Split>
+
+      {catalog.products
+        .filter((p) => p.slug === "ai-governance-kit")
+        .map((p) => (
+          <Split key={p.sku} image={p.images[0]} alt={loc(p.name, locale)} flip>
+            <p className="text-xs uppercase tracking-widest text-gold">{t("featuredTitle")}</p>
+            <h2 className="mt-3 font-display text-4xl">{loc(p.headline, locale)}</h2>
+            <p className="mt-4 text-ivory/80">{loc(p.sub, locale)}</p>
+            <p className="mt-4 font-display text-2xl text-gold">{money(p.price_cents)}</p>
+            <Link href="/systems/ai-governance-kit" className="mt-6 inline-flex h-12 items-center rounded-full bg-gold px-6 font-medium text-ink">
+              {t("featuredCta")}
+            </Link>
+          </Split>
+        ))}
 
       <section id="systems" className="py-20">
         <Container>
@@ -136,6 +150,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               <p className="mt-2 text-sm text-ivory/70">{r.body}</p>
               <p className="mt-4 text-xs text-stone">
                 {r.display_name} · {r.city_country}
+                {r.source === "studio_preview" ? " · studio" : ""}
               </p>
             </blockquote>
           ))}

@@ -41,7 +41,52 @@ const COMMON_FAQS = [
   },
 ];
 
-function p(partial: Omit<Product, "license_pool" | "licenses_issued" | "drop_label" | "faq" | "images"> & { images?: string[]; faq?: Product["faq"] }): Product {
+const GOVERNANCE_FAQS = [
+  {
+    en: { q: "Is this an EU AI Act certificate or legal advice?", a: "No. It is a fill-in operating pack: register, policy, training log, evidence tree, buyer one-pager. High-risk hiring, credit, or biometric engines still need counsel. We do not sell a stamp." },
+    ar: { q: "هذا شهادة قانون الذكاء الأوروبي أو استشارة قانونية؟", a: "لا. هذه عدة تشغيل تتعبّى: سجل، سياسة، سجل تدريب، مجلد إثبات، ورقة للمشتري. ما نبيع ختم." },
+    fr: { q: "C’est un certificat AI Act ou un avis juridique ?", a: "Non. C’est un pack à remplir. Pas un tampon. Les moteurs RH/crédit/biométrie à haut risque exigent un conseil." },
+    es: { q: "¿Es un certificado de la AI Act o asesoría legal?", a: "No. Es un pack para rellenar. No vendemos un sello. Hiring/crédito/biometría de alto riesgo siguen necesitando abogado." },
+  },
+  {
+    en: { q: "Who is the license for?", a: "One organisation, internal use. Duo is two organisations (HQ + entity, or you + one client you implement for). No resale." },
+    ar: { q: "الرخصة لمن؟", a: "منظمة واحدة، استخدام داخلي. الثنائية = منظمتين. بدون إعادة بيع." },
+    fr: { q: "Pour qui est la licence ?", a: "Une organisation, usage interne. Duo = deux organisations. Pas de revente." },
+    es: { q: "¿Para quién es la licencia?", a: "Una organización, uso interno. Dúo = dos organizaciones. Sin reventa." },
+  },
+  {
+    en: { q: "How fast can we use it?", a: "Ninety minutes to a usable internal pack if you follow START-HERE in order. One working day to a one-pager you can email a buyer." },
+    ar: { q: "بسرعة نقدر نستخدمه؟", a: "90 دقيقة لحزمة داخلية إذا مشيت START-HERE. يوم عمل لورقة للمشتري." },
+    fr: { q: "En combien de temps on l’installe ?", a: "90 minutes pour un pack interne. Un jour ouvré pour un one-pager acheteur." },
+    es: { q: "¿En cuánto se instala?", a: "90 minutos para un pack interno. Un día laborable para un one-pager al comprador." },
+  },
+  {
+    en: { q: "What if we already use ChatGPT unofficially?", a: "That is the default. The shadow-AI survey and register exist to list unofficial tools, classify data, and pause what must not see client or special data." },
+    ar: { q: "إذا أصلاً نستخدم ChatGPT بدون إذن؟", a: "هذا الوضع الطبيعي. الاستبيان والسجل يعدّون الأدوات غير الرسمية ويصنفون البيانات." },
+    fr: { q: "Et si ChatGPT est déjà utilisé en cachette ?", a: "C’est le cas par défaut. Le sondage et le registre listent les outils officieux." },
+    es: { q: "¿Y si ya usamos ChatGPT extraoficialmente?", a: "Es el caso por defecto. La encuesta y el registro listan lo no oficial." },
+  },
+  {
+    en: { q: "Why $297 instead of a $19 prompt pack?", a: "A prompt pack does not survive a buyer questionnaire. This is an evidence pack. Counsel memos often start near $1,500. A GRC seat is thousands a year. $297 is one organisation — not a fake strike price on a thin PDF." },
+    ar: { q: "ليش 297$ مو باك برومبت بـ19$؟", a: "البرومبت ما ينفع قدام استبيان مشتري. مذكرة محامي غالباً تبدأ قرب 1500$. 297$ لمنظمة واحدة." },
+    fr: { q: "Pourquoi 297 $ et pas un pack de prompts à 19 $ ?", a: "Un pack de prompts ne survit pas à un questionnaire acheteur. Un mémo d’avocat commence souvent vers 1 500 $." },
+    es: { q: "¿Por qué 297 $ y no un pack de prompts a 19 $?", a: "Un pack de prompts no sobrevive un cuestionario. Un memo legal suele empezar cerca de 1.500 $." },
+  },
+  {
+    en: { q: "How do I receive the files?", a: "After name and email, we open the vault for this SKU. Instant zip. Add hello@digi-world.online so the mail doesn’t die in spam." },
+    ar: { q: "كيف توصلني الملفات؟", a: "بعد الاسم والإيميل نفتح الخزنة. ملف مضغوط فوري." },
+    fr: { q: "Comment je reçois les fichiers ?", a: "Après nom et e-mail, le coffre de ce SKU s’ouvre. Zip instantané." },
+    es: { q: "¿Cómo recibo los archivos?", a: "Tras nombre y email, abrimos el vault. Zip instantáneo." },
+  },
+  {
+    en: { q: "Refunds?", a: "7 days if the zip is wrong or won’t open. We never sold a certificate, so ‘not compliant’ is not a refund reason." },
+    ar: { q: "استرجاع؟", a: "7 أيام إذا الملف غلط أو ما ينفتح. ما بعنا شهادة." },
+    fr: { q: "Remboursement ?", a: "7 jours si le zip est faux ou ne s’ouvre pas. Nous n’avons jamais vendu un certificat." },
+    es: { q: "¿Reembolso?", a: "7 días si el zip está mal o no abre. Nunca vendimos un certificado." },
+  },
+];
+
+function p(partial: Omit<Product, "license_pool" | "licenses_issued" | "drop_label" | "faq" | "images"> & { images?: string[]; faq?: Product["faq"]; license_pool?: number }): Product {
   const images = partial.images ?? [1, 2, 3, 4].map((n) => `/images/products/${partial.slug}/0${n}.png`);
   return {
     license_pool: 500,
@@ -71,8 +116,32 @@ export const FALLBACK_CATALOG: Catalog = {
     { product_sku: "DW-SYS-002", locale: "es", stars: 5, title: "Faceless que no parece barato", body: "Un sistema con cara de estudio.", display_name: "Lucía", city_country: "MAD", source: "studio_preview", verified: true },
     { product_sku: "DW-VAULT-001", locale: "en", stars: 5, title: "The house is the product", body: "The vault is the identity.", display_name: "Omar", city_country: "DXB", source: "studio_preview", verified: true },
     { product_sku: "DW-SYS-005", locale: "en", stars: 5, title: "The offer got simple", body: "Clarity closed.", display_name: "Nina", city_country: "BER", source: "studio_preview", verified: true },
+    { product_sku: "DW-SYS-009", locale: "en", stars: 5, title: "The questionnaire stopped being a fire drill", body: "The job is not a certificate. The job is a dated register and a one-pager you can send. That is what this pack is.", display_name: "Studio brief", city_country: "Ops · 12–40 people", source: "studio_preview", verified: false },
+    { product_sku: "DW-SYS-009", locale: "en", stars: 5, title: "Unofficial ChatGPT was the real inventory", body: "Seven tools nobody had approved. The survey found them. The paste rule is the only day-one rule that matters.", display_name: "Studio brief", city_country: "Agency · EU buyers", source: "studio_preview", verified: false },
+    { product_sku: "DW-SYS-009", locale: "ar", stars: 5, title: "ورقة للمشتري بدل ذعر في سلاك", body: "ما نحتاج ختم. نحتاج سجل مؤرّخ وسياسة صفحة واحدة. هذا اللي في العدة.", display_name: "موجز الاستوديو", city_country: "تشغيل · 5–50", source: "studio_preview", verified: false },
+    { product_sku: "DW-SYS-009", locale: "fr", stars: 5, title: "Pas un tampon. Un dossier.", body: "Owner, registre, formation datée, one-pager. C’est ce qu’un acheteur peut relire un vendredi.", display_name: "Brief studio", city_country: "PME · acheteurs UE", source: "studio_preview", verified: false },
+    { product_sku: "DW-SYS-009", locale: "es", stars: 5, title: "El pack que se envía, no el PDF que se esconde", body: "Inventario, clase de datos, regla de pegado, log de formación. Eso sobrevive un cuestionario.", display_name: "Brief de estudio", city_country: "Pyme · 20 personas", source: "studio_preview", verified: false },
   ],
   products: [
+    p({
+      sku: "DW-SYS-009",
+      slug: "ai-governance-kit",
+      type: "system",
+      serial: "DW-SYS-009",
+      collection: "ai-command",
+      price_cents: 29700,
+      duo_price_cents: 44700,
+      upsell_sku: "ai-operator",
+      upsell_price_cents: 1100,
+      cross_sell: ["ai-operator", "time-command"],
+      license_pool: 200,
+      faq: GOVERNANCE_FAQS,
+      name: L("SMB AI Governance Kit", "عدة حوكمة الذكاء للشركات", "Kit de gouvernance IA PME", "Kit de gobernanza IA para pymes"),
+      sub: L("The 90-minute pack for firms that already use ChatGPT — and have nothing to show a buyer, insurer, or board.", "عدة 90 دقيقة للشركات اللي تستخدم ChatGPT، وما عندها شيء تريه المشتري أو المؤمن أو المجلس.", "Le pack 90 minutes pour les PME qui utilisent déjà ChatGPT — et n’ont rien à montrer à un acheteur.", "El pack de 90 minutos para pymes que ya usan ChatGPT — y no tienen nada que mostrar a un comprador."),
+      headline: L("Look like a company that governs AI. Not like a Slack thread.", "بان كشركة تحكم ذكاءها. مو كثريد ذعر.", "Ayez l’air d’une entreprise qui gouverne l’IA. Pas d’un fil Slack de panique.", "Parece una empresa que gobierna la IA. No un hilo de pánico en Slack."),
+      description: L("When a buyer asks how you govern AI, most small companies invent answers in Slack. That stall costs deals. This kit is the register, the paste rule, the training log, and the one-pager you can send the same day. It is not legal advice and not an EU AI Act certificate. It is the evidence folder a 5–50 person company can actually fill in.\n\nYou appoint an owner. You survey unofficial tools. You classify every system by data class (none / internal / client / special). Staff get a one-page rule for what may never hit a consumer chatbot. Literacy is dated. If something leaks, you know who to call in the first hour.\n\nA first counsel memo often starts near $1,500. A GRC seat is thousands a year. This license is $297 for one organisation — the operating pack, not a stamp.", "لما المشتري يسأل كيف تحكمون الذكاء، أغلب الشركات الصغيرة تخترع جواب في سلاك. هذا التأخير يكلف صفقات. هذه العدة: السجل، قاعدة اللصق، سجل التدريب، وورقة ترسلها بنفس اليوم. ليست استشارة قانونية وليست شهادة قانون الذكاء الأوروبي. هي مجلد إثبات تقدر شركة من 5 إلى 50 تتعبّيه.\n\nتعيّنون مالك. تستكشفون الأدوات غير الرسمية. تصنّفون كل نظام حسب فئة البيانات. الموظفون عندهم قاعدة صفحة واحدة. التدريب مؤرّخ. إذا صار تسريب، تعرفون من تتصلون في الساعة الأولى.\n\nمذكرة محامي غالباً تبدأ قرب 1500$. منصة حوكمة بالآلاف سنوياً. الرخصة 297$ لمنظمة واحدة — عدة تشغيل، مو ختم.", "Quand un acheteur demande comment vous gouvernez l’IA, la plupart des PME inventent une réponse sur Slack. Ce retard tue des deals. Ce kit : registre, règle de collage, journal de formation, one-pager le jour même. Pas un avis juridique. Pas un certificat AI Act. Un dossier de preuves qu’une société de 5 à 50 personnes peut vraiment remplir.\n\nVous nommez un owner. Vous sondez les outils officieux. Vous classez chaque système. Une règle d’une page. Formation datée. Première heure d’incident claire.\n\nUn mémo d’avocat commence souvent vers 1 500 $. Licence 297 $ pour une organisation.", "Cuando un comprador pregunta cómo gobiernan la IA, la mayoría de pymes inventa respuestas en Slack. Ese retraso cuesta deals. Este kit es el registro, la regla de pegado, el log de formación y el one-pager del mismo día. No es asesoría legal ni un certificado de la AI Act.\n\nNombras owner. Encuestas herramientas no oficiales. Clasificas cada sistema. Regla de una página. Formación con fecha.\n\nUn memo legal suele empezar cerca de 1.500 $. Licencia 297 $ para una organización."),
+      contents: L("AI Owner appointment + deputy + RACI\nShadow-AI staff survey (8 questions)\nAI system register + classify worksheet\nAcceptable use policy + human oversight\nVendor due diligence (10 questions + email)\nLiteracy deck, 10-question quiz (pass 8/10), attendance log\nTransparency copy for bots, ads, avatars\nIncident first-hour playbook + log\nHiring caution (default: no CV-ranking AI)\nQuarterly 30-minute review\nEvidence folder map\nBuyer one-pager you can export to PDF", "تعيين مالك الذكاء + نائب + RACI\nاستبيان الذكاء غير الرسمي (8 أسئلة)\nسجل الأنظمة + ورقة تصنيف\nسياسة استخدام مقبول + إشراف بشري\nفحص مورّد (10 أسئلة + إيميل)\nشريحة تدريب، اختبار 10 أسئلة (نجاح 8/10)، حضور\nنصوص إفصاح للبوتات والإعلانات\nخطة الساعة الأولى + سجل حوادث\nتحذير التوظيف (افتراضي: لا ترتيب سير ذاتية بالذكاء)\nمراجعة ربع سنوية 30 دقيقة\nخريطة مجلد الإثبات\nورقة المشتري للتصدير PDF", "Owner IA + adjoint + RACI\nSondage shadow AI (8 questions)\nRegistre + fiche de classification\nPolitique d’usage + supervision humaine\nDue diligence vendeur (10 questions + e-mail)\nDeck, quiz 10 questions (8/10), présence\nTextes de transparence\nPlaybook première heure + journal\nCaution recrutement\nRevue trimestrielle 30 min\nCarte des preuves\nOne-pager acheteur (PDF)", "Owner de IA + suplente + RACI\nEncuesta de shadow AI (8 preguntas)\nRegistro + hoja de clasificación\nPolítica de uso + supervisión humana\nDue diligence de vendor\nDeck, quiz 10 preguntas (8/10), asistencia\nCopy de transparencia\nPlaybook primera hora + log\nCautela de hiring\nRevisión trimestral 30 min\nMapa de evidencia\nOne-pager para el comprador (PDF)"),
+    }),
     p({ sku: "DW-SYS-001", slug: "creator-os", type: "system", serial: "DW-SYS-001", collection: "creator-lab", price_cents: 1900, pair_sku: "hook-vault", pair_price_cents: 3400, upsell_sku: "faceless-studio", upsell_price_cents: 1100, cross_sell: ["hook-vault", "faceless-studio", "caption-machine"], name: L("Creator OS", "نظام الصانع", "Creator OS", "Creator OS"), sub: L("The content operating system for people who are done posting at random.", "نظام المحتوى للي تعب ينزل عشوائي.", "Le système d’exploitation du contenu.", "El sistema operativo de contenido."), headline: L("Post like a studio. Not like a mood.", "انشر كاستوديو. مو حسب مزاجك.", "Publiez comme un studio. Pas comme une humeur.", "Publica como un estudio. No como un mood."), description: L("Hooks, UGC frames, a 30-day filming map, caption OS.", "هوكس، إطارات UGC، خارطة تصوير 30 يوم.", "Hooks, cadres UGC, carte 30 jours.", "Hooks, marcos UGC, mapa 30 días."), contents: L("Hook OS · UGC frames · 30-day map · Caption OS", "نظام الهوكس · UGC · 30 يوم · كابشن", "Hook OS · UGC · 30 jours · captions", "Hook OS · UGC · 30 días · captions") }),
     p({ sku: "DW-SYS-002", slug: "faceless-studio", type: "system", serial: "DW-SYS-002", collection: "creator-lab", price_cents: 1900, pair_sku: "creator-os", pair_price_cents: 3400, upsell_sku: "hook-vault", upsell_price_cents: 1100, cross_sell: ["creator-os", "hook-vault", "ad-swipe"], name: L("Faceless Studio", "استوديو بدون وجه", "Faceless Studio", "Faceless Studio"), sub: L("Build a faceless channel without looking cheap.", "قناة بدون وجه، بس شكلها استوديو.", "Une chaîne faceless qui a encore l’air chère.", "Un canal faceless que sigue viéndose caro."), headline: L("A faceless brand that still looks expensive.", "قناة بدون وجه، وشكلها غالي.", "Une marque sans visage, encore luxueuse.", "Una marca sin rostro, todavía cara."), description: L("Niche picker, script engine, CapCut SOP.", "نيتش، سكربت، كاب كت.", "Niche, scripts, SOP CapCut.", "Nicho, scripts, SOP CapCut."), contents: L("Niche · Scripts · B-roll · CapCut · Cadence", "نيتش · سكربت · لقطات · كاب كت", "Niche · scripts · B-roll · CapCut", "Nicho · scripts · B-roll · CapCut") }),
     p({ sku: "DW-SYS-003", slug: "hook-vault", type: "system", serial: "DW-SYS-003", collection: "creator-lab", price_cents: 1900, pair_sku: "caption-machine", pair_price_cents: 2700, upsell_sku: "caption-machine", upsell_price_cents: 900, cross_sell: ["creator-os", "caption-machine"], name: L("Hook Vault", "خزنة الهوكس", "Hook Vault", "Hook Vault"), sub: L("1,200 hooks sorted by platform and emotion.", "1,200 هوك مصنّفة حسب المنصة والإحساس.", "1 200 hooks classés par plateforme et émotion.", "1.200 hooks por plataforma y emoción."), headline: L("Open with a line they can’t scroll past.", "ابدأ بجملة ما يقدرون يتجاوزونها.", "Ouvrez avec une phrase qu’on ne peut pas scroller.", "Abre con una línea que no pueden scrollear."), description: L("TikTok / Snap / Reels / YouTube hooks.", "هوكس تيك توك وسناب وريلز.", "Hooks TikTok / Snap / Reels.", "Hooks TikTok / Snap / Reels."), contents: L("1,200 hooks · Platform packs · AR + EN", "1200 هوك · حسب المنصة", "1 200 hooks · packs", "1.200 hooks · packs") }),

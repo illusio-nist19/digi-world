@@ -8,11 +8,15 @@ import { api } from "@/lib/api";
 import { BrandCircle } from "@/components/Brand";
 import { money } from "@/lib/types";
 
+const VAULT_FILES: Record<string, string> = {
+  "DW-SYS-009": "/vault/DW-SYS-009-smb-ai-governance-kit.zip",
+};
+
 type Order = {
   public_id: string;
   email: string;
   total: number;
-  items: { name: string; unit_price: number; is_upsell: boolean }[];
+  items: { sku?: string; name: string; unit_price: number; is_upsell: boolean }[];
 };
 
 export function ThankYouClient() {

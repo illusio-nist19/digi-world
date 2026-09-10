@@ -1,0 +1,2 @@
+incident_id,opened_date,closed_date,severity,tool_id,data_class,summary,customer_notified,regulator_or_counsel,owner,status
+EX-INC-01,2026-09-01,2026-09-02,medium,EX-01,client,Example: proposal text with client name pasted into personal ChatGPT,yes,no,Jordan Lee,closed

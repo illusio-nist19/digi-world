@@ -47,7 +47,7 @@ export function Split({
 export async function ProductCard({ product, locale }: { product: Product; locale: string }) {
   const t = await getTranslations("product");
   const href = `/systems/${product.slug}` as const;
-  const price = product.type === "addon" ? product.price_cents : product.type === "vault" ? product.price_cents : 1900;
+  const price = product.price_cents;
   return (
     <Link href={href} className="group block overflow-hidden rounded-2xl bg-ink-3">
       <div className="relative aspect-[4/5]">
@@ -58,7 +58,7 @@ export async function ProductCard({ product, locale }: { product: Product; local
         <p className="text-xs uppercase tracking-widest text-gold">{t("certified")}</p>
         <h3 className="font-display text-xl font-semibold">{loc(product.name, locale)}</h3>
         <p className="text-sm text-stone">{loc(product.sub, locale)}</p>
-        <StarRow stars={5} count={12} />
+        <StarRow stars={5} />
         <p className="font-display text-lg text-gold">
           {t("from")} {money(price)}
         </p>

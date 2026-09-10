@@ -70,4 +70,16 @@ export function money(cents: number) {
   return `$${(cents / 100).toFixed(cents % 100 === 0 ? 0 : 2)}`;
 }
 
-export const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+export function isPremium(product: Product) {
+  return product.price_cents >= 10000;
+}
+
+export function soloCents(product: Product) {
+  return product.price_cents;
+}
+
+export function duoCents(product: Product) {
+  if (product.duo_price_cents) return product.duo_price_cents;
+  if (product.type === "system") return 2900;
+  return product.price_cents;
+}

@@ -12,7 +12,7 @@ from app.api.orders import router as orders_router
 from app.api.tracking import router as track_router
 from app.config import get_settings
 from app.db import SessionLocal, engine
-from app.seed.catalog import seed_if_empty
+from app.seed.catalog import seed_catalog
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(levelname)s %(message)s")
 log = logging.getLogger("dw")
@@ -34,7 +34,7 @@ async def lifespan(_app: FastAPI):
         log.exception("migration failed")
         sys.exit(1)
     async with SessionLocal() as session:
-        await seed_if_empty(session)
+        await seed_catalog(session)
     yield
     await engine.dispose()
 

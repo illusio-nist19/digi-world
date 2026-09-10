@@ -46,6 +46,18 @@
   ],
   "products": [
     {
+      "sku": "DW-SYS-009",
+      "slug": "ai-governance-kit",
+      "type": "system",
+      "collection": "ai-command",
+      "serial": "DW-SYS-009",
+      "price_cents": 29700,
+      "duo_price_cents": 44700,
+      "upsell_sku": "ai-operator",
+      "upsell_price_cents": 1100,
+      "cross_sell": ["ai-operator", "time-command"]
+    },
+    {
       "sku": "DW-SYS-001",
       "slug": "creator-os",
       "type": "system",

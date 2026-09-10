@@ -30,9 +30,10 @@ export function priceOffer(product: Product, offerId: OfferId, pair?: Product | 
     };
   }
   if (offerId === "duo") {
+    const cents = product.duo_price_cents || 2900;
     return {
-      cents: 2900,
-      lines: [{ sku: product.sku, slug: product.slug, offerId: "duo", unitPriceCents: 2900, qty: 1 }],
+      cents,
+      lines: [{ sku: product.sku, slug: product.slug, offerId: "duo", unitPriceCents: cents, qty: 1 }],
     };
   }
   if (offerId === "pair" && pair) {

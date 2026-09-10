@@ -5,14 +5,29 @@ import { Link } from "@/i18n/navigation";
 import { PdpOffers } from "@/components/commerce";
 import { Container, Split, StarRow } from "@/components/ui";
 import { getCatalog, productBySlug } from "@/lib/catalog";
-import { loc, money } from "@/lib/types";
+import { isPremium, loc, money } from "@/lib/types";
 import { routing } from "@/i18n/routing";
 import { ViewContentPing } from "@/components/view-content";
 import type { Metadata } from "next";
 
+const SLUGS = [
+  "ai-governance-kit",
+  "creator-os",
+  "faceless-studio",
+  "hook-vault",
+  "ai-operator",
+  "offer-engine",
+  "wealth-os",
+  "glow-ritual",
+  "time-command",
+  "caption-machine",
+  "ad-swipe",
+  "launch-sprint",
+  "the-vault",
+];
+
 export function generateStaticParams() {
-  const slugs = ["creator-os", "faceless-studio", "hook-vault", "ai-operator", "offer-engine", "wealth-os", "glow-ritual", "time-command", "caption-machine", "ad-swipe", "launch-sprint", "the-vault"];
-  return routing.locales.flatMap((locale) => slugs.map((slug) => ({ locale, slug })));
+  return routing.locales.flatMap((locale) => SLUGS.map((slug) => ({ locale, slug })));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }): Promise<Metadata> {
@@ -34,8 +49,11 @@ export default async function ProductPage({ params }: { params: Promise<{ locale
   const catalog = await getCatalog();
   const product = productBySlug(catalog, slug);
   if (!product) notFound();
-  const reviews = catalog.reviews.filter((r) => r.product_sku === product.sku || r.product_sku === "DW-VAULT-001");
+  const own = catalog.reviews.filter((r) => r.product_sku === product.sku);
+  const reviews = own.length ? own : catalog.reviews.filter((r) => r.product_sku === "DW-VAULT-001");
   const faqs = product.faq || [];
+  const premium = isPremium(product);
+  const gov = product.slug === "ai-governance-kit";
 
   return (
     <>
@@ -43,23 +61,45 @@ export default async function ProductPage({ params }: { params: Promise<{ locale
       <Container className="grid gap-10 py-10 md:grid-cols-2">
         <Gallery images={product.images} alt={loc(product.name, locale)} />
         <div>
-          <p className="text-xs uppercase tracking-widest text-gold">{t("original")} · {product.serial}</p>
+          <p className="text-xs uppercase tracking-widest text-gold">
+            {t("original")} · {product.serial}
+          </p>
           <h1 className="mt-3 font-display text-4xl md:text-5xl">{loc(product.headline, locale)}</h1>
           <p className="mt-3 text-ivory/80">{loc(product.sub, locale)}</p>
-          <div className="mt-4 flex items-center gap-3">
-            <StarRow stars={5} count={reviews.length || 8} />
+          <div className="mt-4 flex flex-wrap items-center gap-3">
+            <StarRow stars={5} count={reviews.length || undefined} />
             <span className="rounded-full border border-gold/40 px-3 py-1 text-xs text-gold">{t("certified")}</span>
+            {premium ? <span className="rounded-full border border-ivory/20 px-3 py-1 text-xs text-ivory/70">{t("orgBadge")}</span> : null}
           </div>
-          <p className="mt-4 font-display text-3xl text-gold">{money(product.type === "system" ? 1900 : product.price_cents)}</p>
+          <p className="mt-4 font-display text-3xl text-gold">{money(product.price_cents)}</p>
+          <p className="mt-1 text-sm text-stone">{premium ? t("orgPriceNote") : t("usd")}</p>
           <div className="mt-6">
             <PdpOffers product={product} catalog={catalog} />
           </div>
         </div>
       </Container>
 
+      {gov ? (
+        <section className="border-y border-line bg-ink-2 py-10">
+          <Container className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              [t("govP1"), t("govP1l")],
+              [t("govP2"), t("govP2l")],
+              [t("govP3"), t("govP3l")],
+              [t("govP4"), t("govP4l")],
+            ].map(([a, b]) => (
+              <div key={a} className="rounded-2xl border border-line p-5">
+                <p className="font-display text-2xl text-gold">{a}</p>
+                <p className="mt-2 text-sm text-ivory/70">{b}</p>
+              </div>
+            ))}
+          </Container>
+        </section>
+      ) : null}
+
       <Split image={product.images[1] || product.images[0]} alt="" flip={false} tone="light">
         <h2 className="font-display text-4xl">{loc(product.name, locale)}</h2>
-        <p className="mt-4 text-ink/70">{loc(product.description, locale)}</p>
+        <p className="mt-4 whitespace-pre-line text-ink/70">{loc(product.description, locale)}</p>
       </Split>
       <Split image={product.images[2] || product.images[0]} alt="" flip tone="dark">
         <h2 className="font-display text-4xl">{t("inside")}</h2>
@@ -67,26 +107,31 @@ export default async function ProductPage({ params }: { params: Promise<{ locale
       </Split>
       <Split image={product.images[3] || product.images[0]} alt="" flip={false} tone="light">
         <h2 className="font-display text-4xl">{t("for")}</h2>
-        <p className="mt-4 text-ink/70">{t("notFor")}</p>
+        <p className="mt-4 text-ink/70">{gov ? t("govFor") : t("notFor")}</p>
+        {gov ? <p className="mt-4 text-ink/70">{t("govNotFor")}</p> : null}
       </Split>
 
       <section className="py-16">
         <Container>
           <h2 className="font-display text-4xl">{t("science")}</h2>
-          <p className="mt-4 max-w-2xl text-ivory/70">{t("scienceBody")}</p>
+          <p className="mt-4 max-w-2xl text-ivory/70">{gov ? t("govScience") : t("scienceBody")}</p>
         </Container>
       </section>
 
       <section className="bg-ink-2 py-16">
         <Container>
-          <h2 className="font-display text-4xl">{t("reviews")}</h2>
+          <h2 className="font-display text-4xl">{gov ? t("studioNotes") : t("reviews")}</h2>
+          {gov ? <p className="mt-3 max-w-2xl text-sm text-stone">{t("studioNotesSub")}</p> : null}
           <div className="mt-8 grid gap-4 md:grid-cols-2">
             {reviews.map((r) => (
               <blockquote key={r.title} className="rounded-2xl bg-ink-3 p-5">
                 <StarRow stars={r.stars} />
                 <p className="mt-3 font-display text-xl">{r.title}</p>
                 <p className="mt-2 text-ivory/70">{r.body}</p>
-                <p className="mt-3 text-xs text-stone">{r.display_name} · {r.city_country}</p>
+                <p className="mt-3 text-xs text-stone">
+                  {r.display_name} · {r.city_country}
+                  {r.source === "studio_preview" ? ` · ${t("studioPreview")}` : null}
+                </p>
               </blockquote>
             ))}
           </div>
@@ -113,14 +158,16 @@ export default async function ProductPage({ params }: { params: Promise<{ locale
         </section>
       ) : null}
 
-      <section className="border-t border-gold/30 py-12">
-        <Container className="flex flex-wrap items-center justify-between gap-4">
-          <p className="font-display text-2xl">{t("vaultStrip")}</p>
-          <Link href="/systems/the-vault" className="inline-flex h-12 items-center rounded-full bg-gold px-6 text-ink">
-            {t("vaultCta")}
-          </Link>
-        </Container>
-      </section>
+      {premium ? null : (
+        <section className="border-t border-gold/30 py-12">
+          <Container className="flex flex-wrap items-center justify-between gap-4">
+            <p className="font-display text-2xl">{t("vaultStrip")}</p>
+            <Link href="/systems/the-vault" className="inline-flex h-12 items-center rounded-full bg-gold px-6 text-ink">
+              {t("vaultCta")}
+            </Link>
+          </Container>
+        </section>
+      )}
     </>
   );
 }

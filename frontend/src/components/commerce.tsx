@@ -9,7 +9,7 @@ import { api } from "@/lib/api";
 import { priceOffer, type CartLine, type OfferId } from "@/lib/offers";
 import { readAttrib } from "@/lib/tracking/clickids";
 import { newEventId, trackBrowser, trackServer } from "@/lib/tracking/queue";
-import { loc, money, type Catalog, type Product } from "@/lib/types";
+import { loc, money, type Catalog, type Product, duoCents, isPremium } from "@/lib/types";
 import { cartTotal, useCart } from "@/store/cart";
 import { useUI } from "@/store/ui";
 
@@ -36,9 +36,9 @@ export function OfferTiles({
   }
   return (
     <div className="grid gap-3">
-      <Tile active={value === "solo"} onClick={() => onChange("solo")} title={t("solo")} sub={t("soloSub")} price={1900} />
-      <Tile active={value === "duo"} onClick={() => onChange("duo")} title={t("duo")} sub={t("duoSub")} price={2900} compare={3800} badge={t("chosen")} />
-      {pair ? <Tile active={value === "pair"} onClick={() => onChange("pair")} title={t("pair")} sub={t("pairSub")} price={product.pair_price_cents || 3400} compare={3800} badge={t("pairBadge")} /> : null}
+      <Tile active={value === "solo"} onClick={() => onChange("solo")} title={isPremium(product) ? t("orgSolo") : t("solo")} sub={isPremium(product) ? t("orgSoloSub") : t("soloSub")} price={product.price_cents} />
+      <Tile active={value === "duo"} onClick={() => onChange("duo")} title={isPremium(product) ? t("orgDuo") : t("duo")} sub={isPremium(product) ? t("orgDuoSub") : t("duoSub")} price={duoCents(product)} compare={isPremium(product) ? product.price_cents * 2 : 3800} badge={t("chosen")} />
+      {pair && !isPremium(product) ? <Tile active={value === "pair"} onClick={() => onChange("pair")} title={t("pair")} sub={t("pairSub")} price={product.pair_price_cents || 3400} compare={3800} badge={t("pairBadge")} /> : null}
     </div>
   );
 }
@@ -392,7 +392,7 @@ function UpsellOverlay({ catalog }: { catalog: Catalog }) {
 }
 
 export function PdpOffers({ product, catalog }: { product: Product; catalog: Catalog }) {
-  const [offer, setOffer] = useState<OfferId>(product.type === "addon" ? "addon" : product.type === "vault" ? "vault" : "duo");
+  const [offer, setOffer] = useState<OfferId>(product.type === "addon" ? "addon" : product.type === "vault" ? "vault" : isPremium(product) ? "solo" : "duo");
   const pair = catalog.products.find((p) => p.slug === product.pair_sku || p.sku === product.pair_sku);
   const remaining = Math.max(product.license_pool - product.licenses_issued, 0);
   const t = useTranslations("product");
