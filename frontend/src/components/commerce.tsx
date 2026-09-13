@@ -25,6 +25,8 @@ export function OfferTiles({
   onChange: (v: OfferId) => void;
 }) {
   const t = useTranslations("product");
+  const photo = product.slug === "photographer-os";
+  const premium = isPremium(product);
   if (product.type === "addon") return null;
   if (product.type === "vault") {
     return (
@@ -36,9 +38,9 @@ export function OfferTiles({
   }
   return (
     <div className="grid gap-3">
-      <Tile active={value === "solo"} onClick={() => onChange("solo")} title={isPremium(product) ? t("orgSolo") : t("solo")} sub={isPremium(product) ? t("orgSoloSub") : t("soloSub")} price={product.price_cents} />
-      <Tile active={value === "duo"} onClick={() => onChange("duo")} title={isPremium(product) ? t("orgDuo") : t("duo")} sub={isPremium(product) ? t("orgDuoSub") : t("duoSub")} price={duoCents(product)} compare={isPremium(product) ? product.price_cents * 2 : 3800} badge={t("chosen")} />
-      {pair && !isPremium(product) ? <Tile active={value === "pair"} onClick={() => onChange("pair")} title={t("pair")} sub={t("pairSub")} price={product.pair_price_cents || 3400} compare={3800} badge={t("pairBadge")} /> : null}
+      <Tile active={value === "solo"} onClick={() => onChange("solo")} title={photo ? t("studioSolo") : premium ? t("orgSolo") : t("solo")} sub={photo ? t("studioSoloSub") : premium ? t("orgSoloSub") : t("soloSub")} price={product.price_cents} />
+      <Tile active={value === "duo"} onClick={() => onChange("duo")} title={photo ? t("studioDuo") : premium ? t("orgDuo") : t("duo")} sub={photo ? t("studioDuoSub") : premium ? t("orgDuoSub") : t("duoSub")} price={duoCents(product)} compare={premium ? product.price_cents * 2 : 3800} badge={t("chosen")} />
+      {pair && !premium ? <Tile active={value === "pair"} onClick={() => onChange("pair")} title={t("pair")} sub={t("pairSub")} price={product.pair_price_cents || 3400} compare={3800} badge={t("pairBadge")} /> : null}
     </div>
   );
 }
@@ -125,7 +127,7 @@ function CartDrawer({ catalog }: { catalog: Catalog }) {
   return (
     <div className="fixed inset-0 z-[90]" role="dialog" aria-modal>
       <button className="absolute inset-0 bg-black/60" aria-label="Close" onClick={() => setCartOpen(false)} />
-      <aside className="absolute inset-y-0 end-0 flex w-full max-w-md flex-col bg-ink-2 shadow-[0_24px_80px_rgba(0,0,0,.35)]">
+      <aside className="absolute inset-y-0 end-0 flex w-full max-w-md flex-col bg-ink-2 shadow-[0_24px_80px_rgba(61,50,42,.14)]">
         <div className="flex items-center justify-between border-b border-line px-5 py-4">
           <h2 className="font-display text-2xl">{t("title")}</h2>
           <button onClick={() => setCartOpen(false)} className="text-stone">✕</button>

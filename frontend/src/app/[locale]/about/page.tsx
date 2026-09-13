@@ -19,7 +19,7 @@ export default async function About({ params }: { params: Promise<{ locale: stri
       </section>
       <Split image="/images/hero-home.png" alt="" flip={false} tone="light">
         <h2 className="font-display text-4xl">{t("whyTitle")}</h2>
-        <p className="mt-4 text-ink/70">{t("why")}</p>
+        <p className="mt-4 text-ivory/70">{t("why")}</p>
       </Split>
       <Split image="/images/product-vault-01.png" alt="" flip>
         <h2 className="font-display text-4xl">{t("dropTitle")}</h2>

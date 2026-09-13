@@ -29,7 +29,7 @@ export function Split({
   children: React.ReactNode;
   tone?: "dark" | "light";
 }) {
-  const bg = tone === "light" ? "bg-ivory text-ink" : "bg-ink text-ivory";
+  const bg = tone === "light" ? "bg-mist/60 text-ivory" : "bg-ink/40 text-ivory";
   return (
     <section className={`${bg} py-16 md:py-24`}>
       <Container>

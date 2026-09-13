@@ -27,7 +27,7 @@ export function Header({ locale }: { locale: Locale }) {
   ];
 
   return (
-    <header className="sticky top-0 z-40 h-16 border-b border-line/60 bg-ink/80 backdrop-blur md:h-[72px]">
+    <header className="sticky top-0 z-40 h-16 border-b border-line/50 bg-ink/35 backdrop-blur-md md:h-[72px]">
       <div className="mx-auto flex h-full max-w-[1200px] items-center justify-between gap-4 px-5 md:px-8">
         <div className="flex min-w-0 items-center gap-3">
           <button className="lg:hidden" aria-label={t("menu")} onClick={() => setMobileNav(true)}>

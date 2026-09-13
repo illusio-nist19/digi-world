@@ -25,7 +25,7 @@ export default async function CollectionPage({ params }: { params: Promise<{ loc
     <>
       <section className="relative min-h-[40vh]">
         <Image src={col.image} alt="" fill className="object-cover" />
-        <div className="absolute inset-0 bg-ink/60" />
+        <div className="absolute inset-0 bg-ink/75" />
         <Container className="relative py-24">
           <h1 className="font-display text-5xl">{loc(col.name, locale)}</h1>
           <p className="mt-3 max-w-xl text-ivory/80">{loc(col.sub, locale)}</p>

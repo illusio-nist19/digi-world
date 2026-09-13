@@ -40,7 +40,7 @@ export default async function LocaleLayout({
   const dir = locale === "ar" ? "rtl" : "ltr";
   return (
     <html lang={locale} dir={dir} className={`${syne.variable} ${instrument.variable} ${plex.variable}`}>
-      <body className="min-h-screen bg-ink font-sans text-ivory antialiased">
+      <body className="min-h-screen font-sans text-ivory antialiased">
         <NextIntlClientProvider messages={messages}>
           <PixelBoot />
           <Header locale={locale as Locale} />

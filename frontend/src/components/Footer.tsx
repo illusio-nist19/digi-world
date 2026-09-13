@@ -7,7 +7,7 @@ import { loc } from "@/lib/types";
 export async function Footer({ locale, catalog }: { locale: string; catalog: Catalog }) {
   const t = await getTranslations("footer");
   return (
-    <footer className="border-t border-gold/30 bg-ink">
+    <footer className="border-t border-gold/30 bg-ink/40 backdrop-blur-sm">
       <div className="mx-auto grid max-w-[1200px] gap-10 px-5 py-16 md:grid-cols-5 md:px-8">
         <div className="space-y-4 md:col-span-1">
           <div className="flex items-center gap-3">
