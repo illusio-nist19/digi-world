@@ -1,5 +1,7 @@
 import type { Locale } from "@/i18n/routing";
 
+export const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
 export type Localized = Record<string, string>;
 
 export type ProductType = "system" | "addon" | "vault";
