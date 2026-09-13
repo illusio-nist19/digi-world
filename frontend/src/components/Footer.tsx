@@ -19,11 +19,17 @@ export async function Footer({ locale, catalog }: { locale: string; catalog: Cat
         <div>
           <p className="mb-3 text-xs uppercase tracking-widest text-gold">{t("shop")}</p>
           <ul className="space-y-2 text-sm text-ivory/80">
-            {catalog.collections.map((c) => (
-              <li key={c.slug}>
-                <Link href={`/collections/${c.slug}`}>{loc(c.name, locale)}</Link>
+            {catalog.products.length ? (
+              catalog.products.map((p) => (
+                <li key={p.sku}>
+                  <Link href={`/systems/${p.slug}`}>{loc(p.name, locale)}</Link>
+                </li>
+              ))
+            ) : (
+              <li>
+                <Link href="/#systems">{t("shop")}</Link>
               </li>
-            ))}
+            )}
           </ul>
         </div>
         <div>

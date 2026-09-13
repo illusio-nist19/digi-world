@@ -2,7 +2,7 @@ import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
-import { getCatalog, systems } from "@/lib/catalog";
+import { getCatalog } from "@/lib/catalog";
 import { loc, money } from "@/lib/types";
 import { Container, ProductCard, Split, StarRow } from "@/components/ui";
 import { routing } from "@/i18n/routing";
@@ -22,7 +22,6 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   setRequestLocale(locale);
   const t = await getTranslations("home");
   const catalog = await getCatalog();
-  const list = systems(catalog);
 
   return (
     <>
@@ -34,7 +33,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           <h1 className="mt-4 max-w-3xl font-display text-4xl font-semibold leading-tight md:text-6xl">{t("h1")}</h1>
           <p className="mt-4 max-w-xl text-lg text-ivory/80">{t("sub")}</p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/collections" className="inline-flex h-12 items-center rounded-full bg-gold px-6 font-medium text-ink">
+            <Link href="/#systems" className="inline-flex h-12 items-center rounded-full bg-gold px-6 font-medium text-ink">
               {t("cta")}
             </Link>
             <Link href="/#systems" className="inline-flex h-12 items-center rounded-full border border-ivory/20 px-6">
@@ -82,47 +81,18 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           </Split>
         ))}
 
-      <section id="systems" className="py-20">
+      <section id="systems" className="bg-ink-2/45 py-20">
         <Container>
           <h2 className="mb-10 font-display text-4xl">{t("systemsTitle")}</h2>
-          {list.length || catalog.products.some((p) => p.type === "vault") ? (
-            <>
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                {list.map((p) => (
-                  <ProductCard key={p.sku} product={p} locale={locale} />
-                ))}
-              </div>
-              <div className="mt-8">
-                {catalog.products
-                  .filter((p) => p.type === "vault")
-                  .map((p) => (
-                    <ProductCard key={p.sku} product={p} locale={locale} />
-                  ))}
-              </div>
-            </>
+          {catalog.products.length ? (
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {catalog.products.map((p) => (
+                <ProductCard key={p.sku} product={p} locale={locale} />
+              ))}
+            </div>
           ) : (
             <p className="max-w-xl text-ivory/70">{t("emptySystems")}</p>
           )}
-        </Container>
-      </section>
-
-      <section className="bg-ink-2/45 py-20">
-        <Container>
-          <h2 className="mb-10 font-display text-4xl">{t("collectionsTitle")}</h2>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {catalog.collections
-              .filter((c) => c.slug !== "the-vault")
-              .map((c) => (
-                <Link key={c.slug} href={`/collections/${c.slug}`} className="group relative aspect-[4/5] overflow-hidden rounded-2xl">
-                  <Image src={c.image} alt={loc(c.name, locale)} fill className="object-cover transition group-hover:scale-105" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent" />
-                  <div className="absolute bottom-4 start-4">
-                    <p className="font-display text-2xl">{loc(c.name, locale)}</p>
-                    <p className="text-sm text-ivory/70">{loc(c.sub, locale)}</p>
-                  </div>
-                </Link>
-              ))}
-          </div>
         </Container>
       </section>
 
@@ -189,7 +159,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <section className="py-20">
         <Container className="text-center">
           <h2 className="font-display text-4xl md:text-5xl">{t("finalTitle")}</h2>
-          <Link href="/collections" className="mt-8 inline-flex h-12 items-center rounded-full bg-gold px-8 font-medium text-ink">
+          <Link href="/#systems" className="mt-8 inline-flex h-12 items-center rounded-full bg-gold px-8 font-medium text-ink">
             {t("finalCta")}
           </Link>
         </Container>
