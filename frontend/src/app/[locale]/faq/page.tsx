@@ -18,11 +18,12 @@ export default async function FAQ({ params }: { params: Promise<{ locale: string
   setRequestLocale(locale);
   const t = await getTranslations("faqPage");
   const catalog = await getCatalog();
-  const faqs = catalog.products.find((p) => p.slug === "creator-os")?.faq || [];
+  const faqs = catalog.products.find((p) => p.faq?.length)?.faq || [];
   return (
     <article className="mx-auto max-w-[720px] px-5 py-20">
       <h1 className="font-display text-5xl">{t("h1")}</h1>
       <div className="mt-10 space-y-3">
+        {faqs.length === 0 ? <p className="text-ivory/70">{t("empty")}</p> : null}
         {faqs.map((item, i) => {
           const block = item[locale] || item.en;
           if (!block) return null;

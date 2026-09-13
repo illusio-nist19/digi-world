@@ -21,7 +21,7 @@ export default async function About({ params }: { params: Promise<{ locale: stri
         <h2 className="font-display text-4xl">{t("whyTitle")}</h2>
         <p className="mt-4 text-ivory/70">{t("why")}</p>
       </Split>
-      <Split image="/images/product-vault-01.png" alt="" flip>
+      <Split image="/images/hero-home.png" alt="" flip>
         <h2 className="font-display text-4xl">{t("dropTitle")}</h2>
         <p className="mt-4 text-ivory/80">{t("drop")}</p>
         <h3 className="mt-8 font-display text-2xl text-gold">{t("certTitle")}</h3>

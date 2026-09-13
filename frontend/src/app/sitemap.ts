@@ -3,7 +3,7 @@ import { routing } from "@/i18n/routing";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = process.env.NEXT_PUBLIC_SITE_URL || "https://digi-world.online";
-  const paths = ["", "/collections", "/about", "/contact", "/faq", "/systems/ai-governance-kit", "/systems/creator-os", "/systems/the-vault"];
+  const paths = ["", "/collections", "/about", "/contact", "/faq"];
   const entries: MetadataRoute.Sitemap = [];
   for (const locale of routing.locales) {
     for (const p of paths) {

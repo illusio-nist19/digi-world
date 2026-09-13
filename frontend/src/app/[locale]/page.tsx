@@ -48,7 +48,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         </Container>
       </section>
 
-      <Split image="/images/products/the-vault/01.png" alt="" flip={false}>
+      <Split image="/images/hero-home.png" alt="" flip={false}>
         <p className="text-xs uppercase tracking-widest text-gold">{t("drop")}</p>
         <h2 className="mt-3 font-display text-4xl">{t("introTitle")}</h2>
         <p className="mt-4 text-ivory/80">{t("introBody")}</p>
@@ -85,18 +85,24 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <section id="systems" className="py-20">
         <Container>
           <h2 className="mb-10 font-display text-4xl">{t("systemsTitle")}</h2>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {list.map((p) => (
-              <ProductCard key={p.sku} product={p} locale={locale} />
-            ))}
-          </div>
-          <div className="mt-8">
-            {catalog.products
-              .filter((p) => p.type === "vault")
-              .map((p) => (
-                <ProductCard key={p.sku} product={p} locale={locale} />
-              ))}
-          </div>
+          {list.length || catalog.products.some((p) => p.type === "vault") ? (
+            <>
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                {list.map((p) => (
+                  <ProductCard key={p.sku} product={p} locale={locale} />
+                ))}
+              </div>
+              <div className="mt-8">
+                {catalog.products
+                  .filter((p) => p.type === "vault")
+                  .map((p) => (
+                    <ProductCard key={p.sku} product={p} locale={locale} />
+                  ))}
+              </div>
+            </>
+          ) : (
+            <p className="max-w-xl text-ivory/70">{t("emptySystems")}</p>
+          )}
         </Container>
       </section>
 
@@ -152,38 +158,26 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         </Container>
       </section>
 
-      <section className="overflow-hidden py-16">
-        <Container>
-          <h2 className="mb-8 font-display text-4xl">{t("reviewsTitle")}</h2>
-        </Container>
-        <div className="flex gap-4 overflow-x-auto px-5 pb-4">
-          {catalog.reviews.map((r) => (
-            <blockquote key={r.title} className="min-w-[280px] rounded-2xl bg-ink-3 p-5">
-              <StarRow stars={r.stars} />
-              <p className="mt-3 font-display text-lg">{r.title}</p>
-              <p className="mt-2 text-sm text-ivory/70">{r.body}</p>
-              <p className="mt-4 text-xs text-stone">
-                {r.display_name} · {r.city_country}
-                {r.source === "studio_preview" ? " · studio" : ""}
-              </p>
-            </blockquote>
-          ))}
-        </div>
-      </section>
-
-      <section className="py-16">
-        <Container>
-          <h2 className="font-display text-4xl">{t("ugcTitle")}</h2>
-          <p className="mt-2 text-stone">{t("ugcSub")}</p>
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
-            {["/images/product-creator-os-01.png", "/images/product-glow-ritual-01.png", "/images/product-faceless-studio-01.png"].map((src) => (
-              <div key={src} className="relative mx-auto aspect-[9/16] w-56 overflow-hidden rounded-[2rem] border border-line">
-                <Image src={src} alt="" fill className="object-cover" />
-              </div>
+      {catalog.reviews.length ? (
+        <section className="overflow-hidden py-16">
+          <Container>
+            <h2 className="mb-8 font-display text-4xl">{t("reviewsTitle")}</h2>
+          </Container>
+          <div className="flex gap-4 overflow-x-auto px-5 pb-4">
+            {catalog.reviews.map((r) => (
+              <blockquote key={r.title} className="min-w-[280px] rounded-2xl bg-ink-3 p-5">
+                <StarRow stars={r.stars} />
+                <p className="mt-3 font-display text-lg">{r.title}</p>
+                <p className="mt-2 text-sm text-ivory/70">{r.body}</p>
+                <p className="mt-4 text-xs text-stone">
+                  {r.display_name} · {r.city_country}
+                  {r.source === "studio_preview" ? " · studio" : ""}
+                </p>
+              </blockquote>
             ))}
           </div>
-        </Container>
-      </section>
+        </section>
+      ) : null}
 
       <section className="bg-ink-2/45 py-16">
         <Container className="max-w-3xl text-center">

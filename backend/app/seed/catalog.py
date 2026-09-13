@@ -111,6 +111,21 @@ async def upsert_missing(session: AsyncSession) -> None:
     await session.commit()
 
 
+async def prune_removed(session: AsyncSession) -> None:
+    keep_skus = {row["sku"] for row in PRODUCTS}
+    products = (await session.execute(select(Product))).scalars().all()
+    for product in products:
+        if product.sku not in keep_skus:
+            await session.delete(product)
+    keep_reviews = {(row["product_sku"], row["title"]) for row in REVIEWS}
+    reviews = (await session.execute(select(Review))).scalars().all()
+    for review in reviews:
+        if (review.product_sku, review.title) not in keep_reviews:
+            await session.delete(review)
+    await session.commit()
+
+
 async def seed_catalog(session: AsyncSession) -> None:
     await seed_if_empty(session)
     await upsert_missing(session)
+    await prune_removed(session)

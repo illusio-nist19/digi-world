@@ -10,25 +10,11 @@ import { routing } from "@/i18n/routing";
 import { ViewContentPing } from "@/components/view-content";
 import type { Metadata } from "next";
 
-const SLUGS = [
-  "ai-governance-kit",
-  "photographer-os",
-  "creator-os",
-  "faceless-studio",
-  "hook-vault",
-  "ai-operator",
-  "offer-engine",
-  "wealth-os",
-  "glow-ritual",
-  "time-command",
-  "caption-machine",
-  "ad-swipe",
-  "launch-sprint",
-  "the-vault",
-];
-
-export function generateStaticParams() {
-  return routing.locales.flatMap((locale) => SLUGS.map((slug) => ({ locale, slug })));
+export async function generateStaticParams() {
+  const catalog = await getCatalog();
+  const slugs = catalog.products.map((p) => p.slug);
+  if (!slugs.length) return [];
+  return routing.locales.flatMap((locale) => slugs.map((slug) => ({ locale, slug })));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }): Promise<Metadata> {

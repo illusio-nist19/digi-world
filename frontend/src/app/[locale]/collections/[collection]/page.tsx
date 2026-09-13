@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { getCatalog, productsIn } from "@/lib/catalog";
-import { loc } from "@/lib/types";
+import { loc, money } from "@/lib/types";
 import { Container, ProductCard, Split } from "@/components/ui";
 import { routing } from "@/i18n/routing";
 
@@ -16,6 +16,7 @@ export function generateStaticParams() {
 export default async function CollectionPage({ params }: { params: Promise<{ locale: string; collection: string }> }) {
   const { locale, collection } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations("home");
   const catalog = await getCatalog();
   const col = catalog.collections.find((c) => c.slug === collection);
   if (!col) notFound();
@@ -38,13 +39,19 @@ export default async function CollectionPage({ params }: { params: Promise<{ loc
           ))}
         </div>
       </Container>
-      <Split image="/images/product-vault-01.png" alt="" flip>
-        <h2 className="font-display text-4xl">{loc(vault?.headline, locale)}</h2>
-        <p className="mt-4 text-ivory/80">{loc(vault?.sub, locale)}</p>
-        <Link href="/systems/the-vault" className="mt-6 inline-flex h-12 items-center rounded-full bg-gold px-6 text-ink">
-          $97
-        </Link>
-      </Split>
+      {vault ? (
+        <Split image={vault.images[0] || "/images/hero-home.png"} alt="" flip>
+          <h2 className="font-display text-4xl">{loc(vault.headline, locale)}</h2>
+          <p className="mt-4 text-ivory/80">{loc(vault.sub, locale)}</p>
+          <Link href="/systems/the-vault" className="mt-6 inline-flex h-12 items-center rounded-full bg-gold px-6 text-ink">
+            {money(vault.price_cents)}
+          </Link>
+        </Split>
+      ) : items.length === 0 ? (
+        <Container className="pb-16">
+          <p className="text-ivory/70">{t("emptySystems")}</p>
+        </Container>
+      ) : null}
     </>
   );
 }

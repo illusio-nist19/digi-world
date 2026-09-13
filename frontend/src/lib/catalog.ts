@@ -6,7 +6,7 @@ export async function getCatalog(): Promise<Catalog> {
     const res = await fetch(`${API}/catalog`, { next: { revalidate: 60 }, signal: AbortSignal.timeout(4000) });
     if (!res.ok) throw new Error("catalog");
     const data = (await res.json()) as Catalog;
-    if (!data?.products?.length) throw new Error("empty");
+    if (!data || !Array.isArray(data.products)) throw new Error("catalog");
     return data;
   } catch {
     return FALLBACK_CATALOG;
