@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DW-SYS-010 Package calculator</title>
+  <style>
+    :root { color-scheme: light; --ink: #3A2F28; --gold: #D4785A; --ivory: #3A2F28; --stone: #7A6A5C; --line: #E8D4C2; }
+    body { margin: 0; font: 16px/1.5 ui-sans-serif, system-ui; background: linear-gradient(165deg, #F8EDE3, #E7EFE8); color: var(--ink); }
+    main { max-width: 40rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    h1 { font-size: 1.5rem; font-weight: 650; letter-spacing: -0.02em; }
+    label { display: block; margin-top: 1rem; color: var(--stone); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    input, select { width: 100%; margin-top: 0.35rem; padding: 0.65rem 0.75rem; border: 1px solid var(--line); background: #FFFCF8; color: var(--ink); border-radius: 0.5rem; }
+    .out { margin-top: 1.5rem; padding: 1rem 1.1rem; border: 1px solid var(--gold); border-radius: 0.75rem; }
+    .gold { color: var(--gold); font-size: 1.75rem; font-weight: 650; }
+    p.note { color: var(--stone); font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="note">DW-SYS-010 · runs only in this browser · nothing is uploaded</p>
+    <h1>Package calculator</h1>
+    <p>Quote the job, then compare contribution to a bad assisting day. If it loses, raise the package.</p>
+    <label>Shoot fee
+      <input id="fee" type="number" value="2400" min="0" />
+    </label>
+    <label>Hours you will actually work (shoot + cull + edit + admin)
+      <input id="hours" type="number" value="36" min="1" />
+    </label>
+    <label>Second shooter
+      <input id="second" type="number" value="400" min="0" />
+    </label>
+    <label>Travel / hotel
+      <input id="travel" type="number" value="0" min="0" />
+    </label>
+    <label>Usage (commercial; 0 for weddings)
+      <input id="usage" type="number" value="0" min="0" />
+    </label>
+    <label>Payment fee %
+      <input id="pct" type="number" value="3" min="0" step="0.1" />
+    </label>
+    <label>Extra hours sold × extra-hour price
+      <input id="extra" type="number" value="0" min="0" />
+    </label>
+    <label>Assisting-day rate you would accept (compare)
+      <input id="assist" type="number" value="450" min="0" />
+    </label>
+    <div class="out">
+      <div>Invoice total</div>
+      <div class="gold" id="total">$0</div>
+      <p id="lines"></p>
+    </div>
+  </main>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const n = (id) => Number($(id).value) || 0;
+    function money(x) { return "$" + Math.round(x).toLocaleString("en-US"); }
+    function run() {
+      const shoot = n("fee") + n("extra");
+      const usage = n("usage");
+      const gross = shoot + usage;
+      const fees = gross * (n("pct") / 100);
+      const contrib = gross - n("second") - n("travel") - fees;
+      const hours = Math.max(n("hours"), 1);
+      const hourly = contrib / hours;
+      const assist = n("assist");
+      const vsAssist = assist > 0 ? hourly - assist : 0;
+      $("total").textContent = money(gross);
+      $("lines").innerHTML =
+        "After shooter, travel, fees: <b>" + money(contrib) + "</b><br>" +
+        "True hourly: <b>" + money(hourly) + "</b>" +
+        (assist > 0 ? " vs assisting day " + money(assist) + " (" + (vsAssist >= 0 ? "+" : "") + money(vsAssist) + "/h)<br>" : "<br>") +
+        (hourly < (assist || 50) ? "This loses to a day you already know how to sell. Raise the fee or cut donated hours." :
+          hourly < 80 ? "Acceptable if this is a portfolio job you chose." :
+          "This is a studio job. Send the quote.");
+    }
+    document.querySelectorAll("input").forEach((el) => el.addEventListener("input", run));
+    run();
+  </script>
+</body>
+</html>

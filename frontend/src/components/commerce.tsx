@@ -272,10 +272,15 @@ function CheckoutModal({ catalog }: { catalog: Catalog }) {
               window.fbq("init", process.env.NEXT_PUBLIC_META_PIXEL_ID, { em: parsed.data.email, fn: parsed.data.name.split(" ")[0] });
             }
             setLastOrder(data.public_id, parsed.data.email);
-            if (data.upsell) sessionStorage.setItem("dw_upsell", JSON.stringify(data.upsell));
             sessionStorage.setItem("dw_order", JSON.stringify(data));
             clear();
-            setUpsellOpen(true);
+            if (data.upsell) {
+              sessionStorage.setItem("dw_upsell", JSON.stringify(data.upsell));
+              setUpsellOpen(true);
+            } else {
+              setCheckoutOpen(false);
+              router.push(`/thank-you?order=${data.public_id}`);
+            }
           } catch {
             setErr(t("error"));
           } finally {

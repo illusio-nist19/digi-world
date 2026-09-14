@@ -1,0 +1,5 @@
+Job,Client,Kind,Date,Hours,Package,Status,Second_shooter,Venue,Gallery_URL,Usage_end,Next_action,Notes
+Chen wedding 2026-06-14,Sample — A. Chen,wedding,2026-06-14,8,House,Booked,TRUE,Hale House,,,2026-05-24,Formals list due T-14
+Northwind campaign,Sample — Northwind Coffee,commercial,2026-10-03,8,Full day + paid 12mo,Proposal sent,FALSE,Studio + cafe,,2027-10-03,2026-09-20,Usage must be on invoice
+Rivera portraits,Sample — Rivera family,portrait,2026-04-18,1.5,House,Gallery live,FALSE,Retiro Park,https://gallery.example/rivera,,2026-04-25,Print store open
+Ghost inquiry 12 Jun,TBD,wedding,2026-06-12,8,,Lost,FALSE,,,,2026-03-02,Lost reason: ghost after reply

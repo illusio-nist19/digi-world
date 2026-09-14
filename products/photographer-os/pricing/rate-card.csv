@@ -1,0 +1,13 @@
+Sku,Kind,Line,Name,Hours,Includes,Public_price,Floor,Currency,Notes
+W-DOOR,package,wedding,Door 6h,6,"1 photog; 400-600 edits; 12mo gallery",3200,2800,USD,No Saturday peak discount
+W-HOUSE,package,wedding,House 8h,8,"1 photog + second 4h; 700-900 edits",6000,5200,USD,Most chosen
+W-ESTATE,package,wedding,Estate 10h,10,"two photogs; album credit",9000,8000,USD,
+P-DOOR,package,portrait,Door 1h,1,"30-40 edits; 6mo gallery",450,380,USD,
+P-HOUSE,package,portrait,House 90m,1.5,"50-70 edits; print credit",750,650,USD,
+C-HALF,package,commercial,Half day shoot,4,"selects per brief; usage extra",1400,1200,USD,Add usage row
+C-FULL,package,commercial,Full day shoot,8,"selects per brief; usage extra",2400,2100,USD,Add usage row
+U-ORG12,usage,commercial,Organic 12 months,0,"web + organic social",800,800,USD,Multiplier baked
+U-PAID12,usage,commercial,Paid social 12 months,0,"paid social/search",1800,1800,USD,
+ADD-HR,add-on,any,Extra hour,1,coverage only,450,400,USD,1.15 rule
+ADD-RUSH,fee,any,Rush gallery,0,half turnaround,600,600,USD,
+ADD-RAW,fee,any,Raw licence,0,personal archive only,2500,2500,USD,Usually decline

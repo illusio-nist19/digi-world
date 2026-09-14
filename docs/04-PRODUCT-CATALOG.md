@@ -16,6 +16,40 @@ Create original files (or commission them). Do **not** wrap random PLR and slap 
 | `glow-ritual` | Glow Ritual | طقوس التوهج | C |
 | `the-vault` | The Vault | الخزنة الكاملة | all |
 
+## Premium systems (not in the $19 vault)
+
+These sit above Drop 01. They are **not** inside `the-vault`. One studio / one organisation licence. Etsy may list a cheaper cousin — never the full OS at marketplace dump prices.
+
+### DW-SYS-010 Photographer Client Studio
+
+| | |
+| --- | --- |
+| sku | `DW-SYS-010` |
+| slug | `photographer-os` |
+| collection | creator-lab |
+| serial | DW-SYS-010 |
+| EN name | Photographer Client Studio |
+| AR name | استوديو عملاء المصور |
+| Price | **$129** one studio · **$199** two seats |
+| EN sub | The 90-minute desk for wedding and commercial photographers who leak jobs in DMs and hours in ‘unlimited’ galleries. |
+| Contains | START-HERE, studio math, 15-min inquiry, packages + usage, rate CSV + calculator, booking + formals, wedding-day production, gallery/revision/raw/print SOPs, invoices, Notion + Sheets boards, welcome packet, Etsy cousin notes |
+| Pain | Slow DMs, vague quotes, unpaid revisions, galleries before the balance, Saturday inventory given away |
+| Desire | A studio that books, shoots, delivers, and collects |
+| Cross-sell | creator-os, offer-engine, caption-machine |
+| Upsell (post-checkout) | creator-os at **$11** |
+| Etsy | Cousin printable $12–$19, or full desk at **$49** with access PDF — never the vault at $7 |
+| Zip | `products/releases/DW-SYS-010-photographer-os.zip` |
+
+### DW-SYS-009 SMB AI Governance Kit
+
+| | |
+| --- | --- |
+| sku | `DW-SYS-009` |
+| slug | `ai-governance-kit` |
+| collection | ai-command |
+| Price | **$297** one organisation · **$447** duo |
+| Zip | `frontend/public/vault/DW-SYS-009-smb-ai-governance-kit.zip` |
+
 ## Core systems (8)
 
 Every core system uses the same offer ladder: **1 for $19 · 2 for $29**. See pricing doc.

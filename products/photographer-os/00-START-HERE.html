@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Start here · Photographer Client Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --linen: #F8EDE3;
+      --peach: #F3E4D4;
+      --cream: #FFF9F3;
+      --mist: #E7EFE8;
+      --skywash: #E4EEF3;
+      --honeywash: #F8E8C4;
+      --blush: #F8E0D4;
+      --ink: #3A2F28;
+      --stone: #7A6A5C;
+      --line: #E8D4C2;
+      --terra: #D4785A;
+      --honey: #E8A54B;
+      --sage: #5C8F72;
+      --sky: #6A9BB0;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--linen); color: var(--ink); }
+    body {
+      font: 17px/1.55 Outfit, "Segoe UI", sans-serif;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    body::before {
+      content: "";
+      position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background:
+        radial-gradient(900px 520px at 8% -10%, rgba(212,120,90,.22), transparent 60%),
+        radial-gradient(700px 480px at 100% 8%, rgba(232,165,75,.2), transparent 55%),
+        radial-gradient(640px 420px at 70% 70%, rgba(106,155,176,.14), transparent 60%),
+        radial-gradient(720px 480px at 0% 90%, rgba(92,143,114,.16), transparent 55%),
+        linear-gradient(165deg, #F8EDE3 0%, #F3E4D4 48%, #E7EFE8 100%);
+    }
+    .wrap { max-width: 920px; margin: 0 auto; padding: 2.2rem 1.4rem 4rem; }
+    .kicker {
+      display: inline-flex; align-items: center; gap: .55rem;
+      letter-spacing: .2em; text-transform: uppercase;
+      color: var(--terra); font-size: .72rem; font-weight: 600;
+    }
+    h1 {
+      font-family: Fraunces, Georgia, serif;
+      font-weight: 600; font-size: clamp(2.1rem, 5vw, 3.15rem);
+      letter-spacing: -.03em; line-height: 1.08; margin: .45rem 0 .7rem;
+    }
+    h2 {
+      font-family: Fraunces, Georgia, serif;
+      font-weight: 600; font-size: 1.7rem; letter-spacing: -.02em;
+      margin: 0 0 .45rem;
+    }
+    h3 {
+      font-family: Fraunces, Georgia, serif;
+      font-weight: 600; font-size: 1.15rem; margin: 0 0 .35rem;
+    }
+    p { margin: 0 0 .85rem; }
+    .lede { font-size: 1.12rem; color: var(--stone); max-width: 40rem; }
+    .hero {
+      display: grid; grid-template-columns: 1.15fr .85fr; gap: 1.6rem;
+      align-items: center; margin-bottom: 2rem;
+    }
+    .hero-art {
+      background: var(--cream); border: 1px solid var(--line);
+      border-radius: 1.4rem; padding: 1rem 1.1rem .6rem;
+      box-shadow: 0 1px 0 #fff8f0 inset;
+    }
+    .hero-art svg { width: 100%; height: auto; display: block; }
+    section.block {
+      background: var(--cream); border: 1px solid var(--line);
+      border-radius: 1.35rem; padding: 1.35rem 1.4rem 1.5rem;
+      margin: 0 0 1.25rem; box-shadow: 0 1px 0 #fff8f0 inset;
+    }
+    section.block.mist { background: var(--mist); }
+    section.block.sky { background: var(--skywash); }
+    section.block.honey { background: var(--honeywash); }
+    section.block.blush { background: var(--blush); }
+    .intro { color: var(--stone); margin-bottom: 1.1rem; }
+    .files { display: grid; grid-template-columns: repeat(2, 1fr); gap: .8rem; }
+    .file {
+      display: grid; grid-template-columns: 56px 1fr; gap: .75rem;
+      align-items: start; background: var(--cream);
+      border: 1px solid var(--line); border-radius: 1rem; padding: .85rem .9rem;
+    }
+    .file .ico { width: 56px; height: 56px; }
+    .file b { display: block; font-family: Fraunces, Georgia, serif; font-size: 1.02rem; }
+    .file span { color: var(--stone); font-size: .88rem; }
+    .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: .7rem; }
+    .step {
+      background: var(--cream); border: 1px solid var(--line);
+      border-radius: 1.05rem; padding: .9rem .85rem 1rem; min-height: 100%;
+    }
+    .step .min {
+      display: inline-block; background: var(--blush); color: var(--terra);
+      border-radius: 999px; padding: .15rem .55rem; font-size: .72rem;
+      font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+    }
+    .step.s2 .min { background: var(--honeywash); color: #A87420; }
+    .step.s3 .min { background: var(--skywash); color: var(--sky); }
+    .step.s4 .min { background: var(--mist); color: var(--sage); }
+    .step h3 { margin-top: .55rem; }
+    .step p { margin: 0; color: var(--stone); font-size: .9rem; }
+    .flow { display: flex; flex-wrap: wrap; align-items: stretch; gap: .55rem; }
+    .node {
+      flex: 1 1 140px; min-width: 132px;
+      border-radius: 1rem; padding: .85rem .75rem .9rem; text-align: center;
+      border: 1px solid var(--line); background: var(--cream);
+    }
+    .node svg { width: 72px; height: 58px; margin: 0 auto .35rem; display: block; }
+    .node strong { display: block; font-family: Fraunces, Georgia, serif; font-size: .98rem; }
+    .node em { display: block; font-style: normal; color: var(--stone); font-size: .78rem; margin-top: .2rem; }
+    .node.terra { background: var(--blush); border-color: #E8B6A4; }
+    .node.honey { background: var(--honeywash); border-color: #E8D08A; }
+    .node.sage { background: var(--mist); border-color: #B7D0C0; }
+    .node.sky { background: var(--skywash); border-color: #B7CED8; }
+    .arrow {
+      align-self: center; color: var(--terra); font-size: 1.35rem; font-weight: 600;
+      flex: 0 0 auto;
+    }
+    .path { display: grid; gap: .65rem; }
+    .row { display: grid; grid-template-columns: 28px 1fr; gap: .75rem; align-items: start; }
+    .dot {
+      width: 28px; height: 28px; border-radius: 50%;
+      display: grid; place-items: center; color: #FFF9F3;
+      font-size: .75rem; font-weight: 700; margin-top: .15rem;
+    }
+    .card {
+      border-radius: 1rem; padding: .85rem 1rem; border: 1px solid var(--line);
+      background: var(--cream);
+    }
+    .card.q { background: var(--honeywash); }
+    .card.gate { background: var(--blush); border-color: var(--terra); }
+    .card.win { background: var(--mist); }
+    .map { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
+    .map article {
+      border-radius: 1rem; padding: .9rem 1rem; background: var(--cream);
+      border: 1px solid var(--line);
+    }
+    .map .when { color: var(--terra); font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
+    .gatebox { border-radius: 1.1rem; padding: 1rem 1.05rem; color: var(--ink); }
+    .gatebox.one { background: var(--blush); border: 1px solid #E8B6A4; }
+    .gatebox.two { background: var(--mist); border: 1px solid #B7D0C0; }
+    .gatebox b { display: block; font-family: Fraunces, Georgia, serif; font-size: 1.2rem; margin: .2rem 0 .35rem; }
+    footer.colophon {
+      margin-top: 1.6rem; color: var(--stone); font-size: .78rem;
+      letter-spacing: .08em; text-transform: uppercase; text-align: center;
+    }
+    .mark {
+      width: 42px; height: 42px; border: 1.5px solid var(--terra);
+      border-radius: 50%; position: relative; background: #FBE7D4;
+    }
+    .mark::after {
+      content: ""; position: absolute; inset: 9px;
+      border: 1px solid var(--sage); border-radius: 50%;
+    }
+    .note {
+      border-left: 3px solid var(--sage); padding: .15rem 0 .15rem 1rem;
+      color: var(--stone); margin: .2rem 0 0;
+    }
+    @media (max-width: 800px) {
+      .hero, .files, .steps, .map, .two { grid-template-columns: 1fr; }
+      .arrow { transform: rotate(90deg); width: 100%; text-align: center; }
+      .flow { flex-direction: column; }
+      .node { min-width: 0; }
+    }
+    @media print {
+      @page { size: A4; margin: 10mm 11mm; }
+      body { font-size: 11.5pt; background: var(--linen); }
+      body::before { position: absolute; }
+      .wrap { max-width: none; padding: 0; }
+      section.block { break-inside: avoid; box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div>
+      <div class="kicker"><span class="mark" aria-hidden="true"></span> Digi World · Photographer Client Studio</div>
+      <h1>Start here.<br>Twenty minutes to a working desk.</h1>
+      <p class="lede">This is not a beige Notion wallpaper. It is the photographer’s desk: how you answer a message tonight, how you name two packages, and how a Saturday is not held until money is in.</p>
+      <p class="lede" style="margin-bottom:0"><strong style="color:var(--ink)">You do not need Notion tonight.</strong> Notion is a later notebook of the same tables. Double-click the HTML. That is the product.</p>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 420 280" role="img" aria-label="Illustrated studio desk with camera, calendar, and envelope">
+        <rect x="18" y="38" width="384" height="214" rx="28" fill="#FFF9F3" stroke="#E8D4C2"/>
+        <ellipse cx="210" cy="248" rx="150" ry="14" fill="#E8D4C2" opacity=".45"/>
+        <rect x="48" y="78" width="150" height="110" rx="16" fill="#F8E0D4"/>
+        <circle cx="123" cy="128" r="34" fill="#FBE7D4" stroke="#D4785A" stroke-width="3"/>
+        <circle cx="123" cy="128" r="18" fill="#6A9BB0"/>
+        <circle cx="123" cy="128" r="8" fill="#FFF9F3"/>
+        <rect x="62" y="90" width="22" height="12" rx="3" fill="#D4785A"/>
+        <rect x="220" y="72" width="140" height="122" rx="14" fill="#E7EFE8"/>
+        <rect x="234" y="86" width="112" height="18" rx="6" fill="#5C8F72"/>
+        <rect x="234" y="114" width="28" height="22" rx="5" fill="#FFF9F3"/>
+        <rect x="268" y="114" width="28" height="22" rx="5" fill="#F8E8C4"/>
+        <rect x="302" y="114" width="28" height="22" rx="5" fill="#F8E0D4"/>
+        <rect x="234" y="142" width="28" height="22" rx="5" fill="#E4EEF3"/>
+        <rect x="268" y="142" width="28" height="22" rx="5" fill="#FFF9F3"/>
+        <rect x="302" y="142" width="28" height="22" rx="5" fill="#5C8F72" opacity=".35"/>
+        <path d="M52 208h92l18-28H70z" fill="#E8A54B"/>
+        <path d="M70 180l46 22 46-22" fill="none" stroke="#3A2F28" stroke-width="2"/>
+        <text x="210" y="36" text-anchor="middle" fill="#D4785A" font-family="Outfit,sans-serif" font-size="13" letter-spacing="3">THE DESK</text>
+      </svg>
+    </div>
+  </header>
+
+  <section class="block">
+    <h2>What you unzipped</h2>
+    <p class="intro">Five files. Open them in this order. Nothing uploads anywhere.</p>
+    <div class="files">
+      <div class="file">
+        <svg class="ico" viewBox="0 0 56 56" aria-hidden="true"><rect width="56" height="56" rx="14" fill="#F8E0D4"/><path d="M16 18h24v4H16zm0 8h18v3H16zm0 7h24v3H16zm0 7h14v3H16z" fill="#D4785A"/></svg>
+        <div><b>This page</b><span>The map. Read once, then do the twenty minutes.</span></div>
+      </div>
+      <div class="file">
+        <svg class="ico" viewBox="0 0 56 56" aria-hidden="true"><rect width="56" height="56" rx="14" fill="#E7EFE8"/><rect x="14" y="16" width="28" height="24" rx="4" fill="#FFF9F3" stroke="#5C8F72"/><circle cx="28" cy="28" r="6" fill="#5C8F72"/><rect x="20" y="42" width="16" height="3" rx="1.5" fill="#5C8F72"/></svg>
+        <div><b>Photographer-Client-Studio.html</b><span>Double-click. Command, pipeline, jobs, scripts, rates. This is the desk.</span></div>
+      </div>
+      <div class="file">
+        <svg class="ico" viewBox="0 0 56 56" aria-hidden="true"><rect width="56" height="56" rx="14" fill="#E4EEF3"/><rect x="15" y="14" width="26" height="30" rx="4" fill="#FFF9F3" stroke="#6A9BB0"/><path d="M20 22h16M20 28h12M20 34h14" stroke="#6A9BB0" stroke-width="2"/></svg>
+        <div><b>Notion-Sheets-Pack.zip</b><span>Later. Same tables as the HTML. Only when you have ~15 live jobs.</span></div>
+      </div>
+      <div class="file">
+        <svg class="ico" viewBox="0 0 56 56" aria-hidden="true"><rect width="56" height="56" rx="14" fill="#F8E8C4"/><path d="M14 20l14 10 14-10v20H14z" fill="#FFF9F3" stroke="#E8A54B"/><path d="M14 20l14 10 14-10" fill="none" stroke="#A87420" stroke-width="2"/></svg>
+        <div><b>Inquiry desk PDF</b><span>Print ivory. 15-minute reply, qualifier, formals, revision cap.</span></div>
+      </div>
+      <div class="file">
+        <svg class="ico" viewBox="0 0 56 56" aria-hidden="true"><rect width="56" height="56" rx="14" fill="#F3E4D4"/><path d="M20 14h12l10 10v20a4 4 0 0 1-4 4H20a4 4 0 0 1-4-4V18a4 4 0 0 1 4-4z" fill="#FFF9F3" stroke="#7A6A5C"/><path d="M32 14v10h10" fill="none" stroke="#7A6A5C"/></svg>
+        <div><b>LICENSE.txt</b><span>One studio. Not a contract. Not a lighting course.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block mist">
+    <h2>Tonight — 20 minutes</h2>
+    <p class="intro">Do these four moves in order. Then the next inquiry has a real reply.</p>
+    <div class="steps">
+      <article class="step s1">
+        <span class="min">2 min</span>
+        <h3>Licence</h3>
+        <p>One studio. Do not send the kit to another photographer.</p>
+      </article>
+      <article class="step s2">
+        <span class="min">8 min</span>
+        <h3>Rates + math</h3>
+        <p>Quote a wedding you already shot. If true hourly loses to an assisting day, raise the package.</p>
+      </article>
+      <article class="step s3">
+        <span class="min">5 min</span>
+        <h3>Inquiry desk</h3>
+        <p>Copy the skeleton into Gmail and Instagram. Two packages. Not seven.</p>
+      </article>
+      <article class="step s4">
+        <span class="min">5 min</span>
+        <h3>Command</h3>
+        <p>Look at the Saturday strip. Mark your next eight Saturdays in Jobs.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="block sky">
+    <h2>Schema 1 — How the system is set up</h2>
+    <p class="intro">The HTML is the desk you run. Notion or Sheets is a filing cabinet you add later. They do not sync. Pick one place that is “true.”</p>
+    <div class="flow" role="img" aria-label="Setup workflow from HTML to optional Notion">
+      <div class="node terra">
+        <svg viewBox="0 0 72 58" aria-hidden="true"><rect x="10" y="10" width="52" height="38" rx="8" fill="#FFF9F3" stroke="#D4785A"/><circle cx="36" cy="29" r="9" fill="#D4785A"/><circle cx="36" cy="29" r="4" fill="#FFF9F3"/></svg>
+        <strong>1. Open the HTML</strong>
+        <em>Double-click. Offline. Nothing uploads.</em>
+      </div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="node honey">
+        <svg viewBox="0 0 72 58" aria-hidden="true"><rect x="16" y="8" width="40" height="42" rx="6" fill="#FFF9F3" stroke="#E8A54B"/><text x="36" y="36" text-anchor="middle" fill="#A87420" font-size="16" font-family="Fraunces,serif">$</text></svg>
+        <strong>2. Set prices</strong>
+        <em>Rates + math. Then rate-card.csv.</em>
+      </div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="node sky">
+        <svg viewBox="0 0 72 58" aria-hidden="true"><path d="M12 20l24 14 24-14v22H12z" fill="#FFF9F3" stroke="#6A9BB0"/><path d="M12 20l24 14 24-14" fill="none" stroke="#6A9BB0" stroke-width="2"/></svg>
+        <strong>3. Paste the reply</strong>
+        <em>Gmail + Instagram saved replies.</em>
+      </div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="node sage">
+        <svg viewBox="0 0 72 58" aria-hidden="true"><rect x="14" y="12" width="44" height="34" rx="6" fill="#FFF9F3" stroke="#5C8F72"/><rect x="20" y="20" width="10" height="8" rx="2" fill="#5C8F72"/><rect x="32" y="20" width="10" height="8" rx="2" fill="#E8A54B"/><rect x="44" y="20" width="8" height="8" rx="2" fill="#D4785A"/></svg>
+        <strong>4. Run the desk</strong>
+        <em>Pipeline, Jobs, Money — in the HTML.</em>
+      </div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="node">
+        <svg viewBox="0 0 72 58" aria-hidden="true"><rect x="18" y="10" width="36" height="38" rx="5" fill="#FFF9F3" stroke="#7A6A5C"/><path d="M24 20h24M24 28h18M24 36h20" stroke="#7A6A5C" stroke-width="2"/></svg>
+        <strong>5. Notion? Later</strong>
+        <em>Only at ~15 jobs. Same words. One cabinet.</em>
+      </div>
+    </div>
+    <p class="note" style="margin-top:1rem">If you never open Notion, you are still using the system. HTML + Gmail + your bank is enough.</p>
+  </section>
+
+  <section class="block honey">
+    <h2>Schema 2 — One client, first message to closed</h2>
+    <p class="intro">Every name in colour is a status you change by hand. Never jump to Booked. Never send a gallery password before the balance is Paid.</p>
+    <div class="path">
+      <div class="row">
+        <div class="dot" style="background:#6A9BB0">1</div>
+        <div class="card">
+          <h3>Inquiry lands</h3>
+          <p style="margin:0">DM or email. Add them in <b>Pipeline</b> as <b>New</b>. Open Inquiry desk and send the skeleton in fifteen minutes — two packages, date not held.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="dot" style="background:#D4785A">2</div>
+        <div class="card">
+          <h3>Replied → call</h3>
+          <p style="margin:0">Pipeline becomes <b>Replied</b>, then <b>Call booked</b>. Qualifier: date open, budget at floor, couple on the call. Three “walk” signals — stop selling.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="dot" style="background:#E8A54B">3</div>
+        <div class="card q">
+          <h3>They might book</h3>
+          <p style="margin:0">Create a <b>Job</b>: Lead → Qualified → Proposal sent. If they ghost, mark <b>Lost</b> and write why. Do not leave them as New for a month.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="dot" style="background:#D4785A">4</div>
+        <div class="card gate">
+          <h3>Gate A — retainer</h3>
+          <p style="margin:0">They say yes → agreement + retainer invoice. Job = <b>Awaiting retainer</b>. If money is not in within 72 hours, release the date in writing. Only then: <b>Booked</b> + welcome packet. Pipeline = Won.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="dot" style="background:#5C8F72">5</div>
+        <div class="card win">
+          <h3>Prep → shot → preview</h3>
+          <p style="margin:0">Questionnaire, second shooter, formals list T-14. Then Shot → Culling → Preview. Two revision rounds. Round 3 is a new invoice first.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="dot" style="background:#5C8F72">6</div>
+        <div class="card gate">
+          <h3>Gate B — balance, then files</h3>
+          <p style="margin:0">Money view: balance <b>Paid</b>. Then send the password. Job = <b>Gallery live</b> → Prints if they buy → <b>Archived</b>. Saturday is free again.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>What you click in the HTML</h2>
+    <p class="intro">The left menu is the whole studio. You are not looking for a hidden setting.</p>
+    <div class="map">
+      <article><div class="when">A message arrives</div><h3>Inquiry desk + Pipeline</h3><p style="margin:0">Copy the reply. Add them as New, then Replied.</p></article>
+      <article><div class="when">They might book</div><h3>Jobs</h3><p style="margin:0">New job at Lead. Never skip Awaiting retainer.</p></article>
+      <article><div class="when">They agree</div><h3>Money + Booking</h3><p style="margin:0">Retainer invoice. Booked only when it is Paid.</p></article>
+      <article><div class="when">After the shoot</div><h3>Delivery</h3><p style="margin:0">Preview, two rounds, wait for the balance, then the password.</p></article>
+      <article><div class="when">Every Monday</div><h3>Command</h3><p style="margin:0">45 minutes: old inquiries, this week, overdue invoices, next 8 Saturdays.</p></article>
+      <article><div class="when">When the desk is full</div><h3>Notion / Sheets</h3><p style="margin:0">Same status words. One system of record. Never share Invoices with a client.</p></article>
+    </div>
+  </section>
+
+  <section class="block blush">
+    <h2>Notion, if you have never used it</h2>
+    <p>Notion is a website of pages and tables — like Google Docs mixed with a spreadsheet that can also look like Trello cards. This kit is <b>not</b> a finished Notion page you duplicate from our workspace. Those links die when a seller changes their account.</p>
+    <div class="two">
+      <div class="card">
+        <h3>What you build (30 min)</h3>
+        <p style="margin:0">A page titled Photographer Client Studio. Five tables: Clients, Jobs, Deliverables, Invoices, Pipeline. Status words must match the HTML exactly. Import the CSVs in the zip if you do not want to type sample rows. Full list is in <b>NOTION-SETUP.md</b>.</p>
+      </div>
+      <div class="card">
+        <h3>Or skip it — use Sheets</h3>
+        <p style="margin:0">Drive folder → import each CSV → freeze row 1 → filter views: This week, Awaiting retainer, Balance due, Gallery live. Faster if you already live in Excel.</p>
+      </div>
+    </div>
+    <p class="note" style="margin-top:1rem">HTML and Notion do not talk to each other. Copy a job by hand, or live in one place only. Do not run both as truth for six months.</p>
+  </section>
+
+  <section class="block mist">
+    <h2>The two gates that pay rent</h2>
+    <p class="intro">If a pretty dashboard lets you skip these, it is not this desk.</p>
+    <div class="two">
+      <div class="gatebox one">
+        <svg width="56" height="44" viewBox="0 0 56 44" aria-hidden="true"><rect x="12" y="18" width="32" height="22" rx="5" fill="#FFF9F3" stroke="#D4785A"/><path d="M20 18v-6a8 8 0 0 1 16 0v6" fill="none" stroke="#D4785A" stroke-width="2.4"/></svg>
+        <b>No Saturday is Booked</b>
+        until the retainer row in Money is Paid.
+      </div>
+      <div class="gatebox two">
+        <svg width="56" height="44" viewBox="0 0 56 44" aria-hidden="true"><rect x="8" y="10" width="40" height="28" rx="6" fill="#FFF9F3" stroke="#5C8F72"/><circle cx="28" cy="24" r="7" fill="#5C8F72"/><path d="M28 21v8" stroke="#FFF9F3" stroke-width="2"/></svg>
+        <b>No gallery password</b>
+        until the balance row in Money is Paid.
+      </div>
+    </div>
+    <p style="margin:1.1rem 0 0;font-family:Fraunces,Georgia,serif;font-size:1.25rem">Done tonight means the next inquiry gets a named reply in fifteen minutes, two real packages, and a date that is not held without a retainer.</p>
+  </section>
+
+  <p class="lede" style="text-align:center;max-width:none">Full studio on the site — serial, duo seat, welcome packet, shot lists: <strong>digi-world.online/systems/photographer-os</strong></p>
+  <footer class="colophon">Digi World · one studio licence · not legal advice · data stays on this machine</footer>
+</div>
+</body>
+</html>

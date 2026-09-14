@@ -15,6 +15,8 @@ SKU files to zip (create when the real systems are ready):
 - DW-SYS-006 wealth-os
 - DW-SYS-007 glow-ritual
 - DW-SYS-008 time-command
+- DW-SYS-009 ai-governance-kit
+- DW-SYS-010 photographer-os
 - DW-ADD-001 caption-machine
 - DW-ADD-002 ad-swipe
 - DW-ADD-003 launch-sprint

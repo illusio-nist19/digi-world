@@ -1,0 +1,3 @@
+Invoice_id,Job,Kind,Amount,Currency,Issued,Due,Status,Paid_on,Link
+INV-1001,Chen wedding 2026-06-14,retainer,2400,USD,2026-03-01,2026-03-01,Paid,2026-03-01,
+INV-1002,Chen wedding 2026-06-14,balance,3600,USD,2026-05-10,2026-05-24,Sent,,
