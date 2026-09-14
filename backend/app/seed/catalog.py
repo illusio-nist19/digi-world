@@ -1,114 +1,93 @@
 from __future__ import annotations
 
+import logging
+
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models import Collection, Product, Review
 from app.seed.catalog_data import COLLECTIONS, PRODUCTS, REVIEWS
 
+log = logging.getLogger("dw.seed")
 
-async def seed_if_empty(session: AsyncSession) -> None:
-    existing = await session.scalar(select(Product.id).limit(1))
-    if existing:
-        return
-    col_ids: dict[str, int] = {}
+
+def _fill_product(p: Product, row: dict, collection_id: int) -> None:
+    p.sku = row["sku"]
+    p.slug = row["slug"]
+    p.collection_id = collection_id
+    p.type = row["type"]
+    p.serial = row.get("serial")
+    p.name = row["name"]
+    p.sub = row["sub"]
+    p.headline = row["headline"]
+    p.description = row["description"]
+    p.contents = row["contents"]
+    p.faq = row["faq"]
+    p.images = row["images"]
+    p.price_cents = row["price_cents"]
+    p.compare_cents = row.get("compare_cents")
+    p.duo_price_cents = row.get("duo_price_cents")
+    p.pair_sku = row.get("pair_sku")
+    p.pair_price_cents = row.get("pair_price_cents")
+    p.upsell_sku = row.get("upsell_sku")
+    p.upsell_price_cents = row.get("upsell_price_cents")
+    p.cross_sell = row.get("cross_sell") or []
+    p.includes = row.get("includes")
+    p.license_pool = row.get("license_pool") or 500
+    p.drop_label = "Drop 01 — 2026"
+    p.gender = row.get("gender")
+    p.active = True
+    p.sort = row.get("sort") or 0
+
+
+async def upsert_collections(session: AsyncSession) -> dict[str, int]:
+    existing = {c.slug: c for c in (await session.execute(select(Collection))).scalars().all()}
     for row in COLLECTIONS:
-        c = Collection(
-            slug=row["slug"],
-            name=row["name"],
-            sub=row["sub"],
-            image=row["image"],
-            sort=row["sort"],
-        )
-        session.add(c)
-        await session.flush()
-        col_ids[row["slug"]] = c.id
-    for row in PRODUCTS:
-        p = Product(
-            sku=row["sku"],
-            slug=row["slug"],
-            collection_id=col_ids[row["collection"]],
-            type=row["type"],
-            serial=row.get("serial"),
-            name=row["name"],
-            sub=row["sub"],
-            headline=row["headline"],
-            description=row["description"],
-            contents=row["contents"],
-            faq=row["faq"],
-            images=row["images"],
-            price_cents=row["price_cents"],
-            compare_cents=row.get("compare_cents"),
-            duo_price_cents=row.get("duo_price_cents"),
-            pair_sku=row.get("pair_sku"),
-            pair_price_cents=row.get("pair_price_cents"),
-            upsell_sku=row.get("upsell_sku"),
-            upsell_price_cents=row.get("upsell_price_cents"),
-            cross_sell=row.get("cross_sell") or [],
-            includes=row.get("includes"),
-            license_pool=row.get("license_pool") or 500,
-            licenses_issued=0,
-            drop_label="Drop 01 — 2026",
-            gender=row.get("gender"),
-            active=True,
-            sort=row.get("sort") or 0,
-        )
-        session.add(p)
-    for row in REVIEWS:
-        session.add(Review(**row, verified=row.get("source") != "studio_preview"))
-    await session.commit()
+        col = existing.get(row["slug"])
+        if col is None:
+            col = Collection(slug=row["slug"])
+            session.add(col)
+            existing[row["slug"]] = col
+        col.name = row["name"]
+        col.sub = row["sub"]
+        col.image = row["image"]
+        col.sort = row["sort"]
+    await session.flush()
+    return {slug: col.id for slug, col in existing.items()}
 
 
-async def upsert_missing(session: AsyncSession) -> None:
-    col_ids = {c.slug: c.id for c in (await session.execute(select(Collection))).scalars().all()}
-    if not col_ids:
-        return
+async def upsert_products(session: AsyncSession, col_ids: dict[str, int]) -> None:
+    existing = {p.sku: p for p in (await session.execute(select(Product))).scalars().all()}
     for row in PRODUCTS:
-        exists = await session.scalar(select(Product.id).where(Product.sku == row["sku"]))
-        if exists:
-            continue
         collection_id = col_ids.get(row["collection"])
         if not collection_id:
+            log.warning("skip %s: missing collection %s", row["sku"], row["collection"])
             continue
-        session.add(
-            Product(
-                sku=row["sku"],
-                slug=row["slug"],
-                collection_id=collection_id,
-                type=row["type"],
-                serial=row.get("serial"),
-                name=row["name"],
-                sub=row["sub"],
-                headline=row["headline"],
-                description=row["description"],
-                contents=row["contents"],
-                faq=row["faq"],
-                images=row["images"],
-                price_cents=row["price_cents"],
-                compare_cents=row.get("compare_cents"),
-                duo_price_cents=row.get("duo_price_cents"),
-                pair_sku=row.get("pair_sku"),
-                pair_price_cents=row.get("pair_price_cents"),
-                upsell_sku=row.get("upsell_sku"),
-                upsell_price_cents=row.get("upsell_price_cents"),
-                cross_sell=row.get("cross_sell") or [],
-                includes=row.get("includes"),
-                license_pool=row.get("license_pool") or 500,
-                licenses_issued=0,
-                drop_label="Drop 01 — 2026",
-                gender=row.get("gender"),
-                active=True,
-                sort=row.get("sort") or 0,
-            )
-        )
+        product = existing.get(row["sku"])
+        if product is None:
+            product = Product(sku=row["sku"], licenses_issued=0)
+            session.add(product)
+        _fill_product(product, row, collection_id)
+    await session.flush()
+
+
+async def upsert_reviews(session: AsyncSession) -> None:
+    existing = {
+        (r.product_sku, r.title): r for r in (await session.execute(select(Review))).scalars().all()
+    }
     for row in REVIEWS:
-        exists = await session.scalar(
-            select(Review.id).where(Review.product_sku == row["product_sku"], Review.title == row["title"])
-        )
-        if exists:
+        key = (row["product_sku"], row["title"])
+        review = existing.get(key)
+        if review is None:
+            session.add(Review(**row, verified=row.get("source") != "studio_preview"))
             continue
-        session.add(Review(**{k: v for k, v in row.items()}, verified=row.get("source") != "studio_preview"))
-    await session.commit()
+        review.locale = row["locale"]
+        review.stars = row["stars"]
+        review.body = row["body"]
+        review.display_name = row["display_name"]
+        review.city_country = row["city_country"]
+        review.source = row.get("source") or "studio_preview"
+        review.verified = row.get("source") != "studio_preview"
 
 
 async def prune_removed(session: AsyncSession) -> None:
@@ -122,10 +101,13 @@ async def prune_removed(session: AsyncSession) -> None:
     for review in reviews:
         if (review.product_sku, review.title) not in keep_reviews:
             await session.delete(review)
-    await session.commit()
 
 
 async def seed_catalog(session: AsyncSession) -> None:
-    await seed_if_empty(session)
-    await upsert_missing(session)
+    col_ids = await upsert_collections(session)
+    await upsert_products(session, col_ids)
+    await upsert_reviews(session)
     await prune_removed(session)
+    await session.commit()
+    skus = [row["sku"] for row in PRODUCTS]
+    log.info("catalog ready skus=%s", skus)
