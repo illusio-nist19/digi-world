@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Key Fob Programming Mastery — From First Remote to Immobilizer Expert</title>
+  <style>
+    @page { size: A4; margin: 13mm 14mm 15mm; }
+    :root {
+      --ink: #1A2433; --teal: #0D9488; --teal-deep: #0F766E;
+      --coral: #F97316; --cream: #FFF7ED; --sand: #FFEDD5;
+      --sky: #ECFEFF; --line: #CBD5E1; --muted: #64748B; --white: #FFFFFF;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--cream); color: var(--ink); }
+    body {
+      font: 10.8pt/1.48 "Segoe UI", Calibri, system-ui, sans-serif;
+      -webkit-print-color-adjust: exact; print-color-adjust: exact;
+    }
+    .page { page-break-after: always; min-height: 258mm; padding: 1mm 0 9mm; position: relative; }
+    .page:last-child { page-break-after: auto; }
+    h1 { font-size: 22pt; line-height: 1.12; margin: 0 0 0.35em; color: var(--teal-deep); letter-spacing: -0.02em; }
+    h2 { font-size: 14.5pt; margin: 0.15em 0 0.4em; color: var(--teal-deep); }
+    h3 { font-size: 11.5pt; margin: 0.85em 0 0.3em; color: var(--ink); }
+    p { margin: 0 0 0.55em; }
+    ul, ol { margin: 0.15em 0 0.7em; padding-left: 1.2em; }
+    li { margin-bottom: 0.22em; }
+    .kicker { font-size: 8pt; letter-spacing: 0.22em; text-transform: uppercase; color: var(--coral); font-weight: 700; margin-bottom: 0.35em; }
+    .lede { font-size: 12pt; color: var(--muted); }
+    .hero {
+      background: linear-gradient(135deg, #0F766E 0%, #14B8A6 52%, #FB923C 100%);
+      color: #fff; border-radius: 18px; padding: 16mm 11mm 12mm; min-height: 248mm;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .hero h1 { color: #fff; font-size: 30pt; margin-top: 6mm; }
+    .hero img { width: 100%; border-radius: 12px; margin-top: 8mm; border: 3px solid rgba(255,255,255,.35); }
+    .badge { display: inline-block; background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.35);
+      padding: .3em .75em; border-radius: 999px; font-size: 8.5pt; letter-spacing: .08em; text-transform: uppercase; }
+    .fig { margin: .55em 0 .8em; background: #fff; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; page-break-inside: avoid; }
+    .fig img { width: 100%; display: block; max-height: 88mm; object-fit: cover; }
+    .fig .cap { padding: .45em .75em; font-size: 8.5pt; color: var(--muted); background: var(--sky); }
+    .card { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: .7em .85em; margin: .5em 0; page-break-inside: avoid; }
+    .warn { border-left: 5px solid var(--coral); background: #FFF7ED; }
+    .ok { border-left: 5px solid var(--teal); background: #F0FDFA; }
+    .info { border-left: 5px solid #38BDF8; background: #F0F9FF; }
+    .stop { border-left: 5px solid #DC2626; background: #FEF2F2; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: .55em; }
+    .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: .5em; }
+    .pill { background: var(--sand); border-radius: 10px; padding: .6em .7em; page-break-inside: avoid; }
+    .pill strong { color: var(--teal-deep); display: block; margin-bottom: .15em; }
+    table { width: 100%; border-collapse: collapse; font-size: 9pt; margin: .45em 0 .75em; background: #fff; page-break-inside: avoid; }
+    th, td { border: 1px solid var(--line); padding: .38em .45em; text-align: left; vertical-align: top; }
+    th { background: linear-gradient(90deg,#0D9488,#14B8A6); color: #fff; font-weight: 650; font-size: 8pt; letter-spacing: .04em; text-transform: uppercase; }
+    tr:nth-child(even) td { background: #F8FAFC; }
+    .step { display: grid; grid-template-columns: 32px 1fr; gap: .55em; margin: .4em 0; page-break-inside: avoid; }
+    .num { width: 28px; height: 28px; border-radius: 50%; background: var(--coral); color: #fff; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; font-size: 10pt; }
+    .foot { position: absolute; bottom: 0; left: 0; right: 0; font-size: 7.5pt; color: var(--muted);
+      display: flex; justify-content: space-between; border-top: 1px solid var(--line); padding-top: .35em; }
+    .price { color: var(--coral); font-weight: 700; }
+    .muted { color: var(--muted); }
+    .small { font-size: 9pt; }
+    .obj { background: var(--sky); border-radius: 10px; padding: .55em .75em; margin: .4em 0 .7em; }
+    .check { list-style: none; padding-left: 0; }
+    .check li::before { content: "✓ "; color: var(--teal); font-weight: 700; }
+    .toc ol { padding-left: 1.3em; }
+    .toc li { margin-bottom: .32em; }
+  </style>
+</head>
+<body>
+
+<section class="page">
+  <div class="hero">
+    <div>
+      <span class="badge">Professional training e-book · 2026</span>
+      <h1>Key Fob Programming Mastery</h1>
+      <p style="font-size:13pt;opacity:.95;max-width:42em">From first remote to immobilizer expert — a complete, visual apprenticeship for authorized automotive key-fob work.</p>
+      <img src="images/kfm-cover.png" alt="Cover" />
+    </div>
+    <div>
+      <p style="margin:0;font-size:10pt">Legal · Ethical · Illustrated · Step-by-step field procedures</p>
+      <p style="margin:.25em 0 0;font-size:8.5pt;opacity:.8">For verified vehicle owners only. Not a theft guide.</p>
+    </div>
+  </div>
+</section>
+
+<section class="page">
+  <div class="kicker">How to use this book · Chapter 0</div>
+  <h1>Read this before you touch a tool</h1>
+  <p class="lede">You do not become an expert by skimming. You become competent by repeating one honest sequence until it is muscle memory.</p>
+  <div class="obj"><strong>When you finish this book you can:</strong> explain a fob and an immobilizer in plain language; verify an owner; quote Add Key vs All Keys Lost; prepare a remote; follow an OBD wizard without panicking; test a finished job; and walk away from unsupported cars.</div>
+  <h3>How to study</h3>
+  <ol>
+    <li>Read Chapters 1–6 once for vocabulary. Do not skip ethics.</li>
+    <li>Read Chapters 7–11 with a notebook. That is your shop system.</li>
+    <li>Walk Chapters 12–18 as if a car were in the bay. Speak the steps out loud.</li>
+    <li>Use Chapter 21 as a 90-day calendar. Practice on donated locks and a legally owned practice vehicle.</li>
+  </ol>
+  <div class="card warn">
+    <strong>Rule.</strong> Program or cut keys only for the verified owner (or documented authorized agent) of that specific vehicle. Photo ID + registration/title. Log it. If the story is wrong, the job is over.
+  </div>
+  <div class="card stop">
+    <strong>Stop / refer.</strong> This book will not teach theft, skipped paperwork, stolen-vehicle starts, undocumented immobilizer bypass, EEPROM “attacks,” or dealer-login abuse. Those are crimes, not craft.
+  </div>
+  <h3>Callout colors you will see</h3>
+  <div class="grid2">
+    <div class="card ok"><strong>Field tip / Why it matters</strong> — do this</div>
+    <div class="card warn"><strong>Rule</strong> — never skip</div>
+    <div class="card info"><strong>Safety</strong> — power, modules, people</div>
+    <div class="card stop"><strong>Stop / refer</strong> — do not invent a shortcut</div>
+  </div>
+  <div class="foot"><span>Key Fob Programming Mastery</span><span>2</span></div>
+</section>
+
+<section class="page">
+  <div class="kicker">Contents</div>
+  <h1>Chapter map</h1>
+  <div class="toc grid2">
+    <ol>
+      <li>The profession</li>
+      <li>Law, ethics, paperwork</li>
+      <li>Anatomy of a key fob</li>
+      <li>Immobilizer systems</li>
+      <li>RKE vs smart vs blade+chip</li>
+      <li>Transponders: clone, generate, OBD</li>
+      <li>Reading the car</li>
+      <li>Machines and kits (with prices)</li>
+      <li>Consumables</li>
+      <li>Master workflow</li>
+      <li>Workshop and vehicle prep</li>
+    </ol>
+    <ol start="12">
+      <li>Procedure A — Add a spare</li>
+      <li>Procedure B — Lost remote, car present</li>
+      <li>Procedure C — All Keys Lost</li>
+      <li>Cutting the metal blade</li>
+      <li>Programming discipline</li>
+      <li>Testing the finished fob</li>
+      <li>Fault-finding</li>
+      <li>Luxury limits and referral</li>
+      <li>Pricing and the customer</li>
+      <li>90-day path to competence</li>
+      <li>Glossary, checklists, packing list</li>
+    </ol>
+  </div>
+  <div class="card info">
+    <strong>Safety.</strong> Weak vehicle batteries cause more “bricked” programming jobs than bad technicians. Always support power before you write immobilizer data.
+  </div>
+  <div class="foot"><span>Contents</span><span>3</span></div>
+</section>
+
+<section class="page">
+  <div class="kicker">Chapter 1</div>
+  <h1>The profession</h1>
+  <div class="obj"><strong>Objective.</strong> Name the jobs people actually pay for, and which one you should learn first.</div>
+  <div class="fig">
+    <img src="images/kfm-verify.png" alt="Ownership verification" />
+    <div class="cap">Figure 1.1 — Every paid job starts at the desk: identity, ownership, signature. Not at the OBD port.</div>
+  </div>
+  <div class="grid2">
+    <div class="pill"><strong>Spare / Add Key</strong> Customer still has one working fob. Easiest money. Learn this first.</div>
+    <div class="pill"><strong>Dead buttons</strong> Car still starts. Often a battery, cracked board, or RKE not learned.</div>
+    <div class="pill"><strong>Lost remote, car here</strong> Unlocked or already open. Identify, stock a fob, program, test.</div>
+    <div class="pill"><strong>All Keys Lost</strong> No working key. Higher ticket, higher risk. Refer until you are ready.</div>
+  </div>
+  <h3>The five skill layers</h3>
+  <table>
+    <thead><tr><th>Layer</th><th>You learn</th><th>Tools</th></tr></thead>
+    <tbody>
+      <tr><td>Mechanical</td><td>Keyways, bitting, decode, cut</td><td>Lishi, cutter, blanks</td></tr>
+      <tr><td>Transponder</td><td>Chip types, clone vs generate</td><td>Key tool / chip programmer</td></tr>
+      <tr><td>Immobilizer</td><td>Add Key / All Keys Lost via OBD</td><td>IMMO tablet + cables</td></tr>
+      <tr><td>Remote / RKE</td><td>Frequency, buttons, proximity</td><td>Same tablet + remotes</td></tr>
+      <tr><td>Business</td><td>Quotes, insurance, warranty, logs</td><td>Job sheets / invoice app</td></tr>
+    </tbody>
+  </table>
+  <div class="card ok"><strong>Why it matters.</strong> A pretty programmed fob with a bad blade is still a failed job. Mechanical excellence is half your reputation.</div>
+  <div class="foot"><span>Chapter 1 · The profession</span><span>4</span></div>
+</section>
+
+<section class="page">
+  <div class="kicker">Chapter 2</div>
+  <h1>Law, ethics, paperwork</h1>
+  <div class="obj"><strong>Objective.</strong> Run a job sheet that would survive a police question without sweating.</div>
+  <h3>Minimum verification</h3>
+  <ol>
+    <li>Government photo ID that matches the person in front of you.</li>
+    <li>Vehicle registration, title, or equivalent proof of ownership for <em>this</em> VIN.</li>
+    <li>If an agent (fleet, spouse, dealer): written authorization plus their ID.</li>
+    <li>Photograph documents. Customer signs: “I am the owner / authorized agent.”</li>
+    <li>Refuse cash-only urgency, “my cousin’s car,” or “don’t put my name on it.”</li>
+  </ol>
+  <div class="card warn">
+    <strong>Rule.</strong> Licensing, insurance, and (in North America) NASTF / SDRM access for some dealer-level security are separate from owning a tablet. Budget for them. Counterfeit tools and stolen software accounts are not a business model.
+  </div>
+  <h3>Job sheet fields (copy this)</h3>
+  <table>
+    <thead><tr><th>Field</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>Date, name, phone, address</td><td>Who hired you</td></tr>
+      <tr><td>ID type (store per privacy law)</td><td>Who stood there</td></tr>
+      <tr><td>VIN, plate, year/make/model</td><td>Which machine you touched</td></tr>
+      <tr><td>Keys before / after, job type</td><td>What changed</td></tr>
+      <tr><td>Tool + software version</td><td>Reproducibility</td></tr>
+      <tr><td>Parts (remote, chip, blade)</td><td>Warranty and cost</td></tr>
+      <tr><td>Signature + authorization line</td><td>Your shield</td></tr>
+    </tbody>
+  </table>
+  <div class="card stop"><strong>Stop / refer.</strong> If ownership cannot be proven, you do not “just program one to help.” You send them to the dealer with a polite no.</div>
+  <div class="foot"><span>Chapter 2 · Law &amp; ethics</span><span>5</span></div>
+</section>
+
+<section class="page">
+  <div class="kicker">Chapter 3</div>
+  <h1>Anatomy of a key fob</h1>
+  <div class="obj"><strong>Objective.</strong> Point to each part of a fob and say what it does in one sentence.</div>
+  <p>A modern “key” is often three products in one: a <strong>mechanical blade</strong> (turns locks), a <strong>transponder chip</strong> (allows starting), and a <strong>remote / smart module</strong> (lock, unlock, proximity).</p>
+  <div class="fig">
+    <img src="images/kfm-anatomy.png" alt="Fob anatomy" />
+    <div class="cap">Figure 3.1 — Schema: shell, battery, PCB, transponder zone, metal blade. Labels are the vocabulary of the trade.</div>
+  </div>
+  <table>
+    <thead><tr><th>Part</th><th>Job</th><th>If it fails</th></tr></thead>
+    <tbody>
+      <tr><td>Shell / buttons</td><td>Human interface</td><td>Broken buttons, water ingress</td></tr>
+      <tr><td>CR2032 / CR2025</td><td>Powers the radio board</td><td>Weak remote range, no buttons</td></tr>
+      <tr><td>PCB + RF circuit</td><td>Sends lock/unlock (RKE)</td><td>Remote dead, car may still start</td></tr>
+      <tr><td>Transponder chip</td><td>Answers immobilizer challenge</td><td>Remote works, engine will not start</td></tr>
+      <tr><td>Blade</td><td>Door / glove / (sometimes) ignition</td><td>Won’t turn; smart cars may still start if chip is good</td></tr>
+    </tbody>
+  </table>
+  <div class="card ok"><strong>Field tip.</strong> Always replace a dying battery <em>before</em> you declare a programming failure.</div>
+  <div class="foot"><span>Chapter 3 · Anatomy</span><span>6</span></div>
+</section>
+
+<section class="page">
+  <div class="kicker">Chapter 4</div>
+  <h1>Immobilizer systems in plain language</h1>
+  <div class="obj"><strong>Objective.</strong> Explain challenge–response so a customer (and you) stop saying “just copy the remote.”</div>
+  <div class="fig">
+    <img src="images/kfm-immo.png" alt="Immobilizer schema" />
+    <div class="cap">Figure 4.1 — Schema: fob chip ↔ antenna ring ↔ immobilizer module ↔ engine computer. Start is allowed only if the answer matches a stored key ID.</div>
+  </div>
+  <ol>
+    <li>You insert the blade or bring a smart fob inside the cabin.</li>
+    <li>The car’s antenna challenges the chip (transponder / smart authentication).</li>
+    <li>If the cryptographic answer matches a key ID stored in the immobilizer (or ECU), fuel/ignition is allowed.</li>
+    <li>If not, the car may still unlock mechanically — and <strong>will not start</strong>.</li>
+  </ol>
+  <div class="card info">
+    <strong>Why it matters.</strong> Copying plastic and buttons is not the same as teaching the car a new identity. Lost-remote jobs almost always need an OBD (or dealer online) step on modern vehicles.
+  </div>
+  <p class="small muted">Brand examples stay high-level: Toyota, Ford, GM, Hyundai/Kia, VAG. Coverage is VIN- and year-specific. Always follow your tool’s wizard for that vehicle — never invent a sequence from memory of a different car.</p>
+  <div class="foot"><span>Chapter 4 · Immobilizer</span><span>7</span></div>
+</section>
+
+<section class="page">
+  <div class="kicker">Chapter 5</div>
+  <h1>RKE vs smart vs blade + chip</h1>
+  <div class="obj"><strong>Objective.</strong> Identify which product you are holding in ten seconds.</div>
+  <div class="fig">
+    <img src="images/kfm-types.png" alt="Key types" />
+    <div class="cap">Figure 5.1 — Metal-only (rare on late cars) → transponder head key → smart proximity fob.</div>
+  </div>
+  <table>
+    <thead><tr><th>Type</th><th>What the customer feels</th><th>Your job</th></tr></thead>
+    <tbody>
+      <tr><td>Blade + transponder</td><td>Turn ignition; maybe a separate remote</td><td>Cut blade + program chip; remote may be extra</td></tr>
+      <tr><td>Flip / integrated remote</td><td>Buttons on the head, blade folds out</td><td>Blade + chip + RKE together</td></tr>
+      <tr><td>Smart / PKES</td><td>Fob in pocket, push-button start</td><td>Proximity + immobilizer; emergency blade often inside</td></tr>
+    </tbody>
+  </table>
+  <p><strong>RKE</strong> = Remote Keyless Entry (radio lock/unlock). <strong>PKES</strong> = Passive Keyless Entry and Start (proximity). A car can have both. Programming one function does not automatically fix the other.</p>
+  <div class="card warn"><strong>Rule.</strong> Test start and remote as separate pass/fail items. “It unlocks” is not “it starts.”</div>
+  <div class="foot"><span>Chapter 5 · Key types</span><span>8</span></div>
+</section>
+
+<section class="page">
+  <div class="kicker">Chapter 6</div>
+  <h1>Transponders: clone, generate, OBD learn</h1>
+  <div class="obj"><strong>Objective.</strong> Pick the right path instead of trying all three on the same car.</div>
+  <div class="fig">
+    <img src="images/kfm-clone-obd.png" alt="Clone generate OBD" />
+    <div class="cap">Figure 6.1 — Three doors: clone a chip, generate a universal remote, teach the car over OBD. Modern lost-key work lives in the third door.</div>
+  </div>
+  <table>
+    <thead><tr><th>Path</th><th>When it works</th><th>When it fails</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Clone</strong></td><td>Older systems that allow chip copy from a working key</td><td>Encrypted / rolling systems; no working key</td></tr>
+      <tr><td><strong>Generate</strong></td><td>Your key tool can build a compatible remote/chip for that vehicle</td><td>Wrong FCC ID / wrong smart type</td></tr>
+      <tr><td><strong>OBD learn</strong></td><td>Tool supports Add Key or All Keys Lost for that VIN/year</td><td>Unsupported, tokens required, dealer online only</td></tr>
+    </tbody>
+  </table>
+  <div class="card stop"><strong>Stop / refer.</strong> Do not hunt “bypass” recipes when the database says unsupported. Refer, partner, or send to the dealer.</div>
+  <div class="foot"><span>Chapter 6 · Transponders</span><span>9</span></div>
+</section>
+
+<section class="page">
+  <div class="kicker">Chapter 7</div>
+  <h1>Reading the car before you quote</h1>
+  <div class="obj"><strong>Objective.</strong> Collect the data that stops you buying the wrong $80 remote.</div>
+  <h3>What you collect</h3>
+  <ul>
+    <li>Exact year, make, model, trim. VIN if at all possible.</li>
+    <li>How many keys exist / are lost. Does anything still start the car?</li>
+    <li>Photo of remaining fob (front, back, blade, FCC ID under the battery cover).</li>
+    <li>Blade profile family (examples: HU66, HU100, TOY43 — look up, do not guess).</li>
+    <li>Location (shop vs mobile) and battery health of the vehicle.</li>
+  </ul>
+  <h3>Look-up order</h3>
+  <ol>
+    <li>Customer photos of any remaining key.</li>
+    <li>Year-make-model in your tool’s database and a blank chart (Ilco / JMA style).</li>
+    <li>FCC ID on the remote when present.</li>
+    <li>Confirm blade profile before you cut or order.</li>
+  </ol>
+  <div class="card warn"><strong>Rule.</strong> Wrong remote = dead job. When unsure, confirm VIN with the supplier or keep a returnable stock relationship.</div>
+  <div class="foot"><span>Chapter 7 · Identify</span><span>10</span></div>
+</section>
+
+<section class="page">
+  <div class="kicker">Chapter 8</div>
+  <h1>Machines and kits (with prices)</h1>
+  <div class="obj"><strong>Objective.</strong> Buy a lean kit that can earn, not a trophy tablet you cannot feed with parts.</div>
+  <p class="small muted">Prices are approximate retail USD ranges as of 2026. Sales, region, and tokens change totals. Buy from reputable locksmith suppliers. Counterfeit tablets brick on updates.</p>
+  <div class="fig">
+    <img src="images/kfm-tools.png" alt="Tool bench" />
+    <div class="cap">Figure 8.1 — Core bench: programmer, cutter, Lishi, blanks, OBD lead.</div>
+  </div>
+  <table>
+    <thead><tr><th>Item</th><th>Role</th><th>Example models</th><th>Approx. USD</th></tr></thead>
+    <tbody>
+      <tr><td>Portable cutter</td><td>Laser / dimple / edge blades on-site</td><td>Xhorse Dolphin XP-005L II</td><td class="price">$1,400–$2,200</td></tr>
+      <tr><td>Key / remote tool</td><td>Generate remotes, clone, RF test</td><td>VVDI Key Tool Max Pro</td><td class="price">$450–$750</td></tr>
+      <tr><td>IMMO programmer</td><td>OBD Add Key / AKL</td><td>Autel IM508S / IM608S II; Key Tool Plus</td><td class="price">$1,200–$4,200</td></tr>
+      <tr><td>Original Lishi set</td><td>Pick + decode common profiles</td><td>HU100, HU101, CY24, NSN14, TOY43…</td><td class="price">$400–$900</td></tr>
+      <tr><td>First inventory</td><td>Chips, universals, test blades</td><td>XT27 family + local popular remotes</td><td class="price">$300–$800</td></tr>
+      <tr><td>Support gear</td><td>Jump pack, trim tools, meter</td><td>Quality generics</td><td class="price">$150–$350</td></tr>
+    </tbody>
+  </table>
+  <div class="fig">
+    <img src="images/kfm-cutter.png" alt="Cutter" />
+    <div class="cap">Figure 8.2 — Portable automatic cutter (generic form). Verify clamp type and cutter/probe condition before every cut.</div>
+  </div>
+  <div class="foot"><span>Chapter 8 · Machines</span><span>11</span></div>
+</section>
+
+<section class="page">
+  <div class="kicker">Chapter 8 continued</div>
+  <h1>Bundles and hidden costs</h1>
+  <table>
+    <thead><tr><th>Bundle</th><th>Inside</th><th>Approx. USD</th><th>Best for</th></tr></thead>
+    <tbody>
+      <tr><td>Lean mobile</td><td>Dolphin II + Max Pro + Lishi + chips</td><td class="price">$2,500–$3,800</td><td>First 3–6 months</td></tr>
+      <tr><td>Cut + Condor Mini Plus II</td><td>Shop cutter + Max Pro (+ reader)</td><td class="price">$3,300–$3,600</td><td>Shop + mobile</td></tr>
+      <tr><td>Autel IM608S II full kit</td><td>IMMO + diagnostics + XP400 Pro</td><td class="price">$3,900–$4,200</td><td>Broad coverage</td></tr>
+      <tr><td>Condor + Key Tool Plus Pad</td><td>Advanced Xhorse ecosystem</td><td class="price">$4,500–$5,500</td><td>Scaling specialist</td></tr>
+    </tbody>
+  </table>
+  <div class="card ok">
+    <strong>If you have ~$3,000.</strong> Cutter first, then Max Pro, then Lishi, then stock. Use Max Pro OBD coverage; add Autel IM508/IM608 when revenue pays for it. Names are examples — verify coverage in the live database.
+  </div>
+  <div class="card info">
+    <strong>Hidden costs.</strong> Software tokens, annual updates, NASTF SDRM (North America), insurance, van, practice locks. Busy shops often spend <span class="price">$50–$200/month</span> on software/tokens.
+  </div>
+  <div class="foot"><span>Chapter 8 · Bundles</span><span>12</span></div>
+</section>
+
+<section class="page">
+  <div class="kicker">Chapter 9</div>
+  <h1>Consumables</h1>
+  <div class="obj"><strong>Objective.</strong> Stock the ten parts that match <em>your city</em>, not a random internet list.</div>
+  <ul>
+    <li>Universal / generate remotes (examples: Xhorse, KEYDIY, Autel iKeys) for local volume cars</li>
+    <li>Super chips (e.g. XT27 family) for clone/generate workflows your tool supports</li>
+    <li>Test blades for Lishi practice and bitting checks</li>
+    <li>CR2032 / CR2025, shells, emergency blades, rings</li>
+  </ul>
+  <div class="card warn"><strong>Rule.</strong> Cheap no-name fobs waste hours. Buy from the same channel as your programmer when you can.</div>
+  <h3>Need on the bench this chapter</h3>
+  <p>A labeled bin system: “Toyota smart,” “Ford integrated,” “chips,” “test blades,” “batteries.” If you cannot find a part in 20 seconds, you will buy duplicates.</p>
+  <div class="foot"><span>Chapter 9 · Consumables</span><span>13</span></div>
+</section>
+
+<section class="page">
+  <div class="kicker">Chapter 10</div>
+  <h1>Master workflow</h1>
+  <div class="obj"><strong>Objective.</strong> Recite this sequence without looking. Almost every successful job is a variation of it.</div>
+  <div class="fig">
+    <img src="images/kfm-workflow.png" alt="Workflow" />
+    <div class="cap">Figure 10.1 — Verify → Identify → Power → Decode/cut → Prepare fob → Program → Test.</div>
+  </div>
+  <div class="step"><div class="num">1</div><div><strong>Verify &amp; document.</strong> ID + ownership. VIN, photos, signature.</div></div>
+  <div class="step"><div class="num">2</div><div><strong>Identify.</strong> Year/make/model/VIN. Tool coverage. Right remote in hand before you quote final.</div></div>
+  <div class="step"><div class="num">3</div><div><strong>Stabilize power.</strong> Jump pack. Programming on a dying battery is how modules get hurt.</div></div>
+  <div class="step"><div class="num">4</div><div><strong>Mechanical.</strong> Decode or duplicate blade. Confirm smooth turn in door, then ignition if applicable.</div></div>
+  <div class="step"><div class="num">5</div><div><strong>Prepare the fob.</strong> Generate/clone per wizard. Fresh battery. Correct emergency blade seated.</div></div>
+  <div class="step"><div class="num">6</div><div><strong>Program.</strong> Exact on-screen steps. Do not yank OBD mid-write.</div></div>
+  <div class="step"><div class="num">7</div><div><strong>Test &amp; hand over.</strong> Lock, unlock, trunk, proximity, three starts. Warranty in writing.</div></div>
+  <div class="card ok"><strong>Field mantra.</strong> Power stable → procedure exact → test twice → paperwork complete.</div>
+  <div class="foot"><span>Chapter 10 · Workflow</span><span>14</span></div>
+</section>
+
+<section class="page">
+  <div class="kicker">Chapter 11</div>
+  <h1>Workshop and vehicle prep</h1>
+  <div class="obj"><strong>Objective.</strong> Set the car so the wizard can succeed.</div>
+  <div class="fig">
+    <img src="images/kfm-power.png" alt="Battery support" />
+    <div class="cap">Figure 11.1 — Support the battery before any immobilizer write. This is not optional on late-model cars.</div>
+  </div>
+  <div class="fig">
+    <img src="images/kfm-obd.png" alt="OBD port" />
+    <div class="cap">Figure 11.2 — OBD-II is usually under the dash, driver side. Use the cable your tool specifies (some cars need CAN-FD / manufacturer adapters).</div>
+  </div>
+  <ul class="check">
+    <li>Doors closed as the wizard asks; some cars abort if a door is ajar</li>
+    <li>Ignition position exactly as on screen (OFF / ON / Start — follow the tablet)</li>
+    <li>Smart fob where the car’s backup slot / start button expects it</li>
+    <li>No extra fobs in pockets during learn (they confuse some systems)</li>
+    <li>Stable Wi-Fi/hotspot if the tool needs an online token you legally own</li>
+  </ul>
+  <div class="card info"><strong>Safety.</strong> Never interrupt a write. If the engine is running for a procedure, chock wheels and watch exhaust in a ventilated space.</div>
+  <div class="foot"><span>Chapter 11 · Prep</span><span>15</span></div>
+</section>
+
+<section class="page">
+  <div class="kicker">Chapter 12 · Procedure A</div>
+  <h1>Add a spare (easiest money)</h1>
+  <div class="obj"><strong>Objective.</strong> Complete Add Key on a common local car without coaching.</div>
+  <p><strong>Need on the bench:</strong> verified owner, working original fob, new compatible fob, cutter if blade needed, IMMO tool, jump pack, job sheet.</p>
+  <div class="fig">
+    <img src="images/kfm-add-akl.png" alt="Add key vs AKL" />
+    <div class="cap">Figure 12.1 — Left: Add Key (one working fob remains). Right: All Keys Lost. Do not mix the wizards.</div>
+  </div>
+  <h3>Numbered steps</h3>
+  <ol>
+    <li>Verify ownership. Photograph documents. Signature.</li>
+    <li>Connect battery support. Confirm voltage is healthy.</li>
+    <li>Plug OBD. Select Immobilizer → make/model/year (or VIN auto) → <em>Add Key</em>.</li>
+    <li>Read key information if offered. Note how many keys are registered.</li>
+    <li>Cut or confirm the new blade matches the working key (or cut by verified code).</li>
+    <li>Generate/prepare the new fob in the key tool. Fresh battery.</li>
+    <li>When prompted, present the <em>working</em> key first, then the new key — many systems require a present dealer/working key.</li>
+    <li>Complete the wizard. Do not pull the cable mid-write.</li>
+    <li>Test: start with old, start with new, remotes both work (Chapter 17 list).</li>
+    <li>Invoice. Advise keeping both keys; All Keys Lost later costs more.</li>
+  </ol>
+  <p><strong>Done looks like:</strong> both fobs start three times; lock/unlock from 5–10 meters; job sheet complete.</p>
+  <div class="card warn"><strong>Common mistakes.</strong> Extra fobs in a pocket; weak battery; choosing All Keys Lost by accident (can erase remaining keys); wrong FCC remote.</div>
+  <div class="foot"><span>Chapter 12 · Add Key</span><span>16</span></div>
+</section>
+
+<section class="page">
+  <div class="kicker">Chapter 13 · Procedure B</div>
+  <h1>Lost remote, car present / unlocked</h1>
+  <div class="obj"><strong>Objective.</strong> Restore a working fob when the car is already accessible but no remote remains.</div>
+  <p>This is not automatically All Keys Lost. Some cars still have a chip in a valet key, a hidden spare, or a working blade. Ask. Search the house with the owner. One found key changes the wizard and the price.</p>
+  <ol>
+    <li>Verify ownership even more carefully (no remaining key is a higher-risk story).</li>
+    <li>Confirm the vehicle is legally in the owner’s control and unlocked or already entered.</li>
+    <li>Identify VIN/year and tool support <em>before</em> you open a universal remote pack.</li>
+    <li>Battery support on.</li>
+    <li>If a mechanical blade is required, decode/cut and prove the lock before programming.</li>
+    <li>Prepare the correct remote/smart type.</li>
+    <li>Run the path the database shows: often All Keys Lost / erase &amp; add — only if listed for that vehicle.</li>
+    <li>Test fully. Strongly sell a second spare in the same visit.</li>
+  </ol>
+  <div class="card stop"><strong>Stop / refer.</strong> Locked-out entry methods belong to trained locksmiths using legal opening. Do not damage airbags, wiring, or locks to “just get in.”</div>
+  <p><strong>Done looks like:</strong> one tested fob plus a quoted spare; old lost remotes no longer start if the system erased them — explain that to the owner before you start.</p>
+  <div class="foot"><span>Chapter 13 · Lost remote</span><span>17</span></div>
+</section>
+
+<section class="page">
+  <div class="kicker">Chapter 14 · Procedure C</div>
+  <h1>All Keys Lost — high level</h1>
+  <div class="obj"><strong>Objective.</strong> Know the shape of AKL, the risks, and when you are not the person for the job.</div>
+  <p>No working key remains. Higher ticket. More ways to leave a car dead. Attempt only when your tool database shows clear support for that VIN/year and you have practiced Add Key until it is boring.</p>
+  <h3>High-level steps (not a bypass recipe)</h3>
+  <ol>
+    <li>Verify ownership rigorously. Inconsistent story → walk away.</li>
+    <li>Legal entry only if locked, using methods you are trained and licensed for.</li>
+    <li>Battery support. Identify immobilizer. Choose All Keys Lost / Erase &amp; Add <em>only if documented</em>.</li>
+    <li>Decode mechanical locks; cut a perfect blade; confirm door and ignition turn.</li>
+    <li>Prepare the correct remote/smart key.</li>
+    <li>Run the official wizard. Some cars need PIN/code reading, adapters, or paid online tokens you legally purchase. Follow the tool.</li>
+    <li>When finished, previously lost keys often will not start the car. Tell the owner first.</li>
+    <li>Test extensively. Program a second spare in the same visit if they agree.</li>
+  </ol>
+  <div class="card stop">
+    <strong>Stop / refer.</strong> Do not interrupt flash/write. Do not invent EEPROM or “emulator” shortcuts this book does not teach. If the tool says unsupported — luxury FEM/BDC, some late Toyota/Lexus smart, some Stellantis — partner or dealer.
+  </div>
+  <div class="card info"><strong>Safety.</strong> A half-written immobilizer can strand the car and start a lawsuit. That is why referral is professional, not weakness.</div>
+  <div class="foot"><span>Chapter 14 · All Keys Lost</span><span>18</span></div>
+</section>
+
+<section class="page">
+  <div class="kicker">Chapter 15</div>
+  <h1>Cutting the metal blade</h1>
+  <div class="obj"><strong>Objective.</strong> Produce a blade that turns smoothly without force.</div>
+  <h3>Lishi decode (concept, not a theft tutorial)</h3>
+  <ol>
+    <li>Select the correct Lishi for the keyway. Wrong tool damages wafers.</li>
+    <li>If you are trained to pick, pick to open; then read wafer heights to a bitting code.</li>
+    <li>Write the code on the job sheet.</li>
+    <li>Enter bitting in cutter software, or duplicate from an origin key when one exists.</li>
+    <li>Cut on a quality blank; deburr; test door first, then ignition.</li>
+  </ol>
+  <h3>Cutter checklist</h3>
+  <ul class="check">
+    <li>Correct clamp / key type in software</li>
+    <li>Probe and cutter tips in good condition</li>
+    <li>Blank seated fully and square</li>
+    <li>After cut: smooth operation, no forced turning</li>
+  </ul>
+  <div class="card ok"><strong>Field tip.</strong> Origin-key duplication is faster and safer than decode when a working blade exists. Use decode when it does not.</div>
+  <p><strong>Common mistakes:</strong> wrong keyway, blank not seated, dull cutter, testing ignition first and breaking a wafer.</p>
+  <div class="foot"><span>Chapter 15 · Blade</span><span>19</span></div>
+</section>
+
+<section class="page">
+  <div class="kicker">Chapter 16</div>
+  <h1>Programming discipline</h1>
+  <div class="obj"><strong>Objective.</strong> Obey the wizard like a pilot obeys a checklist.</div>
+  <ol>
+    <li>Confirm Add Key vs All Keys Lost one more time out loud with the customer.</li>
+    <li>Place the new fob exactly where the screen says (slot, start button, steering column).</li>
+    <li>Watch ignition-cycle prompts. Count with the tool, not from memory of last week’s Honda.</li>
+    <li>If a present-key is required, use the working original — not a random house key.</li>
+    <li>Wait for “success.” Then cycle ignition as instructed before unplugging.</li>
+    <li>Save a screenshot or log if the tool offers it. Attach to the job sheet.</li>
+  </ol>
+  <div class="card warn"><strong>Rule.</strong> Menu clicks go stale. Principles do not: stable power, correct path, correct fob, no interruption, test both start and remote.</div>
+  <p><strong>Done looks like:</strong> tool reports success, no immobilizer lamp stuck on, customer saw a start.</p>
+  <div class="foot"><span>Chapter 16 · Programming</span><span>20</span></div>
+</section>
+
+<section class="page">
+  <div class="kicker">Chapter 17</div>
+  <h1>Testing the finished fob</h1>
+  <div class="obj"><strong>Objective.</strong> Never hand over a fob you have not failed-tested.</div>
+  <div class="fig">
+    <img src="images/kfm-test.png" alt="Testing" />
+    <div class="cap">Figure 17.1 — Lock, unlock, proximity, start. Three successful starts, not one lucky crank.</div>
+  </div>
+  <table>
+    <thead><tr><th>Function</th><th>Pass criteria</th></tr></thead>
+    <tbody>
+      <tr><td>Lock / unlock</td><td>Consistent from 5–10 meters</td></tr>
+      <tr><td>Trunk / liftgate</td><td>Opens on command</td></tr>
+      <tr><td>Panic</td><td>Triggers and cancels</td></tr>
+      <tr><td>Proximity unlock</td><td>Handle detects fob in pocket</td></tr>
+      <tr><td>Push-to-start</td><td>Starts with fob inside; denies when fob removed</td></tr>
+      <tr><td>Immobilizer</td><td>Three successful starts; lamp behaves normally</td></tr>
+    </tbody>
+  </table>
+  <p>Show the customer the tests. That is part of the product. Explain remaining key count and that lost old keys may be dead.</p>
+  <div class="foot"><span>Chapter 17 · Testing</span><span>21</span></div>
+</section>
+
+<section class="page">
+  <div class="kicker">Chapter 18</div>
+  <h1>Fault-finding</h1>
+  <div class="obj"><strong>Objective.</strong> Name the layer that failed in under a minute.</div>
+  <table>
+    <thead><tr><th>Symptom</th><th>Likely cause</th><th>Next check</th></tr></thead>
+    <tbody>
+      <tr><td>Buttons weak / dead, car starts</td><td>Battery, PCB, RKE not learned</td><td>New cell; RF test; remote-learn procedure</td></tr>
+      <tr><td>Remote works, no start</td><td>Chip not programmed / wrong position in learn</td><td>Re-run IMMO path; confirm transponder type</td></tr>
+      <tr><td>Starts sometimes</td><td>Weak car battery, damaged antenna ring, cracked fob</td><td>Voltage; inspect antenna; try known-good fob</td></tr>
+      <tr><td>Nothing after “success”</td><td>Wrong wizard, extra fobs in cabin, coverage mismatch</td><td>Re-identify VIN; read key count; do not spam writes</td></tr>
+      <tr><td>Blade will not turn</td><td>Wrong bitting / damaged wafers</td><td>Stop forcing; recut; do not program until mechanical is right</td></tr>
+    </tbody>
+  </table>
+  <div class="card ok"><strong>Field tip.</strong> Change one variable at a time. Logging beats guessing.</div>
+  <div class="foot"><span>Chapter 18 · Faults</span><span>22</span></div>
+</section>
+
+<section class="page">
+  <div class="kicker">Chapter 19</div>
+  <h1>Luxury limits and referral</h1>
+  <div class="obj"><strong>Objective.</strong> Protect the customer (and yourself) from an unsupported write.</div>
+  <p>Starter kits cover a lot of Toyota, Honda, Hyundai/Kia, Ford, GM volume. They do not make you a Mercedes online-auth specialist overnight.</p>
+  <p>Brand-new German luxury, some BMW FEM/BDC, late Toyota/Lexus smart, certain Stellantis systems, and anything demanding dealer accounts you do not legally have — <strong>refer</strong>.</p>
+  <div class="card ok"><strong>Why it matters.</strong> A clean referral with a partner locksmith still earns trust (and sometimes a fee). A stranded S-Class earns a lawyer.</div>
+  <div class="card stop"><strong>Stop / refer.</strong> No undocumented bypass. No borrowed dealer logins. No “I saw a video.”</div>
+  <div class="foot"><span>Chapter 19 · Limits</span><span>23</span></div>
+</section>
+
+<section class="page">
+  <div class="kicker">Chapter 20</div>
+  <h1>Pricing and the customer</h1>
+  <div class="obj"><strong>Objective.</strong> Quote without apologizing, and write a warranty you can keep.</div>
+  <table>
+    <thead><tr><th>Job (illustrative — set to your city)</th><th>Parts + labor ballpark</th></tr></thead>
+    <tbody>
+      <tr><td>Spare / Add Key, common car</td><td class="price">$180–$350</td></tr>
+      <tr><td>All Keys Lost, common car</td><td class="price">$350–$700+</td></tr>
+      <tr><td>Luxury / online-auth systems</td><td class="price">$700–$1,500+</td></tr>
+      <tr><td>Night / holiday call-out</td><td>Add $50–$150</td></tr>
+    </tbody>
+  </table>
+  <h3>Say this when you quote</h3>
+  <ul>
+    <li>What is included (fob, cut, program, tests, tax).</li>
+    <li>What is not (second spare, damaged ignition, wait for parts).</li>
+    <li>That old lost keys may stop working after AKL.</li>
+    <li>Warranty window (example: 30–90 days on remote defects and programming).</li>
+  </ul>
+  <div class="card warn"><strong>Rule.</strong> Underpricing Add Key trains your market that All Keys Lost should be cheap. It should not.</div>
+  <div class="foot"><span>Chapter 20 · Business</span><span>24</span></div>
+</section>
+
+<section class="page">
+  <div class="kicker">Chapter 21</div>
+  <h1>90-day path to competence</h1>
+  <div class="obj"><strong>Objective.</strong> Leave this page with a calendar, not a vibe.</div>
+  <div class="grid3">
+    <div class="pill"><strong>Days 1–30 · Foundations</strong> Read this book twice. Buy the lean kit. Practice Lishi on donated door locks. Cut 50 practice blades. Take a reputable Auto 101-style course.</div>
+    <div class="pill"><strong>Days 31–60 · Supervised</strong> Shadow a locksmith or take only Add-Key jobs on common local cars. Log every VIN and outcome.</div>
+    <div class="pill"><strong>Days 61–90 · Independence</strong> Mobile spare-key service. Add AKL only for 2–3 well-supported brands. Raise prices as reviews arrive.</div>
+  </div>
+  <h3>Weekly drills</h3>
+  <ul class="check">
+    <li>Decode one lock with Lishi until under 10 minutes</li>
+    <li>Generate and RF-test 5 remotes</li>
+    <li>Run one full mock Add-Key wizard on a legally owned practice vehicle</li>
+    <li>Write up one failure (yours or a public case study) in five lines</li>
+  </ul>
+  <div class="card ok">
+    <strong>Definition of ready for paid work.</strong> You verify ownership without hesitation, cut a clean blade, complete Add Key on a common local car without coaching, explain risks, and walk away from unsupported jobs.
+  </div>
+  <div class="foot"><span>Chapter 21 · 90 days</span><span>25</span></div>
+</section>
+
+<section class="page">
+  <div class="kicker">Chapter 22 · Appendix</div>
+  <h1>Glossary</h1>
+  <table>
+    <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td>Fob</td><td>The handheld remote / smart key the customer carries</td></tr>
+      <tr><td>Transponder</td><td>Chip that answers the car’s immobilizer challenge</td></tr>
+      <tr><td>IMMO</td><td>Immobilizer — blocks starting without a valid chip</td></tr>
+      <tr><td>OBD-II</td><td>Diagnostic port used by programmers (usually under dash)</td></tr>
+      <tr><td>RKE</td><td>Remote Keyless Entry (lock/unlock radio)</td></tr>
+      <tr><td>PKES / smart key</td><td>Proximity keyless entry and start</td></tr>
+      <tr><td>Add Key</td><td>Teach the car a new key while at least one working key remains</td></tr>
+      <tr><td>All Keys Lost</td><td>Programming when no working key remains</td></tr>
+      <tr><td>Clone</td><td>Copy chip data from a working key onto a blank (when allowed)</td></tr>
+      <tr><td>Generate</td><td>Build a compatible remote/chip with a key tool, then learn it</td></tr>
+      <tr><td>Bitting</td><td>The cut-height code on a key blade</td></tr>
+      <tr><td>FCC ID</td><td>Radio identity printed on many remotes; helps you order the right shell</td></tr>
+    </tbody>
+  </table>
+  <div class="foot"><span>Chapter 22 · Glossary</span><span>26</span></div>
+</section>
+
+<section class="page">
+  <div class="kicker">Chapter 22 continued</div>
+  <h1>Printable checklists</h1>
+  <div class="grid2">
+    <div class="card">
+      <strong>Intake</strong>
+      <ul class="check">
+        <li>Photo ID + ownership docs photographed</li>
+        <li>Authorization signature</li>
+        <li>VIN / YMM / remaining key count</li>
+        <li>FCC ID / blade photos</li>
+        <li>Quote includes tests + warranty</li>
+      </ul>
+    </div>
+    <div class="card">
+      <strong>Before you write</strong>
+      <ul class="check">
+        <li>Jump pack connected</li>
+        <li>Correct wizard (Add vs AKL)</li>
+        <li>Correct fob in hand</li>
+        <li>Blade turns smoothly</li>
+        <li>Extra fobs out of pockets</li>
+      </ul>
+    </div>
+    <div class="card">
+      <strong>After success</strong>
+      <ul class="check">
+        <li>Lock / unlock / trunk / panic</li>
+        <li>Proximity if equipped</li>
+        <li>Three starts</li>
+        <li>Customer watched tests</li>
+        <li>Job sheet + parts logged</li>
+      </ul>
+    </div>
+    <div class="card">
+      <strong>Walk-away triggers</strong>
+      <ul class="check">
+        <li>Ownership not proven</li>
+        <li>Tool says unsupported</li>
+        <li>Battery will not hold</li>
+        <li>You are guessing the menu</li>
+        <li>Pressure to skip paperwork</li>
+      </ul>
+    </div>
+  </div>
+  <div class="fig">
+    <img src="images/kfm-pack.png" alt="Packing list" />
+    <div class="cap">Figure 22.1 — Pack the bag the same way every morning so 2 a.m. you still has cables.</div>
+  </div>
+  <h3>Field kit packing list</h3>
+  <div class="grid2">
+    <ul>
+      <li>Programmer + OBD cables + adapters you own</li>
+      <li>Key tool / generator</li>
+      <li>Portable cutter + spare cutters/probes</li>
+      <li>Lishi wallet</li>
+      <li>Hotspot for legal updates/tokens</li>
+    </ul>
+    <ul>
+      <li>Remotes/chips for top local cars</li>
+      <li>Jump pack</li>
+      <li>Gloves, trim tools, flashlight</li>
+      <li>Job sheets, invoice app</li>
+      <li>Licence / insurance copies</li>
+    </ul>
+  </div>
+  <div class="foot"><span>Chapter 22 · Checklists</span><span>27</span></div>
+</section>
+
+<section class="page">
+  <div class="kicker">Instructor summary</div>
+  <h1>Learning outcomes &amp; figure list</h1>
+  <p>After this e-book the apprentice can: (1) define fob, transponder, IMMO, OBD, RKE, PKES, Add Key, AKL; (2) verify an owner; (3) choose clone vs generate vs OBD; (4) run Add Key end-to-end; (5) describe AKL risks and referral; (6) test and invoice professionally.</p>
+  <h3>Figures in this edition</h3>
+  <p class="small">1.1 Verify · 3.1 Anatomy · 4.1 Immobilizer schema · 5.1 Key types · 6.1 Clone/generate/OBD · 8.1 Tool bench · 8.2 Cutter · 10.1 Workflow · 11.1 Power · 11.2 OBD · 12.1 Add vs AKL · 17.1 Testing · 22.1 Pack bag · plus cover.</p>
+  <h3>Starter kit budget (repeat)</h3>
+  <p>Lean mobile <span class="price">$2,500–$3,800</span>. Flagship IMMO tablet kit <span class="price">$3,900–$4,200</span>. Verify live prices. Tool names are trademarks of their owners, cited for learning.</p>
+  <div class="card warn">
+    <strong>Final reminder.</strong> Expertise in this field is legitimate when it restores access for verified owners. It is illegal when used to create unauthorized keys. Keep your ethics louder than your tools.
+  </div>
+  <p class="muted small" style="margin-top:1.1em">© Educational compilation for personal training. Prices fluctuate. Always follow the laws of your jurisdiction and your tool’s documented procedure for that VIN. This is not legal advice and not a substitute for licensed, hands-on instruction.</p>
+  <div class="foot"><span>End of e-book</span><span>28</span></div>
+</section>
+
+</body>
+</html>

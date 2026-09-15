@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Digi World Client Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --ink: #2a221c;
+  --ink-soft: #5c5148;
+  --muted: #8a7e74;
+  --line: #e6ddd2;
+  --cream: #f7f1ea;
+  --paper: #fffcf8;
+  --sage: #5c8f72;
+  --sage-soft: #dce9e1;
+  --terra: #c96b52;
+  --terra-soft: #f5e0d8;
+  --sky: #6a9bb0;
+  --sky-soft: #dceaf0;
+  --honey: #c9923a;
+  --honey-soft: #f5ead3;
+  --plum: #7a6b8a;
+  --plum-soft: #e8e2ee;
+  --danger: #b45c4c;
+  --danger-soft: #f6e4e0;
+  --shadow: 0 10px 40px rgba(42,34,28,.08);
+  --radius: 14px;
+  --font: "DM Sans", system-ui, sans-serif;
+  --display: "Fraunces", Georgia, serif;
+  --chip: #fff;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; background: var(--cream); color: var(--ink); font: 14px/1.45 var(--font); }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+a { color: var(--terra); }
+
+.app { min-height: 100vh; display: flex; flex-direction: column; }
+.top {
+  position: sticky; top: 0; z-index: 40;
+  background: rgba(255,252,248,.92); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+  padding: 12px 18px 0;
+}
+.top-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 10px; }
+.brand { min-width: 180px; }
+.brand h1 { margin: 0; font: 700 20px/1.1 var(--display); letter-spacing: -.02em; }
+.brand p { margin: 2px 0 0; font-size: 11px; color: var(--muted); letter-spacing: .04em; }
+.top-actions { margin-left: auto; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.search {
+  width: min(240px, 40vw); border: 1px solid var(--line); background: var(--paper);
+  border-radius: 999px; padding: 8px 14px; outline: none;
+}
+.search:focus { border-color: var(--sage); box-shadow: 0 0 0 3px var(--sage-soft); }
+.hint { font-size: 11px; color: var(--muted); white-space: nowrap; }
+
+.btn {
+  border: 1px solid var(--line); background: var(--paper); border-radius: 999px;
+  padding: 8px 14px; font-weight: 600; transition: .15s ease;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.btn:hover { border-color: #cfc3b5; transform: translateY(-1px); }
+.btn-primary { background: var(--ink); color: #fff; border-color: var(--ink); }
+.btn-primary:hover { background: #3d322a; }
+.btn-sage { background: var(--sage); color: #fff; border-color: var(--sage); }
+.btn-ghost { background: transparent; }
+.btn-danger { background: var(--danger-soft); color: #8a3a2e; border-color: #e8c4bc; }
+.btn-sm { padding: 5px 10px; font-size: 12px; }
+.drop { position: relative; }
+.drop-menu {
+  display: none; position: absolute; right: 0; top: calc(100% + 6px);
+  background: var(--paper); border: 1px solid var(--line); border-radius: 12px;
+  box-shadow: var(--shadow); min-width: 200px; padding: 6px; z-index: 50;
+}
+.drop.open .drop-menu { display: block; }
+.drop-menu button {
+  width: 100%; text-align: left; border: 0; background: transparent;
+  padding: 10px 12px; border-radius: 8px; font-weight: 500;
+}
+.drop-menu button:hover { background: var(--cream); }
+
+.nav { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: thin; }
+.nav button {
+  border: 0; background: transparent; padding: 8px 12px; border-radius: 10px;
+  color: var(--ink-soft); font-weight: 600; white-space: nowrap; font-size: 13px;
+}
+.nav button:hover { background: var(--cream); color: var(--ink); }
+.nav button.active { background: var(--ink); color: #fff; }
+
+.main { flex: 1; padding: 18px; max-width: 1600px; width: 100%; margin: 0 auto; }
+.panel { display: none; animation: fade .2s ease; }
+.panel.active { display: block; }
+@keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+.page-head { display: flex; justify-content: space-between; align-items: end; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+.page-head h2 { margin: 0; font: 700 28px/1.1 var(--display); letter-spacing: -.02em; }
+.page-head .lede { margin: 6px 0 0; color: var(--ink-soft); max-width: 52ch; }
+
+.grid { display: grid; gap: 14px; }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+.grid-5 { grid-template-columns: repeat(5, 1fr); }
+.grid-6 { grid-template-columns: repeat(6, 1fr); }
+@media (max-width: 1100px) {
+  .grid-4, .grid-5, .grid-6 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 720px) {
+  .grid-2, .grid-3, .grid-4, .grid-5, .grid-6 { grid-template-columns: 1fr; }
+  .brand h1 { font-size: 17px; }
+}
+
+.card {
+  background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
+  box-shadow: var(--shadow); overflow: hidden;
+}
+.card-h {
+  padding: 10px 14px; font-weight: 700; font-size: 12px; letter-spacing: .08em;
+  text-transform: uppercase; border-bottom: 1px solid var(--line); display: flex;
+  justify-content: space-between; align-items: center; gap: 8px;
+}
+.card-h.sage { background: var(--sage-soft); color: #2f5a43; }
+.card-h.terra { background: var(--terra-soft); color: #8a3f2e; }
+.card-h.sky { background: var(--sky-soft); color: #2f5c6d; }
+.card-h.honey { background: var(--honey-soft); color: #7a5a1e; }
+.card-h.plum { background: var(--plum-soft); color: #4d4158; }
+.card-b { padding: 14px; }
+.kpi {
+  text-align: center; padding: 14px 10px;
+}
+.kpi .n { font: 700 28px/1 var(--display); letter-spacing: -.03em; }
+.kpi .l { margin-top: 6px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+.kpi.warn .n { color: var(--terra); }
+.kpi.ok .n { color: var(--sage); }
+
+.chart-wrap { height: 160px; display: flex; align-items: end; justify-content: center; gap: 8px; padding: 8px 4px 0; }
+.bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; max-width: 56px; height: 100%; justify-content: end; }
+.bar {
+  width: 100%; border-radius: 8px 8px 4px 4px; min-height: 4px;
+  transition: height .35s ease;
+}
+.bar-lab { font-size: 9px; color: var(--muted); text-align: center; line-height: 1.15; max-width: 100%; overflow: hidden; }
+.donut-wrap { display: flex; align-items: center; gap: 12px; min-height: 140px; }
+.donut-svg { width: 120px; height: 120px; flex-shrink: 0; }
+.legend { display: grid; gap: 4px; font-size: 11px; }
+.legend span { display: flex; align-items: center; gap: 6px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.center-label { font: 700 14px/1.1 var(--display); fill: var(--ink); }
+
+.table-wrap { overflow: auto; max-height: min(62vh, 680px); border-top: 1px solid var(--line); }
+table.data { width: 100%; border-collapse: collapse; font-size: 12.5px; min-width: 900px; }
+table.data th, table.data td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: middle; white-space: nowrap; }
+table.data th {
+  position: sticky; top: 0; z-index: 2; background: #f3ebe2; font-size: 10px;
+  letter-spacing: .06em; text-transform: uppercase; color: var(--ink-soft);
+}
+table.data tr:nth-child(even) td { background: #faf6f1; }
+table.data tr:hover td { background: #f3ebe3; }
+table.data tr.overdue td { background: var(--danger-soft) !important; }
+table.data td.wrap { white-space: normal; max-width: 220px; }
+.group-h th { background: var(--sage-soft); top: 28px; }
+
+.chip {
+  display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 999px;
+  font-size: 11px; font-weight: 650; background: var(--cream); border: 1px solid var(--line);
+}
+.chip.sage { background: var(--sage-soft); color: #2f5a43; border-color: #b9d4c4; }
+.chip.terra { background: var(--terra-soft); color: #8a3f2e; border-color: #e8bfb2; }
+.chip.sky { background: var(--sky-soft); color: #2f5c6d; border-color: #b6d2dd; }
+.chip.honey { background: var(--honey-soft); color: #7a5a1e; border-color: #e2cfa0; }
+.chip.plum { background: var(--plum-soft); color: #4d4158; border-color: #cfc4d8; }
+.chip.muted { color: var(--muted); }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.filters select, .filters input {
+  border: 1px solid var(--line); background: var(--paper); border-radius: 10px; padding: 7px 10px;
+}
+.icon-btn {
+  border: 0; background: transparent; color: var(--muted); padding: 4px 6px; border-radius: 6px;
+}
+.icon-btn:hover { background: var(--cream); color: var(--ink); }
+
+.modal-back {
+  position: fixed; inset: 0; background: rgba(42,34,28,.45); z-index: 100;
+  display: none; align-items: center; justify-content: center; padding: 16px;
+}
+.modal-back.open { display: flex; }
+.modal {
+  width: min(720px, 100%); max-height: 90vh; overflow: auto; background: var(--paper);
+  border-radius: 18px; box-shadow: 0 30px 80px rgba(0,0,0,.25); border: 1px solid var(--line);
+}
+.modal-h { padding: 16px 18px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
+.modal-h h3 { margin: 0; font: 700 20px/1.2 var(--display); }
+.modal-b { padding: 18px; display: grid; gap: 12px; }
+.modal-f { padding: 14px 18px; border-top: 1px solid var(--line); display: flex; justify-content: flex-end; gap: 8px; }
+.field label { display: block; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
+.field input, .field select, .field textarea {
+  width: 100%; border: 1px solid var(--line); border-radius: 10px; padding: 9px 11px; background: #fff;
+}
+.field textarea { min-height: 72px; resize: vertical; }
+.fields-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.fields-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+@media (max-width: 640px) { .fields-2, .fields-3 { grid-template-columns: 1fr; } }
+
+.setup-steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 16px; }
+.setup-steps .step {
+  background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 12px;
+}
+.setup-steps .num {
+  width: 24px; height: 24px; border-radius: 50%; background: var(--terra); color: #fff;
+  display: grid; place-items: center; font-weight: 700; font-size: 12px; margin-bottom: 8px;
+}
+.setup-steps strong { display: block; margin-bottom: 4px; }
+.setup-steps span { font-size: 12px; color: var(--ink-soft); }
+@media (max-width: 900px) { .setup-steps { grid-template-columns: 1fr 1fr; } }
+
+.list-edit { display: grid; gap: 10px; }
+.list-edit .row { display: grid; grid-template-columns: 140px 1fr; gap: 10px; align-items: start; }
+.list-edit textarea { min-height: 56px; font-size: 12px; }
+@media (max-width: 700px) { .list-edit .row { grid-template-columns: 1fr; } }
+
+.cal-layout { display: grid; grid-template-columns: 220px 1fr 220px; gap: 14px; }
+@media (max-width: 1100px) { .cal-layout { grid-template-columns: 1fr; } }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.cal-dow { text-align: center; font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 6px; }
+.cal-day {
+  min-height: 88px; background: var(--paper); border: 1px solid var(--line); border-radius: 10px;
+  padding: 6px; cursor: pointer; transition: .12s ease;
+}
+.cal-day:hover { border-color: var(--sage); }
+.cal-day.other { opacity: .4; }
+.cal-day.today { outline: 2px solid var(--terra); outline-offset: -1px; }
+.cal-day .d { font-weight: 700; font-size: 12px; margin-bottom: 4px; }
+.cal-ev {
+  font-size: 9px; padding: 2px 4px; border-radius: 4px; margin-bottom: 2px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600;
+}
+.cal-ev.task { background: var(--sky-soft); color: #2f5c6d; }
+.cal-ev.action { background: var(--honey-soft); color: #7a5a1e; }
+.cal-ev.contract { background: var(--plum-soft); color: #4d4158; }
+.side-list { display: grid; gap: 8px; }
+.side-item {
+  padding: 10px; border-radius: 10px; border: 1px solid var(--line); background: var(--paper);
+  font-size: 12px; cursor: pointer;
+}
+.side-item:hover { border-color: var(--sage); }
+.side-item b { display: block; margin-bottom: 2px; }
+.side-item span { color: var(--muted); }
+
+.overview-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 16px; }
+@media (max-width: 1100px) { .overview-grid { grid-template-columns: 1fr 1fr; } }
+.overview-grid .card-b dl { margin: 0; display: grid; gap: 8px; }
+.overview-grid dt { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 700; }
+.overview-grid dd { margin: 2px 0 0; font-weight: 600; }
+.dash-layout { display: grid; grid-template-columns: 1fr 240px; gap: 14px; }
+@media (max-width: 1000px) { .dash-layout { grid-template-columns: 1fr; } }
+
+.toast {
+  position: fixed; bottom: 20px; right: 20px; background: var(--ink); color: #fff;
+  padding: 12px 16px; border-radius: 12px; z-index: 200; display: none; box-shadow: var(--shadow);
+}
+.toast.show { display: block; animation: fade .2s ease; }
+.foot {
+  padding: 14px 18px 22px; text-align: center; font-size: 11px; color: var(--muted);
+  border-top: 1px solid var(--line); background: rgba(255,252,248,.6);
+}
+.empty { padding: 28px; text-align: center; color: var(--muted); }
+.empty strong { display: block; color: var(--ink); margin-bottom: 6px; font: 700 16px var(--display); }
+.check { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="top-row">
+      <div class="brand">
+        <h1>Digi World Client Tracker</h1>
+        <p>Clients, follow-ups, tasks, invoices — one desk.</p>
+      </div>
+      <div class="top-actions">
+        <input class="search" id="globalSearch" type="search" placeholder="Search this window…" />
+        <button class="btn btn-sage" id="addBtn" type="button">+ Add</button>
+        <div class="drop" id="exportDrop">
+          <button class="btn btn-primary" type="button" id="exportBtn">Export CSV ▾</button>
+          <div class="drop-menu">
+            <button type="button" data-export="window">This window</button>
+            <button type="button" data-export="all">All data (4 files)</button>
+          </div>
+        </div>
+        <span class="hint">Data stays on this computer.</span>
+      </div>
+    </div>
+    <nav class="nav" id="nav">
+      <button type="button" data-tab="setup">Setup</button>
+      <button type="button" data-tab="clients" class="active">Client Database</button>
+      <button type="button" data-tab="comms">Communication Log</button>
+      <button type="button" data-tab="tasks">Task Tracker</button>
+      <button type="button" data-tab="calendar">Smart Calendar</button>
+      <button type="button" data-tab="overview">Client Overview</button>
+      <button type="button" data-tab="dashboard">Dashboard</button>
+    </nav>
+  </header>
+
+  <main class="main">
+    <!-- SETUP -->
+    <section class="panel" id="tab-setup">
+      <div class="page-head">
+        <div>
+          <h2>Setup</h2>
+          <p class="lede">Five steps. Then the desk runs itself. This is a planner — not legal or tax advice.</p>
+        </div>
+      </div>
+      <div class="setup-steps">
+        <div class="step"><div class="num">1</div><strong>Tune lists</strong><span>Statuses, sources, priorities</span></div>
+        <div class="step"><div class="num">2</div><strong>Add a client</strong><span>Open Client Database</span></div>
+        <div class="step"><div class="num">3</div><strong>Log a call</strong><span>Communication Log</span></div>
+        <div class="step"><div class="num">4</div><strong>Add a task</strong><span>Task Tracker</span></div>
+        <div class="step"><div class="num">5</div><strong>Read Dashboard</strong><span>See the whole desk</span></div>
+      </div>
+      <div class="grid grid-2">
+        <div class="card">
+          <div class="card-h sage">Business</div>
+          <div class="card-b fields-2">
+            <div class="field"><label>Business name</label><input id="setBiz" /></div>
+            <div class="field"><label>Currency symbol</label><input id="setCur" maxlength="4" /></div>
+            <div class="field"><label>Week starts</label>
+              <select id="setWeek"><option value="1">Monday</option><option value="0">Sunday</option></select>
+            </div>
+            <div class="field"><label>Import clients CSV</label>
+              <input type="file" id="importCsv" accept=".csv,text/csv" />
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-h terra">Data tools</div>
+          <div class="card-b" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+            <button class="btn" type="button" id="saveSetup">Save settings</button>
+            <button class="btn" type="button" id="reloadSample">Reload sample data</button>
+            <button class="btn btn-danger" type="button" id="clearAll">Clear all data</button>
+            <p style="width:100%;margin:8px 0 0;font-size:12px;color:var(--muted)">Sample data is fictional studios and freelancers. Your edits save automatically in this browser.</p>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:14px">
+        <div class="card-h honey">Dropdown lists <span style="font-weight:500;letter-spacing:0;text-transform:none;font-size:11px;color:var(--muted)">One value per line</span></div>
+        <div class="card-b list-edit" id="listEditors"></div>
+      </div>
+    </section>
+
+    <!-- CLIENTS -->
+    <section class="panel active" id="tab-clients">
+      <div class="page-head">
+        <div>
+          <h2>Client Database</h2>
+          <p class="lede">Every name, status, and invoice in one table.</p>
+        </div>
+      </div>
+      <div class="grid grid-4" id="clientCharts" style="margin-bottom:14px"></div>
+      <div class="filters" id="clientFilters"></div>
+      <div class="card"><div class="table-wrap" id="clientTable"></div></div>
+    </section>
+
+    <!-- COMMS -->
+    <section class="panel" id="tab-comms">
+      <div class="page-head">
+        <div>
+          <h2>Communication Log</h2>
+          <p class="lede">Every conversation so the follow-up does not die.</p>
+        </div>
+        <div class="grid grid-2" style="min-width:280px" id="commKpis"></div>
+      </div>
+      <div class="card"><div class="table-wrap" id="commTable"></div></div>
+    </section>
+
+    <!-- TASKS -->
+    <section class="panel" id="tab-tasks">
+      <div class="page-head">
+        <div>
+          <h2>Task Tracker</h2>
+          <p class="lede">Stay on top of client work without the overwhelm.</p>
+        </div>
+      </div>
+      <div class="grid grid-6" id="taskKpis" style="margin-bottom:14px"></div>
+      <div class="grid grid-4" id="taskCharts" style="margin-bottom:14px"></div>
+      <div class="filters" id="taskFilters"></div>
+      <div class="card"><div class="table-wrap" id="taskTable"></div></div>
+    </section>
+
+    <!-- CALENDAR -->
+    <section class="panel" id="tab-calendar">
+      <div class="page-head">
+        <div>
+          <h2>Smart Calendar</h2>
+          <p class="lede">Tasks, follow-ups, and contract dates — one month view.</p>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <button class="btn btn-sm" type="button" id="calPrev">‹</button>
+          <strong id="calLabel"></strong>
+          <button class="btn btn-sm" type="button" id="calNext">›</button>
+          <button class="btn btn-sm" type="button" id="calToday">Today</button>
+        </div>
+      </div>
+      <div class="filters" id="calFilters"></div>
+      <div class="cal-layout">
+        <div class="card"><div class="card-h sage">Today</div><div class="card-b side-list" id="calTodayList"></div></div>
+        <div class="card"><div class="card-h sky" id="calMonthHead">Calendar</div><div class="card-b"><div class="cal-grid" id="calGrid"></div></div></div>
+        <div class="card"><div class="card-h honey">This week</div><div class="card-b side-list" id="calWeekList"></div></div>
+      </div>
+    </section>
+
+    <!-- OVERVIEW -->
+    <section class="panel" id="tab-overview">
+      <div class="page-head">
+        <div>
+          <h2>Client Overview</h2>
+          <p class="lede">One client. The whole relationship.</p>
+        </div>
+        <div class="field" style="min-width:260px">
+          <label>Client</label>
+          <select id="overviewPick"></select>
+        </div>
+      </div>
+      <div id="overviewBody"></div>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section class="panel" id="tab-dashboard">
+      <div class="page-head">
+        <div>
+          <h2 id="dashTitle">Dashboard</h2>
+          <p class="lede">See what matters — then act.</p>
+        </div>
+      </div>
+      <div class="dash-layout">
+        <div>
+          <div class="grid grid-5" id="dashTop" style="margin-bottom:14px"></div>
+          <div class="grid grid-5" id="dashTaskKpis" style="margin-bottom:14px"></div>
+          <div class="grid grid-5" id="dashPies"></div>
+        </div>
+        <div class="card"><div class="card-h terra">Today & this week</div><div class="card-b side-list" id="dashRail"></div></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">Digi World · personal / one-studio licence · not legal or tax advice · Client Tracker</footer>
+</div>
+
+<div class="modal-back" id="modalBack">
+  <div class="modal" id="modal">
+    <div class="modal-h"><h3 id="modalTitle">Edit</h3><button class="btn btn-sm btn-ghost" type="button" id="modalClose">✕</button></div>
+    <div class="modal-b" id="modalBody"></div>
+    <div class="modal-f">
+      <button class="btn btn-ghost" type="button" id="modalCancel">Cancel</button>
+      <button class="btn btn-primary" type="button" id="modalSave">Save</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(() => {
+"use strict";
+
+const STORE_KEY = "dw_client_tracker_v1";
+const PALETTE = ["#5c8f72","#c96b52","#6a9bb0","#c9923a","#7a6b8a","#4a7c6f","#b87a5c","#5a8a9e","#9a7b4a","#8a6b7a"];
+
+const DEFAULT_LISTS = {
+  status: ["Lead","Follow-up","Proposal","Negotiation","Closed Won","Closed Lost","Inactive"],
+  priority: ["Very High","High","Medium","Low"],
+  type: ["New business","Existing","Referral","Partner"],
+  source: ["Website","Referral","Instagram","Cold","Event"],
+  product: ["Brand system","Website rebuild","Retainer","Launch campaign","Photography package"],
+  invoiceStatus: ["Unpaid","Pending","Partial","Paid","Overdue"],
+  paymentMode: ["Bank transfer","Card","Cash","PayPal"],
+  contactMode: ["Phone","Email","Meeting","Text","Social"],
+  taskStatus: ["Not started","In progress","Pending","Delayed","On hold","Complete"],
+  taskCategory: ["Project delivery","Billing","Meeting","Admin","Content"],
+  taskPriority: ["High","Medium","Low"],
+};
+
+let state = null;
+let tab = "clients";
+let calCursor = new Date();
+calCursor.setDate(1);
+let modalCtx = null;
+let filters = { clientStatus:"", clientPriority:"", clientInvoice:"", taskStatus:"", taskPriority:"", taskCategory:"", taskClient:"", taskAssigned:"", taskOverdue:false, calTasks:true, calActions:true, calContracts:true };
+let dayDetail = null;
+
+const $ = (id) => document.getElementById(id);
+const uid = (p) => p + Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+const todayISO = () => iso(new Date());
+const iso = (d) => { const x = new Date(d); return isNaN(x) ? "" : x.toISOString().slice(0,10); };
+const parseD = (s) => { if (!s) return null; const d = new Date(s + "T12:00:00"); return isNaN(d) ? null : d; };
+const fmtMoney = (n) => { const c = state.settings.currency || "$"; const v = Number(n)||0; return c + v.toLocaleString(undefined,{minimumFractionDigits:0,maximumFractionDigits:0}); };
+const esc = (s) => String(s ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const clientById = (id) => state.clients.find(c => c.id === id);
+const clientName = (id) => clientById(id)?.company || "—";
+
+function daysLeft(due) {
+  const d = parseD(due); if (!d) return "";
+  const t = new Date(); t.setHours(12,0,0,0);
+  return Math.round((d - t) / 86400000);
+}
+function startOfWeek(d) {
+  const x = new Date(d); x.setHours(12,0,0,0);
+  const ws = Number(state.settings.weekStart ?? 1);
+  const day = x.getDate() - ((x.getDay() - ws + 7) % 7);
+  x.setDate(day); return x;
+}
+function inThisWeek(dateStr) {
+  const d = parseD(dateStr); if (!d) return false;
+  const a = startOfWeek(new Date());
+  const b = new Date(a); b.setDate(b.getDate()+7);
+  return d >= a && d < b;
+}
+function isToday(dateStr) { return dateStr === todayISO(); }
+function toast(msg) {
+  const t = $("toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove("show"), 2200);
+}
+
+function chipClass(kind, val) {
+  const v = (val||"").toLowerCase();
+  if (kind === "status") {
+    if (v.includes("won") || v.includes("paid") || v === "complete") return "sage";
+    if (v.includes("lost") || v.includes("overdue") || v.includes("delayed") || v === "inactive") return "terra";
+    if (v.includes("negot") || v.includes("progress") || v.includes("proposal")) return "sky";
+    if (v.includes("lead") || v.includes("follow") || v.includes("pending")) return "honey";
+    return "plum";
+  }
+  if (kind === "priority") {
+    if (v.includes("very high") || v === "high") return "terra";
+    if (v.includes("medium")) return "honey";
+    return "sky";
+  }
+  if (kind === "invoice") {
+    if (v === "paid") return "sage";
+    if (v === "overdue" || v === "unpaid") return "terra";
+    if (v === "partial") return "honey";
+    return "sky";
+  }
+  return "muted";
+}
+function chip(kind, val) {
+  if (!val) return "—";
+  return `<span class="chip ${chipClass(kind,val)}">${esc(val)}</span>`;
+}
+
+/* ---------- sample data ---------- */
+function sampleData() {
+  const settings = {
+    businessName: "North Desk Studio",
+    currency: "$",
+    weekStart: 1,
+    lists: JSON.parse(JSON.stringify(DEFAULT_LISTS)),
+  };
+  const clients = [
+    { company:"Harbor & Pine Co", contact:"Maya Ellison", phone:"206-555-0142", email:"maya@harborpine.example", address:"120 Market St, Seattle, WA", type:"Existing", product:"Brand system", status:"Negotiation", priority:"High", source:"Referral", lastContact:"2026-09-10", nextAction:"Send revised proposal", nextActionDate:"2026-09-16", requirement:"Full brand refresh for Q4 launch", dealValue:18500, startDate:"2026-08-01", endDate:"2026-11-30", paymentMode:"Bank transfer", invoiceStatus:"Partial", notes:"Strong referral from Atlas Press.", custom1:"", custom2:"" },
+    { company:"Lumen Field Media", contact:"Jordan Blake", phone:"503-555-0198", email:"jordan@lumenfield.example", address:"88 Burnside, Portland, OR", type:"New business", product:"Website rebuild", status:"Proposal", priority:"Very High", source:"Website", lastContact:"2026-09-12", nextAction:"Schedule demo", nextActionDate:"2026-09-17", requirement:"Ecommerce + booking", dealValue:24000, startDate:"2026-09-20", endDate:"2027-01-15", paymentMode:"Card", invoiceStatus:"Pending", notes:"Needs mobile-first.", custom1:"Decision maker: CTO", custom2:"" },
+    { company:"Copperline Bakery", contact:"Sofia Reyes", phone:"415-555-0111", email:"sofia@copperline.example", address:"14 Valencia, SF, CA", type:"Referral", product:"Launch campaign", status:"Follow-up", priority:"Medium", source:"Instagram", lastContact:"2026-09-08", nextAction:"Follow-up call", nextActionDate:"2026-09-15", requirement:"Grand opening social pack", dealValue:4200, startDate:"2026-09-01", endDate:"2026-10-15", paymentMode:"PayPal", invoiceStatus:"Unpaid", notes:"Seasonal menu photos TBD.", custom1:"", custom2:"" },
+    { company:"Nest & Needle", contact:"Priya Shah", phone:"312-555-0177", email:"priya@nestneedle.example", address:"400 Wabash, Chicago, IL", type:"Existing", product:"Retainer", status:"Closed Won", priority:"High", source:"Referral", lastContact:"2026-09-13", nextAction:"Monthly check-in", nextActionDate:"2026-09-20", requirement:"Content retainer 10 hrs/mo", dealValue:3200, startDate:"2026-01-01", endDate:"2026-12-31", paymentMode:"Bank transfer", invoiceStatus:"Paid", notes:"Renews Dec.", custom1:"", custom2:"" },
+    { company:"River North Labs", contact:"Chris Okonkwo", phone:"617-555-0133", email:"chris@rivernorth.example", address:"9 Harbor Way, Boston, MA", type:"Partner", product:"Website rebuild", status:"Lead", priority:"Medium", source:"Event", lastContact:"2026-09-05", nextAction:"Qualify budget", nextActionDate:"2026-09-18", requirement:"Docs portal", dealValue:16000, startDate:"", endDate:"", paymentMode:"Bank transfer", invoiceStatus:"Unpaid", notes:"Met at BuildConf.", custom1:"", custom2:"" },
+    { company:"Oak & Ember Atelier", contact:"Lena Vogt", phone:"512-555-0166", email:"lena@oakember.example", address:"221 Congress, Austin, TX", type:"New business", product:"Photography package", status:"Closed Won", priority:"Low", source:"Instagram", lastContact:"2026-09-01", nextAction:"Deliver gallery", nextActionDate:"2026-09-14", requirement:"Product stills + lifestyle", dealValue:2800, startDate:"2026-08-10", endDate:"2026-09-14", paymentMode:"Card", invoiceStatus:"Paid", notes:"Rush delivery.", custom1:"", custom2:"" },
+    { company:"Blue Ridge Outfitters", contact:"Sam Carter", phone:"828-555-0188", email:"sam@blueridge.example", address:"55 Main, Asheville, NC", type:"Existing", product:"Brand system", status:"Inactive", priority:"Low", source:"Cold", lastContact:"2026-06-12", nextAction:"Re-engage email", nextActionDate:"2026-09-22", requirement:"Catalog refresh", dealValue:9000, startDate:"2025-11-01", endDate:"2026-02-28", paymentMode:"Bank transfer", invoiceStatus:"Paid", notes:"Paused for inventory.", custom1:"", custom2:"" },
+    { company:"Parcel & Press", contact:"Nina Alvarez", phone:"646-555-0120", email:"nina@parcelpress.example", address:"180 Broadway, NYC, NY", type:"Referral", product:"Launch campaign", status:"Negotiation", priority:"Very High", source:"Referral", lastContact:"2026-09-14", nextAction:"Contract review", nextActionDate:"2026-09-16", requirement:"Book launch PR kit", dealValue:12500, startDate:"2026-09-25", endDate:"2026-11-01", paymentMode:"Bank transfer", invoiceStatus:"Pending", notes:"Publisher timeline tight.", custom1:"Legal CC: ops@", custom2:"" },
+    { company:"Willow Clinic Group", contact:"Dr. Aaron Kim", phone:"206-555-0190", email:"aaron@willowclinic.example", address:"700 Pike, Seattle, WA", type:"New business", product:"Website rebuild", status:"Proposal", priority:"High", source:"Website", lastContact:"2026-09-11", nextAction:"Send case study", nextActionDate:"2026-09-15", requirement:"HIPAA-aware marketing site", dealValue:21000, startDate:"2026-10-01", endDate:"2027-01-31", paymentMode:"Bank transfer", invoiceStatus:"Unpaid", notes:"Compliance review pending.", custom1:"", custom2:"" },
+    { company:"Cedar House Films", contact:"Ellie Marsh", phone:"310-555-0144", email:"ellie@cedarhouse.example", address:"900 Abbot Kinney, LA, CA", type:"Existing", product:"Retainer", status:"Follow-up", priority:"Medium", source:"Event", lastContact:"2026-09-09", nextAction:"Invoice reminder", nextActionDate:"2026-09-15", requirement:"Social clips retainer", dealValue:4500, startDate:"2026-07-01", endDate:"2026-12-31", paymentMode:"PayPal", invoiceStatus:"Overdue", notes:"Late on Aug invoice.", custom1:"", custom2:"" },
+  ].map((c,i) => ({ id: "c_sample_"+i, ...c }));
+
+  const by = (name) => clients.find(c => c.company === name).id;
+  const comms = [
+    { clientId:by("Harbor & Pine Co"), date:"2026-09-10", mode:"Meeting", answered:"Yes", nextAction:"Send revised proposal", nextDays:6, nextDue:"2026-09-16", notes:"Liked the warmer palette direction.", custom:"" },
+    { clientId:by("Lumen Field Media"), date:"2026-09-12", mode:"Video", answered:"Yes", nextAction:"Schedule demo", nextDays:5, nextDue:"2026-09-17", notes:"CTO wants performance budget.", custom:"" },
+    { clientId:by("Copperline Bakery"), date:"2026-09-08", mode:"Phone", answered:"No", nextAction:"Follow-up call", nextDays:7, nextDue:"2026-09-15", notes:"Left voicemail about shoot dates.", custom:"" },
+    { clientId:by("Nest & Needle"), date:"2026-09-13", mode:"Email", answered:"Yes", nextAction:"Monthly check-in", nextDays:7, nextDue:"2026-09-20", notes:"Approved Sept content calendar.", custom:"" },
+    { clientId:by("Parcel & Press"), date:"2026-09-14", mode:"Meeting", answered:"Yes", nextAction:"Contract review", nextDays:2, nextDue:"2026-09-16", notes:"Agent wants exclusivity clause checked.", custom:"" },
+    { clientId:by("Willow Clinic Group"), date:"2026-09-11", mode:"Email", answered:"Yes", nextAction:"Send case study", nextDays:4, nextDue:"2026-09-15", notes:"Asked for healthcare references.", custom:"" },
+    { clientId:by("Cedar House Films"), date:"2026-09-09", mode:"Text", answered:"Yes", nextAction:"Invoice reminder", nextDays:6, nextDue:"2026-09-15", notes:"Said payment goes out Friday.", custom:"" },
+    { clientId:by("Oak & Ember Atelier"), date:"2026-09-01", mode:"Email", answered:"Yes", nextAction:"Deliver gallery", nextDays:13, nextDue:"2026-09-14", notes:"Final selects approved.", custom:"" },
+    { clientId:by("River North Labs"), date:"2026-09-05", mode:"Phone", answered:"Yes", nextAction:"Qualify budget", nextDays:13, nextDue:"2026-09-18", notes:"Interested but board cycle.", custom:"" },
+    { clientId:by("Harbor & Pine Co"), date:"2026-09-03", mode:"Email", answered:"Yes", nextAction:"Share moodboard", nextDays:7, nextDue:"2026-09-10", notes:"Initial brief received.", custom:"" },
+  ].map((m,i) => ({ id:"m_sample_"+i, ...m }));
+
+  const tasks = [
+    { clientId:by("Harbor & Pine Co"), title:"Revise proposal deck", category:"Project delivery", status:"In progress", priority:"High", assignedTo:"Alex", dueDate:"2026-09-16", notes:"" },
+    { clientId:by("Lumen Field Media"), title:"Prepare live demo env", category:"Project delivery", status:"Not started", priority:"High", assignedTo:"Alex", dueDate:"2026-09-17", notes:"Staging clone" },
+    { clientId:by("Copperline Bakery"), title:"Confirm shoot location", category:"Meeting", status:"Pending", priority:"Medium", assignedTo:"Sam", dueDate:"2026-09-15", notes:"" },
+    { clientId:by("Nest & Needle"), title:"Draft Oct captions", category:"Content", status:"In progress", priority:"Medium", assignedTo:"Sam", dueDate:"2026-09-20", notes:"" },
+    { clientId:by("Parcel & Press"), title:"Legal review of SOW", category:"Admin", status:"Delayed", priority:"High", assignedTo:"Alex", dueDate:"2026-09-14", notes:"Waiting counsel" },
+    { clientId:by("Willow Clinic Group"), title:"Send healthcare case study", category:"Content", status:"Not started", priority:"High", assignedTo:"Alex", dueDate:"2026-09-15", notes:"" },
+    { clientId:by("Cedar House Films"), title:"Send overdue invoice reminder", category:"Billing", status:"In progress", priority:"High", assignedTo:"Sam", dueDate:"2026-09-15", notes:"" },
+    { clientId:by("Oak & Ember Atelier"), title:"Deliver final gallery", category:"Project delivery", status:"Complete", priority:"Medium", assignedTo:"Sam", dueDate:"2026-09-14", notes:"" },
+    { clientId:by("River North Labs"), title:"Budget qualification call", category:"Meeting", status:"Not started", priority:"Medium", assignedTo:"Alex", dueDate:"2026-09-18", notes:"" },
+    { clientId:by("Blue Ridge Outfitters"), title:"Re-engage nurture email", category:"Content", status:"On hold", priority:"Low", assignedTo:"Sam", dueDate:"2026-09-22", notes:"" },
+    { clientId:by("Harbor & Pine Co"), title:"Collect brand assets", category:"Admin", status:"Complete", priority:"Medium", assignedTo:"Sam", dueDate:"2026-09-08", notes:"" },
+    { clientId:by("Lumen Field Media"), title:"Wireframe homepage", category:"Project delivery", status:"Pending", priority:"High", assignedTo:"Alex", dueDate:"2026-09-19", notes:"" },
+    { clientId:by("Parcel & Press"), title:"Moodboard for cover art", category:"Content", status:"In progress", priority:"Medium", assignedTo:"Sam", dueDate:"2026-09-18", notes:"" },
+    { clientId:by("Nest & Needle"), title:"Issue September invoice", category:"Billing", status:"Complete", priority:"High", assignedTo:"Alex", dueDate:"2026-09-05", notes:"" },
+    { clientId:by("Cedar House Films"), title:"Cut 3 social clips", category:"Content", status:"Delayed", priority:"Medium", assignedTo:"Sam", dueDate:"2026-09-12", notes:"Blocked on payment" },
+  ].map((t,i) => ({ id:"t_sample_"+i, ...t }));
+
+  return { settings, clients, comms, tasks };
+}
+
+function load() {
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    if (raw) { state = JSON.parse(raw); ensureShape(); return; }
+  } catch {}
+  state = sampleData();
+  save();
+}
+function ensureShape() {
+  if (!state.settings) state.settings = sampleData().settings;
+  if (!state.settings.lists) state.settings.lists = JSON.parse(JSON.stringify(DEFAULT_LISTS));
+  for (const k of Object.keys(DEFAULT_LISTS)) {
+    if (!Array.isArray(state.settings.lists[k])) state.settings.lists[k] = DEFAULT_LISTS[k].slice();
+  }
+  state.clients ||= [];
+  state.comms ||= [];
+  state.tasks ||= [];
+}
+function save() {
+  localStorage.setItem(STORE_KEY, JSON.stringify(state));
+}
+
+/* ---------- charts ---------- */
+function countBy(arr, keyFn) {
+  const m = {};
+  for (const item of arr) {
+    const k = keyFn(item) || "—";
+    m[k] = (m[k]||0) + 1;
+  }
+  return m;
+}
+function barChart(map, colors=PALETTE) {
+  const entries = Object.entries(map);
+  if (!entries.length) return `<div class="empty">No data yet</div>`;
+  const max = Math.max(...entries.map(e => e[1]), 1);
+  return `<div class="chart-wrap">${entries.map(([lab,n],i) => {
+    const h = Math.max(8, Math.round((n/max)*110));
+    return `<div class="bar-col"><div class="bar" style="height:${h}px;background:${colors[i%colors.length]}" title="${esc(lab)}: ${n}"></div><div class="bar-lab">${esc(lab)}<br>${n}</div></div>`;
+  }).join("")}</div>`;
+}
+function donutChart(map, centerText="") {
+  const entries = Object.entries(map);
+  if (!entries.length) return `<div class="empty">No data yet</div>`;
+  const total = entries.reduce((s,[,n]) => s+n, 0) || 1;
+  let acc = 0;
+  const segs = entries.map(([lab,n],i) => {
+    const start = acc / total * 360;
+    acc += n;
+    const end = acc / total * 360;
+    return { lab, n, start, end, color: PALETTE[i%PALETTE.length] };
+  });
+  const r = 42, cx=60, cy=60;
+  const polar = (a) => {
+    const rad = (a-90)*Math.PI/180;
+    return [cx + r*Math.cos(rad), cy + r*Math.sin(rad)];
+  };
+  const paths = segs.map(s => {
+    if (s.n === total) {
+      return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${s.color}" />`;
+    }
+    const [x1,y1] = polar(s.start);
+    const [x2,y2] = polar(s.end);
+    const large = (s.end-s.start) > 180 ? 1 : 0;
+    return `<path d="M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2} Z" fill="${s.color}" />`;
+  }).join("");
+  return `<div class="donut-wrap">
+    <svg class="donut-svg" viewBox="0 0 120 120">${paths}<circle cx="60" cy="60" r="26" fill="var(--paper)"/><text class="center-label" x="60" y="64" text-anchor="middle">${esc(centerText || String(total))}</text></svg>
+    <div class="legend">${segs.map(s => `<span><i class="dot" style="background:${s.color}"></i>${esc(s.lab)} (${s.n})</span>`).join("")}</div>
+  </div>`;
+}
+function cardChart(title, tone, inner) {
+  return `<div class="card"><div class="card-h ${tone}">${esc(title)}</div><div class="card-b">${inner}</div></div>`;
+}
+function kpiCard(label, n, cls="") {
+  return `<div class="card"><div class="kpi ${cls}"><div class="n">${esc(String(n))}</div><div class="l">${esc(label)}</div></div></div>`;
+}
+
+/* ---------- CSV ---------- */
+function csvEscape(v) {
+  const s = String(v ?? "");
+  if (/[",\n\r]/.test(s)) return `"${s.replace(/"/g,'""')}"`;
+  return s;
+}
+function toCSV(rows, headers) {
+  const lines = [headers.join(",")];
+  for (const r of rows) lines.push(headers.map(h => csvEscape(r[h])).join(","));
+  return "\uFEFF" + lines.join("\r\n");
+}
+function download(name, text) {
+  const blob = new Blob([text], { type: "text/csv;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+}
+function clientsCSVRows() {
+  return state.clients.map(c => ({
+    company:c.company, contact:c.contact, phone:c.phone, email:c.email, address:c.address,
+    type:c.type, product:c.product, status:c.status, priority:c.priority, source:c.source,
+    lastContact:c.lastContact, nextAction:c.nextAction, nextActionDate:c.nextActionDate,
+    requirement:c.requirement, dealValue:c.dealValue, startDate:c.startDate, endDate:c.endDate,
+    paymentMode:c.paymentMode, invoiceStatus:c.invoiceStatus, notes:c.notes, custom1:c.custom1, custom2:c.custom2
+  }));
+}
+function commsCSVRows() {
+  return state.comms.map(m => {
+    const c = clientById(m.clientId) || {};
+    return {
+      company: c.company||"", contact:c.contact||"", phone:c.phone||"", email:c.email||"",
+      date:m.date, mode:m.mode, answered:m.answered, nextAction:m.nextAction,
+      nextDays:m.nextDays, nextDue:m.nextDue, notes:m.notes, custom:m.custom||""
+    };
+  });
+}
+function tasksCSVRows() {
+  return state.tasks.map(t => ({
+    company: clientName(t.clientId), task:t.title, category:t.category, status:t.status,
+    priority:t.priority, assignedTo:t.assignedTo, dueDate:t.dueDate,
+    daysLeft: daysLeft(t.dueDate), notes:t.notes||""
+  }));
+}
+function setupCSVRows() {
+  const rows = [];
+  rows.push({ key:"businessName", value: state.settings.businessName||"" });
+  rows.push({ key:"currency", value: state.settings.currency||"$" });
+  rows.push({ key:"weekStart", value: String(state.settings.weekStart??1) });
+  for (const [k, arr] of Object.entries(state.settings.lists)) {
+    rows.push({ key: "list:"+k, value: arr.join(" | ") });
+  }
+  return rows;
+}
+function exportWindow() {
+  if (tab === "clients" || tab === "overview" || tab === "dashboard" || tab === "setup") {
+    if (tab === "setup") download("setup.csv", toCSV(setupCSVRows(), ["key","value"]));
+    else download("clients.csv", toCSV(clientsCSVRows(), Object.keys(clientsCSVRows()[0]||{company:""})));
+  } else if (tab === "comms") {
+    download("communications.csv", toCSV(commsCSVRows(), Object.keys(commsCSVRows()[0]||{company:""})));
+  } else if (tab === "tasks" || tab === "calendar") {
+    download("tasks.csv", toCSV(tasksCSVRows(), Object.keys(tasksCSVRows()[0]||{company:""})));
+  }
+  toast("CSV downloaded");
+}
+async function exportAll() {
+  download("clients.csv", toCSV(clientsCSVRows(), Object.keys(clientsCSVRows()[0]||{company:""})));
+  await new Promise(r => setTimeout(r, 350));
+  download("communications.csv", toCSV(commsCSVRows(), Object.keys(commsCSVRows()[0]||{company:""})));
+  await new Promise(r => setTimeout(r, 350));
+  download("tasks.csv", toCSV(tasksCSVRows(), Object.keys(tasksCSVRows()[0]||{company:""})));
+  await new Promise(r => setTimeout(r, 350));
+  download("setup.csv", toCSV(setupCSVRows(), ["key","value"]));
+  toast("Exported 4 CSV files");
+}
+
+function parseCSV(text) {
+  const rows = [];
+  let row = [], cur = "", i = 0, inQ = false;
+  const s = text.replace(/^\uFEFF/, "");
+  while (i < s.length) {
+    const ch = s[i];
+    if (inQ) {
+      if (ch === '"' && s[i+1] === '"') { cur += '"'; i += 2; continue; }
+      if (ch === '"') { inQ = false; i++; continue; }
+      cur += ch; i++; continue;
+    }
+    if (ch === '"') { inQ = true; i++; continue; }
+    if (ch === ",") { row.push(cur); cur = ""; i++; continue; }
+    if (ch === "\n" || ch === "\r") {
+      if (ch === "\r" && s[i+1] === "\n") i++;
+      row.push(cur); rows.push(row); row = []; cur = ""; i++; continue;
+    }
+    cur += ch; i++;
+  }
+  row.push(cur); if (row.some(c => c !== "")) rows.push(row);
+  if (!rows.length) return [];
+  const headers = rows[0].map(h => h.trim().toLowerCase());
+  return rows.slice(1).filter(r => r.some(c => c.trim())).map(r => {
+    const o = {};
+    headers.forEach((h, idx) => o[h] = (r[idx]||"").trim());
+    return o;
+  });
+}
+function importClientsCSV(file) {
+  const reader = new FileReader();
+  reader.onload = () => {
+    const rows = parseCSV(String(reader.result||""));
+    let added = 0, updated = 0;
+    for (const r of rows) {
+      const company = r.company || r["client / company name"] || r["client/company name"] || r.name;
+      if (!company) continue;
+      const existing = state.clients.find(c => c.company.toLowerCase() === company.toLowerCase());
+      const patch = {
+        company,
+        contact: r.contact || r["contact name"] || "",
+        phone: r.phone || r["phone number"] || "",
+        email: r.email || r["e-mail id"] || r["email id"] || "",
+        address: r.address || "",
+        type: r.type || "",
+        product: r.product || r["project / product"] || r.project || "",
+        status: r.status || "",
+        priority: r.priority || "",
+        source: r.source || "",
+        lastContact: r.lastcontact || r["last contact date"] || "",
+        nextAction: r.nextaction || r["next action"] || "",
+        nextActionDate: r.nextactiondate || r["next action date"] || "",
+        requirement: r.requirement || "",
+        dealValue: Number(String(r.dealvalue || r["deal value"] || "0").replace(/[^0-9.-]/g,"")) || 0,
+        startDate: r.startdate || r["start date"] || "",
+        endDate: r.enddate || r["end date"] || "",
+        paymentMode: r.paymentmode || r["payment mode"] || "",
+        invoiceStatus: r.invoicestatus || r["invoice status"] || "",
+        notes: r.notes || "",
+        custom1: r.custom1 || r["custom field 1"] || "",
+        custom2: r.custom2 || r["custom field 2"] || "",
+      };
+      if (existing) { Object.assign(existing, patch); updated++; }
+      else { state.clients.push({ id: uid("c_"), ...patch }); added++; }
+    }
+    save(); render();
+    toast(`Import done: ${added} added, ${updated} updated`);
+  };
+  reader.readAsText(file);
+}
+
+/* ---------- modal ---------- */
+function openModal(title, fieldsHtml, onSave) {
+  $("modalTitle").textContent = title;
+  $("modalBody").innerHTML = fieldsHtml;
+  $("modalBack").classList.add("open");
+  modalCtx = { onSave };
+  const first = $("modalBody").querySelector("input,select,textarea");
+  if (first) setTimeout(() => first.focus(), 50);
+}
+function closeModal() {
+  $("modalBack").classList.remove("open");
+  modalCtx = null;
+}
+function field(label, name, value="", type="text", opts=null) {
+  if (type === "select") {
+    const options = (opts||[]).map(o => `<option value="${esc(o)}" ${o===value?"selected":""}>${esc(o)}</option>`).join("");
+    return `<div class="field"><label>${esc(label)}</label><select name="${esc(name)}"><option value="">—</option>${options}</select></div>`;
+  }
+  if (type === "textarea") return `<div class="field"><label>${esc(label)}</label><textarea name="${esc(name)}">${esc(value)}</textarea></div>`;
+  return `<div class="field"><label>${esc(label)}</label><input name="${esc(name)}" type="${esc(type)}" value="${esc(value)}" /></div>`;
+}
+function readForm() {
+  const data = {};
+  $("modalBody").querySelectorAll("[name]").forEach(el => { data[el.name] = el.value; });
+  return data;
+}
+function clientOptions(selected="") {
+  return state.clients.slice().sort((a,b)=>a.company.localeCompare(b.company))
+    .map(c => `<option value="${esc(c.id)}" ${c.id===selected?"selected":""}>${esc(c.company)}</option>`).join("");
+}
+
+function editClient(id=null) {
+  const c = id ? clientById(id) : {
+    company:"", contact:"", phone:"", email:"", address:"", type:"", product:"", status:"Lead", priority:"Medium",
+    source:"", lastContact:todayISO(), nextAction:"", nextActionDate:"", requirement:"", dealValue:0,
+    startDate:"", endDate:"", paymentMode:"", invoiceStatus:"Unpaid", notes:"", custom1:"", custom2:""
+  };
+  const L = state.settings.lists;
+  openModal(id ? "Edit client" : "Add client", `
+    <div class="fields-2">
+      ${field("Client / company name","company",c.company)}
+      ${field("Contact name","contact",c.contact)}
+      ${field("Phone","phone",c.phone)}
+      ${field("Email","email",c.email,"email")}
+    </div>
+    ${field("Address","address",c.address)}
+    <div class="fields-3">
+      ${field("Type","type",c.type,"select",L.type)}
+      ${field("Product / project","product",c.product,"select",L.product)}
+      ${field("Source","source",c.source,"select",L.source)}
+      ${field("Status","status",c.status,"select",L.status)}
+      ${field("Priority","priority",c.priority,"select",L.priority)}
+      ${field("Invoice status","invoiceStatus",c.invoiceStatus,"select",L.invoiceStatus)}
+    </div>
+    <div class="fields-3">
+      ${field("Last contact","lastContact",c.lastContact,"date")}
+      ${field("Next action","nextAction",c.nextAction)}
+      ${field("Next action date","nextActionDate",c.nextActionDate,"date")}
+    </div>
+    <div class="fields-2">
+      ${field("Requirement / deal","requirement",c.requirement,"textarea")}
+      ${field("Notes","notes",c.notes,"textarea")}
+    </div>
+    <div class="fields-3">
+      ${field("Deal value","dealValue",c.dealValue,"number")}
+      ${field("Start date","startDate",c.startDate,"date")}
+      ${field("End date","endDate",c.endDate,"date")}
+      ${field("Payment mode","paymentMode",c.paymentMode,"select",L.paymentMode)}
+      ${field("Custom field 1","custom1",c.custom1)}
+      ${field("Custom field 2","custom2",c.custom2)}
+    </div>
+  `, () => {
+    const f = readForm();
+    if (!f.company.trim()) { toast("Company name required"); return false; }
+    const dup = state.clients.find(x => x.company.toLowerCase()===f.company.trim().toLowerCase() && x.id !== id);
+    if (dup) { toast("A client with that name already exists"); return false; }
+    const payload = { ...f, dealValue: Number(f.dealValue)||0 };
+    if (id) Object.assign(clientById(id), payload);
+    else state.clients.push({ id: uid("c_"), ...payload });
+    save(); render(); toast("Client saved"); return true;
+  });
+}
+
+function editComm(id=null, presetClientId="") {
+  const m = id ? state.comms.find(x => x.id===id) : {
+    clientId: presetClientId || (state.clients[0]?.id||""), date: todayISO(), mode:"Email", answered:"Yes",
+    nextAction:"", nextDays:3, nextDue:"", notes:"", custom:""
+  };
+  const L = state.settings.lists;
+  openModal(id ? "Edit communication" : "Log communication", `
+    <div class="field"><label>Client</label><select name="clientId">${clientOptions(m.clientId)}</select></div>
+    <div class="fields-3">
+      ${field("Date","date",m.date,"date")}
+      ${field("Contact mode","mode",m.mode,"select",L.contactMode)}
+      ${field("Answered?","answered",m.answered,"select",["Yes","No"])}
+    </div>
+    <div class="fields-3">
+      ${field("Next action","nextAction",m.nextAction)}
+      ${field("Next action in days","nextDays",m.nextDays,"number")}
+      ${field("Next action due","nextDue",m.nextDue,"date")}
+    </div>
+    ${field("Notes","notes",m.notes,"textarea")}
+    ${field("Custom","custom",m.custom||"")}
+  `, () => {
+    const f = readForm();
+    if (!f.clientId) { toast("Pick a client"); return false; }
+    let nextDue = f.nextDue;
+    if (!nextDue && f.date && f.nextDays) {
+      const d = parseD(f.date); if (d) { d.setDate(d.getDate()+Number(f.nextDays||0)); nextDue = iso(d); }
+    }
+    const payload = { ...f, nextDays: Number(f.nextDays)||0, nextDue };
+    if (id) Object.assign(state.comms.find(x=>x.id===id), payload);
+    else state.comms.push({ id: uid("m_"), ...payload });
+    const c = clientById(f.clientId);
+    if (c) {
+      c.lastContact = f.date || c.lastContact;
+      if (f.nextAction) c.nextAction = f.nextAction;
+      if (nextDue) c.nextActionDate = nextDue;
+    }
+    save(); render(); toast("Communication saved"); return true;
+  });
+  const daysInput = () => {
+    const body = $("modalBody");
+    const dateEl = body.querySelector('[name="date"]');
+    const daysEl = body.querySelector('[name="nextDays"]');
+    const dueEl = body.querySelector('[name="nextDue"]');
+    const sync = () => {
+      if (!dateEl.value || !daysEl.value) return;
+      const d = parseD(dateEl.value); if (!d) return;
+      d.setDate(d.getDate()+Number(daysEl.value||0));
+      dueEl.value = iso(d);
+    };
+    dateEl.addEventListener("change", sync);
+    daysEl.addEventListener("input", sync);
+  };
+  daysInput();
+}
+
+function editTask(id=null, presetClientId="") {
+  const t = id ? state.tasks.find(x => x.id===id) : {
+    clientId: presetClientId || (state.clients[0]?.id||""), title:"", category:"Project delivery",
+    status:"Not started", priority:"Medium", assignedTo:"", dueDate: todayISO(), notes:""
+  };
+  const L = state.settings.lists;
+  openModal(id ? "Edit task" : "Add task", `
+    <div class="field"><label>Client</label><select name="clientId">${clientOptions(t.clientId)}</select></div>
+    ${field("Task","title",t.title)}
+    <div class="fields-3">
+      ${field("Category","category",t.category,"select",L.taskCategory)}
+      ${field("Status","status",t.status,"select",L.taskStatus)}
+      ${field("Priority","priority",t.priority,"select",L.taskPriority)}
+    </div>
+    <div class="fields-2">
+      ${field("Assigned to","assignedTo",t.assignedTo)}
+      ${field("Due date","dueDate",t.dueDate,"date")}
+    </div>
+    ${field("Notes","notes",t.notes||"","textarea")}
+  `, () => {
+    const f = readForm();
+    if (!f.clientId || !f.title.trim()) { toast("Client and task required"); return false; }
+    if (id) Object.assign(state.tasks.find(x=>x.id===id), f);
+    else state.tasks.push({ id: uid("t_"), ...f });
+    save(); render(); toast("Task saved"); return true;
+  });
+}
+
+function delClient(id) {
+  if (!confirm("Delete this client and keep their logs/tasks orphaned? Prefer editing instead.")) return;
+  state.clients = state.clients.filter(c => c.id !== id);
+  save(); render(); toast("Client deleted");
+}
+function delComm(id) {
+  if (!confirm("Delete this communication?")) return;
+  state.comms = state.comms.filter(m => m.id !== id);
+  save(); render();
+}
+function delTask(id) {
+  if (!confirm("Delete this task?")) return;
+  state.tasks = state.tasks.filter(t => t.id !== id);
+  save(); render();
+}
+
+/* ---------- filters / search ---------- */
+function q() { return ($("globalSearch").value || "").trim().toLowerCase(); }
+function matchQ(parts) {
+  const s = q(); if (!s) return true;
+  return parts.join(" ").toLowerCase().includes(s);
+}
+
+/* ---------- render tabs ---------- */
+function renderSetup() {
+  $("setBiz").value = state.settings.businessName || "";
+  $("setCur").value = state.settings.currency || "$";
+  $("setWeek").value = String(state.settings.weekStart ?? 1);
+  const labels = {
+    status:"Client status", priority:"Priority", type:"Type", source:"Source", product:"Product / project",
+    invoiceStatus:"Invoice status", paymentMode:"Payment mode", contactMode:"Contact mode",
+    taskStatus:"Task status", taskCategory:"Task category", taskPriority:"Task priority"
+  };
+  $("listEditors").innerHTML = Object.keys(labels).map(k => `
+    <div class="row"><label>${esc(labels[k])}</label>
+    <textarea data-list="${esc(k)}">${esc((state.settings.lists[k]||[]).join("\n"))}</textarea></div>
+  `).join("");
+}
+
+function renderClients() {
+  const statusMap = countBy(state.clients, c => c.status);
+  const priMap = countBy(state.clients, c => c.priority);
+  const typeMap = countBy(state.clients, c => c.type);
+  const invMap = countBy(state.clients, c => c.invoiceStatus);
+  $("clientCharts").innerHTML =
+    cardChart("Status", "sage", barChart(statusMap)) +
+    cardChart("Priority", "terra", barChart(priMap)) +
+    cardChart("Type", "sky", donutChart(typeMap)) +
+    cardChart("Invoice status", "honey", donutChart(invMap, String(state.clients.length)));
+
+  const L = state.settings.lists;
+  $("clientFilters").innerHTML = `
+    <select id="fStatus"><option value="">All statuses</option>${L.status.map(s=>`<option ${filters.clientStatus===s?"selected":""}>${esc(s)}</option>`).join("")}</select>
+    <select id="fPriority"><option value="">All priorities</option>${L.priority.map(s=>`<option ${filters.clientPriority===s?"selected":""}>${esc(s)}</option>`).join("")}</select>
+    <select id="fInvoice"><option value="">All invoices</option>${L.invoiceStatus.map(s=>`<option ${filters.clientInvoice===s?"selected":""}>${esc(s)}</option>`).join("")}</select>
+  `;
+  $("fStatus").onchange = e => { filters.clientStatus = e.target.value; renderClients(); };
+  $("fPriority").onchange = e => { filters.clientPriority = e.target.value; renderClients(); };
+  $("fInvoice").onchange = e => { filters.clientInvoice = e.target.value; renderClients(); };
+
+  let rows = state.clients.slice();
+  if (filters.clientStatus) rows = rows.filter(c => c.status === filters.clientStatus);
+  if (filters.clientPriority) rows = rows.filter(c => c.priority === filters.clientPriority);
+  if (filters.clientInvoice) rows = rows.filter(c => c.invoiceStatus === filters.clientInvoice);
+  rows = rows.filter(c => matchQ([c.company,c.contact,c.email,c.product,c.status,c.notes]));
+
+  if (!rows.length) {
+    $("clientTable").innerHTML = `<div class="empty"><strong>No clients match</strong>Add your first client or clear filters.</div>`;
+    return;
+  }
+  $("clientTable").innerHTML = `<table class="data">
+    <thead>
+      <tr>
+        <th>Company</th><th>Contact</th><th>Phone</th><th>Email</th><th>Type</th><th>Product</th>
+        <th>Status</th><th>Priority</th><th>Source</th><th>Last contact</th><th>Next action</th>
+        <th>Next date</th><th>Deal</th><th>Invoice</th><th></th>
+      </tr>
+    </thead>
+    <tbody>${rows.map(c => `<tr>
+      <td><b>${esc(c.company)}</b></td>
+      <td>${esc(c.contact)}</td>
+      <td>${esc(c.phone)}</td>
+      <td class="wrap">${esc(c.email)}</td>
+      <td>${esc(c.type)}</td>
+      <td class="wrap">${esc(c.product)}</td>
+      <td>${chip("status",c.status)}</td>
+      <td>${chip("priority",c.priority)}</td>
+      <td>${esc(c.source)}</td>
+      <td>${esc(c.lastContact)}</td>
+      <td class="wrap">${esc(c.nextAction)}</td>
+      <td>${esc(c.nextActionDate)}</td>
+      <td>${fmtMoney(c.dealValue)}</td>
+      <td>${chip("invoice",c.invoiceStatus)}</td>
+      <td>
+        <button class="icon-btn" data-edit-client="${c.id}" title="Edit">✎</button>
+        <button class="icon-btn" data-del-client="${c.id}" title="Delete">🗑</button>
+      </td>
+    </tr>`).join("")}</tbody></table>`;
+}
+
+function renderComms() {
+  const todayN = state.comms.filter(m => isToday(m.date)).length;
+  const weekN = state.comms.filter(m => inThisWeek(m.date)).length;
+  $("commKpis").innerHTML = kpiCard("Done today", todayN, "ok") + kpiCard("This week", weekN);
+
+  let rows = state.comms.slice().sort((a,b) => (b.date||"").localeCompare(a.date||""));
+  rows = rows.filter(m => {
+    const c = clientById(m.clientId) || {};
+    return matchQ([c.company,c.contact,m.mode,m.nextAction,m.notes]);
+  });
+
+  $("commTable").innerHTML = rows.length ? `<table class="data">
+    <thead><tr>
+      <th>Company</th><th>Contact</th><th>Phone</th><th>Email</th>
+      <th>Date</th><th>Mode</th><th>Answered</th>
+      <th>Next action</th><th>In days</th><th>Due</th><th>Notes</th><th></th>
+    </tr></thead>
+    <tbody>${rows.map(m => {
+      const c = clientById(m.clientId) || {};
+      return `<tr>
+        <td><b>${esc(c.company||"—")}</b></td>
+        <td>${esc(c.contact||"")}</td>
+        <td>${esc(c.phone||"")}</td>
+        <td class="wrap">${esc(c.email||"")}</td>
+        <td>${esc(m.date)}</td>
+        <td>${esc(m.mode)}</td>
+        <td>${chip("status", m.answered==="Yes"?"Complete":"Pending")}</td>
+        <td class="wrap">${esc(m.nextAction)}</td>
+        <td>${esc(m.nextDays)}</td>
+        <td>${esc(m.nextDue)}</td>
+        <td class="wrap">${esc(m.notes)}</td>
+        <td>
+          <button class="icon-btn" data-edit-comm="${m.id}">✎</button>
+          <button class="icon-btn" data-del-comm="${m.id}">🗑</button>
+        </td>
+      </tr>`;
+    }).join("")}</tbody></table>` : `<div class="empty"><strong>No communications yet</strong>Log your first call or email.</div>`;
+}
+
+function taskStats(list) {
+  const total = list.length;
+  const complete = list.filter(t => t.status === "Complete").length;
+  const incomplete = total - complete;
+  const dueToday = list.filter(t => t.status !== "Complete" && isToday(t.dueDate)).length;
+  const dueWeek = list.filter(t => t.status !== "Complete" && inThisWeek(t.dueDate)).length;
+  const overdue = list.filter(t => t.status !== "Complete" && daysLeft(t.dueDate) !== "" && daysLeft(t.dueDate) < 0).length;
+  return { total, complete, incomplete, dueToday, dueWeek, overdue };
+}
+
+function filteredTasks() {
+  let rows = state.tasks.slice();
+  if (filters.taskStatus) rows = rows.filter(t => t.status === filters.taskStatus);
+  if (filters.taskPriority) rows = rows.filter(t => t.priority === filters.taskPriority);
+  if (filters.taskCategory) rows = rows.filter(t => t.category === filters.taskCategory);
+  if (filters.taskClient) rows = rows.filter(t => t.clientId === filters.taskClient);
+  if (filters.taskAssigned) rows = rows.filter(t => (t.assignedTo||"") === filters.taskAssigned);
+  if (filters.taskOverdue) rows = rows.filter(t => t.status !== "Complete" && daysLeft(t.dueDate) !== "" && daysLeft(t.dueDate) < 0);
+  rows = rows.filter(t => matchQ([clientName(t.clientId), t.title, t.category, t.status, t.assignedTo, t.notes]));
+  return rows;
+}
+
+function renderTasks() {
+  const all = state.tasks;
+  const st = taskStats(all);
+  $("taskKpis").innerHTML =
+    kpiCard("Total", st.total) + kpiCard("Complete", st.complete, "ok") + kpiCard("Incomplete", st.incomplete) +
+    kpiCard("Due today", st.dueToday, st.dueToday?"warn":"") + kpiCard("Due this week", st.dueWeek) +
+    kpiCard("Overdue", st.overdue, st.overdue?"warn":"");
+
+  $("taskCharts").innerHTML =
+    cardChart("By client", "sage", donutChart(countBy(all, t => clientName(t.clientId)))) +
+    cardChart("Status", "sky", barChart(countBy(all, t => t.status))) +
+    cardChart("Priority", "terra", barChart(countBy(all, t => t.priority))) +
+    cardChart("Category", "honey", donutChart(countBy(all, t => t.category)));
+
+  const L = state.settings.lists;
+  const assignees = [...new Set(all.map(t => t.assignedTo).filter(Boolean))];
+  $("taskFilters").innerHTML = `
+    <select id="tfClient"><option value="">All clients</option>${state.clients.map(c=>`<option value="${c.id}" ${filters.taskClient===c.id?"selected":""}>${esc(c.company)}</option>`).join("")}</select>
+    <select id="tfStatus"><option value="">All statuses</option>${L.taskStatus.map(s=>`<option ${filters.taskStatus===s?"selected":""}>${esc(s)}</option>`).join("")}</select>
+    <select id="tfPri"><option value="">All priorities</option>${L.taskPriority.map(s=>`<option ${filters.taskPriority===s?"selected":""}>${esc(s)}</option>`).join("")}</select>
+    <select id="tfCat"><option value="">All categories</option>${L.taskCategory.map(s=>`<option ${filters.taskCategory===s?"selected":""}>${esc(s)}</option>`).join("")}</select>
+    <select id="tfAsg"><option value="">All assignees</option>${assignees.map(s=>`<option ${filters.taskAssigned===s?"selected":""}>${esc(s)}</option>`).join("")}</select>
+    <label class="check"><input type="checkbox" id="tfOver" ${filters.taskOverdue?"checked":""}/> Overdue only</label>
+  `;
+  $("tfClient").onchange = e => { filters.taskClient = e.target.value; renderTasks(); };
+  $("tfStatus").onchange = e => { filters.taskStatus = e.target.value; renderTasks(); };
+  $("tfPri").onchange = e => { filters.taskPriority = e.target.value; renderTasks(); };
+  $("tfCat").onchange = e => { filters.taskCategory = e.target.value; renderTasks(); };
+  $("tfAsg").onchange = e => { filters.taskAssigned = e.target.value; renderTasks(); };
+  $("tfOver").onchange = e => { filters.taskOverdue = e.target.checked; renderTasks(); };
+
+  const rows = filteredTasks().sort((a,b) => (a.dueDate||"").localeCompare(b.dueDate||""));
+  $("taskTable").innerHTML = rows.length ? `<table class="data">
+    <thead><tr>
+      <th>Client</th><th>Task</th><th>Category</th><th>Status</th><th>Priority</th>
+      <th>Assigned</th><th>Due</th><th>Days left</th><th>Notes</th><th></th>
+    </tr></thead>
+    <tbody>${rows.map(t => {
+      const dl = daysLeft(t.dueDate);
+      const overdue = t.status !== "Complete" && dl !== "" && dl < 0;
+      return `<tr class="${overdue?"overdue":""}">
+        <td><b>${esc(clientName(t.clientId))}</b></td>
+        <td class="wrap">${esc(t.title)}</td>
+        <td>${esc(t.category)}</td>
+        <td>${chip("status",t.status)}</td>
+        <td>${chip("priority",t.priority)}</td>
+        <td>${esc(t.assignedTo)}</td>
+        <td>${esc(t.dueDate)}</td>
+        <td>${dl === "" ? "—" : dl}</td>
+        <td class="wrap">${esc(t.notes)}</td>
+        <td>
+          <button class="icon-btn" data-edit-task="${t.id}">✎</button>
+          <button class="icon-btn" data-del-task="${t.id}">🗑</button>
+        </td>
+      </tr>`;
+    }).join("")}</tbody></table>` : `<div class="empty"><strong>No tasks match</strong>Add a task or clear filters.</div>`;
+}
+
+function calendarEvents() {
+  const events = [];
+  if (filters.calTasks) {
+    for (const t of state.tasks) {
+      if (!t.dueDate) continue;
+      events.push({ date:t.dueDate, type:"task", label:t.title, ref:"task:"+t.id, client: clientName(t.clientId) });
+    }
+  }
+  if (filters.calActions) {
+    for (const c of state.clients) {
+      if (!c.nextActionDate) continue;
+      events.push({ date:c.nextActionDate, type:"action", label:c.nextAction || "Next action", ref:"client:"+c.id, client:c.company });
+    }
+  }
+  if (filters.calContracts) {
+    for (const c of state.clients) {
+      if (c.startDate) events.push({ date:c.startDate, type:"contract", label:"Start · "+c.company, ref:"client:"+c.id, client:c.company });
+      if (c.endDate) events.push({ date:c.endDate, type:"contract", label:"End · "+c.company, ref:"client:"+c.id, client:c.company });
+    }
+  }
+  return events;
+}
+
+function renderCalendar() {
+  const y = calCursor.getFullYear();
+  const m = calCursor.getMonth();
+  $("calLabel").textContent = calCursor.toLocaleString(undefined, { month:"long", year:"numeric" });
+  $("calMonthHead").textContent = calCursor.toLocaleString(undefined, { month:"short", year:"numeric" }).toUpperCase() + " calendar";
+
+  $("calFilters").innerHTML = `
+    <label class="check"><input type="checkbox" id="cvT" ${filters.calTasks?"checked":""}/> Tasks</label>
+    <label class="check"><input type="checkbox" id="cvA" ${filters.calActions?"checked":""}/> Next actions</label>
+    <label class="check"><input type="checkbox" id="cvC" ${filters.calContracts?"checked":""}/> Contracts</label>
+  `;
+  $("cvT").onchange = e => { filters.calTasks = e.target.checked; renderCalendar(); };
+  $("cvA").onchange = e => { filters.calActions = e.target.checked; renderCalendar(); };
+  $("cvC").onchange = e => { filters.calContracts = e.target.checked; renderCalendar(); };
+
+  const ws = Number(state.settings.weekStart ?? 1);
+  const dows = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  const order = [...dows.slice(ws), ...dows.slice(0,ws)];
+  const events = calendarEvents();
+  const byDate = {};
+  for (const e of events) { (byDate[e.date] ||= []).push(e); }
+
+  const first = new Date(y, m, 1);
+  const start = new Date(first);
+  const shift = (first.getDay() - ws + 7) % 7;
+  start.setDate(1 - shift);
+
+  let html = order.map(d => `<div class="cal-dow">${d}</div>`).join("");
+  const cursor = new Date(start);
+  for (let i=0;i<42;i++) {
+    const idate = iso(cursor);
+    const other = cursor.getMonth() !== m;
+    const isTod = idate === todayISO();
+    const list = byDate[idate] || [];
+    html += `<div class="cal-day ${other?"other":""} ${isTod?"today":""}" data-day="${idate}">
+      <div class="d">${cursor.getDate()}</div>
+      ${list.slice(0,3).map(e => `<div class="cal-ev ${e.type}" title="${esc(e.client)}: ${esc(e.label)}">${esc(e.label)}</div>`).join("")}
+      ${list.length>3?`<div class="cal-ev">+${list.length-3}</div>`:""}
+    </div>`;
+    cursor.setDate(cursor.getDate()+1);
+  }
+  $("calGrid").innerHTML = html;
+
+  const sideItem = (e) => `<div class="side-item" data-jump="${esc(e.ref)}"><b>${esc(e.label)}</b><span>${esc(e.client)} · ${esc(e.date)}</span></div>`;
+  const todays = events.filter(e => isToday(e.date));
+  const week = events.filter(e => inThisWeek(e.date)).sort((a,b)=>a.date.localeCompare(b.date));
+  $("calTodayList").innerHTML = todays.length ? todays.map(sideItem).join("") : `<div class="empty">Nothing due today</div>`;
+  $("calWeekList").innerHTML = week.length ? week.map(sideItem).join("") : `<div class="empty">Quiet week</div>`;
+}
+
+function renderOverview() {
+  const pick = $("overviewPick");
+  const current = pick.value || state.clients[0]?.id || "";
+  pick.innerHTML = state.clients.slice().sort((a,b)=>a.company.localeCompare(b.company))
+    .map(c => `<option value="${c.id}" ${c.id===current?"selected":""}>${esc(c.company)}</option>`).join("");
+  const c = clientById(pick.value);
+  if (!c) {
+    $("overviewBody").innerHTML = `<div class="empty"><strong>Add your first client on Database</strong></div>`;
+    return;
+  }
+  const comms = state.comms.filter(m => m.clientId === c.id).sort((a,b)=> (b.date||"").localeCompare(a.date||""));
+  const tasks = state.tasks.filter(t => t.clientId === c.id);
+  const st = taskStats(tasks);
+
+  $("overviewBody").innerHTML = `
+    <div class="overview-grid">
+      <div class="card"><div class="card-h sage">Client information</div><div class="card-b"><dl>
+        <div><dt>Contact</dt><dd>${esc(c.contact)||"—"}</dd></div>
+        <div><dt>Phone</dt><dd>${esc(c.phone)||"—"}</dd></div>
+        <div><dt>Email</dt><dd>${esc(c.email)||"—"}</dd></div>
+        <div><dt>Address</dt><dd>${esc(c.address)||"—"}</dd></div>
+        <div><dt>Product</dt><dd>${esc(c.product)||"—"}</dd></div>
+      </dl></div></div>
+      <div class="card"><div class="card-h sky">Classification</div><div class="card-b"><dl>
+        <div><dt>Status</dt><dd>${chip("status",c.status)}</dd></div>
+        <div><dt>Priority</dt><dd>${chip("priority",c.priority)}</dd></div>
+        <div><dt>Type</dt><dd>${esc(c.type)||"—"}</dd></div>
+        <div><dt>Source</dt><dd>${esc(c.source)||"—"}</dd></div>
+      </dl></div></div>
+      <div class="card"><div class="card-h honey">Communication</div><div class="card-b"><dl>
+        <div><dt>Last contact</dt><dd>${esc(c.lastContact)||"—"}</dd></div>
+        <div><dt>Next action</dt><dd>${esc(c.nextAction)||"—"}</dd></div>
+        <div><dt>Next date</dt><dd>${esc(c.nextActionDate)||"—"}</dd></div>
+      </dl></div></div>
+      <div class="card"><div class="card-h terra">Contract</div><div class="card-b"><dl>
+        <div><dt>Requirement</dt><dd>${esc(c.requirement)||"—"}</dd></div>
+        <div><dt>Deal value</dt><dd>${fmtMoney(c.dealValue)}</dd></div>
+        <div><dt>Dates</dt><dd>${esc(c.startDate||"—")} → ${esc(c.endDate||"—")}</dd></div>
+        <div><dt>Invoice</dt><dd>${chip("invoice",c.invoiceStatus)}</dd></div>
+        <div><dt>Payment</dt><dd>${esc(c.paymentMode)||"—"}</dd></div>
+      </dl></div></div>
+      <div class="card"><div class="card-h plum">Notes</div><div class="card-b"><dl>
+        <div><dt>Notes</dt><dd>${esc(c.notes)||"—"}</dd></div>
+        <div><dt>Custom 1</dt><dd>${esc(c.custom1)||"—"}</dd></div>
+        <div><dt>Custom 2</dt><dd>${esc(c.custom2)||"—"}</dd></div>
+      </dl>
+      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-sm" type="button" data-edit-client="${c.id}">Edit client</button>
+        <button class="btn btn-sm btn-sage" type="button" data-add-comm-for="${c.id}">Log comm</button>
+        <button class="btn btn-sm" type="button" data-add-task-for="${c.id}">Add task</button>
+      </div></div></div>
+    </div>
+
+    <div class="grid grid-5" style="margin-bottom:14px">
+      ${kpiCard("Tasks", st.total)}${kpiCard("Complete", st.complete,"ok")}${kpiCard("Incomplete", st.incomplete)}
+      ${kpiCard("Due today", st.dueToday, st.dueToday?"warn":"")}${kpiCard("Overdue", st.overdue, st.overdue?"warn":"")}
+    </div>
+    <div class="grid grid-3" style="margin-bottom:14px">
+      ${cardChart("Task status","sky", barChart(countBy(tasks,t=>t.status)))}
+      ${cardChart("Priority","terra", barChart(countBy(tasks,t=>t.priority)))}
+      ${cardChart("Category","honey", donutChart(countBy(tasks,t=>t.category)))}
+    </div>
+
+    <div class="card" style="margin-bottom:14px">
+      <div class="card-h sage">Communication log <button class="btn btn-sm" type="button" data-add-comm-for="${c.id}">+ Add</button></div>
+      <div class="table-wrap">${comms.length?`<table class="data"><thead><tr><th>Date</th><th>Mode</th><th>Answered</th><th>Next action</th><th>Due</th><th>Notes</th><th></th></tr></thead>
+      <tbody>${comms.map(m=>`<tr>
+        <td>${esc(m.date)}</td><td>${esc(m.mode)}</td><td>${esc(m.answered)}</td>
+        <td class="wrap">${esc(m.nextAction)}</td><td>${esc(m.nextDue)}</td><td class="wrap">${esc(m.notes)}</td>
+        <td><button class="icon-btn" data-edit-comm="${m.id}">✎</button></td>
+      </tr>`).join("")}</tbody></table>`:`<div class="empty">No communications for this client</div>`}</div>
+    </div>
+
+    <div class="card">
+      <div class="card-h sky">${esc(c.company)} — tasks <button class="btn btn-sm" type="button" data-add-task-for="${c.id}">+ Add</button></div>
+      <div class="table-wrap">${tasks.length?`<table class="data"><thead><tr><th>Task</th><th>Category</th><th>Status</th><th>Priority</th><th>Due</th><th>Days left</th><th></th></tr></thead>
+      <tbody>${tasks.map(t=>{
+        const dl=daysLeft(t.dueDate); const overdue=t.status!=="Complete"&&dl!==""&&dl<0;
+        return `<tr class="${overdue?"overdue":""}"><td class="wrap">${esc(t.title)}</td><td>${esc(t.category)}</td>
+        <td>${chip("status",t.status)}</td><td>${chip("priority",t.priority)}</td><td>${esc(t.dueDate)}</td><td>${dl===""?"—":dl}</td>
+        <td><button class="icon-btn" data-edit-task="${t.id}">✎</button></td></tr>`;
+      }).join("")}</tbody></table>`:`<div class="empty">No tasks for this client</div>`}</div>
+    </div>
+  `;
+}
+
+function renderDashboard() {
+  $("dashTitle").textContent = (state.settings.businessName || "Dashboard");
+  if (!state.clients.length) {
+    $("dashTop").innerHTML = `<div class="empty" style="grid-column:1/-1"><strong>Add your first client on Database</strong>Charts fill themselves after that.</div>`;
+    $("dashTaskKpis").innerHTML = "";
+    $("dashPies").innerHTML = "";
+    $("dashRail").innerHTML = "";
+    return;
+  }
+  const dealBySource = {};
+  let dealTotal = 0;
+  for (const c of state.clients) {
+    const s = c.source || "—";
+    dealBySource[s] = (dealBySource[s]||0) + (Number(c.dealValue)||0);
+    dealTotal += Number(c.dealValue)||0;
+  }
+  // convert dealBySource to counts-like for donut by using values; show money in center
+  const sourceMapForDonut = {};
+  for (const [k,v] of Object.entries(dealBySource)) sourceMapForDonut[k] = Math.max(1, Math.round(v/1000));
+
+  const tasks = state.tasks;
+  const st = taskStats(tasks);
+  const completeRatio = { Complete: st.complete, Remaining: Math.max(st.incomplete,0) };
+
+  $("dashTop").innerHTML =
+    cardChart("Client status","sage", barChart(countBy(state.clients,c=>c.status))) +
+    cardChart("Client priority","terra", barChart(countBy(state.clients,c=>c.priority))) +
+    cardChart("Contracts by source","honey", donutChart(countBy(state.clients,c=>c.source), fmtMoney(dealTotal))) +
+    cardChart("Total tasks","sky", donutChart(completeRatio, String(st.total))) +
+    cardChart("Invoice status","plum", donutChart(countBy(state.clients,c=>c.invoiceStatus), String(state.clients.length)));
+
+  $("dashTaskKpis").innerHTML =
+    kpiCard("Total", st.total) + kpiCard("Complete", st.complete,"ok") + kpiCard("Incomplete", st.incomplete) +
+    kpiCard("Due today", st.dueToday, st.dueToday?"warn":"") + kpiCard("Overdue", st.overdue, st.overdue?"warn":"");
+
+  $("dashPies").innerHTML =
+    cardChart("By client","sage", donutChart(countBy(tasks,t=>clientName(t.clientId)))) +
+    cardChart("Status","sky", donutChart(countBy(tasks,t=>t.status))) +
+    cardChart("Priority","terra", donutChart(countBy(tasks,t=>t.priority))) +
+    cardChart("Category","honey", donutChart(countBy(tasks,t=>t.category))) +
+    cardChart("Assigned to","plum", donutChart(countBy(tasks,t=>t.assignedTo||"Unassigned")));
+
+  const rail = [];
+  for (const t of tasks.filter(t => t.status!=="Complete" && (isToday(t.dueDate)|| (daysLeft(t.dueDate)!=="" && daysLeft(t.dueDate)<0) || inThisWeek(t.dueDate)))) {
+    rail.push({ title:t.title, meta: clientName(t.clientId)+" · due "+t.dueDate, ref:"task:"+t.id });
+  }
+  for (const c of state.clients.filter(c => c.nextActionDate && (isToday(c.nextActionDate)||inThisWeek(c.nextActionDate)))) {
+    rail.push({ title:c.nextAction||"Follow up", meta:c.company+" · "+c.nextActionDate, ref:"client:"+c.id });
+  }
+  for (const c of state.clients.filter(c => c.endDate && inThisWeek(c.endDate))) {
+    rail.push({ title:"Contract ending", meta:c.company+" · "+c.endDate, ref:"client:"+c.id });
+  }
+  $("dashRail").innerHTML = rail.length ? rail.slice(0,14).map(r =>
+    `<div class="side-item" data-jump="${esc(r.ref)}"><b>${esc(r.title)}</b><span>${esc(r.meta)}</span></div>`
+  ).join("") : `<div class="empty">Clear desk today</div>`;
+}
+
+function setTab(name) {
+  tab = name;
+  document.querySelectorAll(".nav button").forEach(b => b.classList.toggle("active", b.dataset.tab === name));
+  document.querySelectorAll(".panel").forEach(p => p.classList.toggle("active", p.id === "tab-"+name));
+  const labels = {
+    setup:"Save setup", clients:"+ Add client", comms:"+ Log communication", tasks:"+ Add task",
+    calendar:"+ Add task", overview:"+ Log communication", dashboard:"+ Add client"
+  };
+  $("addBtn").textContent = labels[name] || "+ Add";
+  render();
+}
+
+function render() {
+  if (tab === "setup") renderSetup();
+  if (tab === "clients") renderClients();
+  if (tab === "comms") renderComms();
+  if (tab === "tasks") renderTasks();
+  if (tab === "calendar") renderCalendar();
+  if (tab === "overview") renderOverview();
+  if (tab === "dashboard") renderDashboard();
+}
+
+function addForTab() {
+  if (tab === "clients" || tab === "dashboard") editClient();
+  else if (tab === "comms" || tab === "overview") editComm(null, $("overviewPick")?.value || "");
+  else if (tab === "tasks" || tab === "calendar") editTask();
+  else if (tab === "setup") { $("saveSetup").click(); }
+}
+
+function jump(ref) {
+  const [kind, id] = ref.split(":");
+  if (kind === "task") { setTab("tasks"); setTimeout(() => editTask(id), 50); }
+  if (kind === "client") {
+    setTab("overview");
+    setTimeout(() => { $("overviewPick").value = id; renderOverview(); }, 50);
+  }
+}
+
+/* ---------- events ---------- */
+document.getElementById("nav").addEventListener("click", e => {
+  const b = e.target.closest("button[data-tab]"); if (!b) return; setTab(b.dataset.tab);
+});
+$("addBtn").onclick = addForTab;
+$("exportBtn").onclick = (e) => { e.stopPropagation(); $("exportDrop").classList.toggle("open"); };
+document.addEventListener("click", () => $("exportDrop").classList.remove("open"));
+$("exportDrop").querySelector(".drop-menu").addEventListener("click", e => {
+  const b = e.target.closest("button[data-export]"); if (!b) return;
+  $("exportDrop").classList.remove("open");
+  if (b.dataset.export === "all") exportAll(); else exportWindow();
+});
+$("globalSearch").addEventListener("input", () => render());
+$("modalClose").onclick = closeModal;
+$("modalCancel").onclick = closeModal;
+$("modalBack").addEventListener("click", e => { if (e.target === $("modalBack")) closeModal(); });
+$("modalSave").onclick = () => {
+  if (!modalCtx) return;
+  const ok = modalCtx.onSave();
+  if (ok !== false) closeModal();
+};
+
+document.addEventListener("click", e => {
+  const ec = e.target.closest("[data-edit-client]"); if (ec) return editClient(ec.dataset.editClient);
+  const dc = e.target.closest("[data-del-client]"); if (dc) return delClient(dc.dataset.delClient);
+  const em = e.target.closest("[data-edit-comm]"); if (em) return editComm(em.dataset.editComm);
+  const dm = e.target.closest("[data-del-comm]"); if (dm) return delComm(dm.dataset.delComm);
+  const et = e.target.closest("[data-edit-task]"); if (et) return editTask(et.dataset.editTask);
+  const dt = e.target.closest("[data-del-task]"); if (dt) return delTask(dt.dataset.delTask);
+  const ac = e.target.closest("[data-add-comm-for]"); if (ac) return editComm(null, ac.dataset.addCommFor);
+  const at = e.target.closest("[data-add-task-for]"); if (at) return editTask(null, at.dataset.addTaskFor);
+  const jp = e.target.closest("[data-jump]"); if (jp) return jump(jp.dataset.jump);
+  const day = e.target.closest("[data-day]");
+  if (day) {
+    const list = calendarEvents().filter(ev => ev.date === day.dataset.day);
+    if (!list.length) { toast("No events on "+day.dataset.day); return; }
+    const msg = list.map(ev => `• ${ev.type}: ${ev.label} (${ev.client})`).join("\n");
+    if (confirm(day.dataset.day + "\n\n" + msg + "\n\nOpen first item?")) jump(list[0].ref);
+  }
+});
+
+$("saveSetup").onclick = () => {
+  state.settings.businessName = $("setBiz").value.trim();
+  state.settings.currency = $("setCur").value.trim() || "$";
+  state.settings.weekStart = Number($("setWeek").value);
+  document.querySelectorAll("#listEditors textarea[data-list]").forEach(ta => {
+    state.settings.lists[ta.dataset.list] = ta.value.split(/\n+/).map(s=>s.trim()).filter(Boolean);
+  });
+  save(); toast("Settings saved");
+};
+$("reloadSample").onclick = () => {
+  if (!confirm("Replace all data with sample desk?")) return;
+  state = sampleData(); save(); render(); toast("Sample data loaded");
+};
+$("clearAll").onclick = () => {
+  if (!confirm("Clear ALL clients, communications, and tasks?")) return;
+  state.clients = []; state.comms = []; state.tasks = []; save(); render(); toast("Cleared");
+};
+$("importCsv").onchange = (e) => {
+  const f = e.target.files?.[0]; if (f) importClientsCSV(f);
+  e.target.value = "";
+};
+$("overviewPick").onchange = () => renderOverview();
+$("calPrev").onclick = () => { calCursor.setMonth(calCursor.getMonth()-1); renderCalendar(); };
+$("calNext").onclick = () => { calCursor.setMonth(calCursor.getMonth()+1); renderCalendar(); };
+$("calToday").onclick = () => { calCursor = new Date(); calCursor.setDate(1); renderCalendar(); };
+
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") closeModal();
+  if (e.key === "n" || e.key === "N") {
+    if (e.target.matches("input,textarea,select")) return;
+    e.preventDefault(); addForTab();
+  }
+});
+
+load();
+setTab("clients");
+})();
+</script>
+</body>
+</html>

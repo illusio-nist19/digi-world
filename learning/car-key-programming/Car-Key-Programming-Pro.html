@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Car Key Programming Pro — From Zero to Working Locksmith</title>
+  <style>
+    @page { size: A4; margin: 14mm 15mm 16mm; }
+    :root {
+      --ink: #1A2433;
+      --teal: #0D9488;
+      --teal-deep: #0F766E;
+      --coral: #F97316;
+      --cream: #FFF7ED;
+      --sand: #FFEDD5;
+      --sky: #ECFEFF;
+      --line: #CBD5E1;
+      --muted: #64748B;
+      --white: #FFFFFF;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--cream); color: var(--ink); }
+    body {
+      font: 11pt/1.5 "Segoe UI", Calibri, system-ui, sans-serif;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .page { page-break-after: always; min-height: 255mm; padding: 2mm 0 8mm; position: relative; }
+    .page:last-child { page-break-after: auto; }
+    h1 { font-size: 26pt; line-height: 1.1; margin: 0 0 0.4em; color: var(--teal-deep); letter-spacing: -0.02em; }
+    h2 { font-size: 16pt; margin: 0 0 0.45em; color: var(--teal-deep); }
+    h3 { font-size: 12.5pt; margin: 1em 0 0.35em; color: var(--ink); }
+    p { margin: 0 0 0.65em; }
+    ul, ol { margin: 0.2em 0 0.8em; padding-left: 1.25em; }
+    li { margin-bottom: 0.28em; }
+    .kicker {
+      display: inline-block;
+      font-size: 8.5pt;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--coral);
+      font-weight: 700;
+      margin-bottom: 0.5em;
+    }
+    .lede { font-size: 12.5pt; color: var(--muted); }
+    .hero {
+      background: linear-gradient(135deg, #0F766E 0%, #14B8A6 55%, #FB923C 100%);
+      color: white;
+      border-radius: 18px;
+      padding: 22mm 12mm 14mm;
+      min-height: 240mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .hero h1 { color: white; font-size: 34pt; margin-top: 8mm; }
+    .hero .sub { font-size: 13pt; opacity: 0.95; max-width: 42em; }
+    .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.35);
+      padding: 0.35em 0.8em;
+      border-radius: 999px;
+      font-size: 9pt;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .cover-img {
+      width: 100%;
+      border-radius: 14px;
+      margin-top: 10mm;
+      border: 3px solid rgba(255,255,255,0.35);
+    }
+    .fig {
+      margin: 0.8em 0 1em;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      page-break-inside: avoid;
+    }
+    .fig img { width: 100%; display: block; max-height: 95mm; object-fit: cover; }
+    .fig .cap {
+      padding: 0.55em 0.85em;
+      font-size: 9pt;
+      color: var(--muted);
+      background: var(--sky);
+    }
+    .card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 0.85em 1em;
+      margin: 0.7em 0;
+      page-break-inside: avoid;
+    }
+    .card.warn { border-left: 5px solid var(--coral); background: #FFF7ED; }
+    .card.ok { border-left: 5px solid var(--teal); background: #F0FDFA; }
+    .card.info { border-left: 5px solid #38BDF8; background: #F0F9FF; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7em; }
+    .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.6em; }
+    .pill {
+      background: var(--sand);
+      border-radius: 10px;
+      padding: 0.7em 0.8em;
+      page-break-inside: avoid;
+    }
+    .pill strong { color: var(--teal-deep); display: block; margin-bottom: 0.2em; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 9.5pt;
+      margin: 0.6em 0 1em;
+      background: white;
+      page-break-inside: avoid;
+    }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 0.45em 0.5em;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: linear-gradient(90deg, #0D9488, #14B8A6);
+      color: white;
+      font-weight: 650;
+      font-size: 8.5pt;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    tr:nth-child(even) td { background: #F8FAFC; }
+    .step {
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      gap: 0.7em;
+      margin: 0.55em 0;
+      page-break-inside: avoid;
+    }
+    .num {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--coral);
+      color: white;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11pt;
+    }
+    .foot {
+      position: absolute;
+      bottom: 0;
+      left: 0; right: 0;
+      font-size: 8pt;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid var(--line);
+      padding-top: 0.4em;
+    }
+    .price { color: var(--coral); font-weight: 700; }
+    .toc a { color: var(--teal-deep); text-decoration: none; }
+    .toc li { margin-bottom: 0.45em; }
+    .muted { color: var(--muted); }
+    .small { font-size: 9.5pt; }
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      background: #F1F5F9;
+      padding: 0.05em 0.3em;
+      border-radius: 4px;
+      font-size: 9.5pt;
+    }
+    .check { list-style: none; padding-left: 0; }
+    .check li::before { content: "✓ "; color: var(--teal); font-weight: 700; }
+  </style>
+</head>
+<body>
+
+<!-- COVER -->
+<section class="page">
+  <div class="hero">
+    <div>
+      <span class="badge">Professional training ebook · 2026</span>
+      <h1>Car Key<br>Programming Pro</h1>
+      <p class="sub">A beginner-to-practitioner guide for authorized automotive key duplication and immobilizer programming — when a customer has lost the remote and needs a working replacement.</p>
+      <img class="cover-img" src="images/ck-cover.png" alt="Cover illustration" />
+    </div>
+    <div>
+      <p style="margin:0;font-size:10pt;opacity:.9">Legal · Ethical · Tool-ready · Step-by-step field procedures</p>
+      <p style="margin:0.3em 0 0;font-size:9pt;opacity:.75">Educational material for aspiring automotive locksmiths. Not a theft guide. Work only for verified vehicle owners.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TOC + LEGAL -->
+<section class="page">
+  <div class="kicker">Contents</div>
+  <h1>What you will master</h1>
+  <ol class="toc">
+    <li>The profession, ethics, and the law</li>
+    <li>How modern car keys and immobilizers work</li>
+    <li>Job types you will actually sell</li>
+    <li>Machines &amp; starter kits (with price ranges)</li>
+    <li>Consumables: blanks, chips, remotes</li>
+    <li>Master workflow: lost remote → working key</li>
+    <li>Step-by-step: Add Key (customer still has one key)</li>
+    <li>Step-by-step: All Keys Lost</li>
+    <li>Cutting the metal blade (Lishi + cutter)</li>
+    <li>Remote / RKE / smart key programming</li>
+    <li>Testing, delivery, pricing your service</li>
+    <li>90-day learning roadmap to competence</li>
+  </ol>
+
+  <div class="card warn">
+    <h3 style="margin-top:0">Non-negotiable rules</h3>
+    <ul class="check">
+      <li>Program or cut keys only for the verified owner (or authorized agent) of that specific vehicle.</li>
+      <li>Require photo ID + vehicle registration / title / proof of ownership. Photograph and log them.</li>
+      <li>Refuse jobs that smell like theft, “friend’s car,” or pressure to skip paperwork.</li>
+      <li>Follow local licensing (locksmith licence, business registration, insurance). Rules vary by country/state.</li>
+      <li>In the USA, many professional tools require NASTF / SDRM access for dealer-level security. Plan for that cost.</li>
+      <li>This ebook teaches legitimate locksmith craft. Misuse for unauthorized vehicle access is a crime.</li>
+    </ul>
+  </div>
+
+  <div class="card info">
+    <strong>What “expert” really means:</strong> You will not become an expert from one PDF alone. You become competent by combining this map + tool practice + supervised jobs + brand-specific training. This book removes the fog so your first 90 days are efficient.
+  </div>
+  <div class="foot"><span>Car Key Programming Pro</span><span>2</span></div>
+</section>
+
+<!-- CH 1 -->
+<section class="page">
+  <div class="kicker">Chapter 1</div>
+  <h1>The profession</h1>
+  <p class="lede">Automotive locksmithing is a service trade: you restore access and starting capability for people who lost keys — safely, legally, and profitably.</p>
+
+  <div class="fig">
+    <img src="images/ck-verify.png" alt="Verify ownership" />
+    <div class="cap">Figure 1 — Every job starts with identity + ownership verification, not with the programmer.</div>
+  </div>
+
+  <h3>What customers hire you for</h3>
+  <div class="grid2">
+    <div class="pill"><strong>Lost remote / smart key</strong> Duplicate or generate a new key and program the immobilizer so the car starts.</div>
+    <div class="pill"><strong>Broken blade</strong> Cut a new blade; often re-use or reprogram the head.</div>
+    <div class="pill"><strong>Spare key</strong> Add a second key while one still works (easiest / most profitable beginner job).</div>
+    <div class="pill"><strong>All keys lost</strong> Vehicle locked or cannot start; decode lock, cut, program without an existing key.</div>
+  </div>
+
+  <h3>Skills stack</h3>
+  <table>
+    <thead><tr><th>Layer</th><th>You learn</th><th>Tools</th></tr></thead>
+    <tbody>
+      <tr><td>Mechanical</td><td>Keyways, bitting, Lishi pick/decode, cutting</td><td>Lishi set, cutter, blanks</td></tr>
+      <tr><td>Transponder</td><td>Chip types, clone vs generate</td><td>Key tool / chip programmer</td></tr>
+      <tr><td>Immobilizer</td><td>OBD add-key / all-keys-lost</td><td>IMMO tablet + OBD cable</td></tr>
+      <tr><td>Remote / RKE</td><td>Frequency, button learning, smart proximity</td><td>Same tablet + remotes stock</td></tr>
+      <tr><td>Business</td><td>Quotes, insurance, inventory, warranty</td><td>CRM / invoice app</td></tr>
+    </tbody>
+  </table>
+  <div class="foot"><span>Chapter 1 · The profession</span><span>3</span></div>
+</section>
+
+<!-- CH 2 -->
+<section class="page">
+  <div class="kicker">Chapter 2</div>
+  <h1>How car keys actually work</h1>
+  <p>A modern “key” is usually three products in one: a <strong>mechanical blade</strong> (opens locks), a <strong>transponder chip</strong> (allows the engine to start), and a <strong>remote / smart module</strong> (locks, unlocks, proximity).</p>
+
+  <div class="fig">
+    <img src="images/ck-key-types.png" alt="Key types" />
+    <div class="cap">Figure 2 — From metal-only keys → transponder heads → smart proximity fobs.</div>
+  </div>
+
+  <h3>Immobilizer in plain language</h3>
+  <ol>
+    <li>You insert / present the key.</li>
+    <li>The car’s immobilizer antenna challenges the chip.</li>
+    <li>If the chip’s cryptographic answer matches a key ID stored in the immobilizer (or ECU), fuel/ignition is allowed.</li>
+    <li>If not, the car may unlock (mechanical) but <strong>will not start</strong>.</li>
+  </ol>
+
+  <div class="fig">
+    <img src="images/ck-anatomy.png" alt="Key anatomy" />
+    <div class="cap">Figure 3 — Anatomy: shell, battery, PCB, transponder zone, metal blade.</div>
+  </div>
+
+  <div class="card ok">
+    <strong>Clone vs generate vs OBD learn</strong>
+    <ul>
+      <li><strong>Clone:</strong> copy chip data from a working key to a blank chip (when the system allows cloning).</li>
+      <li><strong>Generate:</strong> create a compatible chip/remote with a key tool, then teach the car.</li>
+      <li><strong>OBD learn / program:</strong> put the car into programming mode via the OBD port and write the new key into the immobilizer list.</li>
+    </ul>
+    Lost-remote jobs almost always need the OBD (or dealer) step — cloning alone is not enough on most modern cars.
+  </div>
+  <div class="foot"><span>Chapter 2 · How keys work</span><span>4</span></div>
+</section>
+
+<!-- CH 3 -->
+<section class="page">
+  <div class="kicker">Chapter 3</div>
+  <h1>Job types &amp; decision tree</h1>
+
+  <table>
+    <thead><tr><th>Situation</th><th>Difficulty</th><th>Typical path</th></tr></thead>
+    <tbody>
+      <tr><td>Customer has 1 working key, wants a spare</td><td>Beginner+</td><td>Copy blade (or cut by code) → add key via OBD → test</td></tr>
+      <tr><td>Remote buttons dead, car still starts</td><td>Beginner</td><td>Battery / remote renew / relearn buttons</td></tr>
+      <tr><td>Lost all remotes, car on site, unlocked</td><td>Intermediate</td><td>Identify VIN/year → stock remote → all-keys-lost program → cut if needed</td></tr>
+      <tr><td>Locked out, no keys</td><td>Intermediate</td><td>Open legally (Lishi / entry) → decode → cut → program</td></tr>
+      <tr><td>Luxury / late-model encrypted systems</td><td>Advanced</td><td>Special modules, tokens, dealer online auth, or refer</td></tr>
+    </tbody>
+  </table>
+
+  <div class="card warn">
+    <strong>Know when to refer.</strong> Brand-new Mercedes, some BMW FEM/BDC, late Toyota/Lexus smart systems, and certain FCA/Stellantis vehicles can exceed a starter kit. Referring (and taking a finder’s fee or partnering) is professional — forcing a bad job destroys reputation.
+  </div>
+
+  <h3>Information you collect before quoting</h3>
+  <ul>
+    <li>Exact year, make, model, trim; VIN if possible</li>
+    <li>How many keys exist / are lost</li>
+    <li>Does the car start with any remaining key?</li>
+    <li>Proximity smart key or blade + remote?</li>
+    <li>Location (shop vs mobile) and battery condition of the car</li>
+  </ul>
+  <div class="foot"><span>Chapter 3 · Job types</span><span>5</span></div>
+</section>
+
+<!-- CH 4 EQUIPMENT -->
+<section class="page">
+  <div class="kicker">Chapter 4</div>
+  <h1>Machines you need (with prices)</h1>
+  <p class="lede">Prices are approximate retail USD ranges as of early 2026. Shop sales, bundles, and region change totals. Buy from reputable locksmith suppliers — counterfeit tools brick updates.</p>
+
+  <div class="fig">
+    <img src="images/ck-tools.png" alt="Tool bench" />
+    <div class="cap">Figure 4 — Core bench: programmer tablet, cutter, Lishi set, blanks, OBD lead.</div>
+  </div>
+
+  <h3>Recommended starter path (most beginners)</h3>
+  <table>
+    <thead><tr><th>Item</th><th>Role</th><th>Example models</th><th>Approx. USD</th></tr></thead>
+    <tbody>
+      <tr><td>Portable key cutter</td><td>Cut laser / dimple / edge blades on-site</td><td>Xhorse Dolphin XP-005L (II)</td><td class="price">$1,400–$2,200</td></tr>
+      <tr><td>Key / remote tool</td><td>Generate remotes, clone chips, RF test</td><td>Xhorse VVDI Key Tool Max Pro</td><td class="price">$450–$750</td></tr>
+      <tr><td>IMMO programmer</td><td>OBD add-key / all-keys-lost</td><td>Autel IM508S / IM608S II; or Xhorse Key Tool Plus</td><td class="price">$1,200–$4,200</td></tr>
+      <tr><td>Original Lishi set</td><td>Pick + decode common lock profiles</td><td>HU100, HU101, CY24, NSN14, TOY43…</td><td class="price">$400–$900</td></tr>
+      <tr><td>Blanks / chips / remotes</td><td>Inventory for first 30 jobs</td><td>XT27 / universal remotes + OEM-style shells</td><td class="price">$300–$800</td></tr>
+      <tr><td>Support gear</td><td>Battery jumper, trim tools, multimeter</td><td>Generic quality brands</td><td class="price">$150–$350</td></tr>
+    </tbody>
+  </table>
+
+  <div class="fig">
+    <img src="images/ck-cutter.png" alt="Key cutter" />
+    <div class="cap">Figure 5 — Portable automatic key cutter (generic form factor).</div>
+  </div>
+  <div class="foot"><span>Chapter 4 · Machines</span><span>6</span></div>
+</section>
+
+<section class="page">
+  <div class="kicker">Chapter 4 continued</div>
+  <h1>Bundles &amp; upgrades</h1>
+
+  <div class="fig">
+    <img src="images/ck-programmer.png" alt="Programmer with OBD" />
+    <div class="cap">Figure 6 — Tablet programmer connected to the OBD-II port under the dash.</div>
+  </div>
+
+  <h3>Popular ready-made bundles (street prices)</h3>
+  <table>
+    <thead><tr><th>Bundle</th><th>What’s inside</th><th>Approx. USD</th><th>Best for</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Lean mobile starter</td>
+        <td>Dolphin II + Key Tool Max Pro + small Lishi pack + chips</td>
+        <td class="price">$2,500–$3,800</td>
+        <td>First 3–6 months, common Asian/US cars</td>
+      </tr>
+      <tr>
+        <td>Cut + Max Pro + Condor Mini Plus II</td>
+        <td>Shop-grade cutter + Max Pro (+ reader options)</td>
+        <td class="price">$3,300–$3,600</td>
+        <td>Shop + mobile hybrid</td>
+      </tr>
+      <tr>
+        <td>Autel IM608S II full kit</td>
+        <td>Flagship IMMO + diagnostics + XP400 Pro</td>
+        <td class="price">$3,900–$4,200</td>
+        <td>Broad coverage + diagnostics income</td>
+      </tr>
+      <tr>
+        <td>Condor + Key Tool Plus Pad</td>
+        <td>Advanced all-in-one Xhorse ecosystem</td>
+        <td class="price">$4,500–$5,500</td>
+        <td>Scaling locksmith who lives in Xhorse</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="card ok">
+    <strong>Budget plan if you have ~$3,000</strong>
+    <ol>
+      <li>Dolphin II cutter (~$1.6k–$2k)</li>
+      <li>Key Tool Max Pro (~$0.5k–$0.7k)</li>
+      <li>Original Lishi starter 8–12 pieces (~$0.5k)</li>
+      <li>Remotes + chips (~$0.4k)</li>
+      <li>Use Max Pro’s OBD coverage first; add Autel IM508/IM608 when revenue pays for it</li>
+    </ol>
+  </div>
+
+  <div class="card info">
+    <strong>Hidden costs:</strong> software tokens (e.g. some Mercedes BGA), annual updates, NASTF SDRM (North America), insurance, van setup, and practice cars/locks. Expect <span class="price">$50–$200/month</span> in software/tokens once busy.
+  </div>
+
+  <h3>Where to buy</h3>
+  <ul>
+    <li>Authorized distributors (Autel store, established locksmith houses)</li>
+    <li>Alliance Locksmith, Key4, Locksmith Keyless, regional EU Xhorse shops</li>
+    <li>Avoid no-name “full clone” tablets on random marketplaces</li>
+  </ul>
+  <div class="foot"><span>Chapter 4 · Bundles</span><span>7</span></div>
+</section>
+
+<!-- CH 5 -->
+<section class="page">
+  <div class="kicker">Chapter 5</div>
+  <h1>Consumables &amp; identification</h1>
+  <h3>Stock that pays rent</h3>
+  <ul>
+    <li>Universal / generate remotes (Xhorse, KEYDIY, Autel iKeys) for popular vehicles in your city</li>
+    <li>Super chips (e.g. XT27 family) for clone/generate workflows</li>
+    <li>Test blades for Lishi practice and bitting verification</li>
+    <li>CR2032 / CR2025 batteries, shell replacements, key rings</li>
+  </ul>
+
+  <h3>How to identify the key before you buy stock</h3>
+  <ol>
+    <li>Ask for photos of any remaining key / fob.</li>
+    <li>Look up by year-make-model in your tool’s database or a blank look-up (Ilco / JMA charts).</li>
+    <li>Confirm FCC ID on the remote (printed under battery cover) when available.</li>
+    <li>Confirm blade profile (HU66, HU100, TOY43, etc.).</li>
+  </ol>
+
+  <div class="card warn">
+    Wrong remote = dead job. When unsure, order after VIN confirmation — or keep a returnable supplier relationship.
+  </div>
+  <div class="foot"><span>Chapter 5 · Consumables</span><span>8</span></div>
+</section>
+
+<!-- CH 6 WORKFLOW -->
+<section class="page">
+  <div class="kicker">Chapter 6</div>
+  <h1>Master workflow</h1>
+  <p>Memorize this sequence. Almost every successful lost-key job is a variation of it.</p>
+
+  <div class="fig">
+    <img src="images/ck-workflow.png" alt="Workflow" />
+    <div class="cap">Figure 7 — Verify → Decode → Cut → Prepare remote → Program → Test.</div>
+  </div>
+
+  <div class="step"><div class="num">1</div><div><strong>Verify &amp; document.</strong> ID + ownership. Job sheet with VIN, mileage, photos of documents. Customer signature authorizing work.</div></div>
+  <div class="step"><div class="num">2</div><div><strong>Stabilize power.</strong> Connect a support battery / jumper. Programming fails on weak batteries and can brick modules on some cars.</div></div>
+  <div class="step"><div class="num">3</div><div><strong>Identify system.</strong> Scan with IMMO tool. Note immobilizer type, existing key count, and whether Add Key or All Keys Lost is supported on your device.</div></div>
+  <div class="step"><div class="num">4</div><div><strong>Mechanical key.</strong> If needed: decode door/ignition with Lishi (or read code from tool / door card when available), then cut on the machine. Verify smooth turn in lock.</div></div>
+  <div class="step"><div class="num">5</div><div><strong>Prepare the electronic key.</strong> Generate/clone chip or assemble universal remote per tool wizard.</div></div>
+  <div class="step"><div class="num">6</div><div><strong>Program.</strong> Follow on-screen OBD procedure exactly (ignition cycles, proximity placement, timing).</div></div>
+  <div class="step"><div class="num">7</div><div><strong>Test &amp; hand over.</strong> Lock/unlock, panic, trunk, start 3 times, show customer. Explain warranty and remaining key count.</div></div>
+
+  <div class="card ok">
+    <strong>Field mantra:</strong> Power stable → procedure exact → test twice → paperwork complete.
+  </div>
+  <div class="foot"><span>Chapter 6 · Master workflow</span><span>9</span></div>
+</section>
+
+<!-- CH 7 ADD KEY -->
+<section class="page">
+  <div class="kicker">Chapter 7</div>
+  <h1>Procedure A — Add a spare (easiest money)</h1>
+  <p>Customer still has at least one working key. Goal: create a second key the car accepts.</p>
+
+  <h3>Steps</h3>
+  <ol>
+    <li><strong>Verify ownership</strong> and photograph documents.</li>
+    <li>Connect battery support.</li>
+    <li>Plug OBD tool. Select <em>Immobilizer → Make/Model/Year → Add Key</em> (wording varies).</li>
+    <li>Read current key information if the tool offers it. Note how many keys are registered.</li>
+    <li>Cut the new blade to match the working key (or by code if you decoded).</li>
+    <li>Generate the new remote/chip in your key tool; leave it close to the start button / in the slot as instructed.</li>
+    <li>When prompted, present the <em>working</em> key first (many systems require a dealer key / present key), then the new key.</li>
+    <li>Complete the wizard. Do not yank the OBD cable mid-write.</li>
+    <li>Test: start with old key, start with new key, remotes both work.</li>
+    <li>Invoice. Advise customer to keep both keys; all-keys-lost later costs more.</li>
+  </ol>
+
+  <div class="card info">
+    <strong>Practice tip:</strong> Your first 20 paid jobs should ideally be Add Key on common local cars (Toyota, Honda, Hyundai/Kia, Ford, GM). Build speed before chasing exotic all-keys-lost work.
+  </div>
+  <div class="foot"><span>Chapter 7 · Add Key</span><span>10</span></div>
+</section>
+
+<!-- CH 8 ALL KEYS LOST -->
+<section class="page">
+  <div class="kicker">Chapter 8</div>
+  <h1>Procedure B — All Keys Lost</h1>
+  <p>No working key remains. Harder, higher ticket, more risk. Only attempt when your tool database shows clear support for that VIN/year.</p>
+
+  <h3>High-level steps</h3>
+  <ol>
+    <li>Verify ownership rigorously. If the story is inconsistent, walk away.</li>
+    <li>Gain legal entry if locked (Lishi / manufacturer entry methods you are trained for). Do not damage airbags or wiring.</li>
+    <li>Battery support on.</li>
+    <li>Identify immobilizer. Choose <em>All Keys Lost</em> / <em>Erase &amp; Add</em> path only if documented for this vehicle.</li>
+    <li>Decode mechanical locks; cut a perfect blade; confirm door and ignition turn smoothly.</li>
+    <li>Prepare the correct remote/smart key (proximity vs blade style).</li>
+    <li>Run the all-keys-lost wizard. Some cars need PIN/code reading, EEPROM adapters, or online tokens — follow the tool, do not invent shortcuts.</li>
+    <li>When finished, old lost keys should no longer start the car (security feature). Explain this to the owner.</li>
+    <li>Test extensively. Program a second spare in the same visit if the customer agrees (highly recommended).</li>
+  </ol>
+
+  <div class="card warn">
+    <strong>Risk controls:</strong> Never interrupt flash/write. Keep a backup battery. If the tool warns unsupported, stop and refer. A half-written immobilizer can leave a car dead and a lawsuit alive.
+  </div>
+  <div class="foot"><span>Chapter 8 · All Keys Lost</span><span>11</span></div>
+</section>
+
+<!-- CH 9 MECHANICAL -->
+<section class="page">
+  <div class="kicker">Chapter 9</div>
+  <h1>Cutting the blade like a pro</h1>
+  <h3>Lishi decode (concept)</h3>
+  <ol>
+    <li>Select the correct Lishi for the keyway (wrong tool damages wafers).</li>
+    <li>Pick to open if needed; then read each wafer height to build the bitting code.</li>
+    <li>Write the code on your job sheet.</li>
+    <li>Enter bitting into the cutter software or use origin key duplication when a sample exists.</li>
+    <li>Cut on a quality blank; deburr; test in the door first, then ignition.</li>
+  </ol>
+
+  <h3>Cutter checklist</h3>
+  <ul class="check">
+    <li>Correct clamp / key type selected in software</li>
+    <li>Probe and cutter tips in good condition</li>
+    <li>Blank seated fully and square</li>
+    <li>After cut: smooth operation, no forced turning</li>
+  </ul>
+
+  <div class="card ok">
+    A beautiful programmed remote with a bad blade is still a failed job. Mechanical excellence is half your reputation.
+  </div>
+  <div class="foot"><span>Chapter 9 · Cutting</span><span>12</span></div>
+</section>
+
+<!-- CH 10 REMOTE -->
+<section class="page">
+  <div class="kicker">Chapter 10</div>
+  <h1>Remotes, smart keys &amp; testing</h1>
+  <h3>Remote functions to verify</h3>
+  <table>
+    <thead><tr><th>Function</th><th>Pass criteria</th></tr></thead>
+    <tbody>
+      <tr><td>Lock / unlock</td><td>Consistent from 5–10 meters</td></tr>
+      <tr><td>Trunk / liftgate</td><td>Opens on command</td></tr>
+      <tr><td>Panic</td><td>Triggers and cancels</td></tr>
+      <tr><td>Proximity unlock</td><td>Handles detect hand with fob in pocket</td></tr>
+      <tr><td>Push-to-start</td><td>Start/stop with fob inside, deny when fob removed</td></tr>
+      <tr><td>Immobilizer</td><td>Three successful starts; no dash immobilizer light stuck on</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Common failures &amp; fixes</h3>
+  <ul>
+    <li><strong>Buttons weak:</strong> battery, cracked PCB, need remote renew on key tool.</li>
+    <li><strong>Starts but no remote:</strong> immobilizer OK; RKE not learned — run remote learning procedure.</li>
+    <li><strong>Remote works, no start:</strong> chip not programmed / wrong position during learn.</li>
+    <li><strong>Intermittent start:</strong> weak car battery during programming, or damaged key antenna ring.</li>
+  </ul>
+  <div class="foot"><span>Chapter 10 · Remotes &amp; testing</span><span>13</span></div>
+</section>
+
+<!-- CH 11 BUSINESS -->
+<section class="page">
+  <div class="kicker">Chapter 11</div>
+  <h1>Pricing, paperwork, professionalism</h1>
+  <h3>Example market pricing (illustrative; set to your city)</h3>
+  <table>
+    <thead><tr><th>Job</th><th>Parts + labor ballpark</th></tr></thead>
+    <tbody>
+      <tr><td>Spare remote / add key (common car)</td><td class="price">$180–$350</td></tr>
+      <tr><td>All keys lost (common car)</td><td class="price">$350–$700+</td></tr>
+      <tr><td>Luxury / on-line auth systems</td><td class="price">$700–$1,500+</td></tr>
+      <tr><td>Emergency night / holiday call-out</td><td>Add $50–$150 fee</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Job sheet fields (copy this)</h3>
+  <ul>
+    <li>Date, customer name, phone, address</li>
+    <li>ID type/number (store securely per local privacy law)</li>
+    <li>VIN, plate, year/make/model</li>
+    <li>Job type, keys before/after, tool used, software version</li>
+    <li>Parts used (remote model, chip, blade)</li>
+    <li>Warranty terms (e.g. 30–90 days on programming / remote defects)</li>
+    <li>Customer signature + “I am the owner / authorized”</li>
+  </ul>
+
+  <div class="card warn">
+    Keep records. If a stolen-car investigation ever appears, your paperwork is your shield.
+  </div>
+  <div class="foot"><span>Chapter 11 · Business</span><span>14</span></div>
+</section>
+
+<!-- CH 12 ROADMAP -->
+<section class="page">
+  <div class="kicker">Chapter 12</div>
+  <h1>90-day roadmap to competence</h1>
+  <div class="grid3">
+    <div class="pill"><strong>Days 1–30 · Foundations</strong> Study this book twice. Buy lean kit. Practice Lishi on donated door locks. Cut 50 practice blades. Complete an Auto 101-style video course.</div>
+    <div class="pill"><strong>Days 31–60 · Supervised work</strong> Shadow a locksmith or take only Add-Key jobs. Log every VIN and outcome. Learn your city’s top 10 vehicles.</div>
+    <div class="pill"><strong>Days 61–90 · Independence</strong> Offer mobile spare-key service. Add all-keys-lost for 2–3 well-supported brands. Raise prices as reviews arrive.</div>
+  </div>
+
+  <h3>Weekly practice drills</h3>
+  <ul class="check">
+    <li>Decode one lock with Lishi until under 10 minutes</li>
+    <li>Generate and RF-test 5 remotes</li>
+    <li>Run one full mock Add-Key wizard on a practice vehicle</li>
+    <li>Review one failed job write-up (yours or forum case study)</li>
+  </ul>
+
+  <h3>Continuing education</h3>
+  <ul>
+    <li>Manufacturer TSBs and tool update notes every month</li>
+    <li>Brand-focused classes (Toyota smart systems, GM, Ford, VAG)</li>
+    <li>Join professional locksmith associations in your country</li>
+  </ul>
+
+  <div class="card ok">
+    <strong>Definition of “ready for paid work”:</strong> You can verify ownership without hesitation, cut a clean blade, complete Add Key on a common local car without coaching, explain risks to the customer, and walk away from unsupported jobs.
+  </div>
+  <div class="foot"><span>Chapter 12 · 90-day roadmap</span><span>15</span></div>
+</section>
+
+<!-- CLOSING -->
+<section class="page">
+  <div class="kicker">Appendix</div>
+  <h1>Quick reference &amp; closing</h1>
+
+  <h3>Field kit packing list</h3>
+  <div class="grid2">
+    <div class="card">
+      <strong>Bag</strong>
+      <ul>
+        <li>Programmer + OBD cables + CAN adapters you own</li>
+        <li>Key tool / generator</li>
+        <li>Portable cutter + spare cutters/probes</li>
+        <li>Lishi wallet</li>
+        <li>Laptop/phone hotspot for updates</li>
+      </ul>
+    </div>
+    <div class="card">
+      <strong>Parts &amp; safety</strong>
+      <ul>
+        <li>Remotes/chips for top local cars</li>
+        <li>Battery pack / jump pack</li>
+        <li>Gloves, trim tools, flashlight</li>
+        <li>Job sheets, card reader, invoice app</li>
+        <li>Insurance card &amp; licence copy</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Glossary</h3>
+  <table>
+    <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td>IMMO</td><td>Immobilizer — anti-theft that blocks starting without a valid chip</td></tr>
+      <tr><td>Transponder</td><td>RFID chip in the key that answers the car’s challenge</td></tr>
+      <tr><td>OBD-II</td><td>Diagnostic port used by programmers (usually under dash)</td></tr>
+      <tr><td>RKE</td><td>Remote Keyless Entry (lock/unlock radio)</td></tr>
+      <tr><td>PKES / smart key</td><td>Proximity keyless entry &amp; start</td></tr>
+      <tr><td>All Keys Lost</td><td>Programming when no working key remains</td></tr>
+      <tr><td>Bitting</td><td>The cut code heights on a key blade</td></tr>
+    </tbody>
+  </table>
+
+  <div class="card warn">
+    <strong>Final reminder:</strong> Expertise in this field is legitimate when it protects owners who lost access. It is illegal when used to create unauthorized keys. Keep your ethics louder than your tools.
+  </div>
+
+  <p class="muted small" style="margin-top:1.2em">© Educational compilation for personal training use. Tool names are cited for learning; trademarks belong to their owners. Prices fluctuate — verify before purchase. Always comply with the laws of your jurisdiction.</p>
+  <div class="foot"><span>Appendix · End of ebook</span><span>16</span></div>
+</section>
+
+</body>
+</html>
