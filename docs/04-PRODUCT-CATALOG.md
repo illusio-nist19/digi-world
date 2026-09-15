@@ -31,7 +31,7 @@ These sit above Drop 01. They are **not** inside `the-vault`. One studio / one o
 | serial | DW-SYS-010 |
 | EN name | Photographer Client Studio |
 | AR name | استوديو عملاء المصور |
-| Price | **$129** one studio · **$199** two seats |
+| Price | **$35** one studio · **$55** two seats |
 | EN sub | The 90-minute desk for wedding and commercial photographers who leak jobs in DMs and hours in ‘unlimited’ galleries. |
 | Contains | START-HERE, studio math, 15-min inquiry, packages + usage, rate CSV + calculator, booking + formals, wedding-day production, gallery/revision/raw/print SOPs, invoices, Notion + Sheets boards, welcome packet, Etsy cousin notes |
 | Pain | Slow DMs, vague quotes, unpaid revisions, galleries before the balance, Saturday inventory given away |

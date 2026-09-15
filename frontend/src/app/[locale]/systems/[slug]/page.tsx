@@ -198,7 +198,7 @@ export default async function ProductPage({ params }: { params: Promise<{ locale
         </section>
       ) : null}
 
-      {premium || keys ? null : (
+      {premium || keys || photo ? null : (
         <section className="border-t border-gold/30 py-12">
           <Container className="flex flex-wrap items-center justify-between gap-4">
             <p className="font-display text-2xl">{t("vaultStrip")}</p>
