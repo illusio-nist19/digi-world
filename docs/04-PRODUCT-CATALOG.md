@@ -15,6 +15,7 @@ Create original files (or commission them). Do **not** wrap random PLR and slap 
 | `wealth-os` | Wealth | الثروة | B |
 | `glow-ritual` | Glow Ritual | طقوس التوهج | C |
 | `the-vault` | The Vault | الخزنة الكاملة | all |
+| `trades-lab` | Trades Lab | مختبر المهن | trade apprenticeships (authorized work only) |
 
 ## Premium systems (not in the $19 vault)
 
@@ -39,6 +40,29 @@ These sit above Drop 01. They are **not** inside `the-vault`. One studio / one o
 | Upsell (post-checkout) | creator-os at **$11** |
 | Etsy | Cousin printable $12–$19, or full desk at **$49** with access PDF — never the vault at $7 |
 | Zip | `products/releases/DW-SYS-010-photographer-os.zip` |
+
+### DW-EBK-001 Key Fob Programming Mastery
+
+| | |
+| --- | --- |
+| sku | `DW-EBK-001` |
+| slug | `key-fob-programming-mastery` |
+| collection | trades-lab |
+| serial | DW-EBK-001 |
+| type | system (ebook line) |
+| EN name | Key Fob Programming Mastery |
+| AR name | إتقان برمجة ريموت السيارة |
+| Price | **$67** one technician · **$97** two shop seats |
+| EN headline | Program the spare. Prove the owner. Leave the shortcuts alone. |
+| EN sub | Complete visual apprenticeship for authorized key-fob and immobilizer work: verify the owner, quote the job, prep the remote, run the procedure, test the finish, refer what you cannot support. |
+| Contains | START-HERE, 22-chapter illustrated PDF (profession → ethics → anatomy → immobilizers → procedures A/B/C → testing → luxury referral → 90-day path → glossary/packing) |
+| Pain | YouTube dares, skipped paperwork, All Keys Lost quoted first, weak-battery “bricks”, inventing miracles on luxury platforms |
+| Desire | A legal Add-Key practice: verify → quote → prepare → program → test → refer |
+| Cross-sell | none (no other trades SKU yet) |
+| Licence | One technician / two shop seats; personal use; no redistribution; no marketplace dump of the PDF |
+| Etsy | Do **not** list the full PDF unless separately requested |
+| Compliance | Authorized work for verified owners only. Not theft, bypass, stolen-vehicle, EEPROM-attack, or dealer-login content. |
+| Zip | `products/releases/DW-EBK-001-key-fob-programming-mastery.zip` |
 
 ### DW-SYS-009 SMB AI Governance Kit
 

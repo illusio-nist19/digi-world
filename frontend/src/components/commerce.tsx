@@ -26,6 +26,7 @@ export function OfferTiles({
 }) {
   const t = useTranslations("product");
   const photo = product.slug === "photographer-os";
+  const keys = product.slug === "key-fob-programming-mastery";
   const premium = isPremium(product);
   if (product.type === "addon") return null;
   if (product.type === "vault") {
@@ -38,9 +39,9 @@ export function OfferTiles({
   }
   return (
     <div className="grid gap-3">
-      <Tile active={value === "solo"} onClick={() => onChange("solo")} title={photo ? t("studioSolo") : premium ? t("orgSolo") : t("solo")} sub={photo ? t("studioSoloSub") : premium ? t("orgSoloSub") : t("soloSub")} price={product.price_cents} />
-      <Tile active={value === "duo"} onClick={() => onChange("duo")} title={photo ? t("studioDuo") : premium ? t("orgDuo") : t("duo")} sub={photo ? t("studioDuoSub") : premium ? t("orgDuoSub") : t("duoSub")} price={duoCents(product)} compare={premium ? product.price_cents * 2 : 3800} badge={t("chosen")} />
-      {pair && !premium ? <Tile active={value === "pair"} onClick={() => onChange("pair")} title={t("pair")} sub={t("pairSub")} price={product.pair_price_cents || 3400} compare={3800} badge={t("pairBadge")} /> : null}
+      <Tile active={value === "solo"} onClick={() => onChange("solo")} title={keys ? t("techSolo") : photo ? t("studioSolo") : premium ? t("orgSolo") : t("solo")} sub={keys ? t("techSoloSub") : photo ? t("studioSoloSub") : premium ? t("orgSoloSub") : t("soloSub")} price={product.price_cents} />
+      <Tile active={value === "duo"} onClick={() => onChange("duo")} title={keys ? t("techDuo") : photo ? t("studioDuo") : premium ? t("orgDuo") : t("duo")} sub={keys ? t("techDuoSub") : photo ? t("studioDuoSub") : premium ? t("orgDuoSub") : t("duoSub")} price={duoCents(product)} compare={keys || premium ? product.price_cents * 2 : 3800} badge={t("chosen")} />
+      {pair && !premium && !keys ? <Tile active={value === "pair"} onClick={() => onChange("pair")} title={t("pair")} sub={t("pairSub")} price={product.pair_price_cents || 3400} compare={3800} badge={t("pairBadge")} /> : null}
     </div>
   );
 }

@@ -68,11 +68,23 @@ COLLECTIONS = [
             "Toda la casa. Una llave.",
         ),
     },
+    {
+        "slug": "trades-lab",
+        "sort": 6,
+        "image": "/images/collections/trades-lab.png",
+        "name": t("Trades Lab", "مختبر المهن", "Trades Lab", "Trades Lab"),
+        "sub": t(
+            "Apprenticeship systems for authorized trade work.",
+            "أنظمة تدريب للشغل المهني المصرّح.",
+            "Des apprentissages pour le métier autorisé.",
+            "Aprendizajes para oficios autorizados.",
+        ),
+    },
 ]
 
 
-def imgs(slug: str) -> list[str]:
-    return [f"/images/products/{slug}/0{i}.png" for i in range(1, 5)]
+def imgs(slug: str, n: int = 4) -> list[str]:
+    return [f"/images/products/{slug}/{i:02d}.png" for i in range(1, n + 1)]
 
 
 def faq_block(en_q: str, en_a: str, ar_q: str, ar_a: str, fr_q: str, fr_a: str, es_q: str, es_a: str) -> dict:
@@ -148,6 +160,70 @@ PHOTO_FAQS = [
 ]
 
 
+KEYS_FAQS = [
+    faq_block(
+        "Is this a theft, bypass, or stolen-vehicle guide?",
+        "No. Authorized work for the verified owner (or documented authorized agent) only. Photo ID + registration/title. Log it. Walk away from a bad story. No skipped paperwork, no undocumented immobilizer bypass, no EEPROM attacks, no dealer-login abuse.",
+        "هذا دليل سرقة أو تجاوز إيموبيلايزر؟",
+        "لا. شغل مصرّح لمالك السيارة المتحقق منه فقط. هوية + استمارة. سجّل. اطلع إذا القصة غلط. ما فيه تجاوز، ولا هجوم EEPROM، ولا إساءة دخول الوكيل.",
+        "C’est un guide vol / bypass ?",
+        "Non. Travail autorisé pour le propriétaire vérifié seulement. Pièce + carte grise. Journal. On s’arrête si l’histoire cloche. Pas de bypass, pas d’attaque EEPROM, pas d’abus de login concessionnaire.",
+        "¿Es una guía de robo o bypass?",
+        "No. Trabajo autorizado para el dueño verificado. ID + registro. Bitácora. Si la historia no cuadra, el trabajo termina. Sin bypass, sin ataques EEPROM, sin abuso de login de concesionario.",
+    ),
+    faq_block(
+        "Will it program every car? Do I get a dealer login?",
+        "No. The book teaches you to read the car, run supported procedures, and refer luxury platforms you cannot support. There is no dealer-login dump and no ‘works on every VIN’ claim.",
+        "يبرمج كل سيارة؟ فيه دخول وكيل؟",
+        "لا. تعلّمك تقرأ السيارة، تنفّذ الإجراءات المدعومة، وتحيل المنصات الفخمة اللي ما تدعمها. ما فيه سحب دخول وكيل ولا وعد «على كل فيش».",
+        "Ça programme toutes les voitures ? Un login concessionnaire ?",
+        "Non. Lire le véhicule, suivre les procédures supportées, transférer le luxe que vous ne tenez pas. Pas de dump de login, pas de « tous les VIN ».",
+        "¿Programa todos los coches? ¿Login de concesionario?",
+        "No. Leer el coche, seguir procedimientos soportados, derivar lujo que no puedes. Sin dump de login ni «sirve en todo VIN».",
+    ),
+    faq_block(
+        "Do I need a specific programmer before I buy?",
+        "You need a legally owned practice vehicle, ownership paperwork, and eventually a real kit. Chapter 8 covers machines and kits with prices so you buy once. The PDF is not a substitute for a tablet or a cutter.",
+        "لازم جهاز معيّن قبل الشراء؟",
+        "تحتاج سيارة تدريب تملكها قانونياً، أوراق المالك، وبعدين عدة حقيقية. الفصل 8 فيه المكائن والأسعار عشان تشتري مرة. الـPDF مو بديل للجهاز.",
+        "Il me faut une machine précise avant d’acheter ?",
+        "Véhicule d’entraînement en votre nom, papiers, puis un vrai kit. Le ch. 8 liste machines et prix. Le PDF ne remplace pas la tablette.",
+        "¿Necesito una máquina concreta antes de comprar?",
+        "Un coche de práctica de tu propiedad, papeles, y luego un kit real. El cap. 8 lista máquinas y precios. El PDF no sustituye la tablet.",
+    ),
+    faq_block(
+        "How many seats? Can I resell the PDF?",
+        "One technician is $67. Two shop seats is $97. Personal use. No redistribution, no marketplace dump of this PDF.",
+        "كم مقعد؟ أقدر أبيع الـPDF؟",
+        "فني واحد 67$. مقعدين للورشة 97$. استخدام شخصي. بدون إعادة نشر وبدون رمي الـPDF على الأسواق.",
+        "Combien de sièges ? Je peux revendre le PDF ?",
+        "Un tech = 67 $. Deux sièges atelier = 97 $. Usage perso. Pas de redistribution, pas de dump marketplace.",
+        "¿Cuántos asientos? ¿Puedo revender el PDF?",
+        "Un técnico = 67 $. Dos asientos de taller = 97 $. Uso personal. Sin reventa ni dump en marketplaces.",
+    ),
+    faq_block(
+        "How do I get the files? Refund?",
+        "After name and email, the thank-you page has the zip. We also email that inbox. 7-day replacement if the zip is corrupt or will not open. This is not a certificate and not legal advice.",
+        "كيف يوصلني الملف؟ استرجاع؟",
+        "بعد الاسم والإيميل، صفحة الشكر فيها الزيب. ونراسل نفس الإيميل. استبدال 7 أيام إذا الملف خربان. مو شهادة ومو استشارة قانونية.",
+        "Comment je reçois les fichiers ? Remboursement ?",
+        "Après nom et e-mail, la page merci a le zip. 7 jours si le zip est corrompu. Pas un certificat, pas un avis juridique.",
+        "¿Cómo recibo los archivos? ¿Reembolso?",
+        "Tras nombre y email, la página de gracias tiene el zip. 7 días si el zip no abre. No es certificado ni consejo legal.",
+    ),
+    faq_block(
+        "What is in the zip besides the ebook?",
+        "START-HERE (how to study, ethics, licence) and Key-Fob-Programming-Mastery.pdf. The 22 chapters, checklists, and packing list live inside the book. We do not ship Car-Key-Programming-Pro as this SKU.",
+        "وش داخل الزيب غير الكتاب؟",
+        "ابدأ من هنا (دراسة، أخلاق، رخصة) وملف Key-Fob-Programming-Mastery.pdf. الاثنان وعشرون فصلاً والقوائم داخل الكتاب. ما نبيع Car-Key-Programming-Pro كهذا المنتج.",
+        "Quoi d’autre dans le zip ?",
+        "START-HERE (étude, éthique, licence) et le PDF. Les 22 chapitres sont dans le livre. On ne vend pas Car-Key-Programming-Pro sous ce SKU.",
+        "¿Qué más hay en el zip?",
+        "START-HERE (estudio, ética, licencia) y el PDF. Los 22 capítulos van en el libro. No vendemos Car-Key-Programming-Pro como este SKU.",
+    ),
+]
+
+
 PRODUCTS = [
     {
         "sku": "DW-SYS-010",
@@ -192,6 +268,50 @@ PRODUCTS = [
         ),
         "images": imgs("photographer-os"),
         "faq": PHOTO_FAQS,
+    },
+    {
+        "sku": "DW-EBK-001",
+        "slug": "key-fob-programming-mastery",
+        "collection": "trades-lab",
+        "type": "system",
+        "serial": "DW-EBK-001",
+        "price_cents": 6700,
+        "duo_price_cents": 9700,
+        "cross_sell": [],
+        "license_pool": 250,
+        "sort": 1,
+        "name": t(
+            "Key Fob Programming Mastery",
+            "إتقان برمجة ريموت السيارة",
+            "Maîtrise de la programmation de télécommandes",
+            "Dominio de la programación de mandos",
+        ),
+        "headline": t(
+            "Program the spare. Prove the owner. Leave the shortcuts alone.",
+            "برمج الاحتياطي. ثبّت المالك. اترك الاختصارات.",
+            "Programmez la copie. Prouvez le propriétaire. Laissez les raccourcis.",
+            "Programa el recambio. Prueba al dueño. Deja los atajos.",
+        ),
+        "sub": t(
+            "Complete visual apprenticeship for authorized key-fob and immobilizer work: verify the owner, quote the job, prep the remote, run the procedure, test the finish, refer what you cannot support.",
+            "تدريب بصري كامل لبرمجة الريموت والإيموبيلايزر المصرّح: تحقق من المالك، سعّر الشغل، حضّر الريموت، نفّذ الإجراء، اختبر النهاية، وأحل ما لا تدعمه.",
+            "Apprentissage visuel complet pour télécommandes et antivol autorisés : vérifier le propriétaire, chiffrer, préparer, programmer, tester, transférer ce que vous ne tenez pas.",
+            "Aprendizaje visual completo para mando e inmovilizador autorizado: verifica al dueño, cotiza, prepara, programa, prueba, deriva lo que no puedas.",
+        ),
+        "description": t(
+            "This is a trade apprenticeship in PDF form — authorized automotive key-fob work for verified vehicle owners only.\n\nYou do not become competent by skimming a YouTube dare. You verify the owner, quote Add Key vs All Keys Lost, prepare the remote, follow the procedure, test the finish, and refer what you cannot support.\n\nWeak vehicle batteries brick more jobs than bad technicians. Luxury platforms get a referral, not a miracle. This product does not teach theft, skipped paperwork, stolen-vehicle starts, undocumented immobilizer bypass, EEPROM attacks, or dealer-login abuse.",
+            "هذا تدريب مهني بصيغة PDF — شغل ريموت مصرّح لمالك السيارة المتحقق منه فقط.\n\nما تصير كفء بتقليد يوتيوب. تتحقق من المالك، تسعّر إضافة مفتاح مقابل كل المفاتيح ضائعة، تحضّر الريموت، تتبع الإجراء، تختبر، وتحيل اللي ما تدعمه.\n\nالبطارية الضعيفة تخرب شغل أكثر من الفني الغلط. المنصات الفخمة تُحال، مو معجزة. هذا المنتج ما يعلّم سرقة ولا تجاوز إيموبيلايزر ولا هجوم EEPROM ولا إساءة دخول الوكيل.",
+            "Un apprentissage de métier en PDF — travail autorisé sur télécommande pour le propriétaire vérifié seulement.\n\nOn ne devient pas compétent en copiant YouTube. Vérifier le propriétaire, chiffrer Add Key vs All Keys Lost, préparer, suivre, tester, transférer.\n\nUne batterie faible brique plus de jobs qu’un mauvais tech. Le luxe se transmet, il ne se « miracle » pas. Pas de vol, pas de bypass, pas d’attaque EEPROM, pas d’abus de login concessionnaire.",
+            "Un aprendizaje de oficio en PDF — trabajo autorizado de mando para el dueño verificado.\n\nNo te haces competente imitando YouTube. Verifica al dueño, cotiza Add Key vs All Keys Lost, prepara, sigue el procedimiento, prueba, deriva.\n\nUna batería débil rompe más trabajos que un mal técnico. El lujo se deriva, no se inventa. No enseña robo, bypass, ataques EEPROM ni abuso de login de concesionario.",
+        ),
+        "contents": t(
+            "START-HERE (study path, ethics, licence)\n22-chapter illustrated field manual (PDF)\nLaw, ethics, paperwork — ID + registration before OBD\nFob anatomy, immobilizers, RKE vs smart vs blade+chip\nMachines, kits, consumables (with prices)\nProcedure A — Add a spare\nProcedure B — Lost remote, car present\nProcedure C — All Keys Lost\nCutting, programming discipline, testing, fault-finding\nLuxury limits & referral · pricing the customer\n90-day competence calendar · glossary · packing list",
+            "ابدأ من هنا (دراسة، أخلاق، رخصة)\nدليل ميداني مصوّر 22 فصلاً (PDF)\nقانون وأوراق — هوية + استمارة قبل أي كتابة\nتشريح الريموت، إيموبيلايزر، أنواع المفاتيح\nمكائن وعدد وأسعار\nإجراء أ — إضافة احتياطي\nإجراء ب — ريموت ضائع والسيارة موجودة\nإجراء ج — كل المفاتيح ضائعة\nقص، انضباط برمجة، اختبار، أعطال\nحدود الفخم والإحالة · تسعير العميل\nمسار 90 يوم · قاموس · قائمة تعبئة",
+            "START-HERE (étude, éthique, licence)\nManuel illustré 22 chapitres (PDF)\nDroit et papiers — pièce + carte grise avant l’OBD\nAnatomie, antivol, types de clés\nMachines, kits, consommables (prix)\nProcédure A — ajouter une copie\nProcédure B — télécommande perdue, véhicule présent\nProcédure C — All Keys Lost\nTaille, discipline, tests, pannes\nLimites luxe & transfert · prix client\nCalendrier 90 jours · glossaire · packing",
+            "START-HERE (estudio, ética, licencia)\nManual ilustrado 22 capítulos (PDF)\nLey y papeles — ID + registro antes del OBD\nAnatomía, inmovilizador, tipos de mando\nMáquinas, kits, consumibles (precios)\nProcedimiento A — añadir recambio\nProcedimiento B — mando perdido, coche presente\nProcedimiento C — All Keys Lost\nCorte, disciplina, prueba, fallos\nLímites de lujo y derivación · precio al cliente\nCalendario 90 días · glosario · packing",
+        ),
+        "images": imgs("key-fob-programming-mastery", 10),
+        "faq": KEYS_FAQS,
     },
 ]
 
@@ -254,6 +374,66 @@ REVIEWS = [
         "body": "Dos rondas en el preview, extras con precio, «más mágico» vuelve a números de frame. Esa fuga es la que cierra el escritorio.",
         "display_name": "Brief de estudio",
         "city_country": "Retrato + boda",
+        "source": "studio_preview",
+    },
+    {
+        "product_sku": "DW-EBK-001",
+        "locale": "en",
+        "stars": 5,
+        "title": "All Keys Lost is not a YouTube dare",
+        "body": "Built against a van that quoted All Keys Lost from a clip, then learned the working key was in a drawer. Add Key first. Paperwork first. The book is written in that order.",
+        "display_name": "Field brief",
+        "city_country": "Mobile auto-key",
+        "source": "studio_preview",
+    },
+    {
+        "product_sku": "DW-EBK-001",
+        "locale": "en",
+        "stars": 5,
+        "title": "Weak battery, not a bricked module",
+        "body": "A job that looked like a dead immobilizer was a dying support pack. The callout colors in the manual are the point: power first, then write.",
+        "display_name": "Field brief",
+        "city_country": "Shop bay",
+        "source": "studio_preview",
+    },
+    {
+        "product_sku": "DW-EBK-001",
+        "locale": "en",
+        "stars": 5,
+        "title": "Refer the platform you cannot support",
+        "body": "Luxury limits are a chapter, not a comment. Walk away beats inventing a miracle on an unsupported cluster.",
+        "display_name": "Field brief",
+        "city_country": "Locksmith desk",
+        "source": "studio_preview",
+    },
+    {
+        "product_sku": "DW-EBK-001",
+        "locale": "ar",
+        "stars": 5,
+        "title": "كل المفاتيح ضائعة مو تحدّي يوتيوب",
+        "body": "مبني ضد ورشة تسعّر All Keys Lost من مقطع، والمفتاح الشغّال في الدرج. إضافة مفتاح أولاً. الأوراق أولاً. الكتاب بهذا الترتيب.",
+        "display_name": "موجز ميدان",
+        "city_country": "مفتاح متنقّل",
+        "source": "studio_preview",
+    },
+    {
+        "product_sku": "DW-EBK-001",
+        "locale": "fr",
+        "stars": 5,
+        "title": "Batterie faible, pas un module brické",
+        "body": "Un job « antivol mort » était un pack de soutien à plat. Les encadrés du manuel : alimenter d’abord, écrire ensuite.",
+        "display_name": "Brief terrain",
+        "city_country": "Baie atelier",
+        "source": "studio_preview",
+    },
+    {
+        "product_sku": "DW-EBK-001",
+        "locale": "es",
+        "stars": 5,
+        "title": "Deriva la plataforma que no sostienes",
+        "body": "Los límites de lujo son un capítulo, no un comentario. Marcharse gana a inventar un milagro en un cluster no soportado.",
+        "display_name": "Brief de campo",
+        "city_country": "Mesa de cerrajería",
         "source": "studio_preview",
     },
 ]

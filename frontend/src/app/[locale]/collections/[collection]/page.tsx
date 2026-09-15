@@ -9,7 +9,7 @@ import { routing } from "@/i18n/routing";
 
 export function generateStaticParams() {
   return routing.locales.flatMap((locale) =>
-    ["creator-lab", "ai-command", "wealth-os", "glow-ritual", "the-vault"].map((collection) => ({ locale, collection })),
+    ["creator-lab", "ai-command", "wealth-os", "glow-ritual", "the-vault", "trades-lab"].map((collection) => ({ locale, collection })),
   );
 }
 

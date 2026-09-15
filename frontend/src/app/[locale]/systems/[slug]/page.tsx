@@ -20,6 +20,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const catalog = await getCatalog();
   const product = productBySlug(catalog, slug);
   if (!product) return {};
+  if (slug === "key-fob-programming-mastery") {
+    return {
+      title: "Key Fob Programming Mastery | Automotive Remote & Immobilizer Training E-Book",
+      description: "Visual locksmith training for authorized Add Key / remote programming — ownership verification, procedures, testing, 90-day path. Digi World.",
+      openGraph: { images: product.images[0] ? [product.images[0]] : undefined },
+    };
+  }
   return {
     title: loc(product.name, locale),
     description: loc(product.sub, locale),
@@ -45,6 +52,8 @@ export default async function ProductPage({ params }: { params: Promise<{ locale
   const premium = isPremium(product);
   const gov = product.slug === "ai-governance-kit";
   const photo = product.slug === "photographer-os";
+  const keys = product.slug === "key-fob-programming-mastery";
+  const featured = gov || photo || keys;
 
   return (
     <>
@@ -61,19 +70,27 @@ export default async function ProductPage({ params }: { params: Promise<{ locale
             <StarRow stars={5} count={reviews.length || undefined} />
             <span className="rounded-full border border-gold/40 px-3 py-1 text-xs text-gold">{t("certified")}</span>
             {premium ? <span className="rounded-full border border-ivory/20 px-3 py-1 text-xs text-ivory/70">{photo ? t("studioBadge") : t("orgBadge")}</span> : null}
+            {keys ? <span className="rounded-full border border-ivory/20 px-3 py-1 text-xs text-ivory/70">{t("techBadge")}</span> : null}
           </div>
           <p className="mt-4 font-display text-3xl text-gold">{money(product.price_cents)}</p>
-          <p className="mt-1 text-sm text-stone">{photo ? t("studioPriceNote") : premium ? t("orgPriceNote") : t("usd")}</p>
+          <p className="mt-1 text-sm text-stone">{keys ? t("techPriceNote") : photo ? t("studioPriceNote") : premium ? t("orgPriceNote") : t("usd")}</p>
           <div className="mt-6">
             <PdpOffers product={product} catalog={catalog} />
           </div>
         </div>
       </Container>
 
-      {gov || photo ? (
+      {featured ? (
         <section className="border-y border-line bg-ink-2/45 py-10">
           <Container className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {(photo
+            {(keys
+              ? [
+                  [t("keysP1"), t("keysP1l")],
+                  [t("keysP2"), t("keysP2l")],
+                  [t("keysP3"), t("keysP3l")],
+                  [t("keysP4"), t("keysP4l")],
+                ]
+              : photo
               ? [
                   [t("photoP1"), t("photoP1l")],
                   [t("photoP2"), t("photoP2l")],
@@ -106,22 +123,28 @@ export default async function ProductPage({ params }: { params: Promise<{ locale
       </Split>
       <Split image={product.images[3] || product.images[0]} alt="" flip={false} tone="light">
         <h2 className="font-display text-4xl">{t("for")}</h2>
-        <p className="mt-4 text-ivory/70">{gov ? t("govFor") : photo ? t("photoFor") : t("notFor")}</p>
+        <p className="mt-4 text-ivory/70">{gov ? t("govFor") : photo ? t("photoFor") : keys ? t("keysFor") : t("notFor")}</p>
         {gov ? <p className="mt-4 text-ivory/70">{t("govNotFor")}</p> : null}
         {photo ? <p className="mt-4 text-ivory/70">{t("photoNotFor")}</p> : null}
+        {keys ? (
+          <>
+            <p className="mt-4 text-ivory/70">{t("keysNotFor")}</p>
+            <p className="mt-4 text-ivory/70">{t("keysEthics")}</p>
+          </>
+        ) : null}
       </Split>
 
       <section className="py-16">
         <Container>
           <h2 className="font-display text-4xl">{t("science")}</h2>
-          <p className="mt-4 max-w-2xl text-ivory/70">{gov ? t("govScience") : photo ? t("photoScience") : t("scienceBody")}</p>
+          <p className="mt-4 max-w-2xl text-ivory/70">{gov ? t("govScience") : photo ? t("photoScience") : keys ? t("keysScience") : t("scienceBody")}</p>
         </Container>
       </section>
 
       <section className="bg-ink-2/45 py-16">
         <Container>
-          <h2 className="font-display text-4xl">{gov || photo ? t("studioNotes") : t("reviews")}</h2>
-          {gov || photo ? <p className="mt-3 max-w-2xl text-sm text-stone">{t("studioNotesSub")}</p> : null}
+          <h2 className="font-display text-4xl">{featured ? t("studioNotes") : t("reviews")}</h2>
+          {featured ? <p className="mt-3 max-w-2xl text-sm text-stone">{t("studioNotesSub")}</p> : null}
           <div className="mt-8 grid gap-4 md:grid-cols-2">
             {reviews.map((r) => (
               <blockquote key={r.title} className="rounded-2xl bg-ink-3 p-5">
@@ -158,7 +181,7 @@ export default async function ProductPage({ params }: { params: Promise<{ locale
         </section>
       ) : null}
 
-      {premium ? null : (
+      {premium || keys ? null : (
         <section className="border-t border-gold/30 py-12">
           <Container className="flex flex-wrap items-center justify-between gap-4">
             <p className="font-display text-2xl">{t("vaultStrip")}</p>
@@ -173,12 +196,17 @@ export default async function ProductPage({ params }: { params: Promise<{ locale
 }
 
 function Gallery({ images, alt }: { images: string[]; alt: string }) {
-  const shots = images.slice(0, 4);
+  const [hero, ...rest] = images;
   return (
     <div className="grid grid-cols-2 gap-3">
-      {shots.map((src, i) => (
-        <div key={src + i} className={`relative overflow-hidden rounded-2xl ${i === 0 ? "col-span-2 aspect-[4/5]" : "aspect-square"}`}>
-          <Image src={src} alt={alt} fill className="object-cover" sizes="50vw" priority={i === 0} />
+      {hero ? (
+        <div className="relative col-span-2 aspect-[4/5] overflow-hidden rounded-2xl">
+          <Image src={hero} alt={alt} fill className="object-cover" sizes="50vw" priority />
+        </div>
+      ) : null}
+      {rest.map((src, i) => (
+        <div key={src + i} className="relative aspect-square overflow-hidden rounded-2xl">
+          <Image src={src} alt={alt} fill className="object-cover" sizes="25vw" />
         </div>
       ))}
     </div>

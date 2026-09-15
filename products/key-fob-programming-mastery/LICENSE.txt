@@ -1,0 +1,20 @@
+DIGI WORLD — LICENCE AND DISCLAIMER
+Product: Key Fob Programming Mastery
+Serial: DW-EBK-001
+
+LICENCE
+You may install and use this PDF for one technician (solo licence) or two shop seats (duo licence), matching what you paid. Personal use. No redistribution, no sharing the files, no marketplace dump, no resale of this zip or PDF.
+
+NOT LEGAL ADVICE
+This is training material for authorized automotive key-fob work. It is not a lawyer, not a certificate, and not a permit. Follow the law where you work.
+
+AUTHORIZED WORK ONLY
+Program or cut keys only for the verified owner or documented authorized agent of that specific vehicle. Photo ID + registration/title. Log the job. Walk away from a bad story.
+
+OUT OF SCOPE
+This product does not teach theft, skipped paperwork, stolen-vehicle starts, undocumented immobilizer bypass, EEPROM attacks, or dealer-login abuse.
+
+NO “EVERY CAR” WARRANTY
+Platforms differ. Refer luxury and unsupported systems. A weak vehicle battery can ruin a write. Support power first.
+
+Contact: hello@digi-world.online

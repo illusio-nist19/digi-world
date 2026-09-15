@@ -1,0 +1,38 @@
+Key Fob Programming Mastery — START HERE
+Serial: DW-EBK-001
+Digi World original · one-technician licence
+
+Open the book: Key-Fob-Programming-Mastery.pdf
+Subtitle: From First Remote to Immobilizer Expert.
+
+This is authorized automotive key-fob work for verified vehicle owners only.
+It is not a theft guide, not a bypass tutorial, not legal advice, and not a certificate.
+
+HOW TO STUDY
+1. Read Chapters 1–6 once for vocabulary. Do not skip ethics.
+2. Read Chapters 7–11 with a notebook. That is your shop system.
+3. Walk Chapters 12–18 as if a car were in the bay. Speak the steps out loud.
+4. Use Chapter 21 as a 90-day calendar. Practice on donated locks and a legally owned practice vehicle.
+
+THE SEQUENCE
+verify the owner → quote the job → prepare the remote → program → test the finish → refer what you cannot support.
+
+RULE
+Program or cut keys only for the verified owner (or documented authorized agent) of that specific vehicle.
+Photo ID + registration/title. Log it. If the story is wrong, the job is over.
+
+STOP / REFER
+This book will not teach theft, skipped paperwork, stolen-vehicle starts, undocumented immobilizer bypass, EEPROM “attacks,” or dealer-login abuse. Those are crimes, not craft.
+
+SAFETY
+Weak vehicle batteries cause more “bricked” programming jobs than bad technicians. Support power before you write immobilizer data.
+
+LICENCE
+One technician ($67) or two shop seats ($97). Personal install only. No redistribution. No marketplace dump of this PDF.
+
+FILES IN THIS ZIP
+- 00-START-HERE.txt (this file)
+- LICENSE.txt
+- Key-Fob-Programming-Mastery.pdf
+
+Support: if the zip will not open, write hello@digi-world.online within 7 days for a replacement.
