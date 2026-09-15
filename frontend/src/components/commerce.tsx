@@ -215,18 +215,17 @@ const schema = z.object({
 function CheckoutModal({ catalog }: { catalog: Catalog }) {
   const t = useTranslations("checkout");
   const locale = useLocale();
-  const router = useRouter();
-  const { checkoutOpen, setCheckoutOpen, setUpsellOpen } = useUI();
+  const { checkoutOpen, setCheckoutOpen } = useUI();
   const { lines, clear, setLastOrder } = useCart();
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState(false);
   const total = cartTotal(lines);
   if (!checkoutOpen) return null;
   return (
-    <div className="fixed inset-0 z-[95] flex items-center justify-center p-4" role="dialog" aria-modal>
+    <div className="fixed inset-0 z-[95] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="dw-pay-title">
       <button className="absolute inset-0 bg-black/70" aria-label="Close" onClick={() => setCheckoutOpen(false)} />
       <form
-        className="relative w-full max-w-lg rounded-2xl bg-ink-2 p-6"
+        className="relative max-h-[92vh] w-full max-w-md overflow-y-auto rounded-2xl border border-line bg-ink-3 p-6 shadow-2xl"
         onSubmit={async (e) => {
           e.preventDefault();
           setErr("");
@@ -263,24 +262,16 @@ function CheckoutModal({ catalog }: { catalog: Catalog }) {
                 user_agent: navigator.userAgent,
               }),
             });
-            if (!res.ok) throw new Error("order");
-            const data = await res.json();
-            const params = { value: total / 100, currency: "USD", contents: lines.map((l) => ({ id: l.sku, quantity: l.qty, item_price: l.unitPriceCents / 100 })) };
-            trackBrowser("Lead", { ...params, value: 0 }, leadId);
-            trackBrowser("Purchase", params, purchaseId);
-            if (typeof window.fbq === "function") {
-              window.fbq("init", process.env.NEXT_PUBLIC_META_PIXEL_ID, { em: parsed.data.email, fn: parsed.data.name.split(" ")[0] });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok || !data.checkout_url) {
+              setErr(res.status === 503 ? t("notReady") : t("error"));
+              return;
             }
+            trackBrowser("Lead", { value: 0, currency: "USD", contents: lines.map((l) => ({ id: l.sku, quantity: l.qty, item_price: l.unitPriceCents / 100 })) }, leadId);
             setLastOrder(data.public_id, parsed.data.email);
             sessionStorage.setItem("dw_order", JSON.stringify(data));
             clear();
-            if (data.upsell) {
-              sessionStorage.setItem("dw_upsell", JSON.stringify(data.upsell));
-              setUpsellOpen(true);
-            } else {
-              setCheckoutOpen(false);
-              router.push(`/thank-you?order=${data.public_id}`);
-            }
+            window.location.href = data.checkout_url as string;
           } catch {
             setErr(t("error"));
           } finally {
@@ -288,34 +279,41 @@ function CheckoutModal({ catalog }: { catalog: Catalog }) {
           }
         }}
       >
-        <h2 className="font-display text-3xl">{t("title")}</h2>
+        <p className="text-[10px] uppercase tracking-[0.22em] text-gold">{t("secure")}</p>
+        <h2 id="dw-pay-title" className="mt-2 font-display text-3xl">
+          {t("title")}
+        </h2>
         <p className="mt-2 text-stone">{t("sub")}</p>
-        <div className="my-5 space-y-2 rounded-2xl border border-line p-4 text-sm">
+        <div className="my-5 space-y-2 rounded-2xl border border-line bg-ink-2 p-4 text-sm">
           {lines.map((l) => (
-            <div key={l.key} className="flex justify-between">
+            <div key={l.key} className="flex justify-between gap-3">
               <span>{l.name}</span>
               <span className="text-gold">{money(l.unitPriceCents)}</span>
             </div>
           ))}
-          <div className="flex justify-between font-display text-lg">
+          <div className="flex justify-between border-t border-line pt-2 font-display text-lg">
             <span>{t("total")}</span>
             <span className="text-gold">{money(total)}</span>
           </div>
         </div>
-        <p className="mb-4 text-xs text-gold">★★★★★ · {t("proof")}</p>
         <label className="mb-3 block text-sm text-stone">
           {t("name")}
-          <input name="name" required minLength={2} className="mt-1 h-12 w-full rounded-xl border border-line bg-ivory/10 px-3 text-ivory" />
+          <input name="name" required minLength={2} autoComplete="name" className="mt-1 h-12 w-full rounded-xl border border-line bg-ivory/10 px-3 text-ivory" />
         </label>
         <label className="mb-4 block text-sm text-stone">
           {t("email")}
-          <input name="email" type="email" required dir="ltr" className="mt-1 h-12 w-full rounded-xl border border-line bg-ivory/10 px-3 text-ivory" />
+          <input name="email" type="email" required dir="ltr" autoComplete="email" className="mt-1 h-12 w-full rounded-xl border border-line bg-ivory/10 px-3 text-ivory" />
         </label>
+        <div className="mb-4 rounded-2xl border border-gold/30 bg-gold/5 p-4">
+          <p className="text-sm font-medium">{t("payTitle")}</p>
+          <p className="mt-1 text-xs text-stone">{t("paySub")}</p>
+          <p className="mt-3 text-[11px] tracking-wide text-ivory/70">{t("cards")}</p>
+        </div>
         {err ? <p className="mb-3 text-sm text-danger">{err}</p> : null}
         <button disabled={busy} className="h-12 w-full rounded-full bg-gold font-medium text-ink disabled:opacity-40">
-          {t("cta")}
+          {busy ? t("opening") : t("cta", { price: money(total) })}
         </button>
-        <p className="mt-3 text-center text-xs text-stone">{t("lead")} · {t("lock")}</p>
+        <p className="mt-3 text-center text-xs text-stone">{t("lock")}</p>
       </form>
     </div>
   );

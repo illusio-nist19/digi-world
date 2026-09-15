@@ -126,16 +126,22 @@
     "remove": "احذف"
   },
   "checkout": {
-    "title": "قربت تصير لك",
-    "sub": "الاسم والإيميل. الخزنة توصلك.",
-    "lead": "وصلك الإيميل خلال دقايق.",
+    "title": "دفع آمن",
+    "sub": "الدفع على Stripe. الزيب ينفتح بعد ما يوصل المبلغ.",
+    "lead": "بطاقة، Apple Pay، Google Pay عبر Stripe.",
     "name": "الاسم",
     "email": "الإيميل",
-    "cta": "أرسل لي الخزنة",
-    "error": "ما اكتمل. جرّب مرة ثانية.",
-    "lock": "HTTPS · ما نبيع إيميلك",
+    "cta": "ادفع {price}",
+    "error": "ما فتح الدفع. جرّب مرة ثانية.",
+    "notReady": "الدفع مو مربوط بعد. راسل hello@digi-world.online.",
+    "lock": "SSL · Stripe · ما نخزّن بطاقتك",
     "proof": "أنظمة معتمدة · رقمي لكل العالم",
-    "total": "الإجمالي"
+    "total": "الإجمالي",
+    "secure": "دفع مشفّر",
+    "payTitle": "ادفع عبر Stripe",
+    "paySub": "تنتقل لصفحة Stripe. الملف مقفل إلى ما يؤكدون الدفع.",
+    "cards": "Visa · Mastercard · Amex · Apple Pay · Google Pay",
+    "opening": "نفتح Stripe…"
   },
   "upsell": {
     "title": "لحظة — في باب لسه مفتوح",
@@ -152,7 +158,10 @@
     "s3": "راسلنا إذا ملف ما ينفتح. استبدال 7 أيام.",
     "download": "حمّل الملف",
     "cta": "ارجع للأنظمة",
-    "order": "طلب"
+    "order": "طلب",
+    "waiting": "نأكد الدفع",
+    "waitingSub": "Stripe يخلّص العملية. الزيب مقفل إلى ما يوصل المبلغ.",
+    "unpaid": "إذا وقف أكثر من دقيقة، راجع إيميل Stripe أو راسل hello@digi-world.online برقم الطلب."
   },
   "about": {
     "title": "الدار",

@@ -126,16 +126,22 @@
     "remove": "Remove"
   },
   "checkout": {
-    "title": "Almost yours",
-    "sub": "Name + email. We send the vault.",
-    "lead": "We email your next step in minutes.",
+    "title": "Secure checkout",
+    "sub": "Pay on Stripe. The zip unlocks only after the payment clears.",
+    "lead": "Card, Apple Pay, and Google Pay on Stripe.",
     "name": "Name",
     "email": "Email",
-    "cta": "Get my vault",
-    "error": "Couldn’t confirm. Try again.",
-    "lock": "HTTPS · we never sell your email",
+    "cta": "Pay {price}",
+    "error": "Couldn’t open payment. Try again.",
+    "notReady": "Payments are not connected yet. Write hello@digi-world.online.",
+    "lock": "256-bit SSL · Stripe · we never store your card",
     "proof": "Studio-certified systems · worldwide digital",
-    "total": "Total"
+    "total": "Total",
+    "secure": "Encrypted payment",
+    "payTitle": "Pay with Stripe",
+    "paySub": "You leave this window for Stripe’s checkout. Files stay locked until Stripe says paid.",
+    "cards": "Visa · Mastercard · Amex · Apple Pay · Google Pay",
+    "opening": "Opening Stripe…"
   },
   "upsell": {
     "title": "Wait — one door still open",
@@ -152,7 +158,10 @@
     "s3": "Write us if a file won’t open. 7-day replacement.",
     "download": "Download your zip",
     "cta": "Back to systems",
-    "order": "Order"
+    "order": "Order",
+    "waiting": "Confirming payment",
+    "waitingSub": "Stripe is clearing the charge. The zip stays locked until it does.",
+    "unpaid": "If this sits more than a minute, check the card email from Stripe or write hello@digi-world.online with your order id."
   },
   "about": {
     "title": "The house",

@@ -9,3 +9,4 @@ pydantic-settings==2.9.1
 httpx==0.28.1
 email-validator==2.2.0
 python-multipart==0.0.20
+stripe==12.5.1

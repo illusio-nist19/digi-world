@@ -10,6 +10,9 @@ const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
   },
+  async redirects() {
+    return [{ source: "/vault/:path*", destination: "/en", permanent: false }];
+  },
 };
 
 export default withNextIntl(nextConfig);

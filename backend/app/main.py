@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api.catalog import router as catalog_router
 from app.api.contact import router as contact_router
 from app.api.health import router as health_router
+from app.api.orders import hooks as stripe_hooks
 from app.api.orders import router as orders_router
 from app.api.tracking import router as track_router
 from app.config import get_settings
@@ -51,5 +52,6 @@ app.add_middleware(
 app.include_router(health_router)
 app.include_router(catalog_router)
 app.include_router(orders_router)
+app.include_router(stripe_hooks)
 app.include_router(contact_router)
 app.include_router(track_router)

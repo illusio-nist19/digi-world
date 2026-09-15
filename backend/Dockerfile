@@ -7,6 +7,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY alembic.ini .
 COPY alembic ./alembic
 COPY app ./app
+COPY vault ./vault
 RUN useradd -m appuser && chown -R appuser:appuser /app
 USER appuser
 EXPOSE 8000

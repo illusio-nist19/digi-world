@@ -1,0 +1,37 @@
+from __future__ import annotations
+
+from pathlib import Path
+
+from fastapi import HTTPException
+from fastapi.responses import FileResponse
+
+VAULT_FILES: dict[str, str] = {
+    "DW-SYS-009": "DW-SYS-009-smb-ai-governance-kit.zip",
+    "DW-SYS-010": "DW-SYS-010-photographer-os.zip",
+}
+
+ROOTS = (
+    Path(__file__).resolve().parents[2] / "vault",
+    Path("/app/vault"),
+)
+
+
+def vault_path(sku: str) -> Path:
+    name = VAULT_FILES.get(sku)
+    if not name:
+        raise HTTPException(404, "no file for this system")
+    for root in ROOTS:
+        path = root / name
+        if path.is_file():
+            return path
+    raise HTTPException(404, "vault file missing")
+
+
+def file_response(sku: str) -> FileResponse:
+    path = vault_path(sku)
+    return FileResponse(
+        path,
+        media_type="application/zip",
+        filename=path.name,
+        headers={"Cache-Control": "no-store", "X-Content-Type-Options": "nosniff"},
+    )

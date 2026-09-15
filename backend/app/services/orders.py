@@ -123,7 +123,7 @@ async def create_order(session: AsyncSession, data: OrderCreate, ip: str | None,
         id=str(uuid4()),
         public_id=make_public_id(),
         client_order_id=data.client_order_id,
-        status="lead",
+        status="pending_payment",
         name=data.name.strip(),
         email=str(data.email).lower(),
         locale=data.locale,
@@ -154,7 +154,6 @@ async def create_order(session: AsyncSession, data: OrderCreate, ip: str | None,
                 extra=ln.extra or {},
             )
         )
-    await bump_licenses(session, lines)
     await session.commit()
     q = await session.execute(select(Order).options(selectinload(Order.items)).where(Order.id == order.id))
     return q.scalar_one()

@@ -9,11 +9,20 @@ from app.config import get_settings
 from app.db import get_db
 from app.models import Order
 from app.schemas import OrderCreate, UpsellCreate
-from app.services.email import send_order_email
-from app.services.orders import add_upsell, after_order, client_ip, create_order, pick_upsell, serialize_order
+from app.services.orders import add_upsell, client_ip, create_order
+from app.services.payments import (
+    confirm_session,
+    create_checkout_session,
+    mark_paid,
+    parse_webhook,
+    payments_ready,
+    serialize_paid,
+)
 from app.services.pricing import PriceError
+from app.services.vault import VAULT_FILES, file_response
 
 router = APIRouter(prefix="/orders", tags=["orders"])
+hooks = APIRouter(tags=["webhooks"])
 _hits: dict[str, list[float]] = {}
 
 
@@ -29,32 +38,66 @@ def rate_limit(ip: str) -> None:
 
 
 @router.post("")
-async def create(data: OrderCreate, request: Request, bg: BackgroundTasks, db: AsyncSession = Depends(get_db)) -> dict:
+async def create(data: OrderCreate, request: Request, db: AsyncSession = Depends(get_db)) -> dict:
     ip = client_ip(dict(request.headers), request.client.host if request.client else None) or "0.0.0.0"
     rate_limit(ip)
     ua = data.user_agent or request.headers.get("user-agent")
+    if not payments_ready():
+        raise HTTPException(503, "payments not configured")
     try:
         order = await create_order(db, data, ip, ua)
     except PriceError as exc:
         raise HTTPException(400, str(exc)) from exc
-    bg.add_task(after_order, order, data.event_source_url, True)
-    bg.add_task(send_order_email, order.email, order.public_id, order.locale)
-    upsell = await pick_upsell(db, order)
-    payload = await serialize_order(order)
-    if upsell:
-        product, cents = upsell
-        payload["upsell"] = {
-            "sku": product.sku,
-            "slug": product.slug,
-            "name": product.name,
-            "sub": product.sub,
-            "image": (product.images or [None])[0],
-            "price_cents": cents,
-            "compare_cents": product.price_cents if product.type != "vault" else 9700,
-        }
-    else:
+    if order.status == "paid":
+        payload = serialize_paid(order)
+        payload["checkout_url"] = None
         payload["upsell"] = None
+        return payload
+    try:
+        checkout_url = await create_checkout_session(order)
+        await db.commit()
+    except HTTPException:
+        raise
+    except Exception as exc:  # noqa: BLE001
+        raise HTTPException(502, "could not open payment") from exc
+    payload = serialize_paid(order)
+    payload["checkout_url"] = checkout_url
+    payload["upsell"] = None
     return payload
+
+
+@router.post("/{public_id}/confirm")
+async def confirm(
+    public_id: str,
+    request: Request,
+    db: AsyncSession = Depends(get_db),
+) -> dict:
+    body = {}
+    try:
+        body = await request.json()
+    except Exception:  # noqa: BLE001
+        body = {}
+    q = await db.execute(select(Order).options(selectinload(Order.items)).where(Order.public_id == public_id))
+    order = q.scalar_one_or_none()
+    if not order:
+        raise HTTPException(404, "not found")
+    session_id = (body or {}).get("session_id") or request.query_params.get("session_id")
+    order = await confirm_session(db, order, session_id)
+    return serialize_paid(order)
+
+
+@router.get("/{public_id}/file/{sku}")
+async def download(public_id: str, sku: str, token: str, db: AsyncSession = Depends(get_db)):
+    q = await db.execute(select(Order).options(selectinload(Order.items)).where(Order.public_id == public_id))
+    order = q.scalar_one_or_none()
+    if not order or order.status != "paid":
+        raise HTTPException(402, "payment required")
+    pay = (order.attribution or {}).get("pay") or {}
+    if not token or token != pay.get("download_token"):
+        raise HTTPException(403, "bad token")
+    if sku not in {i.sku for i in order.items} or sku not in VAULT_FILES:
+        raise HTTPException(404, "file not on this order")
+    return file_response(sku)
 
 
 @router.post("/{public_id}/upsell")
@@ -65,37 +108,13 @@ async def upsell(public_id: str, data: UpsellCreate, request: Request, bg: Backg
     order = q.scalar_one_or_none()
     if not order:
         raise HTTPException(404, "not found")
+    if order.status != "paid":
+        raise HTTPException(402, "payment required")
     try:
         order = await add_upsell(db, public_id, data, order.locale)
     except PriceError as exc:
         raise HTTPException(400, str(exc)) from exc
-    last = next((i for i in order.items if i.is_upsell), None)
-    from app.services import capi
-
-    async def send() -> None:
-        await capi.fanout(
-            "Purchase",
-            data.event_id,
-            {
-                "name": order.name,
-                "email": order.email,
-                "ip": ip,
-                "user_agent": data.user_agent or request.headers.get("user-agent"),
-                "event_source_url": data.event_source_url,
-                "currency": "USD",
-                "value": (last.unit_price_cents / 100) if last else 0,
-                "contents": [{"id": last.sku, "quantity": 1, "item_price": last.unit_price_cents / 100}] if last else [],
-                "order_id": order.public_id,
-                **(order.attribution or {}),
-            },
-        )
-        from app.services.sheet import post_sheet
-        from app.services.orders import order_sheet_payload
-
-        await post_sheet(order_sheet_payload(order))
-
-    bg.add_task(send)
-    return await serialize_order(order)
+    return serialize_paid(order)
 
 
 @router.get("/{public_id}")
@@ -104,4 +123,30 @@ async def get_order(public_id: str, db: AsyncSession = Depends(get_db)) -> dict:
     order = q.scalar_one_or_none()
     if not order:
         raise HTTPException(404, "not found")
-    return await serialize_order(order)
+    return serialize_paid(order)
+
+
+@hooks.post("/webhooks/stripe")
+async def stripe_webhook(request: Request, db: AsyncSession = Depends(get_db)) -> dict:
+    payload = await request.body()
+    event = parse_webhook(payload, request.headers.get("stripe-signature"))
+    etype = event["type"] if isinstance(event, dict) else getattr(event, "type", "")
+    if etype not in {"checkout.session.completed", "checkout.session.async_payment_succeeded"}:
+        return {"ok": True}
+    data = event["data"] if isinstance(event, dict) else event.data
+    session = data["object"] if isinstance(data, dict) else data.object
+    status = session.get("payment_status") if hasattr(session, "get") else getattr(session, "payment_status", None)
+    if status != "paid":
+        return {"ok": True}
+    meta = session.get("metadata") if hasattr(session, "get") else getattr(session, "metadata", None) or {}
+    public_id = (meta or {}).get("public_id") or (
+        session.get("client_reference_id") if hasattr(session, "get") else getattr(session, "client_reference_id", None)
+    )
+    if not public_id:
+        return {"ok": True}
+    q = await db.execute(select(Order).options(selectinload(Order.items)).where(Order.public_id == public_id))
+    order = q.scalar_one_or_none()
+    if not order:
+        return {"ok": True}
+    await mark_paid(db, order, session.get("id") if hasattr(session, "get") else getattr(session, "id", None))
+    return {"ok": True}

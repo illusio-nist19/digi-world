@@ -126,16 +126,22 @@
     "remove": "Retirer"
   },
   "checkout": {
-    "title": "Presque à vous",
-    "sub": "Nom + e-mail. On envoie le coffre.",
-    "lead": "La prochaine étape arrive en minutes.",
+    "title": "Paiement sécurisé",
+    "sub": "Paiement Stripe. Le zip s’ouvre seulement après encaissement.",
+    "lead": "Carte, Apple Pay et Google Pay via Stripe.",
     "name": "Nom",
     "email": "E-mail",
-    "cta": "Recevoir mon coffre",
-    "error": "Échec. Réessayez.",
-    "lock": "HTTPS · on ne vend pas votre e-mail",
+    "cta": "Payer {price}",
+    "error": "Paiement impossible. Réessayez.",
+    "notReady": "Paiement non branché. Écrire hello@digi-world.online.",
+    "lock": "SSL · Stripe · on ne stocke pas la carte",
     "proof": "Systèmes certifiés · numérique mondial",
-    "total": "Total"
+    "total": "Total",
+    "secure": "Paiement chiffré",
+    "payTitle": "Payer avec Stripe",
+    "paySub": "Vous passez sur Stripe. Les fichiers restent verrouillés jusqu’au paiement.",
+    "cards": "Visa · Mastercard · Amex · Apple Pay · Google Pay",
+    "opening": "Ouverture de Stripe…"
   },
   "upsell": {
     "title": "Attendez — une porte est encore ouverte",
@@ -152,7 +158,10 @@
     "s3": "Écrivez-nous si un fichier ne s’ouvre pas.",
     "download": "Télécharger le zip",
     "cta": "Retour aux systèmes",
-    "order": "Commande"
+    "order": "Commande",
+    "waiting": "Confirmation du paiement",
+    "waitingSub": "Stripe encaisse. Le zip reste fermé jusque-là.",
+    "unpaid": "Si cela dépasse une minute, vérifiez l’e-mail Stripe ou écrivez hello@digi-world.online avec le n° de commande."
   },
   "about": {
     "title": "La maison",

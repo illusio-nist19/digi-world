@@ -126,16 +126,22 @@
     "remove": "Quitar"
   },
   "checkout": {
-    "title": "Casi tuyo",
-    "sub": "Nombre + email. Enviamos el vault.",
-    "lead": "El siguiente paso llega en minutos.",
+    "title": "Pago seguro",
+    "sub": "Pagas en Stripe. El zip se abre solo cuando el cobro entra.",
+    "lead": "Tarjeta, Apple Pay y Google Pay en Stripe.",
     "name": "Nombre",
     "email": "Email",
-    "cta": "Quiero mi vault",
-    "error": "No se confirmó. Inténtalo.",
-    "lock": "HTTPS · no vendemos tu email",
+    "cta": "Pagar {price}",
+    "error": "No se abrió el pago. Inténtalo.",
+    "notReady": "El pago no está conectado. Escribe a hello@digi-world.online.",
+    "lock": "SSL · Stripe · no guardamos tu tarjeta",
     "proof": "Sistemas certificados · digital mundial",
-    "total": "Total"
+    "total": "Total",
+    "secure": "Pago cifrado",
+    "payTitle": "Pagar con Stripe",
+    "paySub": "Sales a Stripe. Los archivos siguen cerrados hasta el cobro.",
+    "cards": "Visa · Mastercard · Amex · Apple Pay · Google Pay",
+    "opening": "Abriendo Stripe…"
   },
   "upsell": {
     "title": "Espera — hay una puerta abierta",
@@ -152,7 +158,10 @@
     "s3": "Escríbenos si un archivo no abre.",
     "download": "Descargar el zip",
     "cta": "Volver a sistemas",
-    "order": "Pedido"
+    "order": "Pedido",
+    "waiting": "Confirmando el pago",
+    "waitingSub": "Stripe está cobrando. El zip sigue cerrado hasta entonces.",
+    "unpaid": "Si pasa de un minuto, revisa el email de Stripe o escribe a hello@digi-world.online con el pedido."
   },
   "about": {
     "title": "La casa",
