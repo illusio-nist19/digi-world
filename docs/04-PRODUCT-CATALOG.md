@@ -41,6 +41,24 @@ These sit above Drop 01. They are **not** inside `the-vault`. One studio / one o
 | Etsy | Cousin printable $12–$19, or full desk at **$49** with access PDF — never the vault at $7 |
 | Zip | `products/releases/DW-SYS-010-photographer-os.zip` |
 
+### DW-SYS-011 Digi World Client Tracker
+
+| | |
+| --- | --- |
+| sku | `DW-SYS-011` |
+| slug | `client-tracker` |
+| collection | creator-lab |
+| serial | DW-SYS-011 |
+| EN name | Digi World Client Tracker |
+| Price | **$39** one studio · **$59** two seats |
+| EN headline | Clients, follow-ups, tasks, invoices — one desk. |
+| EN sub | Offline HTML CRM: Client Database, Communication Log, Task Tracker, Smart Calendar, Client Overview, Dashboard — with CSV export. No Google account. |
+| Contains | START-HERE, Client-Tracker.html (7 windows), README |
+| Pain | Leads in DMs, forgotten follow-ups, tasks in three apps, no invoice status at a glance |
+| Desire | One local desk that keeps clients, comms, and tasks in sync |
+| Licence | One studio / two seats; personal use; no redistribution |
+| Zip | `products/releases/DW-SYS-011-client-tracker.zip` · `backend/vault/` |
+
 ### DW-EBK-001 Key Fob Programming Mastery
 
 | | |

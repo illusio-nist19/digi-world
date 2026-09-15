@@ -1,0 +1,24 @@
+﻿# Digi World Client Tracker — START HERE
+
+Double-click Client-Tracker.html. No Google account. No install.
+
+## First 10 minutes
+1. Open Setup — set business name, currency, week start
+2. Tune dropdown lists if you want
+3. Open Client Database → Add client (or keep the sample desk)
+4. Log one call in Communication Log
+5. Add one task in Task Tracker
+6. Open Dashboard
+
+## Licence
+One studio / one seat (or the duo seats you bought). Personal use.
+Do not redistribute, resell, or dump this file on marketplaces.
+
+## Privacy
+All data stays in this browser (localStorage). Digi World never sees your clients.
+
+## Support
+hello@digi-world.online
+
+Digi World · Digital systems, not files.
+Not legal or tax advice.

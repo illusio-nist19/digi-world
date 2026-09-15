@@ -224,6 +224,60 @@ KEYS_FAQS = [
 ]
 
 
+CRM_FAQS = [
+    faq_block(
+        "Do I need Google Sheets or Notion?",
+        "No. Double-click Client-Tracker.html. It runs in your browser. Data stays on this computer in localStorage.",
+        "لازم قوقل شيتس أو نوشن؟",
+        "لا. افتح Client-Tracker.html. يشتغل بالمتصفح. البيانات تبقى على جهازك.",
+        "Il me faut Google Sheets ou Notion ?",
+        "Non. Double-cliquez Client-Tracker.html. Ça tourne dans le navigateur. Les données restent sur cet ordinateur.",
+        "¿Necesito Google Sheets o Notion?",
+        "No. Abre Client-Tracker.html. Corre en el navegador. Los datos se quedan en este ordenador.",
+    ),
+    faq_block(
+        "What are the seven windows?",
+        "Setup, Client Database, Communication Log, Task Tracker, Smart Calendar, Client Overview, and Dashboard — one shared data store.",
+        "وش السبع نوافذ؟",
+        "الإعداد، قاعدة العملاء، سجل التواصل، متتبع المهام، التقويم، نظرة العميل، ولوحة التحكم — مخزن بيانات واحد.",
+        "Quelles sont les sept fenêtres ?",
+        "Setup, base clients, journal de communication, tâches, calendrier, vue client, et tableau de bord — une seule base.",
+        "¿Cuáles son las siete ventanas?",
+        "Setup, base de clientes, log de comunicación, tareas, calendario, vista de cliente y panel — un solo almacén.",
+    ),
+    faq_block(
+        "Can I export to CSV / Excel?",
+        "Yes. Export CSV exports this window or all data (clients, communications, tasks, setup) with Excel-safe UTF-8 BOM. Setup also imports a clients CSV.",
+        "أقدر أصدّر CSV / إكسل؟",
+        "نعم. تصدير CSV لهذه النافذة أو لكل البيانات. الإعداد يستورد CSV عملاء أيضاً.",
+        "Export CSV / Excel ?",
+        "Oui. Export CSV pour la fenêtre ou toutes les données. Setup importe aussi un CSV clients.",
+        "¿Puedo exportar a CSV / Excel?",
+        "Sí. Export CSV de esta ventana o de todos los datos. Setup también importa un CSV de clientes.",
+    ),
+    faq_block(
+        "How many seats? Can I resell it?",
+        "One studio is $39. Two seats is $59. Personal use. No redistribution, no marketplace dump of the HTML.",
+        "كم مقعد؟ أقدر أبيعه؟",
+        "استوديو واحد 39$. مقعدين 59$. استخدام شخصي. بدون إعادة نشر.",
+        "Combien de sièges ? Je peux le revendre ?",
+        "Un studio = 39 $. Deux sièges = 59 $. Usage perso. Pas de redistribution.",
+        "¿Cuántos asientos? ¿Puedo revenderlo?",
+        "Un estudio = 39 $. Dos asientos = 59 $. Uso personal. Sin reventa.",
+    ),
+    faq_block(
+        "How do I get the files? Refund?",
+        "After name and email, the thank-you page has the zip. We also email that inbox. 7-day replacement if the zip will not open.",
+        "كيف يوصلني الملف؟ استرجاع؟",
+        "بعد الاسم والإيميل، صفحة الشكر فيها الزيب. استبدال 7 أيام إذا ما ينفتح.",
+        "Comment je reçois les fichiers ?",
+        "Après nom et e-mail, la page merci a le zip. 7 jours si le zip n’ouvre pas.",
+        "¿Cómo recibo los archivos?",
+        "Tras nombre y email, la página de gracias tiene el zip. 7 días si no abre.",
+    ),
+]
+
+
 PRODUCTS = [
     {
         "sku": "DW-SYS-010",
@@ -312,6 +366,50 @@ PRODUCTS = [
         ),
         "images": imgs("key-fob-programming-mastery", 10),
         "faq": KEYS_FAQS,
+    },
+    {
+        "sku": "DW-SYS-011",
+        "slug": "client-tracker",
+        "collection": "creator-lab",
+        "type": "system",
+        "serial": "DW-SYS-011",
+        "price_cents": 3900,
+        "duo_price_cents": 5900,
+        "cross_sell": [],
+        "license_pool": 250,
+        "sort": 2,
+        "name": t(
+            "Digi World Client Tracker",
+            "متتبع عملاء ديجي وورلد",
+            "Client Tracker Digi World",
+            "Client Tracker Digi World",
+        ),
+        "headline": t(
+            "Clients, follow-ups, tasks, invoices — one desk.",
+            "عملاء، متابعات، مهام، فواتير — مكتب واحد.",
+            "Clients, relances, tâches, factures — un bureau.",
+            "Clientes, seguimientos, tareas, facturas — un escritorio.",
+        ),
+        "sub": t(
+            "Offline HTML CRM: Client Database, Communication Log, Task Tracker, Smart Calendar, Client Overview, Dashboard — with CSV export. No Google account.",
+            "CRM HTML بدون إنترنت: قاعدة عملاء، سجل تواصل، مهام، تقويم، نظرة عميل، لوحة — مع تصدير CSV. بدون حساب قوقل.",
+            "CRM HTML hors ligne : base clients, journal, tâches, calendrier, vue client, dashboard — export CSV. Pas de compte Google.",
+            "CRM HTML sin cuenta Google: base de clientes, log, tareas, calendario, vista y panel — con export CSV.",
+        ),
+        "description": t(
+            "A freelancer’s desk that actually keeps the follow-up alive.\n\nSeven windows share one local store: Setup, Client Database, Communication Log, Task Tracker, Smart Calendar, Client Overview, Dashboard. Charts update when you add a row. Export CSV for this window or the whole desk. Import clients from CSV on Setup.\n\nNo Google Sheets. No Notion login. Double-click the HTML and work. Data stays on this computer.",
+            "مكتب فريلانسر يحافظ على المتابعة.\n\nسبع نوافذ على مخزن محلي واحد. الرسوم تتحدّث مع كل صف. صدّر CSV. استورد عملاء من CSV.\n\nبدون قوقل شيتس. افتح الـHTML واشتغل. البيانات على جهازك.",
+            "Un bureau freelance qui garde les relances vivantes.\n\nSept fenêtres, une base locale. Les graphiques suivent. Export CSV. Import clients.\n\nPas de Google Sheets. Double-cliquez le HTML. Les données restent ici.",
+            "Un escritorio freelance que mantiene el seguimiento vivo.\n\nSiete ventanas, un almacén local. Los gráficos se actualizan. Export CSV. Importa clientes.\n\nSin Google Sheets. Abre el HTML. Los datos se quedan aquí.",
+        ),
+        "contents": t(
+            "START-HERE\nClient-Tracker.html (7 windows)\nSetup with editable dropdowns\nClient Database + charts\nCommunication Log\nTask Tracker (KPIs, overdue, filters)\nSmart Calendar (tasks, actions, contracts)\nClient Overview (360°)\nDashboard\nExport / import CSV\nSample desk included",
+            "ابدأ من هنا\nClient-Tracker.html (7 نوافذ)\nإعداد القوائم\nقاعدة عملاء + رسوم\nسجل تواصل\nمهام (مؤشرات، متأخر، فلاتر)\nتقويم ذكي\nنظرة عميل\nلوحة تحكم\nتصدير/استيراد CSV\nبيانات تجريبية",
+            "START-HERE\nClient-Tracker.html (7 fenêtres)\nSetup listes\nBase clients + graphiques\nJournal de communication\nTâches (KPI, retard, filtres)\nCalendrier\nVue client\nDashboard\nExport / import CSV\nDonnées exemple",
+            "START-HERE\nClient-Tracker.html (7 ventanas)\nSetup listas\nBase de clientes + gráficos\nLog de comunicación\nTareas (KPI, vencidas, filtros)\nCalendario\nVista de cliente\nPanel\nExport / import CSV\nDatos de ejemplo",
+        ),
+        "images": imgs("client-tracker", 6),
+        "faq": CRM_FAQS,
     },
 ]
 
@@ -434,6 +532,36 @@ REVIEWS = [
         "body": "Los límites de lujo son un capítulo, no un comentario. Marcharse gana a inventar un milagro en un cluster no soportado.",
         "display_name": "Brief de campo",
         "city_country": "Mesa de cerrajería",
+        "source": "studio_preview",
+    },
+    {
+        "product_sku": "DW-SYS-011",
+        "locale": "en",
+        "stars": 5,
+        "title": "Follow-up lived in three apps",
+        "body": "Built against a freelance desk that kept clients in Notes, tasks in a chat, and invoices in a folder. One HTML desk. CSV when the accountant asks.",
+        "display_name": "Studio brief",
+        "city_country": "Freelance desk",
+        "source": "studio_preview",
+    },
+    {
+        "product_sku": "DW-SYS-011",
+        "locale": "en",
+        "stars": 5,
+        "title": "No Google account to start",
+        "body": "Open the file tonight. Sample clients already make the Dashboard look alive. Then replace them with your real book.",
+        "display_name": "Studio brief",
+        "city_country": "Agency start",
+        "source": "studio_preview",
+    },
+    {
+        "product_sku": "DW-SYS-011",
+        "locale": "ar",
+        "stars": 5,
+        "title": "المتابعة كانت في ثلاث تطبيقات",
+        "body": "مبني ضد مكتب فريلانسر: العملاء في الملاحظات، المهام في الشات، الفواتير في مجلد. مكتب HTML واحد. CSV للمحاسب.",
+        "display_name": "موجز استوديو",
+        "city_country": "مكتب فريلانسر",
         "source": "studio_preview",
     },
 ]

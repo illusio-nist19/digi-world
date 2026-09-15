@@ -8,6 +8,7 @@ from fastapi.responses import FileResponse
 VAULT_FILES: dict[str, str] = {
     "DW-SYS-009": "DW-SYS-009-smb-ai-governance-kit.zip",
     "DW-SYS-010": "DW-SYS-010-photographer-os.zip",
+    "DW-SYS-011": "DW-SYS-011-client-tracker.zip",
     "DW-EBK-001": "DW-EBK-001-key-fob-programming-mastery.zip",
 }
 

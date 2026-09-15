@@ -20,6 +20,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const catalog = await getCatalog();
   const product = productBySlug(catalog, slug);
   if (!product) return {};
+  if (slug === "client-tracker") {
+    return {
+      title: "Digi World Client Tracker | Offline CRM HTML With CSV Export",
+      description: "Seven-window offline client CRM: database, communication log, tasks, calendar, overview, dashboard. Export CSV. No Google account. Digi World.",
+      openGraph: { images: product.images[0] ? [product.images[0]] : undefined },
+    };
+  }
   if (slug === "key-fob-programming-mastery") {
     return {
       title: "Key Fob Programming Mastery | Automotive Remote & Immobilizer Training E-Book",
@@ -53,7 +60,8 @@ export default async function ProductPage({ params }: { params: Promise<{ locale
   const gov = product.slug === "ai-governance-kit";
   const photo = product.slug === "photographer-os";
   const keys = product.slug === "key-fob-programming-mastery";
-  const featured = gov || photo || keys;
+  const crm = product.slug === "client-tracker";
+  const featured = gov || photo || keys || crm;
 
   return (
     <>
@@ -71,9 +79,10 @@ export default async function ProductPage({ params }: { params: Promise<{ locale
             <span className="rounded-full border border-gold/40 px-3 py-1 text-xs text-gold">{t("certified")}</span>
             {premium ? <span className="rounded-full border border-ivory/20 px-3 py-1 text-xs text-ivory/70">{photo ? t("studioBadge") : t("orgBadge")}</span> : null}
             {keys ? <span className="rounded-full border border-ivory/20 px-3 py-1 text-xs text-ivory/70">{t("techBadge")}</span> : null}
+            {crm ? <span className="rounded-full border border-ivory/20 px-3 py-1 text-xs text-ivory/70">{t("crmBadge")}</span> : null}
           </div>
           <p className="mt-4 font-display text-3xl text-gold">{money(product.price_cents)}</p>
-          <p className="mt-1 text-sm text-stone">{keys ? t("techPriceNote") : photo ? t("studioPriceNote") : premium ? t("orgPriceNote") : t("usd")}</p>
+          <p className="mt-1 text-sm text-stone">{crm ? t("crmPriceNote") : keys ? t("techPriceNote") : photo ? t("studioPriceNote") : premium ? t("orgPriceNote") : t("usd")}</p>
           <div className="mt-6">
             <PdpOffers product={product} catalog={catalog} />
           </div>
@@ -89,6 +98,13 @@ export default async function ProductPage({ params }: { params: Promise<{ locale
                   [t("keysP2"), t("keysP2l")],
                   [t("keysP3"), t("keysP3l")],
                   [t("keysP4"), t("keysP4l")],
+                ]
+              : crm
+              ? [
+                  [t("crmP1"), t("crmP1l")],
+                  [t("crmP2"), t("crmP2l")],
+                  [t("crmP3"), t("crmP3l")],
+                  [t("crmP4"), t("crmP4l")],
                 ]
               : photo
               ? [
@@ -123,9 +139,10 @@ export default async function ProductPage({ params }: { params: Promise<{ locale
       </Split>
       <Split image={product.images[3] || product.images[0]} alt="" flip={false} tone="light">
         <h2 className="font-display text-4xl">{t("for")}</h2>
-        <p className="mt-4 text-ivory/70">{gov ? t("govFor") : photo ? t("photoFor") : keys ? t("keysFor") : t("notFor")}</p>
+        <p className="mt-4 text-ivory/70">{gov ? t("govFor") : photo ? t("photoFor") : keys ? t("keysFor") : crm ? t("crmFor") : t("notFor")}</p>
         {gov ? <p className="mt-4 text-ivory/70">{t("govNotFor")}</p> : null}
         {photo ? <p className="mt-4 text-ivory/70">{t("photoNotFor")}</p> : null}
+        {crm ? <p className="mt-4 text-ivory/70">{t("crmNotFor")}</p> : null}
         {keys ? (
           <>
             <p className="mt-4 text-ivory/70">{t("keysNotFor")}</p>
@@ -137,7 +154,7 @@ export default async function ProductPage({ params }: { params: Promise<{ locale
       <section className="py-16">
         <Container>
           <h2 className="font-display text-4xl">{t("science")}</h2>
-          <p className="mt-4 max-w-2xl text-ivory/70">{gov ? t("govScience") : photo ? t("photoScience") : keys ? t("keysScience") : t("scienceBody")}</p>
+          <p className="mt-4 max-w-2xl text-ivory/70">{gov ? t("govScience") : photo ? t("photoScience") : keys ? t("keysScience") : crm ? t("crmScience") : t("scienceBody")}</p>
         </Container>
       </section>
 

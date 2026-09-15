@@ -54,6 +54,20 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       </Split>
 
       {catalog.products
+        .filter((p) => p.slug === "client-tracker")
+        .map((p) => (
+          <Split key={p.sku} image={p.images[0]} alt={loc(p.name, locale)} flip={false}>
+            <p className="text-xs uppercase tracking-widest text-gold">{t("featuredCrm")}</p>
+            <h2 className="mt-3 font-display text-4xl">{loc(p.headline, locale)}</h2>
+            <p className="mt-4 text-ivory/80">{loc(p.sub, locale)}</p>
+            <p className="mt-4 font-display text-2xl text-gold">{money(p.price_cents)}</p>
+            <Link href="/systems/client-tracker" className="mt-6 inline-flex h-12 items-center rounded-full bg-gold px-6 font-medium text-ink">
+              {t("featuredCta")}
+            </Link>
+          </Split>
+        ))}
+
+      {catalog.products
         .filter((p) => p.slug === "key-fob-programming-mastery")
         .map((p) => (
           <Split key={p.sku} image={p.images[0]} alt={loc(p.name, locale)} flip>
