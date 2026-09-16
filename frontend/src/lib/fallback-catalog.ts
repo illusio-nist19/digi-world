@@ -223,9 +223,6 @@ export const FALLBACK_CATALOG: Catalog = {
           ar: { q: "كم مقعد؟ أقدر أبيعه؟", a: "استوديو واحد 35$. مقعدين (أنت + مصور ثاني أو شريك) 55$. تركيب شخصي. بدون إعادة نشر، وبدون رمي هذا الزيب على إتسي." },
           fr: { q: "Combien de sièges ? Je peux le revendre ?", a: "Un studio = 35 $. Deux sièges = 55 $. Install perso. Pas de redistribution, pas de dump Etsy de ce zip." },
           es: { q: "¿Cuántos asientos? ¿Puedo revenderlo?", a: "Un estudio = 35 $. Dos asientos = 55 $. Instalación personal. Sin reventa ni dump en Etsy de este zip." },
-          ar: { q: "كم مقعد؟ أقدر أبيعه؟", a: "استوديو واحد 35$. مقعدين (أنت + مصور ثاني أو شريك) 55$. تركيب شخصي. بدون إعادة نشر، وبدون رمي هذا الزيب على إتسي." },
-          fr: { q: "Combien de sièges ? Je peux le revendre ?", a: "Un studio = 35 $. Deux sièges = 55 $. Install perso. Pas de redistribution, pas de dump Etsy de ce zip." },
-          es: { q: "¿Cuántos asientos? ¿Puedo revenderlo?", a: "Un estudio = 35 $. Dos asientos = 55 $. Instalación personal. Sin reventa ni dump en Etsy de este zip." },
         },
         {
           en: { q: "How do I get the files? Refund?", a: "After name and email, the thank-you page has the zip. We also email that inbox. 7-day replacement if the zip is corrupt or will not open. We never sold a certificate." },
