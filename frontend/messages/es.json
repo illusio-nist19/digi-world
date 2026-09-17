@@ -174,7 +174,13 @@
     "payTitle": "Acceso al vault al instante",
     "paySub": "Confirma tus datos y el zip se abre en la siguiente pantalla. También lo enviamos por email.",
     "cards": "Sin Stripe · sin formulario de tarjeta · descarga tras confirmar",
-    "opening": "Abriendo tu vault…"
+    "opening": "Abriendo tu vault…",
+    "sentEyebrow": "Pedido confirmado",
+    "sentTitle": "Archivo enviado a tu email",
+    "sentBody": "Enviamos tu zip a {email}. Revisa bandeja y spam — va adjunto, con enlace de descarga.",
+    "sentWish": "Queremos saber de ti pronto. hello@digi-world.online",
+    "sentCta": "Continuar",
+    "sentSpam": "Añade hello@digi-world.online para que no caiga en spam."
   },
   "upsell": {
     "title": "Espera — hay una puerta abierta",

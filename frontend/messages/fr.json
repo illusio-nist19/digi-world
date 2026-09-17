@@ -174,7 +174,13 @@
     "payTitle": "Accès coffre immédiat",
     "paySub": "Confirmez vos coordonnées — le zip s’ouvre à l’écran suivant. On e-mail aussi.",
     "cards": "Sans Stripe · sans formulaire carte · téléchargement après confirm",
-    "opening": "Ouverture du coffre…"
+    "opening": "Ouverture du coffre…",
+    "sentEyebrow": "Commande confirmée",
+    "sentTitle": "Fichier envoyé par e-mail",
+    "sentBody": "Nous avons envoyé votre zip à {email}. Vérifiez boîte de réception et spam — pièce jointe + lien de téléchargement.",
+    "sentWish": "Au plaisir de vous lire bientôt. hello@digi-world.online",
+    "sentCta": "Continuer",
+    "sentSpam": "Ajoutez hello@digi-world.online pour éviter le spam."
   },
   "upsell": {
     "title": "Attendez — une porte est encore ouverte",

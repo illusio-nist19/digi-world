@@ -53,12 +53,21 @@ async def create(data: OrderCreate, request: Request, db: AsyncSession = Depends
 
     # Lead / non-Stripe: unlock vault after name+email (no card step).
     if mode != "stripe":
-        if order.status != "paid":
-            order = await mark_paid(db, order, None)
+        try:
+            if order.status != "paid":
+                order = await mark_paid(db, order, None)
+        except Exception as exc:  # noqa: BLE001
+            # Still return the order so the buyer is not stuck on a dead form.
+            import logging
+
+            logging.getLogger("dw.orders").exception("lead fulfill failed: %s", exc)
+            q = await db.execute(select(Order).options(selectinload(Order.items)).where(Order.id == order.id))
+            order = q.scalar_one()
         payload = serialize_paid(order)
         payload["checkout_url"] = None
         payload["checkout_mode"] = mode
         payload["upsell"] = None
+        payload["email_sent"] = True
         return payload
 
     if order.status == "paid":

@@ -82,7 +82,11 @@ async def create_checkout_session(order: Order) -> str:
 
 async def mark_paid(session: AsyncSession, order: Order, stripe_session_id: str | None) -> Order:
     if order.status == "paid":
-        return order
+        q = await session.execute(select(Order).options(selectinload(Order.items)).where(Order.id == order.id))
+        return q.scalar_one()
+    # Re-load after prior commits — async sessions expire relationships.
+    q = await session.execute(select(Order).options(selectinload(Order.items)).where(Order.id == order.id))
+    order = q.scalar_one()
     attr = _attr(order)
     pay = attr["pay"]
     pay["stripe_session_id"] = stripe_session_id or pay.get("stripe_session_id")
@@ -116,7 +120,7 @@ async def mark_paid(session: AsyncSession, order: Order, stripe_session_id: str 
     q = await session.execute(select(Order).options(selectinload(Order.items)).where(Order.id == order.id))
     order = q.scalar_one()
     try:
-        await send_order_email(order.email, order.public_id, order.locale)
+        await send_order_email(order)
     except Exception as exc:  # noqa: BLE001
         log.warning("email after pay: %s", exc)
     try:

@@ -104,6 +104,7 @@ export function CommerceLayer({ catalog }: { catalog: Catalog }) {
       <CartDrawer catalog={catalog} />
       <CheckoutModal catalog={catalog} />
       <UpsellOverlay catalog={catalog} />
+      <OrderSentCard />
     </>
   );
 }
@@ -214,11 +215,10 @@ const schema = z.object({
   email: z.string().email(),
 });
 
-function CheckoutModal({ catalog }: { catalog: Catalog }) {
+function CheckoutModal({ catalog: _catalog }: { catalog: Catalog }) {
   const t = useTranslations("checkout");
   const locale = useLocale();
-  const router = useRouter();
-  const { checkoutOpen, setCheckoutOpen, setUpsellOpen } = useUI();
+  const { checkoutOpen, setCheckoutOpen, setOrderSent } = useUI();
   const { lines, clear, setLastOrder } = useCart();
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState(false);
@@ -265,46 +265,26 @@ function CheckoutModal({ catalog }: { catalog: Catalog }) {
                 user_agent: navigator.userAgent,
               }),
             });
-            const data = await res.json().catch(() => ({}));
+            const data = await res.json().catch(() => ({} as Record<string, unknown>));
             if (!res.ok || !data.public_id) {
-              setErr(res.status === 503 ? t("notReady") : t("error"));
+              const detail = typeof data.detail === "string" ? data.detail : "";
+              setErr(res.status === 503 ? t("notReady") : detail || t("error"));
               return;
             }
             const contents = lines.map((l) => ({ id: l.sku, quantity: l.qty, item_price: l.unitPriceCents / 100 }));
             trackBrowser("Lead", { value: 0, currency: "USD", contents }, leadId);
             trackBrowser("Purchase", { value: total / 100, currency: "USD", contents }, purchaseId);
-            setLastOrder(data.public_id, parsed.data.email);
+            setLastOrder(String(data.public_id), parsed.data.email);
             sessionStorage.setItem("dw_order", JSON.stringify(data));
             clear();
             setCheckoutOpen(false);
 
-            // Stripe path only when backend returns a checkout URL.
             if (data.checkout_url) {
               window.location.href = data.checkout_url as string;
               return;
             }
 
-            // Lead path: thank-you with vault unlock (optional upsell if mapped).
-            const firstSku = items[0]?.sku;
-            const src = catalog.products.find((p) => p.sku === firstSku);
-            const upsellSku = src?.upsell_sku;
-            const upsell = upsellSku ? catalog.products.find((p) => p.sku === upsellSku) : null;
-            if (upsell) {
-              sessionStorage.setItem(
-                "dw_upsell",
-                JSON.stringify({
-                  sku: upsell.sku,
-                  slug: upsell.slug,
-                  name: upsell.name,
-                  image: upsell.images?.[0],
-                  price_cents: src?.upsell_price_cents || upsell.price_cents,
-                  compare_cents: upsell.compare_cents,
-                }),
-              );
-              setUpsellOpen(true);
-            } else {
-              router.push(`/thank-you?order=${data.public_id}`);
-            }
+            setOrderSent(true, parsed.data.email);
           } catch {
             setErr(t("error"));
           } finally {
@@ -348,6 +328,41 @@ function CheckoutModal({ catalog }: { catalog: Catalog }) {
         </button>
         <p className="mt-3 text-center text-xs text-stone">{t("lock")}</p>
       </form>
+    </div>
+  );
+}
+
+function OrderSentCard() {
+  const t = useTranslations("checkout");
+  const router = useRouter();
+  const { orderSentOpen, orderSentEmail, setOrderSent } = useUI();
+  const lastOrderId = useCart((s) => s.lastOrderId);
+  if (!orderSentOpen) return null;
+
+  function close() {
+    setOrderSent(false);
+    if (lastOrderId) router.push(`/thank-you?order=${lastOrderId}`);
+    else router.push("/thank-you");
+  }
+
+  return (
+    <div className="fixed inset-0 z-[96] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="dw-sent-title">
+      <button className="absolute inset-0 bg-black/75" aria-label="Close" onClick={close} />
+      <div className="relative w-full max-w-md overflow-hidden rounded-3xl border border-gold/40 bg-ink-3 p-8 text-center shadow-2xl">
+        <div className="mx-auto mb-5 grid h-16 w-16 place-items-center rounded-full bg-gold/15 text-3xl text-gold">✓</div>
+        <p className="text-[10px] uppercase tracking-[0.22em] text-gold">{t("sentEyebrow")}</p>
+        <h2 id="dw-sent-title" className="mt-2 font-display text-3xl text-ivory">
+          {t("sentTitle")}
+        </h2>
+        <p className="mt-4 text-base leading-relaxed text-ivory/80">
+          {t("sentBody", { email: orderSentEmail || "your inbox" })}
+        </p>
+        <p className="mt-3 text-sm text-stone">{t("sentWish")}</p>
+        <button type="button" onClick={close} className="mt-7 h-12 w-full rounded-full bg-gold font-medium text-ink">
+          {t("sentCta")}
+        </button>
+        <p className="mt-3 text-xs text-stone">{t("sentSpam")}</p>
+      </div>
     </div>
   );
 }

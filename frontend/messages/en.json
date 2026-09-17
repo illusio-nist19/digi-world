@@ -174,7 +174,13 @@
     "payTitle": "Instant vault access",
     "paySub": "Confirm details and your zip unlocks on the next screen. We also email that inbox.",
     "cards": "No Stripe · no card form · download after confirm",
-    "opening": "Opening your vault…"
+    "opening": "Opening your vault…",
+    "sentEyebrow": "Order confirmed",
+    "sentTitle": "File sent to your email",
+    "sentBody": "We sent your zip to {email}. Check inbox and spam — the file is attached, with a download link inside.",
+    "sentWish": "We wish to hear from you soon. hello@digi-world.online",
+    "sentCta": "Continue",
+    "sentSpam": "Add hello@digi-world.online so the mail does not land in spam."
   },
   "upsell": {
     "title": "Wait — one door still open",
