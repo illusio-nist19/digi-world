@@ -336,22 +336,22 @@ export const FALLBACK_CATALOG: Catalog = {
         "Clientes, seguimientos, tareas, facturas — un escritorio.",
       ),
       sub: L(
-        "Offline HTML CRM: Client Database, Communication Log, Task Tracker, Smart Calendar, Client Overview, Dashboard — with CSV export. No Google account.",
-        "CRM HTML بدون إنترنت: قاعدة عملاء، سجل تواصل، مهام، تقويم، نظرة عميل، لوحة — مع تصدير CSV. بدون حساب قوقل.",
-        "CRM HTML hors ligne : base clients, journal, tâches, calendrier, vue client, dashboard — export CSV. Pas de compte Google.",
-        "CRM HTML sin cuenta Google: base de clientes, log, tareas, calendario, vista y panel — con export CSV.",
+        "Offline CRM for desktop and phone: install to home screen, bottom tabs, works offline. Clients, tasks, invoices, budget — CSV export. No Google account.",
+        "CRM بدون إنترنت للكمبيوتر والجوال: ثبّته على الشاشة الرئيسية، تبويبات سفلية، يعمل أوفلاين. عملاء ومهام وفواتير وميزانية — تصدير CSV. بدون حساب قوقل.",
+        "CRM hors ligne bureau + téléphone : ajoutez à l’écran d’accueil, onglets bas, offline. Clients, tâches, factures, budget — export CSV. Pas de compte Google.",
+        "CRM offline escritorio y móvil: instala en inicio, pestañas inferiores, offline. Clientes, tareas, facturas, presupuesto — export CSV. Sin cuenta Google.",
       ),
       description: L(
-        "A freelancer’s desk that actually keeps the follow-up alive.\n\nSeven windows share one local store: Setup, Client Database, Communication Log, Task Tracker, Smart Calendar, Client Overview, Dashboard. Charts update when you add a row. Export CSV for this window or the whole desk. Import clients from CSV on Setup.\n\nNo Google Sheets. No Notion login. Double-click the HTML and work. Data stays on this computer.",
-        "مكتب فريلانسر يحافظ على المتابعة.\n\nسبع نوافذ على مخزن محلي واحد. الرسوم تتحدّث مع كل صف. صدّر CSV. استورد عملاء من CSV.\n\nبدون قوقل شيتس. افتح الـHTML واشتغل. البيانات على جهازك.",
-        "Un bureau freelance qui garde les relances vivantes.\n\nSept fenêtres, une base locale. Les graphiques suivent. Export CSV. Import clients.\n\nPas de Google Sheets. Double-cliquez le HTML. Les données restent ici.",
-        "Un escritorio freelance que mantiene el seguimiento vivo.\n\nSiete ventanas, un almacén local. Los gráficos se actualizan. Export CSV. Importa clientes.\n\nSin Google Sheets. Abre el HTML. Los datos se quedan aquí.",
+        "A freelancer’s desk that actually keeps the follow-up alive — on computer or phone.\n\nInstall as a phone app (Add to Home Screen / Install app): full-screen with bottom tabs, a + button, and offline support. Same private desk on desktop: Setup, Client Database, Communication Log, Task Tracker, Smart Calendar, Client Overview, Dashboard, Invoices, Budget, Files.\n\nCharts update when you add a row. Export CSV for this window or the whole desk. Import clients from CSV on Setup.\n\nNo Google Sheets. No Notion login. Data stays on this device.",
+        "مكتب فريلانسر يحافظ على المتابعة — على الكمبيوتر أو الجوال.\n\nثبّته كتطبيق جوال (إضافة إلى الشاشة الرئيسية): ملء الشاشة مع تبويبات وزر + وأوفلاين. نفس المكتب على الكمبيوتر.\n\nصدّر CSV. استورد عملاء. بدون قوقل شيتس. البيانات على جهازك.",
+        "Un bureau freelance qui garde les relances vivantes — ordinateur ou téléphone.\n\nInstallez l’app (Ajouter à l’écran d’accueil) : plein écran, onglets, bouton +, offline. Même bureau sur desktop.\n\nExport CSV. Import clients. Pas de Google Sheets. Les données restent ici.",
+        "Un escritorio freelance que mantiene el seguimiento — PC o móvil.\n\nInstálalo como app (Añadir a inicio): pantalla completa, pestañas, botón +, offline. El mismo escritorio en PC.\n\nExport CSV. Importa clientes. Sin Google Sheets. Los datos se quedan aquí.",
       ),
       contents: L(
-        "START-HERE\nClient-Tracker.html (7 windows)\nSetup with editable dropdowns\nClient Database + charts\nCommunication Log\nTask Tracker (KPIs, overdue, filters)\nSmart Calendar (tasks, actions, contracts)\nClient Overview (360°)\nDashboard\nExport / import CSV\nSample desk included",
-        "ابدأ من هنا\nClient-Tracker.html (7 نوافذ)\nإعداد القوائم\nقاعدة عملاء + رسوم\nسجل تواصل\nمهام (مؤشرات، متأخر، فلاتر)\nتقويم ذكي\nنظرة عميل\nلوحة تحكم\nتصدير/استيراد CSV\nبيانات تجريبية",
-        "START-HERE\nClient-Tracker.html (7 fenêtres)\nSetup listes\nBase clients + graphiques\nJournal de communication\nTâches (KPI, retard, filtres)\nCalendrier\nVue client\nDashboard\nExport / import CSV\nDonnées exemple",
-        "START-HERE\nClient-Tracker.html (7 ventanas)\nSetup listas\nBase de clientes + gráficos\nLog de comunicación\nTareas (KPI, vencidas, filtros)\nCalendario\nVista de cliente\nPanel\nExport / import CSV\nDatos de ejemplo",
+        "START-HERE\nClient-Tracker.html (phone PWA + desktop)\nmanifest + service worker + icons\nBottom tabs / FAB on phone\nSetup with editable dropdowns\nClient Database + charts\nInvoices + Budget + Files\nCommunication Log\nTask Tracker (KPIs, overdue, filters)\nSmart Calendar\nClient Overview (360°)\nDashboard\nExport / import CSV\nSample desk included",
+        "ابدأ من هنا\nClient-Tracker.html (PWA جوال + سطح مكتب)\nmanifest + service worker + أيقونات\nتبويبات وزر + للجوال\nإعداد القوائم\nقاعدة عملاء + رسوم\nفواتير + ميزانية + ملفات\nسجل تواصل\nمهام\nتقويم ذكي\nنظرة عميل\nلوحة تحكم\nتصدير/استيراد CSV\nبيانات تجريبية",
+        "START-HERE\nClient-Tracker.html (PWA téléphone + bureau)\nmanifest + service worker + icônes\nOnglets / FAB téléphone\nSetup listes\nBase clients + graphiques\nFactures + budget + fichiers\nJournal\nTâches\nCalendrier\nVue client\nDashboard\nExport / import CSV\nDonnées exemple",
+        "START-HERE\nClient-Tracker.html (PWA móvil + escritorio)\nmanifest + service worker + iconos\nPestañas / FAB móvil\nSetup listas\nBase de clientes + gráficos\nFacturas + presupuesto + archivos\nLog de comunicación\nTareas\nCalendario\nVista de cliente\nPanel\nExport / import CSV\nDatos de ejemplo",
       ),
       faq: [
         {
@@ -371,6 +371,12 @@ export const FALLBACK_CATALOG: Catalog = {
           ar: { q: "أقدر أصدّر CSV / إكسل؟", a: "نعم. تصدير CSV لهذه النافذة أو لكل البيانات. الإعداد يستورد CSV عملاء أيضاً." },
           fr: { q: "Export CSV / Excel ?", a: "Oui. Export CSV pour la fenêtre ou toutes les données. Setup importe aussi un CSV clients." },
           es: { q: "¿Puedo exportar a CSV / Excel?", a: "Sí. Export CSV de esta ventana o de todos los datos. Setup también importa un CSV de clientes." },
+        },
+        {
+          en: { q: "Can I use it on my phone?", a: "Yes. Serve or host the folder, open Client-Tracker.html, then Add to Home Screen (iPhone) or Install app (Android). You get bottom tabs, a + button, and offline use. Same private data on the device." },
+          ar: { q: "أقدر أستخدمه على الجوال؟", a: "نعم. افتح Client-Tracker.html ثم أضفه للشاشة الرئيسية (آيفون) أو ثبّت التطبيق (أندرويد). تبويبات سفلية وزر + وأوفلاين. نفس البيانات الخاصة على الجهاز." },
+          fr: { q: "Ça marche sur téléphone ?", a: "Oui. Ouvrez Client-Tracker.html puis Ajouter à l’écran d’accueil (iPhone) ou Installer l’app (Android). Onglets, bouton +, offline. Données privées sur l’appareil." },
+          es: { q: "¿Funciona en el móvil?", a: "Sí. Abre Client-Tracker.html y Añadir a inicio (iPhone) o Instalar app (Android). Pestañas, botón +, offline. Datos privados en el dispositivo." },
         },
         {
           en: { q: "How many seats? Can I resell it?", a: "One studio is $39. Two seats is $59. Personal use. No redistribution, no marketplace dump of the HTML." },

@@ -1,21 +1,31 @@
 ﻿# Digi World Client Tracker — START HERE
 
-Double-click Client-Tracker.html. No Google account. No install.
+Double-click Client-Tracker.html on your computer — or install it as a phone app.
+
+## Phone app
+1. Put this whole folder on a simple web host (or open it via localhost on the same Wi‑Fi)
+2. Open Client-Tracker.html in Safari (iPhone) or Chrome (Android)
+3. Install:
+   - iPhone: Share → Add to Home Screen
+   - Android: Install banner, or browser menu → Install app
+4. Open the home-screen icon — full-screen desk with bottom tabs and a + button
+5. Works offline after the first load. Your data stays on the phone.
 
 ## First 10 minutes
-1. Open Setup — set business name, currency, week start
-2. Tune dropdown lists if you want
-3. Open Client Database → Add client (or keep the sample desk)
-4. Log one call in Communication Log
-5. Add one task in Task Tracker
-6. Open Dashboard
+1. Dashboard is the morning briefing — budget leftover, invoices, calendar reminders
+2. Setup — set business name, currency, week start
+3. Client Database — add a client (or keep the sample desk)
+4. Invoices — log what is paid, unpaid, partial, overdue
+5. Budget — fill this month like a personal 2026 sheet (income, expenses, saving)
+6. Important Files — drop contracts, IDs, tax papers (they stay on this device)
+7. Log a call, add a task, then return to Dashboard
 
 ## Licence
 One studio / one seat (or the duo seats you bought). Personal use.
 Do not redistribute, resell, or dump this file on marketplaces.
 
 ## Privacy
-All data stays in this browser (localStorage). Digi World never sees your clients.
+All data stays in this browser (localStorage + IndexedDB). Digi World never sees your clients or files.
 
 ## Support
 hello@digi-world.online
