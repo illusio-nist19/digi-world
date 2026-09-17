@@ -159,22 +159,22 @@
     "remove": "Remove"
   },
   "checkout": {
-    "title": "Secure checkout",
-    "sub": "Pay on Stripe. The zip unlocks only after the payment clears.",
-    "lead": "Card, Apple Pay, and Google Pay on Stripe.",
+    "title": "Confirm your desk",
+    "sub": "Name and email unlock the zip on the thank-you page. No card step.",
+    "lead": "We open your vault after you confirm details.",
     "name": "Name",
     "email": "Email",
-    "cta": "Pay {price}",
-    "error": "Couldn’t open payment. Try again.",
-    "notReady": "Payments are not connected yet. Write hello@digi-world.online.",
-    "lock": "256-bit SSL · Stripe · we never store your card",
+    "cta": "Get the files · {price}",
+    "error": "Couldn’t complete checkout. Try again.",
+    "notReady": "Checkout is offline. Write hello@digi-world.online.",
+    "lock": "256-bit SSL · private order · we never ask for a card here",
     "proof": "Studio-certified products · worldwide digital",
     "total": "Total",
-    "secure": "Encrypted payment",
-    "payTitle": "Pay with Stripe",
-    "paySub": "You leave this window for Stripe’s checkout. Files stay locked until Stripe says paid.",
-    "cards": "Visa · Mastercard · Amex · Apple Pay · Google Pay",
-    "opening": "Opening Stripe…"
+    "secure": "Secure order",
+    "payTitle": "Instant vault access",
+    "paySub": "Confirm details and your zip unlocks on the next screen. We also email that inbox.",
+    "cards": "No Stripe · no card form · download after confirm",
+    "opening": "Opening your vault…"
   },
   "upsell": {
     "title": "Wait — one door still open",
@@ -192,9 +192,9 @@
     "download": "Download your zip",
     "cta": "Back to products",
     "order": "Order",
-    "waiting": "Confirming payment",
-    "waitingSub": "Stripe is clearing the charge. The zip stays locked until it does.",
-    "unpaid": "If this sits more than a minute, check the card email from Stripe or write hello@digi-world.online with your order id."
+    "waiting": "Preparing your vault",
+    "waitingSub": "Your zip unlocks in a moment on this page.",
+    "unpaid": "If this sits more than a minute, write hello@digi-world.online with your order id."
   },
   "about": {
     "title": "The house",

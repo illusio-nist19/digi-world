@@ -7,6 +7,7 @@ import { Container, Split, StarRow } from "@/components/ui";
 import { getCatalog, productBySlug } from "@/lib/catalog";
 import { isPremium, loc, money } from "@/lib/types";
 import { ViewContentPing } from "@/components/view-content";
+import { ProductGallery, CLIENT_TRACKER_SHOTS } from "@/components/product-gallery";
 import type { Metadata } from "next";
 
 export function generateStaticParams() {
@@ -67,7 +68,11 @@ export default async function ProductPage({ params }: { params: Promise<{ locale
     <>
       <ViewContentPing sku={product.sku} value={product.price_cents / 100} />
       <Container className="grid gap-10 py-10 md:grid-cols-2">
-        <Gallery images={product.images} alt={loc(product.name, locale)} />
+        {crm ? (
+          <ProductGallery shots={CLIENT_TRACKER_SHOTS} alt={loc(product.name, locale)} />
+        ) : (
+          <Gallery images={product.images} alt={loc(product.name, locale)} />
+        )}
         <div>
           <p className="text-xs uppercase tracking-widest text-gold">
             {t("original")} · {product.serial}

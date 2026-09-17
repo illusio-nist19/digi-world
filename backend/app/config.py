@@ -27,7 +27,7 @@ class Settings(BaseSettings):
     app_version: str = "1.0.0"
     database_url: str = "postgres://postgres:CHANGE_ME@localhost:5432/digi-world"
     frontend_origins: str = "https://digi-world.online,https://www.digi-world.online,http://localhost:3000,http://localhost:3002"
-    checkout_mode: str = "stripe"
+    checkout_mode: str = "lead"
     delivery_mode: str = "instant"
     store_url: str = "https://digi-world.online"
     stripe_secret_key: str = ""

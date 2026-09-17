@@ -42,15 +42,29 @@ async def create(data: OrderCreate, request: Request, db: AsyncSession = Depends
     ip = client_ip(dict(request.headers), request.client.host if request.client else None) or "0.0.0.0"
     rate_limit(ip)
     ua = data.user_agent or request.headers.get("user-agent")
-    if not payments_ready():
+    settings = get_settings()
+    mode = (settings.checkout_mode or "lead").strip().lower()
+    if mode == "stripe" and not payments_ready():
         raise HTTPException(503, "payments not configured")
     try:
         order = await create_order(db, data, ip, ua)
     except PriceError as exc:
         raise HTTPException(400, str(exc)) from exc
+
+    # Lead / non-Stripe: unlock vault after name+email (no card step).
+    if mode != "stripe":
+        if order.status != "paid":
+            order = await mark_paid(db, order, None)
+        payload = serialize_paid(order)
+        payload["checkout_url"] = None
+        payload["checkout_mode"] = mode
+        payload["upsell"] = None
+        return payload
+
     if order.status == "paid":
         payload = serialize_paid(order)
         payload["checkout_url"] = None
+        payload["checkout_mode"] = mode
         payload["upsell"] = None
         return payload
     try:
@@ -62,6 +76,7 @@ async def create(data: OrderCreate, request: Request, db: AsyncSession = Depends
         raise HTTPException(502, "could not open payment") from exc
     payload = serialize_paid(order)
     payload["checkout_url"] = checkout_url
+    payload["checkout_mode"] = mode
     payload["upsell"] = None
     return payload
 

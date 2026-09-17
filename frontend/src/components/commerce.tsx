@@ -217,7 +217,8 @@ const schema = z.object({
 function CheckoutModal({ catalog }: { catalog: Catalog }) {
   const t = useTranslations("checkout");
   const locale = useLocale();
-  const { checkoutOpen, setCheckoutOpen } = useUI();
+  const router = useRouter();
+  const { checkoutOpen, setCheckoutOpen, setUpsellOpen } = useUI();
   const { lines, clear, setLastOrder } = useCart();
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState(false);
@@ -265,15 +266,45 @@ function CheckoutModal({ catalog }: { catalog: Catalog }) {
               }),
             });
             const data = await res.json().catch(() => ({}));
-            if (!res.ok || !data.checkout_url) {
+            if (!res.ok || !data.public_id) {
               setErr(res.status === 503 ? t("notReady") : t("error"));
               return;
             }
-            trackBrowser("Lead", { value: 0, currency: "USD", contents: lines.map((l) => ({ id: l.sku, quantity: l.qty, item_price: l.unitPriceCents / 100 })) }, leadId);
+            const contents = lines.map((l) => ({ id: l.sku, quantity: l.qty, item_price: l.unitPriceCents / 100 }));
+            trackBrowser("Lead", { value: 0, currency: "USD", contents }, leadId);
+            trackBrowser("Purchase", { value: total / 100, currency: "USD", contents }, purchaseId);
             setLastOrder(data.public_id, parsed.data.email);
             sessionStorage.setItem("dw_order", JSON.stringify(data));
             clear();
-            window.location.href = data.checkout_url as string;
+            setCheckoutOpen(false);
+
+            // Stripe path only when backend returns a checkout URL.
+            if (data.checkout_url) {
+              window.location.href = data.checkout_url as string;
+              return;
+            }
+
+            // Lead path: thank-you with vault unlock (optional upsell if mapped).
+            const firstSku = items[0]?.sku;
+            const src = catalog.products.find((p) => p.sku === firstSku);
+            const upsellSku = src?.upsell_sku;
+            const upsell = upsellSku ? catalog.products.find((p) => p.sku === upsellSku) : null;
+            if (upsell) {
+              sessionStorage.setItem(
+                "dw_upsell",
+                JSON.stringify({
+                  sku: upsell.sku,
+                  slug: upsell.slug,
+                  name: upsell.name,
+                  image: upsell.images?.[0],
+                  price_cents: src?.upsell_price_cents || upsell.price_cents,
+                  compare_cents: upsell.compare_cents,
+                }),
+              );
+              setUpsellOpen(true);
+            } else {
+              router.push(`/thank-you?order=${data.public_id}`);
+            }
           } catch {
             setErr(t("error"));
           } finally {
