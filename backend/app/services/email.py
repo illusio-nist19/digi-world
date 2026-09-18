@@ -34,7 +34,8 @@ def _api_base(store_url: str) -> str:
     )
 
 
-async def send_order_email(order: Order) -> None:
+async def send_order_email(order: Order) -> bool:
+    """Send vault email via Resend. Returns True only when Resend accepts the message."""
     s = get_settings()
     public_id = order.public_id
     to = order.email
@@ -95,8 +96,8 @@ async def send_order_email(order: Order) -> None:
     """
 
     if not s.resend_api_key:
-        log.info("email stub to %s order %s attachments=%s", to, public_id, len(attachments))
-        return
+        log.warning("email skipped: RESEND_API_KEY missing (order %s to %s)", public_id, to)
+        return False
 
     payload: dict = {
         "from": s.resend_from,
@@ -115,8 +116,10 @@ async def send_order_email(order: Order) -> None:
                 json=payload,
             )
             if res.status_code >= 400:
-                log.warning("resend %s: %s", res.status_code, res.text[:400])
-            else:
-                log.info("resend ok to %s order %s", to, public_id)
+                log.warning("resend %s order %s: %s", res.status_code, public_id, res.text[:500])
+                return False
+            log.info("resend ok to %s order %s", to, public_id)
+            return True
     except Exception as exc:  # noqa: BLE001
-        log.warning("resend failed: %s", exc)
+        log.warning("resend failed order %s: %s", public_id, exc)
+        return False

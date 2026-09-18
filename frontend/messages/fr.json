@@ -178,6 +178,9 @@
     "sentEyebrow": "Commande confirmée",
     "sentTitle": "Fichier envoyé par e-mail",
     "sentBody": "Nous avons envoyé votre zip à {email}. Vérifiez boîte de réception et spam — pièce jointe + lien de téléchargement.",
+    "readyTitle": "Votre coffre est ouvert",
+    "readyBody": "Téléchargez le zip à la page suivante. L’e-mail vers {email} n’est pas parti pour l’instant — utilisez le téléchargement, puis vérifiez les spams.",
+    "readyHint": "Le téléchargement marche déjà. L’e-mail peut tarder — regardez les spams de hello@digi-world.online.",
     "sentWish": "Au plaisir de vous lire bientôt. hello@digi-world.online",
     "sentCta": "Continuer",
     "sentSpam": "Ajoutez hello@digi-world.online pour éviter le spam."

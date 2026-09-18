@@ -284,7 +284,7 @@ function CheckoutModal({ catalog: _catalog }: { catalog: Catalog }) {
               return;
             }
 
-            setOrderSent(true, parsed.data.email);
+            setOrderSent(true, parsed.data.email, Boolean(data.email_sent));
           } catch {
             setErr(t("error"));
           } finally {
@@ -335,7 +335,7 @@ function CheckoutModal({ catalog: _catalog }: { catalog: Catalog }) {
 function OrderSentCard() {
   const t = useTranslations("checkout");
   const router = useRouter();
-  const { orderSentOpen, orderSentEmail, setOrderSent } = useUI();
+  const { orderSentOpen, orderSentEmail, orderEmailSent, setOrderSent } = useUI();
   const lastOrderId = useCart((s) => s.lastOrderId);
   if (!orderSentOpen) return null;
 
@@ -352,16 +352,18 @@ function OrderSentCard() {
         <div className="mx-auto mb-5 grid h-16 w-16 place-items-center rounded-full bg-gold/15 text-3xl text-gold">✓</div>
         <p className="text-[10px] uppercase tracking-[0.22em] text-gold">{t("sentEyebrow")}</p>
         <h2 id="dw-sent-title" className="mt-2 font-display text-3xl text-ivory">
-          {t("sentTitle")}
+          {orderEmailSent ? t("sentTitle") : t("readyTitle")}
         </h2>
         <p className="mt-4 text-base leading-relaxed text-ivory/80">
-          {t("sentBody", { email: orderSentEmail || "your inbox" })}
+          {orderEmailSent
+            ? t("sentBody", { email: orderSentEmail || "your inbox" })
+            : t("readyBody", { email: orderSentEmail || "your inbox" })}
         </p>
         <p className="mt-3 text-sm text-stone">{t("sentWish")}</p>
         <button type="button" onClick={close} className="mt-7 h-12 w-full rounded-full bg-gold font-medium text-ink">
           {t("sentCta")}
         </button>
-        <p className="mt-3 text-xs text-stone">{t("sentSpam")}</p>
+        <p className="mt-3 text-xs text-stone">{orderEmailSent ? t("sentSpam") : t("readyHint")}</p>
       </div>
     </div>
   );

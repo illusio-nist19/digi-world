@@ -75,11 +75,16 @@ async def create(
 
     # Lead / non-Stripe: unlock vault after name+email (no card step).
     if mode != "stripe":
+        email_ok = False
         try:
             if order.status != "paid":
                 order = await mark_paid(db, order, None, send_email=False)
-            # Email in background so Resend never blocks or kills checkout.
-            bg.add_task(_safe_send_order_email, order.id)
+            from app.services.email import send_order_email
+
+            # Await Resend so the UI never claims "sent" when delivery failed.
+            email_ok = await send_order_email(order)
+            if not email_ok:
+                bg.add_task(_safe_send_order_email, order.id)
         except Exception as exc:  # noqa: BLE001
             import logging
 
@@ -95,11 +100,12 @@ async def create(
                 order = await mark_paid(db, order, None, send_email=False)
             except Exception:  # noqa: BLE001
                 logging.getLogger("dw.orders").exception("lead fulfill retry failed")
+            bg.add_task(_safe_send_order_email, order.id)
         payload = serialize_paid(order)
         payload["checkout_url"] = None
         payload["checkout_mode"] = mode
         payload["upsell"] = None
-        payload["email_sent"] = True
+        payload["email_sent"] = bool(email_ok)
         return payload
 
     if order.status == "paid":

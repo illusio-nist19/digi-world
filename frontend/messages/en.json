@@ -178,6 +178,9 @@
     "sentEyebrow": "Order confirmed",
     "sentTitle": "File sent to your email",
     "sentBody": "We sent your zip to {email}. Check inbox and spam — the file is attached, with a download link inside.",
+    "readyTitle": "Your vault is unlocked",
+    "readyBody": "Download your zip on the next page. We could not deliver email to {email} yet — use the thank-you download, then check spam later.",
+    "readyHint": "Your download works now. Email may take a minute — check spam for hello@digi-world.online.",
     "sentWish": "We wish to hear from you soon. hello@digi-world.online",
     "sentCta": "Continue",
     "sentSpam": "Add hello@digi-world.online so the mail does not land in spam."

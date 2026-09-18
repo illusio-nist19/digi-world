@@ -178,6 +178,9 @@
     "sentEyebrow": "Pedido confirmado",
     "sentTitle": "Archivo enviado a tu email",
     "sentBody": "Enviamos tu zip a {email}. Revisa bandeja y spam — va adjunto, con enlace de descarga.",
+    "readyTitle": "Tu vault está abierto",
+    "readyBody": "Descarga el zip en la siguiente página. Aún no pudimos enviar el email a {email} — usa la descarga y revisa spam después.",
+    "readyHint": "La descarga funciona ya. El email puede tardar — mira spam de hello@digi-world.online.",
     "sentWish": "Queremos saber de ti pronto. hello@digi-world.online",
     "sentCta": "Continuar",
     "sentSpam": "Añade hello@digi-world.online para que no caiga en spam."
