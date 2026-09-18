@@ -38,7 +38,12 @@ def rate_limit(ip: str) -> None:
 
 
 @router.post("")
-async def create(data: OrderCreate, request: Request, db: AsyncSession = Depends(get_db)) -> dict:
+async def create(
+    data: OrderCreate,
+    request: Request,
+    bg: BackgroundTasks,
+    db: AsyncSession = Depends(get_db),
+) -> dict:
     ip = client_ip(dict(request.headers), request.client.host if request.client else None) or "0.0.0.0"
     rate_limit(ip)
     ua = data.user_agent or request.headers.get("user-agent")
@@ -50,19 +55,34 @@ async def create(data: OrderCreate, request: Request, db: AsyncSession = Depends
         order = await create_order(db, data, ip, ua)
     except PriceError as exc:
         raise HTTPException(400, str(exc)) from exc
+    except Exception as exc:  # noqa: BLE001
+        import logging
+
+        logging.getLogger("dw.orders").exception("create_order failed: %s", exc)
+        raise HTTPException(500, f"order create failed: {exc}") from exc
 
     # Lead / non-Stripe: unlock vault after name+email (no card step).
     if mode != "stripe":
         try:
             if order.status != "paid":
-                order = await mark_paid(db, order, None)
+                order = await mark_paid(db, order, None, send_email=False)
+            # Email in background so Resend never blocks or kills checkout.
+            bg.add_task(_safe_send_order_email, order.id)
         except Exception as exc:  # noqa: BLE001
-            # Still return the order so the buyer is not stuck on a dead form.
             import logging
 
             logging.getLogger("dw.orders").exception("lead fulfill failed: %s", exc)
+            try:
+                await db.rollback()
+            except Exception:  # noqa: BLE001
+                pass
             q = await db.execute(select(Order).options(selectinload(Order.items)).where(Order.id == order.id))
             order = q.scalar_one()
+            # Best-effort token so thank-you still works.
+            try:
+                order = await mark_paid(db, order, None, send_email=False)
+            except Exception:  # noqa: BLE001
+                logging.getLogger("dw.orders").exception("lead fulfill retry failed")
         payload = serialize_paid(order)
         payload["checkout_url"] = None
         payload["checkout_mode"] = mode
@@ -88,6 +108,22 @@ async def create(data: OrderCreate, request: Request, db: AsyncSession = Depends
     payload["checkout_mode"] = mode
     payload["upsell"] = None
     return payload
+
+
+async def _safe_send_order_email(order_id: str) -> None:
+    from app.db import SessionLocal
+    from app.services.email import send_order_email
+
+    try:
+        async with SessionLocal() as session:
+            q = await session.execute(select(Order).options(selectinload(Order.items)).where(Order.id == order_id))
+            order = q.scalar_one_or_none()
+            if order:
+                await send_order_email(order)
+    except Exception as exc:  # noqa: BLE001
+        import logging
+
+        logging.getLogger("dw.orders").warning("background email failed: %s", exc)
 
 
 @router.post("/{public_id}/confirm")

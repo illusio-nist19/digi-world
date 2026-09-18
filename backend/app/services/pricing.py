@@ -78,7 +78,7 @@ async def price_item(session: AsyncSession, sku: str, offer_id: str, locale: str
                 offer_id="duo",
                 name=f"{loc_name(product, locale)} · Duo",
                 qty=1,
-                unit_price_cents=2900,
+                unit_price_cents=product.duo_price_cents or product.price_cents,
                 extra={"licenses": 2},
             )
         ]

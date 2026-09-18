@@ -80,7 +80,13 @@ async def create_checkout_session(order: Order) -> str:
     return session.url
 
 
-async def mark_paid(session: AsyncSession, order: Order, stripe_session_id: str | None) -> Order:
+async def mark_paid(
+    session: AsyncSession,
+    order: Order,
+    stripe_session_id: str | None,
+    *,
+    send_email: bool = True,
+) -> Order:
     if order.status == "paid":
         q = await session.execute(select(Order).options(selectinload(Order.items)).where(Order.id == order.id))
         return q.scalar_one()
@@ -119,10 +125,11 @@ async def mark_paid(session: AsyncSession, order: Order, stripe_session_id: str 
     await session.commit()
     q = await session.execute(select(Order).options(selectinload(Order.items)).where(Order.id == order.id))
     order = q.scalar_one()
-    try:
-        await send_order_email(order)
-    except Exception as exc:  # noqa: BLE001
-        log.warning("email after pay: %s", exc)
+    if send_email:
+        try:
+            await send_order_email(order)
+        except Exception as exc:  # noqa: BLE001
+            log.warning("email after pay: %s", exc)
     try:
         from app.services.orders import after_order
 

@@ -13,6 +13,7 @@ from app.api.orders import router as orders_router
 from app.api.tracking import router as track_router
 from app.config import get_settings
 from app.db import SessionLocal, engine
+from app.schema_ensure import ensure_schema
 from app.seed.catalog import seed_catalog
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(levelname)s %(message)s")
@@ -34,6 +35,10 @@ async def lifespan(_app: FastAPI):
     except Exception:
         log.exception("migration failed")
         sys.exit(1)
+    try:
+        await ensure_schema(engine)
+    except Exception:
+        log.exception("schema ensure failed")
     async with SessionLocal() as session:
         await seed_catalog(session)
     yield
