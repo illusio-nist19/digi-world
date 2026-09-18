@@ -1,10 +1,10 @@
-﻿# Digi World Client Tracker — START HERE
+# Digi World Professional Tracker — START HERE
 
-Double-click Client-Tracker.html on your computer — or install it as a phone app.
+Double-click Professional-Tracker.html on your computer — or install it as a phone app.
 
 ## Phone app
 1. Put this whole folder on a simple web host (or open it via localhost on the same Wi‑Fi)
-2. Open Client-Tracker.html in Safari (iPhone) or Chrome (Android)
+2. Open Professional-Tracker.html in Safari (iPhone) or Chrome (Android)
 3. Install:
    - iPhone: Share → Add to Home Screen
    - Android: Install banner, or browser menu → Install app
@@ -18,7 +18,8 @@ Double-click Client-Tracker.html on your computer — or install it as a phone a
 4. Invoices — log what is paid, unpaid, partial, overdue
 5. Budget — fill this month like a personal 2026 sheet (income, expenses, saving)
 6. Important Files — drop contracts, IDs, tax papers (they stay on this device)
-7. Log a call, add a task, then return to Dashboard
+7. Open scenes stay with the HTML — keep the scenes folder next to the file
+8. Log a call, add a task, then return to Dashboard
 
 ## Licence
 One studio / one seat (or the duo seats you bought). Personal use.

@@ -15,7 +15,8 @@ if TYPE_CHECKING:
 log = logging.getLogger("dw.email")
 
 # Resend soft limit — skip huge attachments and use download links instead.
-MAX_ATTACH_BYTES = 8 * 1024 * 1024
+# Resend allows large attachments; keep headroom under their ~40MB request cap.
+MAX_ATTACH_BYTES = 35 * 1024 * 1024
 
 
 def _download_token(order: Order) -> str | None:
