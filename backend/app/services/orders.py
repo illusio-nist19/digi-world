@@ -213,7 +213,7 @@ async def add_upsell(session: AsyncSession, public_id: str, data: UpsellCreate, 
     return q.scalar_one()
 
 
-async def serialize_order(order: Order) -> dict:
+def serialize_order(order: Order) -> dict:
     return {
         "order_id": order.id,
         "public_id": order.public_id,
