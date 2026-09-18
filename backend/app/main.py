@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 import logging
 import sys
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.catalog import router as catalog_router
@@ -47,6 +47,16 @@ async def lifespan(_app: FastAPI):
 
 settings = get_settings()
 app = FastAPI(title="Digi World API", version=settings.app_version, lifespan=lifespan)
+
+
+@app.exception_handler(Exception)
+async def _unhandled(request: Request, exc: Exception):  # noqa: ARG001
+    from fastapi.responses import JSONResponse
+
+    log.exception("unhandled %s %s", request.method, request.url.path)
+    return JSONResponse(status_code=500, content={"detail": f"{type(exc).__name__}: {exc}"})
+
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.origins,

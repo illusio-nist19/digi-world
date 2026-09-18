@@ -24,7 +24,7 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
     app_env: str = "production"
-    app_version: str = "1.0.0"
+    app_version: str = "1.0.1"
     database_url: str = "postgres://postgres:CHANGE_ME@localhost:5432/digi-world"
     frontend_origins: str = "https://digi-world.online,https://www.digi-world.online,http://localhost:3000,http://localhost:3002"
     checkout_mode: str = "lead"

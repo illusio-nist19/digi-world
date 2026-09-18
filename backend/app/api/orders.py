@@ -59,7 +59,19 @@ async def create(
         import logging
 
         logging.getLogger("dw.orders").exception("create_order failed: %s", exc)
-        raise HTTPException(500, f"order create failed: {exc}") from exc
+        # One retry after forcing schema patches (missing columns on old DBs).
+        try:
+            from app.db import engine
+            from app.schema_ensure import ensure_schema
+
+            await ensure_schema(engine)
+            await db.rollback()
+            order = await create_order(db, data, ip, ua)
+        except PriceError as exc2:
+            raise HTTPException(400, str(exc2)) from exc2
+        except Exception as exc2:  # noqa: BLE001
+            logging.getLogger("dw.orders").exception("create_order retry failed: %s", exc2)
+            raise HTTPException(500, f"order create failed: {type(exc2).__name__}: {exc2}") from exc2
 
     # Lead / non-Stripe: unlock vault after name+email (no card step).
     if mode != "stripe":

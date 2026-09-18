@@ -7,24 +7,42 @@ from sqlalchemy.ext.asyncio import AsyncEngine
 
 log = logging.getLogger("dw.schema")
 
-# create_all does not add columns to existing tables — patch known Order fields.
-_ORDER_COLUMN_SQL = [
-    "ALTER TABLE orders ADD COLUMN IF NOT EXISTS checkout_mode VARCHAR(20) DEFAULT 'lead'",
-    "ALTER TABLE orders ADD COLUMN IF NOT EXISTS upsell_cents INTEGER DEFAULT 0",
-    "ALTER TABLE orders ADD COLUMN IF NOT EXISTS discount_cents INTEGER DEFAULT 0",
-    "ALTER TABLE orders ADD COLUMN IF NOT EXISTS event_id_purchase VARCHAR(80)",
-    "ALTER TABLE orders ADD COLUMN IF NOT EXISTS event_id_lead VARCHAR(80)",
-    "ALTER TABLE orders ADD COLUMN IF NOT EXISTS user_agent TEXT",
-    "ALTER TABLE orders ADD COLUMN IF NOT EXISTS ip VARCHAR(64)",
-    "ALTER TABLE orders ADD COLUMN IF NOT EXISTS attribution JSONB DEFAULT '{}'::jsonb",
+# create_all does not ALTER existing tables — add columns Digi World orders need.
+_PATCHES: list[tuple[str, str, str]] = [
+    ("orders", "checkout_mode", "VARCHAR(20) DEFAULT 'lead'"),
+    ("orders", "upsell_cents", "INTEGER DEFAULT 0"),
+    ("orders", "discount_cents", "INTEGER DEFAULT 0"),
+    ("orders", "event_id_purchase", "VARCHAR(80)"),
+    ("orders", "event_id_lead", "VARCHAR(80)"),
+    ("orders", "user_agent", "TEXT"),
+    ("orders", "ip", "VARCHAR(64)"),
+    ("orders", "attribution", "JSONB DEFAULT '{}'::jsonb"),
+    ("order_items", "meta", "JSONB DEFAULT '{}'::jsonb"),
+    ("order_items", "is_upsell", "BOOLEAN DEFAULT false"),
 ]
 
 
 async def ensure_schema(engine: AsyncEngine) -> None:
     async with engine.begin() as conn:
-        for stmt in _ORDER_COLUMN_SQL:
+        for table, column, ddl in _PATCHES:
+            exists = await conn.scalar(
+                text(
+                    """
+                    SELECT 1
+                    FROM information_schema.columns
+                    WHERE table_schema = 'public'
+                      AND table_name = :table
+                      AND column_name = :column
+                    """
+                ),
+                {"table": table, "column": column},
+            )
+            if exists:
+                continue
+            stmt = f"ALTER TABLE {table} ADD COLUMN {column} {ddl}"
             try:
                 await conn.execute(text(stmt))
+                log.info("added column %s.%s", table, column)
             except Exception as exc:  # noqa: BLE001
-                log.warning("schema patch skipped (%s): %s", stmt, exc)
+                log.warning("schema patch failed %s.%s: %s", table, column, exc)
     log.info("schema ensure complete")
