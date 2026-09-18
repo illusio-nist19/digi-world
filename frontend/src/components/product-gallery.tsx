@@ -36,7 +36,7 @@ export function ProductGallery({ shots, alt }: { shots: DemoShot[]; alt: string 
           </button>
         ))}
       </div>
-      <p className="text-center text-xs text-ivory/55">Hover a shot — watch the desk move.</p>
+      <p className="text-center text-xs text-ivory/55">Tap a shot — every window of the desk.</p>
     </div>
   );
 }
@@ -95,38 +95,57 @@ function DemoFrame({
 export const CLIENT_TRACKER_SHOTS: DemoShot[] = [
   {
     src: "/images/products/client-tracker/01.png",
-    hoverSrc: "/images/products/client-tracker/01-live.png",
-    label: "Budget desk",
-    caption: "Enter a line — income, expenses, and leftover move live.",
+    label: "Professional Tracker",
+    caption: "The all-in-one studio desk — one file, opens in any browser.",
   },
   {
     src: "/images/products/client-tracker/02.png",
-    hoverSrc: "/images/products/client-tracker/02-live.png",
-    label: "Client Overview",
-    caption: "Pick a client — then log the call on the same desk.",
+    label: "Dashboard",
+    caption: "Welcome, leftover, invoices and the next event — the second you open the file.",
   },
   {
     src: "/images/products/client-tracker/03.png",
-    hoverSrc: "/images/products/client-tracker/03-live.png",
-    label: "Invoices",
-    caption: "Add an invoice — status cards and charts wake up.",
+    label: "Clients",
+    caption: "Company, status, source and the next action. Stop hunting through DMs.",
   },
   {
     src: "/images/products/client-tracker/04.png",
-    hoverSrc: "/images/products/client-tracker/04-live.png",
-    label: "The Vault",
-    caption: "Drop a file — open, edit, or delete it on this device.",
+    label: "Invoices",
+    caption: "Paid, unpaid, partial, overdue — the paper desk for money in.",
   },
   {
     src: "/images/products/client-tracker/05.png",
-    hoverSrc: "/images/products/client-tracker/05-live.png",
-    label: "Task Tracker",
-    caption: "Add a task — this week’s list fills in.",
+    label: "Budget",
+    caption: "Drop Excel, PDF or CSV — income, expenses, saving, leftover.",
   },
   {
     src: "/images/products/client-tracker/06.png",
-    hoverSrc: "/images/products/client-tracker/06-live.png",
-    label: "Smart Calendar",
-    caption: "Switch the month — events and follow-ups land on the grid.",
+    label: "Files",
+    caption: "Contracts, IDs, tax papers — drag and drop. Nothing uploads to the cloud.",
+  },
+  {
+    src: "/images/products/client-tracker/07.png",
+    label: "Communication",
+    caption: "Calls, emails and notes live with the client — not buried in a chat thread.",
+  },
+  {
+    src: "/images/products/client-tracker/08.png",
+    label: "Tasks",
+    caption: "Due dates, clients, done. Nothing gets lost behind another tab.",
+  },
+  {
+    src: "/images/products/client-tracker/09.png",
+    label: "Calendar",
+    caption: "Events, invoices and tasks appear on the day they land — including Today.",
+  },
+  {
+    src: "/images/products/client-tracker/10.png",
+    label: "Overview",
+    caption: "Comms, tasks and invoices on a single page per studio — the situation, instantly.",
+  },
+  {
+    src: "/images/products/client-tracker/11.png",
+    label: "Setup",
+    caption: "Business name, currency, lists. Then the desk runs itself.",
   },
 ];

@@ -408,7 +408,7 @@ PRODUCTS = [
             "START-HERE\nClient-Tracker.html (7 fenêtres)\nSetup listes\nBase clients + graphiques\nJournal de communication\nTâches (KPI, retard, filtres)\nCalendrier\nVue client\nDashboard\nExport / import CSV\nDonnées exemple",
             "START-HERE\nClient-Tracker.html (7 ventanas)\nSetup listas\nBase de clientes + gráficos\nLog de comunicación\nTareas (KPI, vencidas, filtros)\nCalendario\nVista de cliente\nPanel\nExport / import CSV\nDatos de ejemplo",
         ),
-        "images": imgs("client-tracker", 6),
+        "images": imgs("client-tracker", 11),
         "faq": CRM_FAQS,
     },
 ]
