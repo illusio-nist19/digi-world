@@ -11,7 +11,19 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
   },
   async redirects() {
-    return [{ source: "/vault/:path*", destination: "/en", permanent: false }];
+    return [
+      { source: "/vault/:path*", destination: "/en", permanent: false },
+      { source: "/:locale(ar|en|fr|es)/sitemap.xml", destination: "/sitemap.xml", permanent: true },
+      { source: "/:locale(ar|en|fr|es)/robots.txt", destination: "/robots.txt", permanent: true },
+    ];
+  },
+  async headers() {
+    return [
+      {
+        source: "/sitemap.xml",
+        headers: [{ key: "Content-Type", value: "application/xml; charset=utf-8" }],
+      },
+    ];
   },
 };
 

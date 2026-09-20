@@ -6,6 +6,19 @@ const handleI18n = createMiddleware(routing);
 
 export default function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  if (pathname === "/sitemap.xml" || pathname === "/robots.txt") {
+    return NextResponse.next();
+  }
+  if (/^\/(ar|en|fr|es)\/sitemap\.xml$/.test(pathname)) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/sitemap.xml";
+    return NextResponse.redirect(url, 308);
+  }
+  if (/^\/(ar|en|fr|es)\/robots\.txt$/.test(pathname)) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/robots.txt";
+    return NextResponse.redirect(url, 308);
+  }
   // Apex `/` is a 307 to `/ar`. Pinterest's crawler often stops at the
   // redirect and never sees <head>. Serve the default locale as 200 instead.
   if (pathname === "/") {
@@ -17,5 +30,5 @@ export default function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/(ar|en|fr|es)/:path*", "/((?!_next|_vercel|.*\\..*).*)"],
+  matcher: ["/", "/(ar|en|fr|es)/:path*", "/((?!_next|_vercel|sitemap\\.xml|robots\\.txt|.*\\..*).*)"],
 };
