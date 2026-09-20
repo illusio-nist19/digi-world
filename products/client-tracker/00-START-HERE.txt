@@ -1,32 +1,33 @@
-# Digi World Professional Tracker — START HERE
+﻿# Digi World Professional Tracker — START HERE
 
-Double-click Professional-Tracker.html on your computer — or install it as a phone app.
+Keep this folder together: Professional-Tracker.html + scenes/ + this file.
+On phone, open the HTML from inside the unzipped folder (not a copy of the HTML alone).
 
-## Phone app
-1. Put this whole folder on a simple web host (or open it via localhost on the same Wi‑Fi)
+## Desktop
+1. Unzip the download
+2. Double-click Professional-Tracker.html (Chrome, Edge, or Safari)
+
+## Phone
+1. Unzip so you still see the scenes folder next to the HTML
 2. Open Professional-Tracker.html in Safari (iPhone) or Chrome (Android)
-3. Install:
-   - iPhone: Share → Add to Home Screen
-   - Android: Install banner, or browser menu → Install app
-4. Open the home-screen icon — full-screen desk with bottom tabs and a + button
-5. Works offline after the first load. Your data stays on the phone.
+3. Scroll down on Dashboard / Clients / etc. — backgrounds change as you scroll
+4. Optional: Add to Home Screen for a full-screen desk
 
 ## First 10 minutes
-1. Dashboard is the morning briefing — budget leftover, invoices, calendar reminders
-2. Setup — set business name, currency, week start
-3. Client Database — add a client (or keep the sample desk)
-4. Invoices — log what is paid, unpaid, partial, overdue
-5. Budget — fill this month like a personal 2026 sheet (income, expenses, saving)
-6. Important Files — drop contracts, IDs, tax papers (they stay on this device)
-7. Open scenes stay with the HTML — keep the scenes folder next to the file
-8. Log a call, add a task, then return to Dashboard
+1. Dashboard — leftover, invoices, next reminders
+2. Setup — business name, currency, week start
+3. Clients — add a client (or keep the sample desk)
+4. Invoices — paid / unpaid / partial / overdue
+5. Budget — this month’s income, expenses, saving
+6. Files — drop contracts (they stay on this device)
+7. Log a call, add a task, open Calendar
 
 ## Licence
-One studio / one seat (or the duo seats you bought). Personal use.
-Do not redistribute, resell, or dump this file on marketplaces.
+One studio / one seat. Personal use.
+Do not redistribute or resell.
 
 ## Privacy
-All data stays in this browser (localStorage + IndexedDB). Digi World never sees your clients or files.
+Data stays in this browser (localStorage + IndexedDB). Digi World never sees your clients or files.
 
 ## Support
 hello@digi-world.online
