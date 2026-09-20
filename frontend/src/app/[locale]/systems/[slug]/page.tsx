@@ -22,9 +22,26 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const product = productBySlug(catalog, slug);
   if (!product) return {};
   if (slug === "client-tracker") {
+    const base = process.env.NEXT_PUBLIC_SITE_URL || "https://digi-world.online";
     return {
-      title: "Digi World Client Tracker | Offline CRM HTML With CSV Export",
-      description: "Seven-window offline client CRM: database, communication log, tasks, calendar, overview, dashboard. Export CSV. No Google account. Digi World.",
+      title: "Business CRM Tracker | Offline Client, Invoice & Task Desk | Digi World",
+      description:
+        "Business CRM tracker for small studios: clients, invoices, budget, tasks, and calendar. One HTML file. Works offline. No subscription. Instant download from Digi World.",
+      keywords: [
+        "business CRM tracker",
+        "CRM tracker",
+        "offline CRM",
+        "client tracker",
+        "small business CRM",
+        "HTML client tracker",
+        "freelancer invoice tracker",
+      ],
+      alternates: {
+        canonical: `${base}/${locale}/systems/client-tracker`,
+        languages: Object.fromEntries(
+          ["ar", "en", "fr", "es"].map((l) => [l, `${base}/${l}/systems/client-tracker`]),
+        ),
+      },
       openGraph: { images: product.images[0] ? [product.images[0]] : undefined },
     };
   }
@@ -63,9 +80,31 @@ export default async function ProductPage({ params }: { params: Promise<{ locale
   const keys = product.slug === "key-fob-programming-mastery";
   const crm = product.slug === "client-tracker";
   const featured = gov || photo || keys || crm;
+  const productLd =
+    crm
+      ? {
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          name: "Digi World Professional Tracker",
+          alternateName: ["Business CRM Tracker", "Digital Tracker", "Digi World Client Tracker"],
+          applicationCategory: "BusinessApplication",
+          operatingSystem: "Windows, macOS, iOS, Android",
+          offers: {
+            "@type": "Offer",
+            price: (product.price_cents / 100).toFixed(2),
+            priceCurrency: "USD",
+            availability: "https://schema.org/InStock",
+            url: `https://digi-world.online/${locale}/systems/client-tracker`,
+          },
+          brand: { "@type": "Brand", name: "Digi World" },
+        }
+      : null;
 
   return (
     <>
+      {productLd ? (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }} />
+      ) : null}
       <ViewContentPing sku={product.sku} value={product.price_cents / 100} />
       <Container className="grid gap-10 py-10 md:grid-cols-2">
         {crm ? (
