@@ -1,5 +1,6 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Container, Split, StarRow } from "@/components/ui";
+import { CrmSavingsSection } from "@/components/crm-savings";
 import { routing } from "@/i18n/routing";
 
 export function generateStaticParams() {
@@ -76,6 +77,21 @@ export default async function About({ params }: { params: Promise<{ locale: stri
           </div>
         </Container>
       </section>
+
+      <CrmSavingsSection
+        title={t("saveTitle")}
+        highlightName={t("saveHighlightName")}
+        highlightPrice={t("saveHighlightPrice")}
+        highlightNote={t("saveHighlightNote")}
+        savingsLabel={t("saveLabel")}
+        cta={t("saveCta")}
+        imageSrc="/images/crm-onetime-savings.png"
+        competitors={[
+          { name: t("saveComp1Name"), price: t("saveComp1Price"), plan: t("saveComp1Plan"), save: t("saveComp1Save") },
+          { name: t("saveComp2Name"), price: t("saveComp2Price"), plan: t("saveComp2Plan"), save: t("saveComp2Save") },
+          { name: t("saveComp3Name"), price: t("saveComp3Price"), plan: t("saveComp3Plan"), save: t("saveComp3Save") },
+        ]}
+      />
 
       <Split image="/images/intro-crm-hq.png" alt="Digi World CRM desk" flip={false} tone="light">
         <h2 className="font-display text-4xl">{t("commitmentTitle")}</h2>

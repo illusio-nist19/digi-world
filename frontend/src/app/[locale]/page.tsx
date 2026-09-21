@@ -6,6 +6,7 @@ import { getCatalog } from "@/lib/catalog";
 import { loc, money } from "@/lib/types";
 import { Container, ProductCard, Split, StarRow } from "@/components/ui";
 import { ScrollBackdrop } from "@/components/scroll-backdrop";
+import { CrmSavingsSection } from "@/components/crm-savings";
 import { routing } from "@/i18n/routing";
 
 export function generateStaticParams() {
@@ -19,7 +20,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 }
 
 const SCROLL_SCENES = [
-  { id: "home-intro", src: "/images/intro-crm-hq.png" },
+  { id: "home-help", src: "/images/intro-crm-hq.png" },
   { id: "systems", src: "/images/scroll-crm-office.png" },
   { id: "home-why", src: "/images/scroll-crm-desk.png" },
   { id: "home-close", src: "/images/hero-home-hq.png" },
@@ -29,7 +30,17 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("home");
+  const ta = await getTranslations("about");
   const catalog = await getCatalog();
+
+  const helpItems = [t("help1"), t("help2"), t("help3"), t("help4"), t("help5")];
+  const stats = [
+    [t("stat1"), t("stat1l")],
+    [t("stat2"), t("stat2l")],
+    [t("stat3"), t("stat3l")],
+    [t("stat4"), t("stat4l")],
+    [t("stat5"), t("stat5l")],
+  ];
 
   return (
     <>
@@ -43,97 +54,85 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           <h1 className="mt-4 max-w-3xl font-display text-4xl font-semibold leading-tight md:text-6xl">{t("h1")}</h1>
           <p className="mt-4 max-w-xl text-lg text-ivory/80">{t("sub")}</p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/#systems" className="inline-flex h-12 items-center rounded-full bg-gold px-6 font-medium text-ink">
+            <Link href="/systems/client-tracker" className="inline-flex h-12 items-center rounded-full bg-gold px-6 font-medium text-ink">
               {t("cta")}
             </Link>
-            <Link href="/#systems" className="inline-flex h-12 items-center rounded-full border border-ivory/20 px-6">
+            <Link href="/#home-help" className="inline-flex h-12 items-center rounded-full border border-ivory/20 px-6">
               {t("ghost")}
             </Link>
           </div>
           <p className="mt-8 text-sm text-stone">
             {catalog.licenses_issued > 0 ? `${catalog.licenses_issued} · ` : ""}
-            {t("drop")} · ★★★★★
+            {t("drop")} · ★★★★★ · {ta("trustScore")}
           </p>
         </Container>
       </section>
 
-      <div id="home-intro">
-        <Split image="/images/intro-crm-hq.png" alt="Customer Relationship Management desk" flip={false}>
-          <p className="text-xs uppercase tracking-widest text-gold">{t("drop")}</p>
-          <h2 className="mt-3 font-display text-4xl">{t("introTitle")}</h2>
-          <p className="mt-4 text-ivory/80">{t("introBody")}</p>
-        </Split>
-      </div>
+      <section className="border-y border-line bg-ink-2/50 py-10">
+        <Container className="max-w-3xl">
+          <p className="text-xs uppercase tracking-widest text-gold">{ta("title")}</p>
+          <h2 className="mt-3 font-display text-3xl md:text-4xl">{ta("h1")}</h2>
+          <p className="mt-4 text-ivory/80 whitespace-pre-line">{ta("body")}</p>
+        </Container>
+      </section>
 
-      {catalog.products
-        .filter((p) => p.slug === "invoice-desk")
-        .map((p) => (
-          <Split key={p.sku} image={p.images[0]} alt={loc(p.name, locale)} flip={false}>
-            <p className="text-xs uppercase tracking-widest text-gold">{t("featuredInvoice")}</p>
-            <h2 className="mt-3 font-display text-4xl">{loc(p.headline, locale)}</h2>
-            <p className="mt-4 text-ivory/80">{loc(p.sub, locale)}</p>
-            <p className="mt-4 font-display text-2xl text-gold">{money(p.price_cents)}</p>
-            <Link href="/systems/invoice-desk" className="mt-6 inline-flex h-12 items-center rounded-full bg-gold px-6 font-medium text-ink">
-              {t("featuredCta")}
-            </Link>
-          </Split>
-        ))}
+      <section id="home-help" className="relative py-20">
+        <div className="absolute inset-0 bg-ink/60" />
+        <Container className="relative">
+          <h2 className="font-display text-4xl md:text-5xl">{t("helpTitle")}</h2>
+          <ul className="mt-10 grid gap-4 md:grid-cols-2">
+            {helpItems.map((item) => (
+              <li key={item} className="rounded-2xl border border-ivory/10 bg-ink-3/80 px-5 py-4 text-lg text-ivory/90 backdrop-blur-sm">
+                {item}
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </section>
 
-      {catalog.products
-        .filter((p) => p.slug === "client-tracker")
-        .map((p) => (
-          <Split key={p.sku} image={p.images[0]} alt={loc(p.name, locale)} flip>
-            <p className="text-xs uppercase tracking-widest text-gold">{t("featuredCrm")}</p>
-            <h2 className="mt-3 font-display text-4xl">{loc(p.headline, locale)}</h2>
-            <p className="mt-4 text-ivory/80">{loc(p.sub, locale)}</p>
-            <p className="mt-4 font-display text-2xl text-gold">{money(p.price_cents)}</p>
-            <Link href="/systems/client-tracker" className="mt-6 inline-flex h-12 items-center rounded-full bg-gold px-6 font-medium text-ink">
-              {t("featuredCta")}
-            </Link>
-          </Split>
-        ))}
+      <section className="relative py-20">
+        <div className="absolute inset-0 bg-ink/65" />
+        <Container className="relative">
+          <h2 className="font-display text-4xl">{t("statsTitle")}</h2>
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+            {stats.map(([n, label]) => (
+              <div key={label} className="rounded-2xl border border-gold/25 bg-ink-3/80 p-5 backdrop-blur-sm">
+                <p className="font-display text-4xl text-gold">{n}</p>
+                <p className="mt-3 text-sm text-ivory/75">{label}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-6 text-xs text-stone">{t("statsNote")}</p>
+        </Container>
+      </section>
 
-      {catalog.products
-        .filter((p) => p.slug === "key-fob-programming-mastery")
-        .map((p) => (
-          <Split key={p.sku} image={p.images[0]} alt={loc(p.name, locale)} flip>
-            <p className="text-xs uppercase tracking-widest text-gold">{t("featuredKeys")}</p>
-            <h2 className="mt-3 font-display text-4xl">{loc(p.headline, locale)}</h2>
-            <p className="mt-4 text-ivory/80">{loc(p.sub, locale)}</p>
-            <p className="mt-4 font-display text-2xl text-gold">{money(p.price_cents)}</p>
-            <Link href="/systems/key-fob-programming-mastery" className="mt-6 inline-flex h-12 items-center rounded-full bg-gold px-6 font-medium text-ink">
-              {t("featuredCta")}
-            </Link>
-          </Split>
-        ))}
+      <Split image="/images/intro-crm-hq.png" alt="Digi World Professional CRM" flip={false}>
+        <h2 className="font-display text-4xl">{t("whyCrmTitle")}</h2>
+        <p className="mt-4 text-ivory/80">{t("whyCrmBody")}</p>
+        <Link href="/systems/client-tracker" className="mt-8 inline-flex h-12 items-center rounded-full bg-gold px-6 font-medium text-ink">
+          {t("cta")}
+        </Link>
+      </Split>
 
-      {catalog.products
-        .filter((p) => p.slug === "photographer-os")
-        .map((p) => (
-          <Split key={p.sku} image={p.images[0]} alt={loc(p.name, locale)} flip={false}>
-            <p className="text-xs uppercase tracking-widest text-gold">{t("featuredPhoto")}</p>
-            <h2 className="mt-3 font-display text-4xl">{loc(p.headline, locale)}</h2>
-            <p className="mt-4 text-ivory/80">{loc(p.sub, locale)}</p>
-            <p className="mt-4 font-display text-2xl text-gold">{money(p.price_cents)}</p>
-            <Link href="/systems/photographer-os" className="mt-6 inline-flex h-12 items-center rounded-full bg-gold px-6 font-medium text-ink">
-              {t("featuredCta")}
-            </Link>
-          </Split>
-        ))}
+      <Split image="/images/scroll-crm-desk.png" alt="Lead and contact management" flip>
+        <h2 className="font-display text-4xl">{t("leadsTitle")}</h2>
+        <p className="mt-4 text-ivory/80">{t("leadsBody")}</p>
+      </Split>
 
-      {catalog.products
-        .filter((p) => p.slug === "ai-governance-kit")
-        .map((p) => (
-          <Split key={p.sku} image={p.images[0]} alt={loc(p.name, locale)} flip={false}>
-            <p className="text-xs uppercase tracking-widest text-gold">{t("featuredTitle")}</p>
-            <h2 className="mt-3 font-display text-4xl">{loc(p.headline, locale)}</h2>
-            <p className="mt-4 text-ivory/80">{loc(p.sub, locale)}</p>
-            <p className="mt-4 font-display text-2xl text-gold">{money(p.price_cents)}</p>
-            <Link href="/systems/ai-governance-kit" className="mt-6 inline-flex h-12 items-center rounded-full bg-gold px-6 font-medium text-ink">
-              {t("featuredCta")}
-            </Link>
-          </Split>
-        ))}
+      <CrmSavingsSection
+        title={ta("saveTitle")}
+        highlightName={ta("saveHighlightName")}
+        highlightPrice={ta("saveHighlightPrice")}
+        highlightNote={ta("saveHighlightNote")}
+        savingsLabel={ta("saveLabel")}
+        cta={ta("saveCta")}
+        imageSrc="/images/crm-onetime-savings.png"
+        competitors={[
+          { name: ta("saveComp1Name"), price: ta("saveComp1Price"), plan: ta("saveComp1Plan"), save: ta("saveComp1Save") },
+          { name: ta("saveComp2Name"), price: ta("saveComp2Price"), plan: ta("saveComp2Plan"), save: ta("saveComp2Save") },
+          { name: ta("saveComp3Name"), price: ta("saveComp3Price"), plan: ta("saveComp3Plan"), save: ta("saveComp3Save") },
+        ]}
+      />
 
       <section id="systems" className="relative py-20">
         <div className="absolute inset-0 bg-ink/55 backdrop-blur-[2px]" />
@@ -166,25 +165,6 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         </Container>
       </section>
 
-      <section className="relative py-20 text-ivory">
-        <div className="absolute inset-0 bg-ink/65" />
-        <Container className="relative">
-          <h2 className="mb-10 font-display text-4xl">{t("scienceTitle")}</h2>
-          <div className="grid gap-6 md:grid-cols-3">
-            {[
-              [t("s1t"), t("s1")],
-              [t("s2t"), t("s2")],
-              [t("s3t"), t("s3")],
-            ].map(([a, b]) => (
-              <div key={a} className="rounded-2xl border border-line bg-ink-3/80 p-6 backdrop-blur-sm">
-                <p className="font-display text-xl">{a}</p>
-                <p className="mt-3 text-ivory/70">{b}</p>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </section>
-
       {catalog.reviews.length ? (
         <section className="relative overflow-hidden py-16">
           <div className="absolute inset-0 bg-ink/55" />
@@ -199,7 +179,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                 <p className="mt-2 text-sm text-ivory/70">{r.body}</p>
                 <p className="mt-4 text-xs text-stone">
                   {r.display_name} · {r.city_country}
-                  {r.source === "studio_preview" ? " · studio" : r.source === "customer" ? " · verified" : ""}
+                  {r.source === "customer" ? " · verified" : ""}
                 </p>
               </blockquote>
             ))}
@@ -207,19 +187,11 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         </section>
       ) : null}
 
-      <section id="home-close" className="relative py-16">
-        <div className="absolute inset-0 bg-ink/70" />
-        <Container className="relative max-w-3xl text-center">
-          <h2 className="font-display text-4xl">{t("guaranteeTitle")}</h2>
-          <p className="mt-4 text-ivory/80">{t("guaranteeBody")}</p>
-        </Container>
-      </section>
-
-      <section className="relative py-20">
+      <section id="home-close" className="relative py-20">
         <div className="absolute inset-0 bg-ink/75" />
         <Container className="relative text-center">
           <h2 className="font-display text-4xl md:text-5xl">{t("finalTitle")}</h2>
-          <Link href="/#systems" className="mt-8 inline-flex h-12 items-center rounded-full bg-gold px-8 font-medium text-ink">
+          <Link href="/systems/client-tracker" className="mt-8 inline-flex h-12 items-center rounded-full bg-gold px-8 font-medium text-ink">
             {t("finalCta")}
           </Link>
         </Container>

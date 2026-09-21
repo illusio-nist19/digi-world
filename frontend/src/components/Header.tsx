@@ -20,9 +20,9 @@ export function Header({ locale }: { locale: Locale }) {
   const [openLang, setOpenLang] = useState(false);
 
   const links = [
+    { href: "/" as const, label: t("about") },
     { href: "/collections" as const, label: t("shop") },
     { href: "/#systems" as const, label: t("systems") },
-    { href: "/about" as const, label: t("about") },
     { href: "/contact" as const, label: t("contact") },
   ];
 
