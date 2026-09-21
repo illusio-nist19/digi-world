@@ -57,23 +57,31 @@ html, body {
   background-repeat: no-repeat;
 }
 html.season-body, body.season-body {
-  background-color: #1c334c;
-  background-image: none;
+  background-color: transparent;
 }
-.season-backdrop {
-  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+#scenePaint {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
   overflow: hidden;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
+  background-color: #0b1020;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
 }
-.season-backdrop[hidden] { display: none !important; }
-.season-backdrop img {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  max-width: none; max-height: none;
-  object-fit: cover; object-position: center 38%;
-  opacity: 0; transition: opacity .45s ease;
+#scenePaint[hidden] { display: none !important; }
+#scenePaint img {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: cover !important;
+  object-position: center center;
+  opacity: 1;
 }
-.season-backdrop img.on { opacity: 1; }
 body.season-body::before {
   content: "";
   position: fixed; inset: 0;
@@ -92,25 +100,9 @@ body.season-body .pulse { background: rgba(255,250,242,.76); }
 body.season-body .dropzone { background: rgba(255,247,235,.7); }
 body.season-body .search { background: rgba(255,250,242,.85); }
 html.city-body, body.city-body {
-  background-color: #0b1020;
+  background-color: transparent;
   background-image: none;
 }
-.city-backdrop {
-  position: fixed; inset: 0; z-index: 0; pointer-events: none;
-  overflow: hidden;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-}
-.city-backdrop[hidden] { display: none !important; }
-.city-backdrop img {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  max-width: none; max-height: none;
-  object-fit: cover; object-position: center 42%;
-  opacity: 0; transition: opacity .45s ease;
-  /* avoid iOS leaving blank while decoding */
-  background: #0b1020;
-}
-.city-backdrop img.on { opacity: 1; }
 body.city-body::before {
   content: "";
   position: fixed; inset: 0;
@@ -665,11 +657,17 @@ table.data td.wrap { white-space: normal; max-width: 220px; }
 .cal-day .d { font-weight: 700; font-size: 12px; margin-bottom: 4px; }
 .cal-ev {
   position: relative;
-  display: flex; align-items: center; gap: 4px;
-  font-size: 9px; padding: 2px 14px 2px 4px; border-radius: 4px; margin-bottom: 2px;
-  overflow: hidden; font-weight: 600;
+  display: flex; align-items: flex-start; gap: 4px;
+  font-size: 10px; padding: 3px 14px 3px 5px; border-radius: 4px; margin-bottom: 3px;
+  overflow: visible; font-weight: 600;
+  line-height: 1.25;
 }
-.cal-ev span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+.cal-ev span {
+  min-width: 0; flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .cal-ev-x {
   position: absolute; right: 1px; top: 50%; transform: translateY(-50%);
   width: 14px; height: 14px; border: 0; border-radius: 4px;
@@ -919,7 +917,21 @@ table.data td.wrap { white-space: normal; max-width: 220px; }
   #tab-invoices { padding-left: 22px; }
   #tab-invoices::before { font-size: 40px; right: 8px; top: 48px; }
   .year-bars { height: 84px; gap: 3px; min-width: 480px; }
-  .cal-day { min-height: 56px; max-height: 110px; padding: 4px; }
+  .cal-day { min-height: 72px; max-height: none; padding: 6px; overflow: visible; }
+  .cal-ev {
+    font-size: 11px;
+    padding: 4px 6px;
+    overflow: visible;
+  }
+  .cal-ev span {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    word-break: break-word;
+    display: block;
+  }
+  .cal-day .cal-ev-x { display: none; }
+  .cal-grid { gap: 6px; }
   .cal-dow { padding: 4px 0; font-size: 9px; }
   .donut-wrap { flex-direction: column; align-items: stretch; }
   .file-grid { grid-template-columns: 1fr; }
@@ -942,14 +954,8 @@ html.etsy-shot .toast { display: none !important; }
 </style>
 </head>
 <body>
-<div id="cityBackdrop" class="city-backdrop" hidden aria-hidden="true">
-  <img alt="" decoding="async" fetchpriority="high" class="on" src="scenes/city-newyork-night.png" />
-  <img alt="" decoding="async" src="scenes/city-tokyo.png" />
-  <img alt="" decoding="async" src="scenes/city-paris.png" />
-  <img alt="" decoding="async" src="scenes/city-geneva.png" />
-</div>
-<div id="seasonBackdrop" class="season-backdrop" hidden aria-hidden="true">
-  <img id="seasonBackdropImg" alt="" decoding="async" />
+<div id="scenePaint" hidden aria-hidden="true">
+  <img id="scenePaintImg" alt="" decoding="async" fetchpriority="high" />
 </div>
 <div class="app">
   <header class="top">
@@ -1282,6 +1288,8 @@ const TAB_SCENES = {
 };
 let cityIndex = -1;
 let cityListening = false;
+let sceneWarned = false;
+let sceneCurrentPath = "";
 let budgetInbox = [];
 const IMPORTED_2026 = {
   salaries: {
@@ -1343,26 +1351,63 @@ function sceneUrl(path) {
     return path;
   }
 }
+function clearRootSceneStyles() {
+  ["background-image","background-size","background-position","background-repeat","background-attachment"].forEach((k) => {
+    document.documentElement.style.removeProperty(k);
+    document.body.style.removeProperty(k);
+  });
+}
+function paintScene(path) {
+  if (!path) return;
+  const rel = String(path).replace(/^\.\//, "");
+  const abs = sceneUrl(rel);
+  const cssUrl = (u) => `url("${String(u).replace(/\\/g, "/").replace(/"/g, '\\"')}")`;
+  const applyCss = (u) => {
+    const css = cssUrl(u);
+    const stage = $("scenePaint");
+    if (stage) {
+      stage.hidden = false;
+      stage.style.backgroundImage = css;
+      stage.style.backgroundSize = "cover";
+      stage.style.backgroundPosition = "center center";
+      stage.style.backgroundRepeat = "no-repeat";
+    }
+    document.documentElement.style.setProperty("background-image", css, "important");
+    document.body.style.setProperty("background-image", css, "important");
+    document.documentElement.style.setProperty("background-size", "cover", "important");
+    document.body.style.setProperty("background-size", "cover", "important");
+    document.documentElement.style.setProperty("background-position", "center center", "important");
+    document.body.style.setProperty("background-position", "center center", "important");
+    document.documentElement.style.setProperty("background-repeat", "no-repeat", "important");
+    document.body.style.setProperty("background-repeat", "no-repeat", "important");
+    document.documentElement.style.setProperty("background-attachment", "scroll", "important");
+    document.body.style.setProperty("background-attachment", "scroll", "important");
+  };
+  applyCss(rel);
+  const img = $("scenePaintImg");
+  if (img && sceneCurrentPath !== rel) {
+    sceneCurrentPath = rel;
+    img.onload = () => { img.style.opacity = "1"; };
+    img.onerror = () => {
+      applyCss(abs);
+      img.onerror = () => {
+        if (!sceneWarned) {
+          sceneWarned = true;
+          toast("Background images missing — keep the scenes folder next to this HTML file");
+        }
+      };
+      img.src = abs;
+    };
+    img.src = rel;
+  }
+}
 function applySeasonScene(panelId, date, chipId) {
   const scene = MONTH_SCENES[date.getMonth()];
   if (!scene) return;
-  clearCityScene();
+  clearCityScene(false);
   document.documentElement.classList.add("season-body");
   document.body.classList.add("season-body");
-  const back = $("seasonBackdrop");
-  const img = $("seasonBackdropImg");
-  if (back) back.hidden = false;
-  if (img) {
-    const next = sceneUrl(scene.file);
-    if (img.getAttribute("src") !== next && img.src !== next) {
-      img.classList.remove("on");
-      img.onload = () => img.classList.add("on");
-      img.onerror = () => img.classList.add("on");
-      img.src = next;
-    } else {
-      img.classList.add("on");
-    }
-  }
+  paintScene(scene.file);
   const chip = $(chipId);
   if (chip) chip.textContent = scene.caption;
   const around = [date.getMonth(), (date.getMonth()+1)%12, (date.getMonth()+11)%12];
@@ -1371,10 +1416,12 @@ function applySeasonScene(panelId, date, chipId) {
 function clearSeasonScene() {
   document.documentElement.classList.remove("season-body");
   document.body.classList.remove("season-body");
-  const back = $("seasonBackdrop");
-  if (back) back.hidden = true;
-  const img = $("seasonBackdropImg");
-  if (img) img.classList.remove("on");
+  if (!document.body.classList.contains("city-body")) {
+    const stage = $("scenePaint");
+    if (stage) stage.hidden = true;
+    clearRootSceneStyles();
+    sceneCurrentPath = "";
+  }
 }
 function pageScrollY() {
   return window.scrollY
@@ -1400,9 +1447,9 @@ function cityScrollIndex() {
   return Math.min(files.length - 1, Math.round(p * steps));
 }
 function paintCityLayers(idx) {
-  document.querySelectorAll("#cityBackdrop img").forEach((el, i) => {
-    el.classList.toggle("on", i === idx);
-  });
+  const files = TAB_SCENES[tab] || [];
+  if (!files[idx]) return;
+  paintScene(files[idx]);
   cityIndex = idx;
 }
 let cityScrollRaf = 0;
@@ -1438,42 +1485,28 @@ function applyCityScene() {
   clearSeasonScene();
   document.documentElement.classList.add("city-body");
   document.body.classList.add("city-body");
-  const back = $("cityBackdrop");
-  if (back) back.hidden = false;
-  document.querySelectorAll("#cityBackdrop img").forEach((el, i) => {
-    if (files[i]) {
-      const next = sceneUrl(files[i]);
-      el.style.display = "";
-      if (el.getAttribute("src") !== files[i] && el.src !== next) {
-        el.classList.remove("on");
-        el.onload = () => {
-          if (i === cityScrollIndex()) el.classList.add("on");
-        };
-        el.src = next;
-      }
-    } else {
-      el.removeAttribute("src");
-      el.style.display = "none";
-      el.classList.remove("on");
-    }
-  });
   files.forEach(src => { const preload = new Image(); preload.src = sceneUrl(src); });
   if (!cityListening) {
     bindCityScroll(true);
     cityListening = true;
   }
+  cityIndex = -1;
   requestAnimationFrame(() => paintCityLayers(cityScrollIndex()));
 }
-function clearCityScene() {
+function clearCityScene(hideStage = true) {
   document.documentElement.classList.remove("city-body");
   document.body.classList.remove("city-body");
-  const back = $("cityBackdrop");
-  if (back) back.hidden = true;
   if (cityListening) {
     bindCityScroll(false);
     cityListening = false;
   }
   cityIndex = -1;
+  if (hideStage && !document.body.classList.contains("season-body")) {
+    const stage = $("scenePaint");
+    if (stage) stage.hidden = true;
+    clearRootSceneStyles();
+    sceneCurrentPath = "";
+  }
 }
 const greetWord = () => {
   const h = new Date().getHours();
