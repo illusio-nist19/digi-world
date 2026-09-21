@@ -77,19 +77,19 @@ export default async function About({ params }: { params: Promise<{ locale: stri
         </Container>
       </section>
 
-      <Split image="/images/about-crm.jpg" alt="Digi World CRM desk" flip={false} tone="light">
+      <Split image="/images/intro-crm-hq.png" alt="Digi World CRM desk" flip={false} tone="light">
         <h2 className="font-display text-4xl">{t("commitmentTitle")}</h2>
         <p className="mt-4 text-ivory/70">{t("commitment")}</p>
       </Split>
 
-      <Split image="/images/intro-crm.png" alt="Then and now CRM" flip tone="dark">
+      <Split image="/images/scroll-crm-office.png" alt="CRM analytics office" flip tone="dark">
         <h2 className="font-display text-4xl">{t("goalsTitle")}</h2>
         <p className="mt-4 text-ivory/80">{t("goals")}</p>
         <h3 className="mt-8 font-display text-2xl text-gold">{t("achievementsTitle")}</h3>
         <p className="mt-3 text-ivory/80">{t("achievements")}</p>
       </Split>
 
-      <Split image="/images/hero-crm.jpg" alt="Customer Relationship Management" flip={false} tone="light">
+      <Split image="/images/scroll-crm-desk.png" alt="Customer Relationship Management workspace" flip={false} tone="light">
         <h2 className="font-display text-4xl">{t("officesTitle")}</h2>
         <p className="mt-4 text-ivory/70">{t("offices")}</p>
         <h3 className="mt-8 font-display text-2xl text-gold">{t("phonesTitle")}</h3>
@@ -114,7 +114,7 @@ export default async function About({ params }: { params: Promise<{ locale: stri
         </Container>
       </section>
 
-      <Split image="/images/about-crm.jpg" alt="" flip tone="dark">
+      <Split image="/images/hero-home-hq.png" alt="" flip tone="dark">
         <h2 className="font-display text-4xl">{t("whyTitle")}</h2>
         <p className="mt-4 text-ivory/80">{t("why")}</p>
         <h3 className="mt-8 font-display text-2xl text-gold">{t("dropTitle")}</h3>

@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { getCatalog } from "@/lib/catalog";
 import { loc, money } from "@/lib/types";
 import { Container, ProductCard, Split, StarRow } from "@/components/ui";
+import { ScrollBackdrop } from "@/components/scroll-backdrop";
 import { routing } from "@/i18n/routing";
 
 export function generateStaticParams() {
@@ -17,6 +18,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return { title: t("title"), description: t("description") };
 }
 
+const SCROLL_SCENES = [
+  { id: "home-intro", src: "/images/intro-crm-hq.png" },
+  { id: "systems", src: "/images/scroll-crm-office.png" },
+  { id: "home-why", src: "/images/scroll-crm-desk.png" },
+  { id: "home-close", src: "/images/hero-home-hq.png" },
+];
+
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
@@ -25,9 +33,11 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
   return (
     <>
+      <ScrollBackdrop scenes={SCROLL_SCENES} />
+
       <section className="relative min-h-[88vh]">
-        <Image src="/images/about-crm.jpg" alt="" fill priority className="object-cover object-center" />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/80 to-ink/45" />
+        <Image src="/images/hero-home-hq.png" alt="" fill priority className="object-cover object-center" sizes="100vw" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/75 to-ink/40" />
         <Container className="relative flex min-h-[88vh] flex-col justify-end pb-16 pt-28">
           <p className="text-xs uppercase tracking-[0.25em] text-gold">{t("eyebrow")}</p>
           <h1 className="mt-4 max-w-3xl font-display text-4xl font-semibold leading-tight md:text-6xl">{t("h1")}</h1>
@@ -47,11 +57,13 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         </Container>
       </section>
 
-      <Split image="/images/intro-crm.png" alt="Customer Relationship Management — then and now" flip={false}>
-        <p className="text-xs uppercase tracking-widest text-gold">{t("drop")}</p>
-        <h2 className="mt-3 font-display text-4xl">{t("introTitle")}</h2>
-        <p className="mt-4 text-ivory/80">{t("introBody")}</p>
-      </Split>
+      <div id="home-intro">
+        <Split image="/images/intro-crm-hq.png" alt="Customer Relationship Management desk" flip={false}>
+          <p className="text-xs uppercase tracking-widest text-gold">{t("drop")}</p>
+          <h2 className="mt-3 font-display text-4xl">{t("introTitle")}</h2>
+          <p className="mt-4 text-ivory/80">{t("introBody")}</p>
+        </Split>
+      </div>
 
       {catalog.products
         .filter((p) => p.slug === "invoice-desk")
@@ -123,8 +135,9 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           </Split>
         ))}
 
-      <section id="systems" className="bg-ink-2/45 py-20">
-        <Container>
+      <section id="systems" className="relative py-20">
+        <div className="absolute inset-0 bg-ink/55 backdrop-blur-[2px]" />
+        <Container className="relative">
           <h2 className="mb-10 font-display text-4xl">{t("systemsTitle")}</h2>
           {catalog.products.length ? (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -138,12 +151,13 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         </Container>
       </section>
 
-      <section className="py-20">
-        <Container>
+      <section id="home-why" className="relative py-20">
+        <div className="absolute inset-0 bg-ink/60" />
+        <Container className="relative">
           <h2 className="mb-10 font-display text-4xl">{t("whyTitle")}</h2>
           <div className="grid gap-6 md:grid-cols-3">
             {[t("p1t"), t("p2t"), t("p3t")].map((title, i) => (
-              <div key={title} className="rounded-2xl bg-ink-3 p-6">
+              <div key={title} className="rounded-2xl border border-ivory/10 bg-ink-3/80 p-6 backdrop-blur-sm">
                 <p className="text-gold">{title}</p>
                 <p className="mt-3 text-ivory/80">{[t("p1"), t("p2"), t("p3")][i]}</p>
               </div>
@@ -152,8 +166,9 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         </Container>
       </section>
 
-      <section className="bg-mist/55 py-20 text-ivory">
-        <Container>
+      <section className="relative py-20 text-ivory">
+        <div className="absolute inset-0 bg-ink/65" />
+        <Container className="relative">
           <h2 className="mb-10 font-display text-4xl">{t("scienceTitle")}</h2>
           <div className="grid gap-6 md:grid-cols-3">
             {[
@@ -161,7 +176,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               [t("s2t"), t("s2")],
               [t("s3t"), t("s3")],
             ].map(([a, b]) => (
-              <div key={a} className="rounded-2xl border border-line bg-ink-3 p-6">
+              <div key={a} className="rounded-2xl border border-line bg-ink-3/80 p-6 backdrop-blur-sm">
                 <p className="font-display text-xl">{a}</p>
                 <p className="mt-3 text-ivory/70">{b}</p>
               </div>
@@ -171,13 +186,14 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       </section>
 
       {catalog.reviews.length ? (
-        <section className="overflow-hidden py-16">
-          <Container>
+        <section className="relative overflow-hidden py-16">
+          <div className="absolute inset-0 bg-ink/55" />
+          <Container className="relative">
             <h2 className="mb-8 font-display text-4xl">{t("reviewsTitle")}</h2>
           </Container>
-          <div className="flex gap-4 overflow-x-auto px-5 pb-4">
+          <div className="relative flex gap-4 overflow-x-auto px-5 pb-4">
             {catalog.reviews.map((r) => (
-              <blockquote key={r.title} className="min-w-[280px] rounded-2xl bg-ink-3 p-5">
+              <blockquote key={r.title} className="min-w-[280px] rounded-2xl border border-ivory/10 bg-ink-3/85 p-5 backdrop-blur-sm">
                 <StarRow stars={r.stars} />
                 <p className="mt-3 font-display text-lg">{r.title}</p>
                 <p className="mt-2 text-sm text-ivory/70">{r.body}</p>
@@ -191,15 +207,17 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         </section>
       ) : null}
 
-      <section className="bg-ink-2/45 py-16">
-        <Container className="max-w-3xl text-center">
+      <section id="home-close" className="relative py-16">
+        <div className="absolute inset-0 bg-ink/70" />
+        <Container className="relative max-w-3xl text-center">
           <h2 className="font-display text-4xl">{t("guaranteeTitle")}</h2>
           <p className="mt-4 text-ivory/80">{t("guaranteeBody")}</p>
         </Container>
       </section>
 
-      <section className="py-20">
-        <Container className="text-center">
+      <section className="relative py-20">
+        <div className="absolute inset-0 bg-ink/75" />
+        <Container className="relative text-center">
           <h2 className="font-display text-4xl md:text-5xl">{t("finalTitle")}</h2>
           <Link href="/#systems" className="mt-8 inline-flex h-12 items-center rounded-full bg-gold px-8 font-medium text-ink">
             {t("finalCta")}
