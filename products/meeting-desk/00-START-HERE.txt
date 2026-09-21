@@ -1,0 +1,29 @@
+# Digi World Meeting & Follow-up Desk — START HERE
+
+Never lose an action item after a client call again.
+Meetings, notes, and follow-ups — all offline on this computer.
+
+## Open
+1. Unzip this folder
+2. Double-click **Meeting-Followup-Desk.html**
+3. Work in Chrome, Edge, or Safari
+
+## First 10 minutes
+1. **Dashboard** — meetings this week, open follow-ups
+2. **Log a meeting** — date, client, attendees, notes
+3. Add **action items** inside each meeting
+4. **Follow-ups** tab — due dates and done toggles
+5. Check follow-ups every morning until the list is clear
+6. Mark items **done** the moment you send or finish them
+
+## Licence
+One studio / one seat (or the duo seats you bought). Personal use.
+Do not redistribute or resell.
+
+## Privacy
+localStorage only. Digi World never sees your meetings or notes.
+
+## Support
+hello@digi-world.online · https://digi-world.online
+
+Digi World · Digital systems, not files.

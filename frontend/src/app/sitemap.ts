@@ -16,9 +16,34 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/business-crm-tracker",
     "/systems/client-tracker",
     "/systems/invoice-desk",
+    "/systems/proposal-desk",
+    "/systems/expense-desk",
+    "/systems/content-planner",
+    "/systems/meeting-desk",
+    "/systems/time-rate-desk",
     "/systems/key-fob-programming-mastery",
     "/systems/photographer-os",
   ];
+  const weeklyPaths = new Set([
+    "",
+    "/business-crm-tracker",
+    "/systems/client-tracker",
+    "/systems/invoice-desk",
+    "/systems/proposal-desk",
+    "/systems/expense-desk",
+    "/systems/content-planner",
+    "/systems/meeting-desk",
+    "/systems/time-rate-desk",
+  ]);
+  const highPriority = (p: string) =>
+    p.includes("client-tracker") ||
+    p.includes("business-crm") ||
+    p.includes("invoice-desk") ||
+    p.includes("proposal-desk") ||
+    p.includes("expense-desk") ||
+    p.includes("content-planner") ||
+    p.includes("meeting-desk") ||
+    p.includes("time-rate-desk");
   const now = new Date();
   const entries: MetadataRoute.Sitemap = [];
   for (const locale of routing.locales) {
@@ -26,8 +51,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
       entries.push({
         url: `${base}/${locale}${p}`,
         lastModified: now,
-        changeFrequency: p === "" || p === "/business-crm-tracker" || p === "/systems/client-tracker" || p === "/systems/invoice-desk" ? "weekly" : "monthly",
-        priority: p === "" ? 1 : p.includes("client-tracker") || p.includes("business-crm") || p.includes("invoice-desk") ? 0.9 : 0.7,
+        changeFrequency: weeklyPaths.has(p) ? "weekly" : "monthly",
+        priority: p === "" ? 1 : highPriority(p) ? 0.9 : 0.7,
       });
     }
   }

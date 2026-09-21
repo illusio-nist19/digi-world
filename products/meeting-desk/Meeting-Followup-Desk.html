@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#1c334c"/>
+<title>Digi World · Meeting & Follow-up Desk</title>
+<style>
+:root{--ink:#14202c;--ink-soft:#3d4f5f;--muted:#7a8794;--line:#e3d9cc;--cream:#efe6d6;--paper:#fffaf2;--sage:#1f6f62;--sage-soft:#d5efe8;--terra:#c4513a;--gold:#d4a054;--navy:#1c334c;--font:"Segoe UI",system-ui,sans-serif;--display:Georgia,serif;--shadow:0 18px 50px rgba(20,32,44,.12)}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--cream);color:var(--ink);font:15px/1.45 var(--font)}
+button,input,select,textarea{font:inherit}.app{min-height:100vh;display:flex;flex-direction:column}
+.top{position:sticky;top:0;z-index:20;background:rgba(255,250,242,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:12px 16px 0}
+.brand{display:flex;gap:10px;align-items:center}.mark{width:36px;height:36px;border-radius:50%;background:var(--navy);color:var(--gold);display:grid;place-items:center;font-weight:800;font-size:12px}
+.brand h1{margin:0;font:700 18px/1.2 var(--display)}.brand p{margin:2px 0 0;font-size:12px;color:var(--muted)}
+.nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:10px}.nav button{border:0;background:transparent;padding:10px 14px;border-radius:10px;color:var(--ink-soft);white-space:nowrap;cursor:pointer;font-weight:600}
+.nav button.active{background:var(--sage);color:#fff}.main{flex:1;padding:18px 16px 40px;width:min(1100px,100%);margin:0 auto}
+.panel{display:none}.panel.active{display:block}.page-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:end;margin-bottom:16px}
+.page-head h2{margin:0;font:700 28px/1.15 var(--display)}.lede{margin:6px 0 0;color:var(--ink-soft);max-width:52ch}
+.btn{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:10px 16px;cursor:pointer;font-weight:650}.btn-primary{background:var(--navy);color:#fff;border-color:var(--navy)}.btn-sage{background:var(--sage);color:#fff;border-color:var(--sage)}.btn-sm{padding:7px 12px;font-size:13px}
+.grid{display:grid;gap:12px}.grid-2{grid-template-columns:1fr 1fr}@media(max-width:640px){.grid-2{grid-template-columns:1fr}}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}.card-h{padding:12px 16px;border-bottom:1px solid var(--line);font-weight:700;background:#efe6d8;font-size:13px;text-transform:uppercase}.card-b{padding:16px}
+.kpi{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 16px}.kpi .l{font-size:11px;text-transform:uppercase;color:var(--muted);font-weight:700}.kpi .n{margin-top:6px;font:700 26px/1.1 var(--display)}.kpi.warn .n{color:var(--terra)}
+.field label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:var(--muted);margin-bottom:5px}.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff}.field textarea{min-height:80px;resize:vertical}
+.table-wrap{overflow:auto}table.data{width:100%;border-collapse:collapse;min-width:560px}table.data th,table.data td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line)}table.data th{font-size:10px;text-transform:uppercase;color:var(--muted);background:#efe6d8}
+.fu{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.fu.done span.t{text-decoration:line-through;color:var(--muted)}.fu input[type=checkbox]{width:18px;height:18px;accent-color:var(--sage)}
+.ai-row{display:flex;gap:8px;margin-bottom:6px;align-items:center}.ai-row input{flex:1}
+.toast{position:fixed;bottom:16px;right:16px;max-width:420px;margin-left:auto;background:var(--ink);color:#fff;padding:12px 16px;border-radius:12px;display:none;z-index:50}.toast.show{display:block}
+.foot{text-align:center;padding:18px;color:var(--muted);font-size:12px;border-top:1px solid var(--line)}.empty{padding:24px;text-align:center;color:var(--muted)}.actions{display:flex;gap:8px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top"><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:8px"><div class="brand"><div class="mark">DW</div><div><h1>Meeting & Follow-up Desk</h1><p>Digi World · never lose an action item</p></div></div>
+<button class="btn btn-sm btn-sage" type="button" id="btnNew" style="margin-left:auto">+ Meeting</button></div>
+<nav class="nav"><button type="button" data-tab="dashboard" class="active">Dashboard</button><button type="button" data-tab="meetings">Meetings</button><button type="button" data-tab="followups">Follow-ups</button><button type="button" data-tab="editor">Editor</button></nav></header>
+<main class="main">
+<section class="panel active" id="tab-dashboard"><div class="page-head"><div><h2>Week at a glance</h2><p class="lede">Meetings this week and open follow-ups.</p></div></div>
+<div class="grid grid-2" id="dashKpis"></div><div class="grid grid-2" style="margin-top:14px"><div class="card"><div class="card-h">This week's meetings</div><div class="card-b" id="dashMeetings"></div></div>
+<div class="card"><div class="card-h">Open follow-ups</div><div class="card-b" id="dashFollowups"></div></div></div></section>
+<section class="panel" id="tab-meetings"><div class="page-head"><div><h2>All meetings</h2><p class="lede">Every call logged with notes and action items.</p></div></div>
+<div class="card"><div class="card-b table-wrap"><table class="data" id="meetTable"></table></div></div></section>
+<section class="panel" id="tab-followups"><div class="page-head"><div><h2>Follow-ups</h2><p class="lede">Check off items as you complete them.</p></div><button class="btn btn-sage" type="button" id="btnAddFu">+ Follow-up</button></div>
+<div class="card"><div class="card-b" id="fuList"></div></div></section>
+<section class="panel" id="tab-editor"><div class="page-head"><div><h2 id="edTitle">Log meeting</h2><p class="lede">Date, client, attendees, notes, action items.</p></div><button class="btn btn-primary" type="button" id="btnSave">Save</button></div>
+<div class="card"><div class="card-b grid grid-2"><div class="field"><label>Date</label><input id="edDate" type="date"/></div><div class="field"><label>Client</label><input id="edClient" placeholder="Northline Studio"/></div>
+<div class="field" style="grid-column:1/-1"><label>Attendees</label><input id="edAtt" placeholder="Nina (client), Alex (PM)"/></div>
+<div class="field" style="grid-column:1/-1"><label>Notes</label><textarea id="edNotes" placeholder="Key decisions, context…"></textarea></div>
+<div class="field" style="grid-column:1/-1"><label>Action items</label><div id="edActions"></div><button class="btn btn-sm" type="button" id="btnAddAi">+ Action item</button></div></div></div></section>
+</main>
+<footer class="foot">Digi World · Meeting & Follow-up Desk · hello@digi-world.online</footer></div>
+<div class="toast" id="toast"></div>
+<script>
+(function(){
+const KEY="dw_meeting_desk_v1",$=id=>document.getElementById(id),uid=()=>"m"+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+const today=()=>new Date().toISOString().slice(0,10),addDays=(iso,n)=>{const d=new Date(iso+"T12:00:00");d.setDate(d.getDate()+n);return d.toISOString().slice(0,10);};
+const esc=s=>String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+let state,tab="dashboard",editId=null;
+function def(){const t=today();return{meetings:[
+{id:"m1",date:t,client:"Northline Studio",attendees:"Ops team, Sarah",notes:"Reviewed Q4 scope. Approved brand refresh timeline.",actions:["Send revised timeline","Share asset checklist"]},
+{id:"m2",date:addDays(t,-3),client:"Parcel & Press",attendees:"Nina",notes:"Retainer check-in. Happy with September deliverables.",actions:["Invoice October retainer"]},
+{id:"m3",date:addDays(t,2),client:"Brightfield Co",attendees:"James, PM",notes:"Discovery call for new product launch.",actions:["Send proposal draft","Book follow-up"]}],
+followups:[
+{id:"f1",text:"Send revised timeline to Northline",due:addDays(t,2),done:false,meetingId:"m1"},
+{id:"f2",text:"Invoice October retainer",due:t,done:false,meetingId:"m2"},
+{id:"f3",text:"Send proposal draft to Brightfield",due:addDays(t,5),done:false,meetingId:"m3"},
+{id:"f4",text:"Update portfolio case study",due:addDays(t,-2),done:true,meetingId:""}]};}
+function load(){try{const r=localStorage.getItem(KEY);state=r?JSON.parse(r):def();if(!state.meetings)state=def();}catch{state=def();}}
+function save(){localStorage.setItem(KEY,JSON.stringify(state));}
+function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove("show"),2400);}
+function weekRange(){const d=new Date(today()+"T12:00:00"),day=d.getDay(),start=addDays(today(),-(day===0?6:day-1));return{start,end:addDays(start,6)};}
+function setTab(n){tab=n;document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===n));document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id==="tab-"+n));render();}
+function blank(){return{id:uid(),date:today(),client:"",attendees:"",notes:"",actions:[""]};}
+function openEd(m){editId=m.id;$("edTitle").textContent=m.client?"Edit: "+m.client:"Log meeting";$("edDate").value=m.date||today();$("edClient").value=m.client||"";$("edAtt").value=m.attendees||"";$("edNotes").value=m.notes||"";renderActions(m.actions||[""]);setTab("editor");}
+function renderActions(arr){$("edActions").innerHTML=arr.map((a,i)=>`<div class="ai-row"><input data-ai="${i}" value="${esc(a)}" placeholder="Action item…"/><button class="btn btn-sm" type="button" data-delai="${i}">×</button></div>`).join("");}
+function readActions(){return[...$("edActions").querySelectorAll("input")].map(i=>i.value.trim()).filter(Boolean);}
+function readEd(){return{id:editId||uid(),date:$("edDate").value||today(),client:$("edClient").value.trim(),attendees:$("edAtt").value.trim(),notes:$("edNotes").value.trim(),actions:readActions()};}
+function syncFollowups(m){m.actions.forEach(text=>{if(!state.followups.find(f=>f.meetingId===m.id&&f.text===text))state.followups.push({id:uid(),text,due:addDays(m.date,3),done:false,meetingId:m.id});});}
+function renderDash(){const w=weekRange();const weekM=state.meetings.filter(m=>m.date>=w.start&&m.date<=w.end);const openFu=state.followups.filter(f=>!f.done);
+$("dashKpis").innerHTML=`<div class="kpi"><div class="l">Meetings this week</div><div class="n">${weekM.length}</div></div><div class="kpi warn"><div class="l">Open follow-ups</div><div class="n">${openFu.length}</div></div>`;
+$("dashMeetings").innerHTML=weekM.map(m=>`<div style="padding:8px 0;border-bottom:1px solid var(--line);cursor:pointer" data-open="${esc(m.id)}"><b>${esc(m.date)}</b> · ${esc(m.client)}<div style="font-size:13px;color:var(--ink-soft)">${esc(m.attendees)}</div></div>`).join("")||'<div class="empty">No meetings this week</div>';
+$("dashFollowups").innerHTML=openFu.slice(0,5).map(f=>`<div class="fu" data-fu="${esc(f.id)}"><input type="checkbox" ${f.done?"checked":""}/><span class="t">${esc(f.text)}</span><span style="margin-left:auto;font-size:12px;color:var(--muted)">${esc(f.due)}</span></div>`).join("")||'<div class="empty">All caught up!</div>';}
+function renderMeet(){$("meetTable").innerHTML=`<thead><tr><th>Date</th><th>Client</th><th>Attendees</th><th>Actions</th><th></th></tr></thead><tbody>${[...state.meetings].sort((a,b)=>b.date.localeCompare(a.date)).map(m=>`<tr><td>${esc(m.date)}</td><td><b>${esc(m.client)}</b></td><td>${esc(m.attendees||"—")}</td><td>${(m.actions||[]).length}</td><td><button class="btn btn-sm" data-open="${esc(m.id)}">Edit</button></td></tr>`).join("")||'<tr><td colspan="5"><div class="empty">No meetings</div></td></tr>'}</tbody>`;}
+function renderFu(){const sorted=[...state.followups].sort((a,b)=>a.done-b.done||a.due.localeCompare(b.due));
+$("fuList").innerHTML=sorted.map(f=>`<div class="fu${f.done?" done":""}" data-fu="${esc(f.id)}"><input type="checkbox" ${f.done?"checked":""}/><span class="t">${esc(f.text)}</span><input type="date" value="${esc(f.due)}" data-due="${esc(f.id)}" style="margin-left:auto;border:1px solid var(--line);border-radius:8px;padding:4px 8px;font-size:13px"/></div>`).join("")||'<div class="empty">No follow-ups</div>';}
+function render(){if(tab==="dashboard")renderDash();if(tab==="meetings")renderMeet();if(tab==="followups")renderFu();}
+document.querySelector(".nav").onclick=e=>{const b=e.target.closest("[data-tab]");if(b)setTab(b.dataset.tab);};
+$("btnNew").onclick=()=>{editId=null;openEd(blank());};
+$("btnSave").onclick=()=>{const m=readEd();if(!m.client){toast("Add a client");return;}const i=state.meetings.findIndex(x=>x.id===m.id);if(i>=0)state.meetings[i]=m;else state.meetings.unshift(m);syncFollowups(m);editId=m.id;save();toast("Saved");setTab("meetings");};
+$("btnAddAi").onclick=()=>{const arr=readActions();arr.push("");renderActions(arr);};
+$("edActions").onclick=e=>{const d=e.target.closest("[data-delai]");if(!d)return;const arr=readActions();arr.splice(+d.dataset.delai,1);renderActions(arr.length?arr:[""]);};
+$("btnAddFu").onclick=()=>{const text=prompt("Follow-up task");if(!text)return;state.followups.push({id:uid(),text:text.trim(),due:addDays(today(),3),done:false,meetingId:""});save();render();toast("Added");};
+document.body.onclick=e=>{const o=e.target.closest("[data-open]");if(o){const m=state.meetings.find(x=>x.id===o.dataset.open);if(m)openEd(m);}};
+document.body.onchange=e=>{if(e.target.type==="checkbox"&&e.target.closest("[data-fu]")){const id=e.target.closest("[data-fu]").dataset.fu;const f=state.followups.find(x=>x.id===id);if(f){f.done=e.target.checked;save();render();}}if(e.target.dataset.due){const f=state.followups.find(x=>x.id===e.target.dataset.due);if(f){f.due=e.target.value;save();}}};
+load();setTab("dashboard");
+})();
+</script>
+</body>
+</html>

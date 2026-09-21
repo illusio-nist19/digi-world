@@ -1,0 +1,29 @@
+# Digi World Content & Social Planner — START HERE
+
+Plan posts, drafts, and ideas without a social scheduler subscription.
+Calendar, captions, and an ideas board — all on this computer.
+
+## Open
+1. Unzip this folder
+2. Double-click **Content-Social-Planner.html**
+3. Work in Chrome, Edge, or Safari
+
+## First 10 minutes
+1. **Dashboard** — scheduled this week, drafts, published count
+2. **Calendar** — month view of what goes out when
+3. **New post** — platform, title, caption, scheduled date
+4. Move posts from **draft** → **scheduled** → **published**
+5. **Ideas board** — capture hooks before they disappear
+6. Check the calendar every Monday for the week ahead
+
+## Licence
+One studio / one seat (or the duo seats you bought). Personal use.
+Do not redistribute or resell.
+
+## Privacy
+localStorage only. Digi World never sees your content or captions.
+
+## Support
+hello@digi-world.online · https://digi-world.online
+
+Digi World · Digital systems, not files.

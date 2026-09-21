@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#1c334c"/>
+<title>Digi World · Content & Social Planner</title>
+<style>
+:root{--ink:#14202c;--ink-soft:#3d4f5f;--muted:#7a8794;--line:#e3d9cc;--cream:#efe6d6;--paper:#fffaf2;--sage:#1f6f62;--sage-soft:#d5efe8;--gold:#d4a054;--navy:#1c334c;--font:"Segoe UI",system-ui,sans-serif;--display:Georgia,serif;--shadow:0 18px 50px rgba(20,32,44,.12)}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--cream);color:var(--ink);font:15px/1.45 var(--font)}
+button,input,select,textarea{font:inherit}.app{min-height:100vh;display:flex;flex-direction:column}
+.top{position:sticky;top:0;z-index:20;background:rgba(255,250,242,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:12px 16px 0}
+.brand{display:flex;gap:10px;align-items:center}.mark{width:36px;height:36px;border-radius:50%;background:var(--navy);color:var(--gold);display:grid;place-items:center;font-weight:800;font-size:12px}
+.brand h1{margin:0;font:700 18px/1.2 var(--display)}.brand p{margin:2px 0 0;font-size:12px;color:var(--muted)}
+.nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:10px}.nav button{border:0;background:transparent;padding:10px 14px;border-radius:10px;color:var(--ink-soft);white-space:nowrap;cursor:pointer;font-weight:600}
+.nav button.active{background:var(--sage);color:#fff}.main{flex:1;padding:18px 16px 40px;width:min(1100px,100%);margin:0 auto}
+.panel{display:none}.panel.active{display:block}.page-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:end;margin-bottom:16px}
+.page-head h2{margin:0;font:700 28px/1.15 var(--display)}.lede{margin:6px 0 0;color:var(--ink-soft);max-width:52ch}
+.btn{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:10px 16px;cursor:pointer;font-weight:650}.btn-primary{background:var(--navy);color:#fff;border-color:var(--navy)}.btn-sage{background:var(--sage);color:#fff;border-color:var(--sage)}.btn-sm{padding:7px 12px;font-size:13px}
+.grid{display:grid;gap:12px}.grid-2{grid-template-columns:1fr 1fr}.grid-3{grid-template-columns:repeat(3,1fr)}@media(max-width:640px){.grid-2,.grid-3{grid-template-columns:1fr}}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}.card-h{padding:12px 16px;border-bottom:1px solid var(--line);font-weight:700;background:#efe6d8;font-size:13px;text-transform:uppercase}.card-b{padding:16px}
+.kpi{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 16px}.kpi .l{font-size:11px;text-transform:uppercase;color:var(--muted);font-weight:700}.kpi .n{margin-top:6px;font:700 26px/1.1 var(--display)}.kpi.ok .n{color:var(--sage)}
+.field label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:var(--muted);margin-bottom:5px}.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff}.field textarea{min-height:90px;resize:vertical}
+.chip{display:inline-flex;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:700;border:1px solid var(--line)}.chip.draft{background:#eee}.chip.scheduled{background:var(--sage-soft);color:#2f5a43}.chip.published{background:#d9f0e8;color:#1d4d44}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;font-size:12px}.cal-h{font-weight:700;text-align:center;padding:6px;color:var(--muted)}.cal-d{min-height:72px;border:1px solid var(--line);border-radius:8px;padding:4px;background:var(--paper)}.cal-d.off{background:#f5efe4;color:var(--muted)}.cal-d.today{border-color:var(--sage);box-shadow:0 0 0 2px var(--sage-soft)}.cal-d .n{font-weight:700;font-size:11px;margin-bottom:4px}.cal-dot{display:block;font-size:10px;padding:2px 4px;border-radius:4px;background:var(--sage-soft);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.table-wrap{overflow:auto}table.data{width:100%;border-collapse:collapse;min-width:560px}table.data th,table.data td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line)}table.data th{font-size:10px;text-transform:uppercase;color:var(--muted);background:#efe6d8}
+.idea{padding:12px;border:1px solid var(--line);border-radius:12px;margin-bottom:8px;background:#fff}.idea b{display:block;margin-bottom:4px}.idea p{margin:0;color:var(--ink-soft);font-size:14px}
+.toast{position:fixed;bottom:16px;right:16px;max-width:420px;margin-left:auto;background:var(--ink);color:#fff;padding:12px 16px;border-radius:12px;display:none;z-index:50}.toast.show{display:block}
+.foot{text-align:center;padding:18px;color:var(--muted);font-size:12px;border-top:1px solid var(--line)}.empty{padding:24px;text-align:center;color:var(--muted)}.actions{display:flex;gap:8px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top"><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:8px"><div class="brand"><div class="mark">DW</div><div><h1>Content & Social Planner</h1><p>Digi World · plan posts without a scheduler bill</p></div></div>
+<button class="btn btn-sm btn-sage" type="button" id="btnNew" style="margin-left:auto">+ Post</button></div>
+<nav class="nav"><button type="button" data-tab="dashboard" class="active">Dashboard</button><button type="button" data-tab="calendar">Calendar</button><button type="button" data-tab="posts">Posts</button><button type="button" data-tab="ideas">Ideas</button><button type="button" data-tab="editor">Editor</button></nav></header>
+<main class="main">
+<section class="panel active" id="tab-dashboard"><div class="page-head"><div><h2>Content at a glance</h2><p class="lede">Scheduled this week, drafts, and published count.</p></div></div>
+<div class="grid grid-3" id="dashKpis"></div><div class="card" style="margin-top:14px"><div class="card-h">This week</div><div class="card-b" id="dashWeek"></div></div></section>
+<section class="panel" id="tab-calendar"><div class="page-head"><div><h2>Calendar</h2><p class="lede">Month view — click a post to edit.</p></div><div class="actions"><button class="btn btn-sm" id="btnPrev">←</button><button class="btn btn-sm" id="btnNext">→</button></div></div>
+<div class="card"><div class="card-b"><div id="calTitle" style="font-weight:700;margin-bottom:12px;font-family:var(--display);font-size:20px"></div><div class="cal" id="calGrid"></div></div></div></section>
+<section class="panel" id="tab-posts"><div class="page-head"><div><h2>All posts</h2><p class="lede">Every piece of content in one list.</p></div></div>
+<div class="card"><div class="card-b table-wrap"><table class="data" id="postsTable"></table></div></div></section>
+<section class="panel" id="tab-ideas"><div class="page-head"><div><h2>Ideas board</h2><p class="lede">Capture hooks before they disappear.</p></div><button class="btn btn-sage" type="button" id="btnAddIdea">+ Idea</button></div>
+<div class="card"><div class="card-b" id="ideasList"></div></div></section>
+<section class="panel" id="tab-editor"><div class="page-head"><div><h2 id="edTitle">New post</h2><p class="lede">Platform, title, caption, schedule.</p></div><button class="btn btn-primary" type="button" id="btnSave">Save</button></div>
+<div class="card"><div class="card-b grid grid-2"><div class="field"><label>Platform</label><select id="edPlat"><option>Instagram</option><option>LinkedIn</option><option>TikTok</option><option>X / Twitter</option><option>Pinterest</option><option>Blog</option><option>Newsletter</option></select></div>
+<div class="field"><label>Status</label><select id="edStatus"><option>draft</option><option>scheduled</option><option>published</option></select></div>
+<div class="field"><label>Title / hook</label><input id="edTitle2" placeholder="Behind the scenes: client shoot"/></div>
+<div class="field"><label>Scheduled date</label><input id="edDate" type="date"/></div>
+<div class="field" style="grid-column:1/-1"><label>Caption</label><textarea id="edCap" placeholder="Write the post…"></textarea></div></div></div></section>
+</main>
+<footer class="foot">Digi World · Content & Social Planner · hello@digi-world.online</footer></div>
+<div class="toast" id="toast"></div>
+<script>
+(function(){
+const KEY="dw_content_planner_v1",$=id=>document.getElementById(id),uid=()=>"c"+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+const today=()=>new Date().toISOString().slice(0,10),esc=s=>String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const addDays=(iso,n)=>{const d=new Date(iso+"T12:00:00");d.setDate(d.getDate()+n);return d.toISOString().slice(0,10);};
+let state,tab="dashboard",editId=null,calYear,calMonth;
+function def(){const t=today();return{posts:[
+{id:"p1",platform:"Instagram",title:"BTS: brand shoot",status:"scheduled",date:addDays(t,2),caption:"Three setups, one vision. Here's how we built the hero frame…"},
+{id:"p2",platform:"LinkedIn",title:"Why offline tools matter",status:"draft",date:addDays(t,5),caption:"Your data shouldn't live in someone else's cloud…"},
+{id:"p3",platform:"Blog",title:"Q3 recap",status:"published",date:addDays(t,-7),caption:"What we shipped, learned, and are building next."},
+{id:"p4",platform:"TikTok",title:"Desk tour 60s",status:"scheduled",date:addDays(t,4),caption:"Quick tour of the creative desk setup."}],
+ideas:[{id:"i1",title:"Client testimonial carousel",note:"Pull 3 quotes from recent projects"},{id:"i2",title:"Rate transparency thread",note:"Break down how pricing works"}]};}
+function load(){try{const r=localStorage.getItem(KEY);state=r?JSON.parse(r):def();if(!state.posts)state=def();}catch{state=def();}}
+function save(){localStorage.setItem(KEY,JSON.stringify(state));}
+function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove("show"),2400);}
+function chip(st){return`<span class="chip ${esc(st)}">${esc(st)}</span>`;}
+function weekRange(){const d=new Date(today()+"T12:00:00"),day=d.getDay(),start=addDays(today(),-(day===0?6:day-1));return{start,end:addDays(start,6)};}
+function setTab(n){tab=n;document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===n));document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id==="tab-"+n));render();}
+function blank(){return{id:uid(),platform:"Instagram",title:"",status:"draft",date:today(),caption:""};}
+function openEd(p){editId=p.id;$("edTitle").textContent=p.title?"Edit: "+p.title:"New post";$("edPlat").value=p.platform;$("edStatus").value=p.status;$("edTitle2").value=p.title||"";$("edDate").value=p.date||today();$("edCap").value=p.caption||"";setTab("editor");}
+function readEd(){return{id:editId||uid(),platform:$("edPlat").value,title:$("edTitle2").value.trim(),status:$("edStatus").value,date:$("edDate").value||today(),caption:$("edCap").value.trim()};}
+function renderDash(){const w=weekRange();const weekPosts=state.posts.filter(p=>p.date>=w.start&&p.date<=w.end&&p.status==="scheduled");const drafts=state.posts.filter(p=>p.status==="draft");const pub=state.posts.filter(p=>p.status==="published");
+$("dashKpis").innerHTML=`<div class="kpi"><div class="l">Scheduled this week</div><div class="n">${weekPosts.length}</div></div><div class="kpi"><div class="l">Drafts</div><div class="n">${drafts.length}</div></div><div class="kpi ok"><div class="l">Published</div><div class="n">${pub.length}</div></div>`;
+$("dashWeek").innerHTML=weekPosts.map(p=>`<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);cursor:pointer" data-open="${esc(p.id)}"><span><b>${esc(p.date)}</b> · ${esc(p.platform)} — ${esc(p.title)}</span>${chip(p.status)}</div>`).join("")||'<div class="empty">Nothing scheduled this week</div>';}
+function renderCal(){if(calYear==null){const n=new Date();calYear=n.getFullYear();calMonth=n.getMonth();}
+const names=["January","February","March","April","May","June","July","August","September","October","November","December"];
+$("calTitle").textContent=names[calMonth]+" "+calYear;const first=new Date(calYear,calMonth,1),last=new Date(calYear,calMonth+1,0),startDow=first.getDay(),days=last.getDate();
+let html=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map(d=>`<div class="cal-h">${d}</div>`).join("");
+for(let i=0;i<startDow;i++)html+=`<div class="cal-d off"></div>`;
+for(let d=1;d<=days;d++){const iso=calYear+"-"+String(calMonth+1).padStart(2,"0")+"-"+String(d).padStart(2,"0");const posts=state.posts.filter(p=>p.date===iso);const cls=iso===today()?" today":"";
+html+=`<div class="cal-d${cls}"><div class="n">${d}</div>${posts.map(p=>`<span class="cal-dot" data-open="${esc(p.id)}" title="${esc(p.title)}">${esc(p.platform.slice(0,3))}</span>`).join("")}</div>`;}
+$("calGrid").innerHTML=html;}
+function renderPosts(){$("postsTable").innerHTML=`<thead><tr><th>Date</th><th>Platform</th><th>Title</th><th>Status</th><th></th></tr></thead><tbody>${[...state.posts].sort((a,b)=>a.date.localeCompare(b.date)).map(p=>`<tr><td>${esc(p.date)}</td><td>${esc(p.platform)}</td><td><b>${esc(p.title||"—")}</b></td><td>${chip(p.status)}</td><td><button class="btn btn-sm" data-open="${esc(p.id)}">Edit</button></td></tr>`).join("")||'<tr><td colspan="5"><div class="empty">No posts</div></td></tr>'}</tbody>`;}
+function renderIdeas(){$("ideasList").innerHTML=state.ideas.map(i=>`<div class="idea"><b>${esc(i.title)}</b><p>${esc(i.note||"")}</p><button class="btn btn-sm" data-delidea="${esc(i.id)}" style="margin-top:8px">Remove</button></div>`).join("")||'<div class="empty">No ideas yet — capture one!</div>';}
+function render(){if(tab==="dashboard")renderDash();if(tab==="calendar")renderCal();if(tab==="posts")renderPosts();if(tab==="ideas")renderIdeas();}
+document.querySelector(".nav").onclick=e=>{const b=e.target.closest("[data-tab]");if(b)setTab(b.dataset.tab);};
+$("btnNew").onclick=()=>{editId=null;openEd(blank());};
+$("btnSave").onclick=()=>{const p=readEd();if(!p.title){toast("Add a title");return;}const i=state.posts.findIndex(x=>x.id===p.id);if(i>=0)state.posts[i]=p;else state.posts.push(p);editId=p.id;save();toast("Saved");setTab("posts");};
+$("btnPrev").onclick=()=>{calMonth--;if(calMonth<0){calMonth=11;calYear--;}renderCal();};
+$("btnNext").onclick=()=>{calMonth++;if(calMonth>11){calMonth=0;calYear++;}renderCal();};
+$("btnAddIdea").onclick=()=>{const title=prompt("Idea title");if(!title)return;const note=prompt("Notes (optional)")||"";state.ideas.unshift({id:uid(),title:title.trim(),note:note.trim()});save();render();toast("Idea added");};
+document.body.onclick=e=>{const o=e.target.closest("[data-open]");if(o){const p=state.posts.find(x=>x.id===o.dataset.open);if(p)openEd(p);}const di=e.target.closest("[data-delidea]");if(di){state.ideas=state.ideas.filter(i=>i.id!==di.dataset.delidea);save();render();}};
+load();setTab("dashboard");
+})();
+</script>
+</body>
+</html>

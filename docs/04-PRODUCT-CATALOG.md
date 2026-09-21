@@ -77,6 +77,96 @@ These sit above Drop 01. They are **not** inside `the-vault`. One studio / one o
 | Licence | One studio / two seats; personal use; no redistribution |
 | Zip | `products/releases/DW-SYS-012-invoice-desk.zip` · `backend/vault/` |
 
+### DW-SYS-013 Proposal & Pitch Desk
+
+| | |
+| --- | --- |
+| sku | `DW-SYS-013` |
+| slug | `proposal-desk` |
+| collection | creator-lab |
+| serial | DW-SYS-013 |
+| EN name | Proposal & Pitch Desk |
+| Price | **$27** one studio · **$42** two seats |
+| EN headline | Pitch. Follow up. Win. |
+| EN sub | Offline HTML proposals with line items, statuses, print PDF. |
+| Contains | START-HERE, Proposal-Pitch-Desk.html |
+| Pain | Pitches in Google Docs, no follow-up, pipeline as a feeling |
+| Desire | One local desk: proposal → sent → accepted/lost → PDF |
+| Cross-sell | invoice-desk |
+| Zip | `products/releases/DW-SYS-013-proposal-desk.zip` · `backend/vault/` |
+
+### DW-SYS-014 Expense & Tax Desk
+
+| | |
+| --- | --- |
+| sku | `DW-SYS-014` |
+| slug | `expense-desk` |
+| collection | creator-lab |
+| serial | DW-SYS-014 |
+| EN name | Expense & Tax Desk |
+| Price | **$24** one studio · **$39** two seats |
+| EN headline | Track spend. Tax-ready. |
+| EN sub | Categories, CSV export. |
+| Contains | START-HERE, Expense-Tax-Desk.html |
+| Pain | Receipts in bank apps and shoeboxes; tax season scramble |
+| Desire | Log spend by category, export CSV for the accountant |
+| Cross-sell | invoice-desk |
+| Zip | `products/releases/DW-SYS-014-expense-desk.zip` · `backend/vault/` |
+
+### DW-SYS-015 Content & Social Planner
+
+| | |
+| --- | --- |
+| sku | `DW-SYS-015` |
+| slug | `content-planner` |
+| collection | creator-lab |
+| serial | DW-SYS-015 |
+| EN name | Content & Social Planner |
+| Price | **$27** one studio · **$42** two seats |
+| EN headline | Plan. Schedule. Publish. |
+| EN sub | Calendar + ideas. |
+| Contains | START-HERE, Content-Social-Planner.html |
+| Pain | Random posting, ideas in three apps, empty calendar |
+| Desire | Draft → scheduled → published with an ideas board |
+| Cross-sell | client-tracker |
+| Zip | `products/releases/DW-SYS-015-content-planner.zip` · `backend/vault/` |
+
+### DW-SYS-016 Meeting & Follow-up Desk
+
+| | |
+| --- | --- |
+| sku | `DW-SYS-016` |
+| slug | `meeting-desk` |
+| collection | creator-lab |
+| serial | DW-SYS-016 |
+| EN name | Meeting & Follow-up Desk |
+| Price | **$22** one studio · **$35** two seats |
+| EN headline | Meet. Note. Close the loop. |
+| EN sub | Action items. |
+| Contains | START-HERE, Meeting-Followup-Desk.html |
+| Pain | Action items die in notes; nobody owns follow-up |
+| Desire | Meetings, notes, due dates, done toggles — offline |
+| Cross-sell | client-tracker |
+| Zip | `products/releases/DW-SYS-016-meeting-desk.zip` · `backend/vault/` |
+
+### DW-SYS-017 Time & Rate Desk
+
+| | |
+| --- | --- |
+| sku | `DW-SYS-017` |
+| slug | `time-rate-desk` |
+| collection | creator-lab |
+| serial | DW-SYS-017 |
+| EN name | Time & Rate Desk |
+| Price | **$25** one studio · **$39** two seats |
+| EN headline | Log hours. Price right. |
+| EN sub | Time entries + rate calculator. |
+| Contains | START-HERE, Time-Rate-Desk.html |
+| Pain | Undercharging; billable hours invisible vs real income |
+| Desire | Log time, billable split, rate calculator, effective rate |
+| Cross-sell | invoice-desk |
+| Zip | `products/releases/DW-SYS-017-time-rate-desk.zip` · `backend/vault/` |
+
 ### DW-EBK-001 Key Fob Programming Mastery
 
 | | |

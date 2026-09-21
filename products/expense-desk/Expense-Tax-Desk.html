@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#1c334c"/>
+<title>Digi World · Expense & Tax Desk</title>
+<style>
+:root{--ink:#14202c;--ink-soft:#3d4f5f;--muted:#7a8794;--line:#e3d9cc;--cream:#efe6d6;--paper:#fffaf2;--sage:#1f6f62;--sage-soft:#d5efe8;--terra:#c4513a;--gold:#d4a054;--navy:#1c334c;--font:"Segoe UI",system-ui,sans-serif;--display:Georgia,serif;--shadow:0 18px 50px rgba(20,32,44,.12)}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--cream);color:var(--ink);font:15px/1.45 var(--font)}
+button,input,select,textarea{font:inherit}.app{min-height:100vh;display:flex;flex-direction:column}
+.top{position:sticky;top:0;z-index:20;background:rgba(255,250,242,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:12px 16px 0}
+.top-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:8px}.brand{display:flex;gap:10px;align-items:center}
+.mark{width:36px;height:36px;border-radius:50%;background:var(--navy);color:var(--gold);display:grid;place-items:center;font-weight:800;font-size:12px}
+.brand h1{margin:0;font:700 18px/1.2 var(--display)}.brand p{margin:2px 0 0;font-size:12px;color:var(--muted)}
+.nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:10px}.nav button{border:0;background:transparent;padding:10px 14px;border-radius:10px;color:var(--ink-soft);white-space:nowrap;cursor:pointer;font-weight:600}
+.nav button.active{background:var(--sage);color:#fff}.main{flex:1;padding:18px 16px 40px;width:min(1100px,100%);margin:0 auto}
+.panel{display:none}.panel.active{display:block}.page-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:end;margin-bottom:16px}
+.page-head h2{margin:0;font:700 28px/1.15 var(--display)}.lede{margin:6px 0 0;color:var(--ink-soft);max-width:52ch}
+.btn{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:10px 16px;cursor:pointer;font-weight:650}.btn-primary{background:var(--navy);color:#fff;border-color:var(--navy)}.btn-sage{background:var(--sage);color:#fff;border-color:var(--sage)}.btn-sm{padding:7px 12px;font-size:13px}.btn-danger{background:#f8ddd4;color:#8a3a2e}
+.grid{display:grid;gap:12px}.grid-2{grid-template-columns:1fr 1fr}.grid-3{grid-template-columns:repeat(3,1fr)}@media(max-width:640px){.grid-2,.grid-3{grid-template-columns:1fr}}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}.card-h{padding:12px 16px;border-bottom:1px solid var(--line);font-weight:700;background:#efe6d8;font-size:13px;text-transform:uppercase}.card-b{padding:16px}
+.kpi{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 16px}.kpi .l{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700}.kpi .n{margin-top:6px;font:700 26px/1.1 var(--display)}.kpi.warn .n{color:var(--terra)}.kpi.ok .n{color:var(--sage)}
+.field label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:var(--muted);margin-bottom:5px}.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff}.field textarea{min-height:70px;resize:vertical}
+.table-wrap{overflow:auto}table.data{width:100%;border-collapse:collapse;min-width:600px}table.data th,table.data td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line)}table.data th{font-size:10px;text-transform:uppercase;color:var(--muted);background:#efe6d8}table.data tr:hover td{background:#f5efe4}
+.cat-bar{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line);font-size:14px}.cat-bar span:last-child{font-weight:700}
+.toast{position:fixed;bottom:16px;right:16px;left:16px;max-width:420px;margin-left:auto;background:var(--ink);color:#fff;padding:12px 16px;border-radius:12px;display:none;z-index:50}.toast.show{display:block}
+.foot{text-align:center;padding:18px;color:var(--muted);font-size:12px;border-top:1px solid var(--line)}.empty{padding:24px;text-align:center;color:var(--muted)}.actions{display:flex;gap:8px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top"><div class="top-row"><div class="brand"><div class="mark">DW</div><div><h1>Expense & Tax Desk</h1><p>Digi World · tax-ready spend tracking</p></div></div>
+<div class="actions" style="margin-left:auto"><button class="btn btn-sm" type="button" id="btnCsv">Export CSV</button><button class="btn btn-sm btn-sage" type="button" id="btnNew">+ Expense</button></div></div>
+<nav class="nav"><button type="button" data-tab="dashboard" class="active">Dashboard</button><button type="button" data-tab="expenses">Expenses</button><button type="button" data-tab="editor">Add / Edit</button><button type="button" data-tab="setup">Setup</button></nav></header>
+<main class="main">
+<section class="panel active" id="tab-dashboard"><div class="page-head"><div><h2>Spend at a glance</h2><p class="lede">This month, by category, and your tax-ready total.</p></div></div>
+<div class="grid grid-3" id="dashKpis"></div><div class="grid grid-2" style="margin-top:14px"><div class="card"><div class="card-h">By category (this month)</div><div class="card-b" id="dashCats"></div></div>
+<div class="card"><div class="card-h">Recent expenses</div><div class="card-b" id="dashRecent"></div></div></div></section>
+<section class="panel" id="tab-expenses"><div class="page-head"><div><h2>All expenses</h2><p class="lede">Every business purchase in one list.</p></div></div>
+<div class="card"><div class="card-b table-wrap"><table class="data" id="expTable"></table></div></div></section>
+<section class="panel" id="tab-editor"><div class="page-head"><div><h2 id="edTitle">Add expense</h2><p class="lede">Date, vendor, category, amount, notes.</p></div><button class="btn btn-primary" type="button" id="btnSave">Save</button></div>
+<div class="card"><div class="card-b grid grid-2"><div class="field"><label>Date</label><input id="edDate" type="date"/></div><div class="field"><label>Vendor</label><input id="edVendor" placeholder="Adobe, Amazon…"/></div>
+<div class="field"><label>Category</label><select id="edCat"></select></div><div class="field"><label>Amount</label><input id="edAmt" type="number" min="0" step="0.01"/></div>
+<div class="field" style="grid-column:1/-1"><label>Notes</label><textarea id="edNotes" placeholder="Receipt #, project, deductible note…"></textarea></div></div></div></section>
+<section class="panel" id="tab-setup"><div class="page-head"><div><h2>Setup</h2><p class="lede">Business info and expense categories.</p></div><button class="btn btn-primary" type="button" id="btnSaveSetup">Save</button></div>
+<div class="card"><div class="card-b grid grid-2"><div class="field"><label>Business name</label><input id="sName"/></div><div class="field"><label>Currency</label><input id="sCurrency" placeholder="USD"/></div>
+<div class="field" style="grid-column:1/-1"><label>Categories (one per line)</label><textarea id="sCats" rows="6"></textarea></div></div></div></section>
+</main>
+<footer class="foot">Digi World · Expense & Tax Desk · Not tax advice · hello@digi-world.online</footer></div>
+<div class="toast" id="toast"></div>
+<script>
+(function(){
+const KEY="dw_expense_desk_v1",$=id=>document.getElementById(id),uid=()=>"e"+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+const today=()=>new Date().toISOString().slice(0,10),esc=s=>String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+let state,tab="dashboard",editId=null;
+function def(){const d=today();return{settings:{name:"Your Studio",currency:"USD",categories:["Software","Equipment","Travel","Office","Marketing","Professional","Meals","Other"]},expenses:[
+{id:"e1",date:d,vendor:"Adobe Creative Cloud",category:"Software",amount:54.99,notes:"Monthly subscription"},
+{id:"e2",date:d,vendor:"WeWork",category:"Office",amount:320,notes:"Desk rental"},
+{id:"e3",date:d,vendor:"Southwest Airlines",category:"Travel",amount:287.40,notes:"Client visit — Austin"},
+{id:"e4",date:d,vendor:"Amazon",category:"Equipment",amount:89.99,notes:"USB-C hub"}]};}
+function load(){try{const r=localStorage.getItem(KEY);state=r?JSON.parse(r):def();if(!state.expenses)state=def();}catch{state=def();}}
+function save(){localStorage.setItem(KEY,JSON.stringify(state));}
+function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove("show"),2400);}
+function money(n){const c=state.settings.currency||"USD",v=Math.round((+n||0)*100)/100,num=v.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});return["$","€","£"].includes(c)?c+num:num+" "+c;}
+function monthExp(){const m=today().slice(0,7);return state.expenses.filter(e=>e.date&&e.date.startsWith(m));}
+function setTab(n){tab=n;document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===n));document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id==="tab-"+n));render();}
+function fillCats(){$("edCat").innerHTML=state.settings.categories.map(c=>`<option>${esc(c)}</option>`).join("");}
+function blank(){return{id:uid(),date:today(),vendor:"",category:state.settings.categories[0]||"Other",amount:0,notes:""};}
+function openEd(e){editId=e.id;$("edTitle").textContent=e.vendor?"Edit: "+e.vendor:"Add expense";$("edDate").value=e.date||today();$("edVendor").value=e.vendor||"";$("edCat").value=e.category||state.settings.categories[0];$("edAmt").value=e.amount||"";$("edNotes").value=e.notes||"";setTab("editor");}
+function readEd(){return{id:editId||uid(),date:$("edDate").value||today(),vendor:$("edVendor").value.trim(),category:$("edCat").value,amount:+($("edAmt").value)||0,notes:$("edNotes").value.trim()};}
+function renderDash(){const mx=monthExp(),total=mx.reduce((s,e)=>s+(+e.amount||0),0);const ytd=state.expenses.filter(e=>e.date&&e.date.startsWith(today().slice(0,4))).reduce((s,e)=>s+(+e.amount||0),0);
+const cats={};mx.forEach(e=>{cats[e.category]=(cats[e.category]||0)+(+e.amount||0);});
+$("dashKpis").innerHTML=`<div class="kpi warn"><div class="l">This month</div><div class="n">${money(total)}</div></div><div class="kpi"><div class="l">Expenses (month)</div><div class="n">${mx.length}</div></div><div class="kpi ok"><div class="l">Tax-ready YTD</div><div class="n">${money(ytd)}</div></div>`;
+$("dashCats").innerHTML=Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(([c,a])=>`<div class="cat-bar"><span>${esc(c)}</span><span>${esc(money(a))}</span></div>`).join("")||'<div class="empty">No expenses this month</div>';
+$("dashRecent").innerHTML=state.expenses.slice(0,6).map(e=>`<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);cursor:pointer" data-open="${esc(e.id)}"><span><b>${esc(e.vendor)}</b> · ${esc(e.category)}</span><span>${esc(money(e.amount))}</span></div>`).join("")||'<div class="empty">No expenses</div>';}
+function renderExp(){$("expTable").innerHTML=`<thead><tr><th>Date</th><th>Vendor</th><th>Category</th><th>Amount</th><th>Notes</th><th></th></tr></thead><tbody>${[...state.expenses].sort((a,b)=>b.date.localeCompare(a.date)).map(e=>`<tr><td>${esc(e.date)}</td><td><b>${esc(e.vendor)}</b></td><td>${esc(e.category)}</td><td>${esc(money(e.amount))}</td><td>${esc(e.notes||"—")}</td><td><button class="btn btn-sm" data-open="${esc(e.id)}">Edit</button> <button class="btn btn-sm btn-danger" data-del="${esc(e.id)}">×</button></td></tr>`).join("")||'<tr><td colspan="6"><div class="empty">No expenses</div></td></tr>'}</tbody>`;}
+function render(){if(tab==="dashboard")renderDash();if(tab==="expenses")renderExp();if(tab==="setup"){$("sName").value=state.settings.name||"";$("sCurrency").value=state.settings.currency||"USD";$("sCats").value=(state.settings.categories||[]).join("\n");}if(tab==="editor")fillCats();}
+function exportCsv(){const hdr="date,vendor,category,amount,notes\n";const rows=state.expenses.map(e=>[e.date,e.vendor,e.category,e.amount,'"'+(e.notes||"").replace(/"/g,'""')+'"'].join(",")).join("\n");const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([hdr+rows],{type:"text/csv"}));a.download="digi-world-expenses.csv";a.click();}
+document.querySelector(".nav").onclick=e=>{const b=e.target.closest("[data-tab]");if(b)setTab(b.dataset.tab);};
+$("btnNew").onclick=()=>{editId=null;openEd(blank());};
+$("btnSave").onclick=()=>{const e=readEd();if(!e.vendor){toast("Add a vendor");return;}const i=state.expenses.findIndex(x=>x.id===e.id);if(i>=0)state.expenses[i]=e;else state.expenses.unshift(e);editId=e.id;save();toast("Saved");setTab("expenses");};
+$("btnSaveSetup").onclick=()=>{state.settings.name=$("sName").value.trim()||"Your Studio";state.settings.currency=$("sCurrency").value.trim()||"USD";state.settings.categories=$("sCats").value.split("\n").map(s=>s.trim()).filter(Boolean);save();toast("Setup saved");render();};
+$("btnCsv").onclick=exportCsv;
+document.body.onclick=e=>{const o=e.target.closest("[data-open]");if(o){const ex=state.expenses.find(x=>x.id===o.dataset.open);if(ex)openEd(ex);}const d=e.target.closest("[data-del]");if(d){state.expenses=state.expenses.filter(x=>x.id!==d.dataset.del);save();render();toast("Deleted");}};
+load();fillCats();setTab("dashboard");
+})();
+</script>
+</body>
+</html>

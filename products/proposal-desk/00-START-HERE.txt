@@ -1,0 +1,30 @@
+# Digi World Proposal & Pitch Desk — START HERE
+
+Win more work without a CRM subscription. Proposals, clients, and pipeline value — all on this computer.
+No cloud. No login. Data stays local.
+
+## Open
+1. Unzip this folder
+2. Double-click **Proposal-Pitch-Desk.html**
+3. Work in Chrome, Edge, or Safari
+
+## First 10 minutes
+1. **Setup** — business name and currency
+2. **Dashboard** — open proposals, win rate, pipeline value
+3. **Clients** — add the studios and brands you pitch to
+4. **New proposal** — title, client, scope, line items → Save
+5. Mark status **sent** when it goes out, **accepted** or **lost** when you know
+6. **Print / PDF** — open the proposal → Print → Save as PDF
+
+## Licence
+One studio / one seat (or the duo seats you bought). Personal use.
+Do not redistribute or resell.
+
+## Privacy
+localStorage only. Digi World never sees your clients or amounts.
+
+## Support
+hello@digi-world.online · https://digi-world.online
+
+Digi World · Digital systems, not files.
+Not legal, tax, or accounting advice.

@@ -10,6 +10,11 @@ VAULT_FILES: dict[str, str] = {
     "DW-SYS-010": "DW-SYS-010-photographer-os.zip",
     "DW-SYS-011": "DW-SYS-011-client-tracker.zip",
     "DW-SYS-012": "DW-SYS-012-invoice-desk.zip",
+    "DW-SYS-013": "DW-SYS-013-proposal-desk.zip",
+    "DW-SYS-014": "DW-SYS-014-expense-desk.zip",
+    "DW-SYS-015": "DW-SYS-015-content-planner.zip",
+    "DW-SYS-016": "DW-SYS-016-meeting-desk.zip",
+    "DW-SYS-017": "DW-SYS-017-time-rate-desk.zip",
     "DW-EBK-001": "DW-EBK-001-key-fob-programming-mastery.zip",
 }
 

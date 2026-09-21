@@ -1,0 +1,30 @@
+# Digi World Time & Rate Desk — START HERE
+
+Track billable hours and know your real hourly rate — no timesheet SaaS required.
+Time entries, rate calculator, and weekly totals — all on this computer.
+
+## Open
+1. Unzip this folder
+2. Double-click **Time-Rate-Desk.html**
+3. Work in Chrome, Edge, or Safari
+
+## First 10 minutes
+1. **Setup** — default hourly rate and currency
+2. **Rate calculator** — desired income, hours/week, overhead % → suggested rate
+3. **Dashboard** — hours this week, billable $, effective rate
+4. **Log time** — date, client/project, hours, billable yes/no
+5. Review the dashboard every Friday
+6. Adjust your rate in Setup when the calculator says so
+
+## Licence
+One studio / one seat (or the duo seats you bought). Personal use.
+Do not redistribute or resell.
+
+## Privacy
+localStorage only. Digi World never sees your hours or rates.
+
+## Support
+hello@digi-world.online · https://digi-world.online
+
+Digi World · Digital systems, not files.
+Not legal, tax, or accounting advice.

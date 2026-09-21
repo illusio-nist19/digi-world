@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#1c334c"/>
+<title>Digi World · Proposal & Pitch Desk</title>
+<style>
+:root{--ink:#14202c;--ink-soft:#3d4f5f;--muted:#7a8794;--line:#e3d9cc;--cream:#efe6d6;--paper:#fffaf2;--sage:#1f6f62;--sage-soft:#d5efe8;--terra:#c4513a;--terra-soft:#f8ddd4;--gold:#d4a054;--navy:#1c334c;--font:"Segoe UI",system-ui,sans-serif;--display:Georgia,serif;--shadow:0 18px 50px rgba(20,32,44,.12)}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--cream);color:var(--ink);font:15px/1.45 var(--font)}
+button,input,select,textarea{font:inherit}.app{min-height:100vh;display:flex;flex-direction:column}
+.top{position:sticky;top:0;z-index:20;background:rgba(255,250,242,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:12px 16px 0}
+.top-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.brand{display:flex;gap:10px;align-items:center}.mark{width:36px;height:36px;border-radius:50%;background:var(--navy);color:var(--gold);display:grid;place-items:center;font-weight:800;font-size:12px}
+.brand h1{margin:0;font:700 18px/1.2 var(--display)}.brand p{margin:2px 0 0;font-size:12px;color:var(--muted)}
+.nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:10px}.nav button{border:0;background:transparent;padding:10px 14px;border-radius:10px;color:var(--ink-soft);white-space:nowrap;cursor:pointer;font-weight:600}
+.nav button.active{background:var(--sage);color:#fff}.main{flex:1;padding:18px 16px 40px;width:min(1100px,100%);margin:0 auto}
+.panel{display:none}.panel.active{display:block}.page-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:end;margin-bottom:16px}
+.page-head h2{margin:0;font:700 28px/1.15 var(--display)}.lede{margin:6px 0 0;color:var(--ink-soft);max-width:52ch}
+.btn{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:10px 16px;cursor:pointer;font-weight:650;color:var(--ink)}
+.btn-primary{background:var(--navy);color:#fff;border-color:var(--navy)}.btn-sage{background:var(--sage);color:#fff;border-color:var(--sage)}.btn-sm{padding:7px 12px;font-size:13px}.btn-danger{background:var(--terra-soft);color:#8a3a2e;border-color:#e8c4bc}
+.grid{display:grid;gap:12px}.grid-2{grid-template-columns:1fr 1fr}.grid-3{grid-template-columns:repeat(3,1fr)}.grid-4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:900px){.grid-3,.grid-4{grid-template-columns:1fr 1fr}}@media(max-width:640px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+.card-h{padding:12px 16px;border-bottom:1px solid var(--line);font-weight:700;background:#efe6d8;font-size:13px;letter-spacing:.04em;text-transform:uppercase}
+.card-b{padding:16px}.kpi{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.kpi .l{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700}.kpi .n{margin-top:6px;font:700 26px/1.1 var(--display)}.kpi.ok .n{color:var(--sage)}
+.field label{display:block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff}.field textarea{min-height:80px;resize:vertical}
+.table-wrap{overflow:auto}table.data{width:100%;border-collapse:collapse;min-width:560px}table.data th,table.data td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line)}
+table.data th{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);background:#efe6d8}table.data tr:hover td{background:#f5efe4}
+.chip{display:inline-flex;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:700;border:1px solid var(--line);background:var(--cream)}
+.chip.draft{background:#eee}.chip.sent{background:var(--sage-soft);color:#2f5a43}.chip.accepted{background:#d9f0e8;color:#1d4d44}.chip.lost{background:var(--terra-soft);color:#8a3f2e}
+.line{display:grid;grid-template-columns:1.6fr .7fr .7fr auto;gap:8px;align-items:end;margin-bottom:8px}@media(max-width:700px){.line{grid-template-columns:1fr 1fr}}
+.doc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:28px;box-shadow:var(--shadow)}.doc h3{margin:0;font:700 28px/1.1 var(--display)}
+.doc .meta{color:var(--muted);font-size:13px}.doc table{width:100%;border-collapse:collapse;margin-top:18px}.doc th,.doc td{padding:10px 8px;border-bottom:1px solid #eee;text-align:left}
+.doc th{font-size:11px;text-transform:uppercase;color:var(--muted)}.doc .totals{margin-top:16px;margin-left:auto;width:min(280px,100%)}.doc .totals div{display:flex;justify-content:space-between;padding:6px 0}
+.doc .totals .grand{font-weight:800;font-size:18px;border-top:2px solid var(--ink);margin-top:8px;padding-top:10px}
+.toast{position:fixed;bottom:16px;right:16px;left:16px;max-width:420px;margin-left:auto;background:var(--ink);color:#fff;padding:12px 16px;border-radius:12px;display:none;z-index:50}.toast.show{display:block}
+.foot{text-align:center;padding:18px;color:var(--muted);font-size:12px;border-top:1px solid var(--line)}.empty{padding:24px;text-align:center;color:var(--muted)}.actions{display:flex;gap:8px;flex-wrap:wrap}
+@media print{.top,.foot,.no-print,.toast{display:none!important}.main{padding:0;width:100%}.panel{display:none!important}.panel.print-only{display:block!important}body{background:#fff}.doc{box-shadow:none;border:0}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top no-print"><div class="top-row"><div class="brand"><div class="mark">DW</div><div><h1>Proposal & Pitch Desk</h1><p>Digi World · win work without a CRM bill</p></div></div>
+<div class="actions" style="margin-left:auto"><button class="btn btn-sm btn-sage" type="button" id="btnNew">+ Proposal</button></div></div>
+<nav class="nav"><button type="button" data-tab="dashboard" class="active">Dashboard</button><button type="button" data-tab="clients">Clients</button><button type="button" data-tab="proposals">Proposals</button><button type="button" data-tab="editor">Editor</button><button type="button" data-tab="setup">Setup</button></nav></header>
+<main class="main">
+<section class="panel active" id="tab-dashboard"><div class="page-head"><div><h2>Pipeline at a glance</h2><p class="lede">Open proposals, win rate, and total pipeline value.</p></div></div>
+<div class="grid grid-3" id="dashKpis"></div><div class="card" style="margin-top:14px"><div class="card-h">Recent proposals</div><div class="card-b" id="dashRecent"></div></div></section>
+<section class="panel" id="tab-clients"><div class="page-head"><div><h2>Clients</h2><p class="lede">Studios and brands you pitch to.</p></div><button class="btn btn-sage" type="button" id="btnAddClient">+ Client</button></div>
+<div class="card"><div class="card-b table-wrap"><table class="data" id="clientsTable"></table></div></div></section>
+<section class="panel" id="tab-proposals"><div class="page-head"><div><h2>Proposals</h2><p class="lede">Draft, sent, accepted, or lost — track every pitch.</p></div><button class="btn btn-sage" type="button" id="btnNew2">+ New</button></div>
+<div class="card"><div class="card-b table-wrap"><table class="data" id="proposalsTable"></table></div></div></section>
+<section class="panel" id="tab-editor"><div class="page-head"><div><h2 id="edTitle">New proposal</h2><p class="lede">Scope, line items, and print-ready output.</p></div>
+<div class="actions"><button class="btn" type="button" id="btnPrint">Print / PDF</button><button class="btn btn-primary" type="button" id="btnSave">Save</button></div></div>
+<div class="grid grid-2"><div class="card"><div class="card-h">Details</div><div class="card-b grid" style="gap:12px">
+<div class="field"><label>Title</label><input id="edName" placeholder="Brand refresh proposal"/></div>
+<div class="field"><label>Client</label><select id="edClient"></select></div>
+<div class="field"><label>Status</label><select id="edStatus"><option>draft</option><option>sent</option><option>accepted</option><option>lost</option></select></div>
+<div class="field"><label>Scope summary</label><textarea id="edScope" placeholder="Discovery, design, delivery…"></textarea></div>
+<div class="field"><label>Notes</label><textarea id="edNotes" placeholder="Timeline, assumptions, next steps…"></textarea></div></div></div>
+<div class="card"><div class="card-h">Line items</div><div class="card-b"><div id="edLines"></div><button class="btn btn-sm" type="button" id="btnAddLine">+ Line</button><div class="doc totals" style="margin-top:16px" id="edTotals"></div></div></div></div>
+<div class="card" style="margin-top:14px"><div class="card-h">Preview</div><div class="card-b"><div class="doc" id="docPreview"></div></div></div></section>
+<section class="panel print-only" id="tab-print"><div class="doc" id="docPrint"></div></section>
+<section class="panel" id="tab-setup"><div class="page-head"><div><h2>Setup</h2><p class="lede">Your letterhead for proposals.</p></div><button class="btn btn-primary" type="button" id="btnSaveSetup">Save</button></div>
+<div class="card"><div class="card-b grid grid-2"><div class="field"><label>Business name</label><input id="sName"/></div><div class="field"><label>Currency</label><input id="sCurrency" placeholder="USD"/></div></div></div></section>
+</main>
+<footer class="foot no-print">Digi World · Proposal & Pitch Desk · hello@digi-world.online</footer></div>
+<div class="toast" id="toast"></div>
+<script>
+(function(){
+const KEY="dw_proposal_desk_v1",$=id=>document.getElementById(id),uid=()=>"p"+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+const esc=s=>String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+let state,tab="dashboard",editId=null;
+function def(){return{settings:{name:"Your Studio",currency:"USD"},clients:[{id:"c1",name:"Northline Studio",email:"ops@northline.example"},{id:"c2",name:"Parcel & Press",email:"nina@parcelpress.example"}],proposals:[
+{id:"p1",title:"Brand site refresh",clientId:"c1",status:"sent",scope:"Full site redesign with CMS handoff.",notes:"Valid 30 days. Two revision rounds.",lines:[{desc:"Discovery & strategy",price:800},{desc:"Design & build",price:3200}]},
+{id:"p2",title:"Q4 retainer",clientId:"c2",status:"accepted",scope:"Monthly design support.",notes:"Starts October.",lines:[{desc:"Retainer — 3 months",price:3750}]},
+{id:"p3",title:"Product launch kit",clientId:"c1",status:"draft",scope:"Landing page + email templates.",notes:"",lines:[{desc:"Launch package",price:2400}]}]};}
+function load(){try{const r=localStorage.getItem(KEY);state=r?JSON.parse(r):def();if(!state.proposals)state=def();}catch{state=def();}}
+function save(){localStorage.setItem(KEY,JSON.stringify(state));}
+function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove("show"),2400);}
+function money(n){const c=state.settings.currency||"USD",v=Math.round((+n||0)*100)/100,num=v.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});return["$","€","£"].includes(c)?c+num:num+" "+c;}
+function total(p){return(p.lines||[]).reduce((s,l)=>s+(+l.price||0),0);}
+function clientName(id){return(state.clients.find(c=>c.id===id)||{}).name||"—";}
+function chip(st){return`<span class="chip ${esc(st)}">${esc(st)}</span>`;}
+function setTab(n){tab=n;document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===n));document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id==="tab-"+n));render();}
+function blank(){return{id:uid(),title:"",clientId:state.clients[0]?.id||"",status:"draft",scope:"",notes:"",lines:[{desc:"",price:0}]};}
+function openEd(p){editId=p.id;if(!state.proposals.find(x=>x.id===p.id))state.proposals.unshift(p);$("edTitle").textContent=p.title||"New proposal";$("edName").value=p.title||"";$("edStatus").value=p.status||"draft";$("edScope").value=p.scope||"";$("edNotes").value=p.notes||"";fillClients();$("edClient").value=p.clientId||"";renderLines(p.lines);setTab("editor");refreshEd();}
+function fillClients(){$("edClient").innerHTML=state.clients.map(c=>`<option value="${esc(c.id)}">${esc(c.name)}</option>`).join("")||'<option value="">— add a client —</option>';}
+function renderLines(lines){$("edLines").innerHTML=lines.map((l,i)=>`<div class="line" data-i="${i}"><div class="field"><label>Item</label><input data-k="desc" value="${esc(l.desc)}"/></div><div class="field"><label>Amount</label><input data-k="price" type="number" min="0" step="0.01" value="${esc(l.price)}"/></div><div class="field"><label>Total</label><input value="${esc(money(l.price))}" disabled/></div><button class="btn btn-sm btn-danger" type="button" data-del="${i}">×</button></div>`).join("");}
+function readEd(){const lines=[...$("edLines").querySelectorAll(".line")].map(r=>({desc:r.querySelector('[data-k="desc"]').value.trim(),price:+r.querySelector('[data-k="price"]').value||0}));const ex=state.proposals.find(x=>x.id===editId)||blank();return{...ex,id:editId||ex.id,title:$("edName").value.trim(),clientId:$("edClient").value,status:$("edStatus").value,scope:$("edScope").value.trim(),notes:$("edNotes").value.trim(),lines:lines.length?lines:[{desc:"",price:0}]};}
+function docHtml(p){const s=state.settings;return`<div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:24px"><div><h3>${esc(s.name)}</h3><div class="meta">Proposal for ${esc(clientName(p.clientId))}</div></div><div style="text-align:right"><h3>PROPOSAL</h3><div class="meta">${chip(p.status)}</div></div></div><h4 style="margin:0 0 8px;font-family:var(--display)">${esc(p.title||"Untitled")}</h4><p style="color:var(--ink-soft);white-space:pre-wrap">${esc(p.scope||"")}</p><table><thead><tr><th>Item</th><th>Amount</th></tr></thead><tbody>${(p.lines||[]).map(l=>`<tr><td>${esc(l.desc||"—")}</td><td>${esc(money(l.price))}</td></tr>`).join("")}</tbody></table><div class="totals"><div class="grand"><span>Total</span><span>${esc(money(total(p)))}</span></div></div>${p.notes?`<p style="margin-top:22px;color:var(--ink-soft);white-space:pre-wrap">${esc(p.notes)}</p>`:""}<p class="meta" style="margin-top:28px">Digi World Proposal & Pitch Desk · digi-world.online</p>`;}
+function refreshEd(){const p=readEd();$("edTotals").innerHTML=`<div class="grand" style="display:flex;justify-content:space-between"><span>Total</span><span>${esc(money(total(p)))}</span></div>`;$("docPreview").innerHTML=docHtml(p);}
+function renderDash(){const open=state.proposals.filter(p=>p.status==="draft"||p.status==="sent");const closed=state.proposals.filter(p=>p.status==="accepted"||p.status==="lost");const wins=state.proposals.filter(p=>p.status==="accepted").length;const winRate=closed.length?Math.round(wins/closed.length*100):0;const pipe=open.reduce((s,p)=>s+total(p),0);
+$("dashKpis").innerHTML=`<div class="kpi"><div class="l">Open proposals</div><div class="n">${open.length}</div></div><div class="kpi ok"><div class="l">Win rate</div><div class="n">${winRate}%</div></div><div class="kpi"><div class="l">Pipeline value</div><div class="n">${money(pipe)}</div></div>`;
+$("dashRecent").innerHTML=state.proposals.slice(0,6).map(p=>`<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);cursor:pointer" data-open="${esc(p.id)}"><span><b>${esc(p.title)}</b> · ${esc(clientName(p.clientId))}</span><span>${esc(money(total(p)))} ${chip(p.status)}</span></div>`).join("")||'<div class="empty">No proposals yet</div>';}
+function renderClients(){$("clientsTable").innerHTML=`<thead><tr><th>Name</th><th>Email</th><th>Proposals</th><th></th></tr></thead><tbody>${state.clients.map(c=>{const n=state.proposals.filter(p=>p.clientId===c.id).length;return`<tr><td><b>${esc(c.name)}</b></td><td>${esc(c.email||"—")}</td><td>${n}</td><td><button class="btn btn-sm btn-danger" data-delc="${esc(c.id)}">×</button></td></tr>`;}).join("")||'<tr><td colspan="4"><div class="empty">No clients</div></td></tr>'}</tbody>`;}
+function renderProps(){$("proposalsTable").innerHTML=`<thead><tr><th>Title</th><th>Client</th><th>Total</th><th>Status</th><th></th></tr></thead><tbody>${state.proposals.map(p=>`<tr><td><b>${esc(p.title||"Untitled")}</b></td><td>${esc(clientName(p.clientId))}</td><td>${esc(money(total(p)))}</td><td>${chip(p.status)}</td><td><button class="btn btn-sm" data-open="${esc(p.id)}">Edit</button></td></tr>`).join("")||'<tr><td colspan="5"><div class="empty">No proposals</div></td></tr>'}</tbody>`;}
+function render(){if(tab==="dashboard")renderDash();if(tab==="clients")renderClients();if(tab==="proposals")renderProps();if(tab==="setup"){$("sName").value=state.settings.name||"";$("sCurrency").value=state.settings.currency||"USD";}if(tab==="editor"&&editId)refreshEd();}
+document.querySelector(".nav").onclick=e=>{const b=e.target.closest("[data-tab]");if(b)setTab(b.dataset.tab);};
+$("btnNew").onclick=$("btnNew2").onclick=()=>openEd(blank());
+$("btnSave").onclick=()=>{const p=readEd();if(!p.title){toast("Add a title");return;}const i=state.proposals.findIndex(x=>x.id===p.id);if(i>=0)state.proposals[i]=p;else state.proposals.unshift(p);editId=p.id;save();toast("Saved");refreshEd();};
+$("btnAddLine").onclick=()=>{const p=readEd();p.lines.push({desc:"",price:0});renderLines(p.lines);refreshEd();};
+$("edLines").oninput=refreshEd;$("edLines").onclick=e=>{const d=e.target.closest("[data-del]");if(!d)return;const p=readEd();p.lines.splice(+d.dataset.del,1);if(!p.lines.length)p.lines=[{desc:"",price:0}];renderLines(p.lines);refreshEd();};
+["edName","edClient","edStatus","edScope","edNotes"].forEach(id=>{$(id).oninput=refreshEd;$(id).onchange=refreshEd;});
+$("btnPrint").onclick=()=>{$("btnSave").click();$("docPrint").innerHTML=docHtml(readEd());document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));$("tab-print").classList.add("active");window.print();setTab("editor");};
+$("btnSaveSetup").onclick=()=>{state.settings.name=$("sName").value.trim()||"Your Studio";state.settings.currency=$("sCurrency").value.trim()||"USD";save();toast("Setup saved");};
+$("btnAddClient").onclick=()=>{const name=prompt("Client name");if(!name)return;state.clients.push({id:uid(),name:name.trim(),email:""});save();render();toast("Client added");};
+document.body.onclick=e=>{const o=e.target.closest("[data-open]");if(o){const p=state.proposals.find(x=>x.id===o.dataset.open);if(p)openEd(p);}const dc=e.target.closest("[data-delc]");if(dc){state.clients=state.clients.filter(c=>c.id!==dc.dataset.delc);save();render();}};
+load();setTab("dashboard");
+})();
+</script>
+</body>
+</html>

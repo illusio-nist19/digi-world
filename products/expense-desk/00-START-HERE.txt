@@ -1,0 +1,30 @@
+# Digi World Expense & Tax Desk — START HERE
+
+Track business spend and stay tax-ready without another monthly app.
+Categories, receipts notes, and CSV export — all offline on this computer.
+
+## Open
+1. Unzip this folder
+2. Double-click **Expense-Tax-Desk.html**
+3. Work in Chrome, Edge, or Safari
+
+## First 10 minutes
+1. **Setup** — business name, currency, and expense categories
+2. **Dashboard** — this month spend, by category, tax-ready total
+3. **Add expense** — date, vendor, category, amount, notes
+4. Log every business purchase as it happens
+5. **Export CSV** — hand to your accountant at year-end
+6. Review categories in Setup when your business changes
+
+## Licence
+One studio / one seat (or the duo seats you bought). Personal use.
+Do not redistribute or resell.
+
+## Privacy
+localStorage only. Digi World never sees your expenses or vendors.
+
+## Support
+hello@digi-world.online · https://digi-world.online
+
+Digi World · Digital systems, not files.
+Not legal, tax, or accounting advice.

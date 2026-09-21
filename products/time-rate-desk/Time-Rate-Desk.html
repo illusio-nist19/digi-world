@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#1c334c"/>
+<title>Digi World · Time & Rate Desk</title>
+<style>
+:root{--ink:#14202c;--ink-soft:#3d4f5f;--muted:#7a8794;--line:#e3d9cc;--cream:#efe6d6;--paper:#fffaf2;--sage:#1f6f62;--sage-soft:#d5efe8;--gold:#d4a054;--navy:#1c334c;--font:"Segoe UI",system-ui,sans-serif;--display:Georgia,serif;--shadow:0 18px 50px rgba(20,32,44,.12)}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--cream);color:var(--ink);font:15px/1.45 var(--font)}
+button,input,select,textarea{font:inherit}.app{min-height:100vh;display:flex;flex-direction:column}
+.top{position:sticky;top:0;z-index:20;background:rgba(255,250,242,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:12px 16px 0}
+.brand{display:flex;gap:10px;align-items:center}.mark{width:36px;height:36px;border-radius:50%;background:var(--navy);color:var(--gold);display:grid;place-items:center;font-weight:800;font-size:12px}
+.brand h1{margin:0;font:700 18px/1.2 var(--display)}.brand p{margin:2px 0 0;font-size:12px;color:var(--muted)}
+.nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:10px}.nav button{border:0;background:transparent;padding:10px 14px;border-radius:10px;color:var(--ink-soft);white-space:nowrap;cursor:pointer;font-weight:600}
+.nav button.active{background:var(--sage);color:#fff}.main{flex:1;padding:18px 16px 40px;width:min(1100px,100%);margin:0 auto}
+.panel{display:none}.panel.active{display:block}.page-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:end;margin-bottom:16px}
+.page-head h2{margin:0;font:700 28px/1.15 var(--display)}.lede{margin:6px 0 0;color:var(--ink-soft);max-width:52ch}
+.btn{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:10px 16px;cursor:pointer;font-weight:650}.btn-primary{background:var(--navy);color:#fff;border-color:var(--navy)}.btn-sage{background:var(--sage);color:#fff;border-color:var(--sage)}.btn-sm{padding:7px 12px;font-size:13px}
+.grid{display:grid;gap:12px}.grid-2{grid-template-columns:1fr 1fr}.grid-3{grid-template-columns:repeat(3,1fr)}@media(max-width:640px){.grid-2,.grid-3{grid-template-columns:1fr}}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}.card-h{padding:12px 16px;border-bottom:1px solid var(--line);font-weight:700;background:#efe6d8;font-size:13px;text-transform:uppercase}.card-b{padding:16px}
+.kpi{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 16px}.kpi .l{font-size:11px;text-transform:uppercase;color:var(--muted);font-weight:700}.kpi .n{margin-top:6px;font:700 26px/1.1 var(--display)}.kpi.ok .n{color:var(--sage)}
+.field label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:var(--muted);margin-bottom:5px}.field input,.field select{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff}
+.table-wrap{overflow:auto}table.data{width:100%;border-collapse:collapse;min-width:600px}table.data th,table.data td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line)}table.data th{font-size:10px;text-transform:uppercase;color:var(--muted);background:#efe6d8}
+.calc-result{background:var(--sage-soft);border:1px solid #b8ddd0;border-radius:14px;padding:20px;text-align:center;margin-top:16px}.calc-result .n{font:700 36px/1.1 var(--display);color:var(--sage)}.calc-result .l{font-size:13px;color:var(--ink-soft);margin-top:6px}
+.chip{display:inline-flex;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:700}.chip.yes{background:var(--sage-soft);color:#1d4d44}.chip.no{background:#eee;color:var(--muted)}
+.toast{position:fixed;bottom:16px;right:16px;max-width:420px;margin-left:auto;background:var(--ink);color:#fff;padding:12px 16px;border-radius:12px;display:none;z-index:50}.toast.show{display:block}
+.foot{text-align:center;padding:18px;color:var(--muted);font-size:12px;border-top:1px solid var(--line)}.empty{padding:24px;text-align:center;color:var(--muted)}.actions{display:flex;gap:8px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top"><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:8px"><div class="brand"><div class="mark">DW</div><div><h1>Time & Rate Desk</h1><p>Digi World · know your real hourly rate</p></div></div>
+<button class="btn btn-sm btn-sage" type="button" id="btnNew" style="margin-left:auto">+ Entry</button></div>
+<nav class="nav"><button type="button" data-tab="dashboard" class="active">Dashboard</button><button type="button" data-tab="time">Time</button><button type="button" data-tab="calculator">Calculator</button><button type="button" data-tab="editor">Add / Edit</button><button type="button" data-tab="setup">Setup</button></nav></header>
+<main class="main">
+<section class="panel active" id="tab-dashboard"><div class="page-head"><div><h2>Week at a glance</h2><p class="lede">Hours, billable revenue, and effective rate.</p></div></div>
+<div class="grid grid-3" id="dashKpis"></div><div class="card" style="margin-top:14px"><div class="card-h">Recent entries</div><div class="card-b" id="dashRecent"></div></div></section>
+<section class="panel" id="tab-time"><div class="page-head"><div><h2>Time entries</h2><p class="lede">Every hour logged with client and rate.</p></div></div>
+<div class="card"><div class="card-b table-wrap"><table class="data" id="timeTable"></table></div></div></section>
+<section class="panel" id="tab-calculator"><div class="page-head"><div><h2>Rate calculator</h2><p class="lede">Desired income, hours/week, overhead → suggested hourly rate.</p></div></div>
+<div class="card"><div class="card-b grid grid-2"><div class="field"><label>Desired annual income</label><input id="calcIncome" type="number" min="0" step="1000" value="80000"/></div>
+<div class="field"><label>Billable hours / week</label><input id="calcHours" type="number" min="1" max="80" step="1" value="25"/></div>
+<div class="field"><label>Overhead % (tax, tools, etc.)</label><input id="calcOverhead" type="number" min="0" max="100" step="1" value="30"/></div>
+<div class="field"><label>Weeks off / year</label><input id="calcWeeksOff" type="number" min="0" max="20" step="1" value="4"/></div></div>
+<div class="calc-result"><div class="n" id="calcRate">—</div><div class="l">Suggested hourly rate (before overhead markup)</div>
+<div style="margin-top:12px;font-size:14px;color:var(--ink-soft)" id="calcDetail"></div></div></div></section>
+<section class="panel" id="tab-editor"><div class="page-head"><div><h2 id="edTitle">Log time</h2><p class="lede">Date, client/project, hours, rate, billable.</p></div><button class="btn btn-primary" type="button" id="btnSave">Save</button></div>
+<div class="card"><div class="card-b grid grid-2"><div class="field"><label>Date</label><input id="edDate" type="date"/></div><div class="field"><label>Client / project</label><input id="edClient" placeholder="Northline — brand site"/></div>
+<div class="field"><label>Hours</label><input id="edHours" type="number" min="0" step="0.25" value="1"/></div><div class="field"><label>Rate ($/hr)</label><input id="edRate" type="number" min="0" step="1"/></div>
+<div class="field"><label>Billable</label><select id="edBill"><option value="yes">Yes</option><option value="no">No</option></select></div></div></div></section>
+<section class="panel" id="tab-setup"><div class="page-head"><div><h2>Setup</h2><p class="lede">Default rate and currency.</p></div><button class="btn btn-primary" type="button" id="btnSaveSetup">Save</button></div>
+<div class="card"><div class="card-b grid grid-2"><div class="field"><label>Default hourly rate</label><input id="sRate" type="number" min="0" step="1"/></div><div class="field"><label>Currency</label><input id="sCurrency" placeholder="USD"/></div></div></div></section>
+</main>
+<footer class="foot">Digi World · Time & Rate Desk · Not tax advice · hello@digi-world.online</footer></div>
+<div class="toast" id="toast"></div>
+<script>
+(function(){
+const KEY="dw_time_rate_desk_v1",$=id=>document.getElementById(id),uid=()=>"t"+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+const today=()=>new Date().toISOString().slice(0,10),addDays=(iso,n)=>{const d=new Date(iso+"T12:00:00");d.setDate(d.getDate()+n);return d.toISOString().slice(0,10);};
+const esc=s=>String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+let state,tab="dashboard",editId=null;
+function def(){const t=today();return{settings:{rate:85,currency:"USD"},entries:[
+{id:"t1",date:t,client:"Northline Studio",hours:3.5,rate:85,billable:true},
+{id:"t2",date:t,client:"Parcel & Press",hours:2,rate:85,billable:true},
+{id:"t3",date:addDays(t,-1),client:"Internal — admin",hours:1.5,rate:0,billable:false},
+{id:"t4",date:addDays(t,-2),client:"Brightfield Co",hours:4,rate:95,billable:true},
+{id:"t5",date:addDays(t,-3),client:"Northline Studio",hours:2.5,rate:85,billable:true}]};}
+function load(){try{const r=localStorage.getItem(KEY);state=r?JSON.parse(r):def();if(!state.entries)state=def();}catch{state=def();}}
+function save(){localStorage.setItem(KEY,JSON.stringify(state));}
+function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove("show"),2400);}
+function money(n){const c=state.settings.currency||"USD",v=Math.round((+n||0)*100)/100,num=v.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});return["$","€","£"].includes(c)?c+num:num+" "+c;}
+function weekRange(){const d=new Date(today()+"T12:00:00"),day=d.getDay(),start=addDays(today(),-(day===0?6:day-1));return{start,end:addDays(start,6)};}
+function weekEntries(){const w=weekRange();return state.entries.filter(e=>e.date>=w.start&&e.date<=w.end);}
+function setTab(n){tab=n;document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===n));document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id==="tab-"+n));render();}
+function blank(){return{id:uid(),date:today(),client:"",hours:1,rate:state.settings.rate||85,billable:true};}
+function openEd(e){editId=e.id;$("edTitle").textContent=e.client?"Edit: "+e.client:"Log time";$("edDate").value=e.date||today();$("edClient").value=e.client||"";$("edHours").value=e.hours||1;$("edRate").value=e.rate??state.settings.rate;$("edBill").value=e.billable?"yes":"no";setTab("editor");}
+function readEd(){return{id:editId||uid(),date:$("edDate").value||today(),client:$("edClient").value.trim(),hours:+($("edHours").value)||0,rate:+($("edRate").value)||0,billable:$("edBill").value==="yes"};}
+function calcRate(){const income=+($("calcIncome").value)||0,hrs=+($("calcHours").value)||25,oh=+($("calcOverhead").value)||0,off=+($("calcWeeksOff").value)||4;
+const weeks=52-off,billableHrs=weeks*hrs,needed=income/(1-oh/100),rate=billableHrs?needed/billableHrs:0;
+$("calcRate").textContent=money(Math.round(rate));$("calcDetail").textContent=`${weeks} working weeks × ${hrs} hrs = ${billableHrs} billable hrs/yr · ${money(income)} target + ${oh}% overhead → ${money(needed)} gross needed`;}
+function renderDash(){const we=weekEntries(),totalH=we.reduce((s,e)=>s+(+e.hours||0),0),billH=we.filter(e=>e.billable).reduce((s,e)=>s+(+e.hours||0),0),billAmt=we.filter(e=>e.billable).reduce((s,e)=>s+(+e.hours||0)*(+e.rate||0),0),effRate=billH?billAmt/billH:0;
+$("dashKpis").innerHTML=`<div class="kpi"><div class="l">Hours this week</div><div class="n">${totalH.toFixed(1)}</div></div><div class="kpi ok"><div class="l">Billable $</div><div class="n">${money(billAmt)}</div></div><div class="kpi"><div class="l">Effective rate</div><div class="n">${money(effRate)}/hr</div></div>`;
+$("dashRecent").innerHTML=we.slice(0,6).map(e=>`<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);cursor:pointer" data-open="${esc(e.id)}"><span><b>${esc(e.client)}</b> · ${e.hours}h</span><span>${esc(money(e.billable?e.hours*e.rate:0))}</span></div>`).join("")||'<div class="empty">No entries this week</div>';}
+function renderTime(){$("timeTable").innerHTML=`<thead><tr><th>Date</th><th>Client</th><th>Hours</th><th>Rate</th><th>Billable</th><th>Amount</th><th></th></tr></thead><tbody>${[...state.entries].sort((a,b)=>b.date.localeCompare(a.date)).map(e=>`<tr><td>${esc(e.date)}</td><td><b>${esc(e.client)}</b></td><td>${e.hours}</td><td>${esc(money(e.rate))}</td><td><span class="chip ${e.billable?"yes":"no"}">${e.billable?"yes":"no"}</span></td><td>${esc(money(e.billable?e.hours*e.rate:0))}</td><td><button class="btn btn-sm" data-open="${esc(e.id)}">Edit</button></td></tr>`).join("")||'<tr><td colspan="7"><div class="empty">No entries</div></td></tr>'}</tbody>`;}
+function render(){if(tab==="dashboard")renderDash();if(tab==="time")renderTime();if(tab==="calculator")calcRate();if(tab==="setup"){$("sRate").value=state.settings.rate||85;$("sCurrency").value=state.settings.currency||"USD";}}
+document.querySelector(".nav").onclick=e=>{const b=e.target.closest("[data-tab]");if(b)setTab(b.dataset.tab);};
+$("btnNew").onclick=()=>{editId=null;openEd(blank());};
+$("btnSave").onclick=()=>{const e=readEd();if(!e.client){toast("Add client/project");return;}const i=state.entries.findIndex(x=>x.id===e.id);if(i>=0)state.entries[i]=e;else state.entries.unshift(e);editId=e.id;save();toast("Saved");setTab("time");};
+$("btnSaveSetup").onclick=()=>{state.settings.rate=+($("sRate").value)||85;state.settings.currency=$("sCurrency").value.trim()||"USD";save();toast("Setup saved");};
+["calcIncome","calcHours","calcOverhead","calcWeeksOff"].forEach(id=>{$(id).oninput=calcRate;});
+document.body.onclick=e=>{const o=e.target.closest("[data-open]");if(o){const en=state.entries.find(x=>x.id===o.dataset.open);if(en)openEd(en);}};
+load();setTab("dashboard");
+})();
+</script>
+</body>
+</html>
