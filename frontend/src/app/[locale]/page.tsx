@@ -26,7 +26,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   return (
     <>
       <section className="relative min-h-[88vh]">
-        <Image src="/images/hero-home.png" alt="" fill priority className="object-cover" />
+        <Image src="/images/about-crm.jpg" alt="" fill priority className="object-cover object-center" />
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/80 to-ink/45" />
         <Container className="relative flex min-h-[88vh] flex-col justify-end pb-16 pt-28">
           <p className="text-xs uppercase tracking-[0.25em] text-gold">{t("eyebrow")}</p>
@@ -47,7 +47,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         </Container>
       </section>
 
-      <Split image="/images/hero-home.png" alt="" flip={false}>
+      <Split image="/images/intro-crm.png" alt="Customer Relationship Management — then and now" flip={false}>
         <p className="text-xs uppercase tracking-widest text-gold">{t("drop")}</p>
         <h2 className="mt-3 font-display text-4xl">{t("introTitle")}</h2>
         <p className="mt-4 text-ivory/80">{t("introBody")}</p>
@@ -183,7 +183,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                 <p className="mt-2 text-sm text-ivory/70">{r.body}</p>
                 <p className="mt-4 text-xs text-stone">
                   {r.display_name} · {r.city_country}
-                  {r.source === "studio_preview" ? " · studio" : ""}
+                  {r.source === "studio_preview" ? " · studio" : r.source === "customer" ? " · verified" : ""}
                 </p>
               </blockquote>
             ))}

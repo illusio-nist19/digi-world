@@ -49,9 +49,9 @@ These sit above Drop 01. They are **not** inside `the-vault`. One studio / one o
 | slug | `client-tracker` |
 | collection | creator-lab |
 | serial | DW-SYS-011 |
-| EN name | Digi World Client Tracker |
+| EN name | Digi World Professional CRM |
 | Price | **$39** one studio · **$59** two seats |
-| EN headline | Clients, follow-ups, tasks, invoices — one desk. |
+| EN headline | Customer Relationship Management — one offline desk. |
 | EN sub | Offline HTML CRM: Client Database, Communication Log, Task Tracker, Smart Calendar, Client Overview, Dashboard — with CSV export. No Google account. |
 | Contains | START-HERE, Client-Tracker.html (7 windows), README |
 | Pain | Leads in DMs, forgotten follow-ups, tasks in three apps, no invoice status at a glance |
@@ -88,7 +88,7 @@ These sit above Drop 01. They are **not** inside `the-vault`. One studio / one o
 | type | system (ebook line) |
 | EN name | Key Fob Programming Mastery |
 | AR name | إتقان برمجة ريموت السيارة |
-| Price | **$67** one technician · **$97** two shop seats |
+| Price | **$19.99** one technician · **$29.99** two shop seats |
 | EN headline | Program the spare. Prove the owner. Leave the shortcuts alone. |
 | EN sub | Complete visual apprenticeship for authorized key-fob and immobilizer work: verify the owner, quote the job, prep the remote, run the procedure, test the finish, refer what you cannot support. |
 | Contains | START-HERE, 22-chapter illustrated PDF (profession → ethics → anatomy → immobilizers → procedures A/B/C → testing → luxury referral → 90-day path → glossary/packing) |

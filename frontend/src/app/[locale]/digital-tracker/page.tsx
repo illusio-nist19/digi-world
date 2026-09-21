@@ -18,7 +18,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       "Digital tracker for freelancers and studios: clients, invoices, budget, tasks, calendar, and private files. One HTML file. Works offline. Instant download.",
     alternates: {
       canonical: `${base}${path}`,
-      languages: Object.fromEntries(routing.locales.map((l) => [l, `${base}/${l}/digital-tracker`])),
+      languages: {
+        ar: `${base}/ar/digital-tracker`,
+        en: `${base}/en/digital-tracker`,
+        fr: `${base}/fr/digital-tracker`,
+        es: `${base}/es/digital-tracker`,
+        "x-default": `${base}/en/digital-tracker`,
+      },
     },
     openGraph: {
       title: "Digital Tracker for Small Business | Digi World",
@@ -37,8 +43,8 @@ export default async function DigitalTrackerPage({ params }: { params: Promise<{
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "Digi World Professional Tracker",
-    alternateName: ["Digital Tracker", "Digi World Client Tracker"],
+    name: "Digi World Professional CRM",
+    alternateName: ["Professional CRM", "Digital Tracker", "Customer Relationship Management", "Digi World Client Tracker"],
     applicationCategory: "BusinessApplication",
     operatingSystem: "Windows, macOS, Linux, iOS, Android",
     offers: {
@@ -65,7 +71,7 @@ export default async function DigitalTrackerPage({ params }: { params: Promise<{
           </h1>
           <p className="mt-6 text-lg text-ivory/80">
             A digital tracker is how you see the whole desk at once: who you work for, who still owes you, what is due
-            today, and what you spent this month. Digi World Professional Tracker is that desk — one file, your computer,
+            today, and what you spent this month. Digi World Professional CRM is that Customer Relationship Management desk — one file, your computer,
             no monthly CRM.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
@@ -108,22 +114,20 @@ export default async function DigitalTrackerPage({ params }: { params: Promise<{
           </p>
           <h2 className="mt-12 font-display text-4xl">Why Google should send you here</h2>
           <p className="mt-4 text-ivory/70">
-            Most “digital tracker” results are fitness bands or GPS. This page is the business kind: a client and money
-            tracker you own. Search{" "}
-            <strong className="text-ivory">digital tracker for small business</strong>,{" "}
-            <strong className="text-ivory">business CRM tracker</strong>,{" "}
-            <strong className="text-ivory">offline client tracker</strong>, or{" "}
-            <strong className="text-ivory">HTML CRM no subscription</strong> — those phrases match what we sell.{" "}
+            Also called a{" "}
             <Link href="/business-crm-tracker" className="text-gold underline-offset-4 hover:underline">
-              Business CRM tracker
-            </Link>{" "}
-            is the dedicated page for that search.
+              business CRM tracker
+            </Link>
+            . Search{" "}
+            <strong className="text-ivory">digital tracker for small business</strong>,{" "}
+            <strong className="text-ivory">offline client tracker</strong>, or{" "}
+            <strong className="text-ivory">HTML CRM no subscription</strong> — those phrases match what we sell.
           </p>
           <Link
             href="/systems/client-tracker"
             className="mt-10 inline-flex h-12 items-center rounded-full bg-gold px-6 font-medium text-ink"
           >
-            See Digi World Client Tracker
+            See Digi World Professional CRM
           </Link>
         </Container>
       </article>

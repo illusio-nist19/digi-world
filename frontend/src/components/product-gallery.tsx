@@ -95,8 +95,8 @@ function DemoFrame({
 export const CLIENT_TRACKER_SHOTS: DemoShot[] = [
   {
     src: "/images/products/client-tracker/01.png",
-    label: "Professional Tracker",
-    caption: "The all-in-one studio desk — one file, opens in any browser.",
+    label: "Professional CRM",
+    caption: "Customer Relationship Management — one offline HTML desk.",
   },
   {
     src: "/images/products/client-tracker/02.png",

@@ -11,7 +11,12 @@ import { ProductGallery, CLIENT_TRACKER_SHOTS, INVOICE_DESK_SHOTS } from "@/comp
 import type { Metadata } from "next";
 
 export function generateStaticParams() {
-  return [];
+  return [
+    { slug: "client-tracker" },
+    { slug: "photographer-os" },
+    { slug: "key-fob-programming-mastery" },
+    { slug: "invoice-desk" },
+  ];
 }
 
 export const dynamicParams = true;
@@ -24,10 +29,12 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   if (slug === "client-tracker") {
     const base = process.env.NEXT_PUBLIC_SITE_URL || "https://digi-world.online";
     return {
-      title: "Business CRM Tracker | Offline Client CRM for Small Business | Digi World",
+      title: "Business CRM Tracker | Professional CRM · Customer Relationship Management | Digi World",
       description:
-        "Business CRM tracker for clients, invoices, budget, tasks, and calendar. One HTML file. Works offline. No Google account. Instant download from Digi World.",
+        "Professional CRM for clients, invoices, budget, tasks, and calendar. Offline Customer Relationship Management in one HTML file. No Google account. Instant download from Digi World.",
       keywords: [
+        "professional CRM",
+        "customer relationship management",
         "business CRM tracker",
         "CRM tracker",
         "digital tracker",
@@ -116,8 +123,8 @@ export default async function ProductPage({ params }: { params: Promise<{ locale
       ? {
           "@context": "https://schema.org",
           "@type": "SoftwareApplication",
-          name: "Digi World Professional Tracker",
-          alternateName: ["Business CRM Tracker", "Digital Tracker", "Digi World Client Tracker"],
+          name: "Digi World Professional CRM",
+          alternateName: ["Professional CRM", "Business CRM Tracker", "Customer Relationship Management", "Digi World Client Tracker"],
           applicationCategory: "BusinessApplication",
           operatingSystem: "Windows, macOS, iOS, Android",
           offers: {
