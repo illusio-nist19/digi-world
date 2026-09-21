@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#1c334c"/>
+<title>Digi World · SOP & Process Desk</title>
+<style>
+:root{--ink:#14202c;--ink-soft:#3d4f5f;--muted:#7a8794;--line:#e3d9cc;--cream:#efe6d6;--paper:#fffaf2;--sage:#1f6f62;--sage-soft:#d5efe8;--terra:#c4513a;--gold:#d4a054;--navy:#1c334c;--font:"Segoe UI",system-ui,sans-serif;--display:Georgia,serif;--shadow:0 18px 50px rgba(20,32,44,.12)}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--cream);color:var(--ink);font:15px/1.45 var(--font)}
+button,input,select,textarea{font:inherit}.app{min-height:100vh;display:flex;flex-direction:column}
+.top{position:sticky;top:0;z-index:20;background:rgba(255,250,242,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:12px 16px 0}
+.top-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.brand{display:flex;gap:10px;align-items:center}.mark{width:36px;height:36px;border-radius:50%;background:var(--navy);color:var(--gold);display:grid;place-items:center;font-weight:800;font-size:12px}
+.brand h1{margin:0;font:700 18px/1.2 var(--display)}.brand p{margin:2px 0 0;font-size:12px;color:var(--muted)}
+.nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:10px}.nav button{border:0;background:transparent;padding:10px 14px;border-radius:10px;color:var(--ink-soft);white-space:nowrap;cursor:pointer;font-weight:600}
+.nav button.active{background:var(--sage);color:#fff}.main{flex:1;padding:18px 16px 40px;width:min(1100px,100%);margin:0 auto}
+.panel{display:none}.panel.active{display:block}.page-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:end;margin-bottom:16px}
+.page-head h2{margin:0;font:700 28px/1.15 var(--display)}.lede{margin:6px 0 0;color:var(--ink-soft);max-width:52ch}
+.btn{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:10px 16px;cursor:pointer;font-weight:650;color:var(--ink)}
+.btn-primary{background:var(--navy);color:#fff;border-color:var(--navy)}.btn-sage{background:var(--sage);color:#fff;border-color:var(--sage)}.btn-sm{padding:7px 12px;font-size:13px}.btn-danger{background:#f8ddd4;color:#8a3a2e}
+.grid{display:grid;gap:12px}.grid-2{grid-template-columns:1fr 1fr}.grid-3{grid-template-columns:repeat(3,1fr)}@media(max-width:640px){.grid-2,.grid-3{grid-template-columns:1fr}}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+.card-h{padding:12px 16px;border-bottom:1px solid var(--line);font-weight:700;background:#efe6d8;font-size:13px;letter-spacing:.04em;text-transform:uppercase}
+.card-b{padding:16px}.kpi{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.kpi .l{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700}.kpi .n{margin-top:6px;font:700 26px/1.1 var(--display)}.kpi.ok .n{color:var(--sage)}
+.field label{display:block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff}.field textarea{min-height:80px;resize:vertical}
+.table-wrap{overflow:auto}table.data{width:100%;border-collapse:collapse;min-width:560px}table.data th,table.data td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line)}
+table.data th{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);background:#efe6d8}table.data tr:hover td{background:#f5efe4}
+.chip{display:inline-flex;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:700;border:1px solid var(--line);background:var(--sage-soft);color:#2f5a43}
+.step-line{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;margin-bottom:8px}
+.step-num{display:inline-flex;width:24px;height:24px;border-radius:50%;background:var(--navy);color:var(--gold);font-size:11px;font-weight:800;align-items:center;justify-content:center;margin-right:8px}
+.toast{position:fixed;bottom:16px;right:16px;left:16px;max-width:420px;margin-left:auto;background:var(--ink);color:#fff;padding:12px 16px;border-radius:12px;display:none;z-index:50}.toast.show{display:block}
+.foot{text-align:center;padding:18px;color:var(--muted);font-size:12px;border-top:1px solid var(--line)}.empty{padding:24px;text-align:center;color:var(--muted)}.actions{display:flex;gap:8px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top"><div class="top-row"><div class="brand"><div class="mark">DW</div><div><h1>SOP & Process Desk</h1><p>Digi World · how your studio actually runs</p></div></div>
+<div class="actions" style="margin-left:auto"><button class="btn btn-sm btn-sage" type="button" id="btnNew">+ Playbook</button></div></div>
+<nav class="nav"><button type="button" data-tab="dashboard" class="active">Dashboard</button><button type="button" data-tab="playbooks">Playbooks</button><button type="button" data-tab="editor">Editor</button><button type="button" data-tab="setup">Setup</button></nav></header>
+<main class="main">
+<section class="panel active" id="tab-dashboard"><div class="page-head"><div><h2>Process at a glance</h2><p class="lede">SOP count, categories, and reviews this month.</p></div></div>
+<div class="grid grid-3" id="dashKpis"></div><div class="card" style="margin-top:14px"><div class="card-h">Recent playbooks</div><div class="card-b" id="dashRecent"></div></div></section>
+<section class="panel" id="tab-playbooks"><div class="page-head"><div><h2>Playbooks</h2><p class="lede">Standard operating procedures for your studio.</p></div><button class="btn btn-sage" type="button" id="btnNew2">+ New</button></div>
+<div class="card"><div class="card-b table-wrap"><table class="data" id="playbooksTable"></table></div></div></section>
+<section class="panel" id="tab-editor"><div class="page-head"><div><h2 id="edTitle">New playbook</h2><p class="lede">Title, category, owner, steps, and last reviewed.</p></div><button class="btn btn-primary" type="button" id="btnSave">Save</button></div>
+<div class="card"><div class="card-b grid grid-2" style="gap:12px">
+<div class="field"><label>Title</label><input id="edName" placeholder="Client kickoff process"/></div>
+<div class="field"><label>Category</label><select id="edCat"></select></div>
+<div class="field"><label>Owner</label><input id="edOwner" placeholder="Studio lead"/></div>
+<div class="field"><label>Last reviewed</label><input id="edReviewed" type="date"/></div>
+<div class="field" style="grid-column:1/-1"><label>Steps</label><div id="edSteps"></div><button class="btn btn-sm" type="button" id="btnAddStep">+ Step</button></div></div></div></section>
+<section class="panel" id="tab-setup"><div class="page-head"><div><h2>Setup</h2><p class="lede">Business name and playbook categories.</p></div><button class="btn btn-primary" type="button" id="btnSaveSetup">Save</button></div>
+<div class="card"><div class="card-b grid"><div class="field"><label>Business name</label><input id="sName"/></div>
+<div class="field"><label>Categories (one per line)</label><textarea id="sCats" rows="6"></textarea></div></div></div></section>
+</main>
+<footer class="foot">Digi World · SOP & Process Desk · hello@digi-world.online</footer></div>
+<div class="toast" id="toast"></div>
+<script>
+(function(){
+const KEY="dw_sop_desk_v1",$=id=>document.getElementById(id),uid=()=>"s"+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+const today=()=>new Date().toISOString().slice(0,10),esc=s=>String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const monthStart=()=>{const d=new Date();return new Date(d.getFullYear(),d.getMonth(),1).toISOString().slice(0,10);};
+let state,tab="dashboard",editId=null;
+function def(){const d=today();return{settings:{name:"Your Studio",categories:["Hiring","Client Kickoff","Delivery","Closeout","Operations"]},playbooks:[
+{id:"s1",title:"New hire onboarding",category:"Hiring",owner:"Studio lead",lastReviewed:d,steps:["Post job listing","Screen applications","Conduct intro call","Send skills test","Reference check","Offer letter & contract","First-day checklist","30-day review"]},
+{id:"s2",title:"Client kickoff",category:"Client Kickoff",owner:"Account manager",lastReviewed:d,steps:["Send welcome packet","Collect signed agreement","Invoice deposit","Schedule kickoff call","Share project timeline","Confirm deliverables","Set up shared folder","Send recap email"]},
+{id:"s3",title:"Project delivery",category:"Delivery",owner:"Lead designer",lastReviewed:d,steps:["Internal QA pass","Client preview link","Collect feedback (2 rounds max)","Final export & handoff","Archive source files","Request testimonial","Send closing invoice"]},
+{id:"s4",title:"Project closeout",category:"Closeout",owner:"Operations",lastReviewed:d,steps:["Confirm final payment received","Remove temp access","Archive project folder","Update portfolio (if permitted)","Send thank-you note","Log lessons learned","Mark client live in CRM"]}]};}
+function load(){try{const r=localStorage.getItem(KEY);state=r?JSON.parse(r):def();if(!state.playbooks)state=def();}catch{state=def();}}
+function save(){localStorage.setItem(KEY,JSON.stringify(state));}
+function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove("show"),2400);}
+function chip(c){return`<span class="chip">${esc(c)}</span>`;}
+function setTab(n){tab=n;document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===n));document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id==="tab-"+n));render();}
+function fillCats(){$("edCat").innerHTML=state.settings.categories.map(c=>`<option>${esc(c)}</option>`).join("");}
+function blank(){return{id:uid(),title:"",category:state.settings.categories[0]||"Operations",owner:"",lastReviewed:today(),steps:[""]};}
+function renderSteps(steps){$("edSteps").innerHTML=steps.map((s,i)=>`<div class="step-line"><input value="${esc(s)}" data-i="${i}" placeholder="Step ${i+1}…"/><button class="btn btn-sm btn-danger" type="button" data-dels="${i}">×</button></div>`).join("");}
+function openEd(p){editId=p.id;if(!state.playbooks.find(x=>x.id===p.id))state.playbooks.unshift(p);$("edTitle").textContent=p.title||"New playbook";$("edName").value=p.title||"";$("edOwner").value=p.owner||"";$("edReviewed").value=p.lastReviewed||today();fillCats();$("edCat").value=p.category||state.settings.categories[0];renderSteps(p.steps||[""]);setTab("editor");}
+function readEd(){const steps=[...$("edSteps").querySelectorAll("input")].map(inp=>inp.value.trim()).filter(Boolean);const ex=state.playbooks.find(x=>x.id===editId)||blank();return{...ex,id:editId||ex.id,title:$("edName").value.trim(),category:$("edCat").value,owner:$("edOwner").value.trim(),lastReviewed:$("edReviewed").value||today(),steps:steps.length?steps:[""]};}
+function renderDash(){const cats=new Set(state.playbooks.map(p=>p.category));const ms=monthStart();const reviewed=state.playbooks.filter(p=>p.lastReviewed&&p.lastReviewed>=ms);
+$("dashKpis").innerHTML=`<div class="kpi"><div class="l">SOP count</div><div class="n">${state.playbooks.length}</div></div><div class="kpi ok"><div class="l">Categories</div><div class="n">${cats.size}</div></div><div class="kpi ok"><div class="l">Reviewed this month</div><div class="n">${reviewed.length}</div></div>`;
+$("dashRecent").innerHTML=state.playbooks.slice(0,6).map(p=>`<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);cursor:pointer" data-open="${esc(p.id)}"><span><b>${esc(p.title)}</b> ${chip(p.category)}</span><span>${esc(p.lastReviewed||"—")}</span></div>`).join("")||'<div class="empty">No playbooks yet</div>';}
+function renderPlaybooks(){$("playbooksTable").innerHTML=`<thead><tr><th>Title</th><th>Category</th><th>Owner</th><th>Steps</th><th>Last reviewed</th><th></th></tr></thead><tbody>${state.playbooks.map(p=>`<tr><td><b>${esc(p.title||"Untitled")}</b></td><td>${chip(p.category)}</td><td>${esc(p.owner||"—")}</td><td>${(p.steps||[]).length}</td><td>${esc(p.lastReviewed||"—")}</td><td><button class="btn btn-sm" data-open="${esc(p.id)}">Edit</button> <button class="btn btn-sm btn-danger" data-del="${esc(p.id)}">×</button></td></tr>`).join("")||'<tr><td colspan="6"><div class="empty">No playbooks</div></td></tr>'}</tbody>`;}
+function render(){if(tab==="dashboard")renderDash();if(tab==="playbooks")renderPlaybooks();if(tab==="setup"){$("sName").value=state.settings.name||"";$("sCats").value=(state.settings.categories||[]).join("\n");}if(tab==="editor")fillCats();}
+document.querySelector(".nav").onclick=e=>{const b=e.target.closest("[data-tab]");if(b)setTab(b.dataset.tab);};
+$("btnNew").onclick=$("btnNew2").onclick=()=>openEd(blank());
+$("btnSave").onclick=()=>{const p=readEd();if(!p.title){toast("Add a title");return;}const i=state.playbooks.findIndex(x=>x.id===p.id);if(i>=0)state.playbooks[i]=p;else state.playbooks.unshift(p);editId=p.id;save();toast("Saved");setTab("playbooks");};
+$("btnAddStep").onclick=()=>{const p=readEd();p.steps.push("");renderSteps(p.steps);};
+$("edSteps").onclick=e=>{const d=e.target.closest("[data-dels]");if(!d)return;const p=readEd();p.steps.splice(+d.dataset.dels,1);if(!p.steps.length)p.steps=[""];renderSteps(p.steps);};
+$("btnSaveSetup").onclick=()=>{state.settings.name=$("sName").value.trim()||"Your Studio";state.settings.categories=$("sCats").value.split("\n").map(s=>s.trim()).filter(Boolean);save();toast("Setup saved");render();};
+document.body.onclick=e=>{const o=e.target.closest("[data-open]");if(o){const p=state.playbooks.find(x=>x.id===o.dataset.open);if(p)openEd(p);}const d=e.target.closest("[data-del]");if(d){state.playbooks=state.playbooks.filter(x=>x.id!==d.dataset.del);save();render();toast("Deleted");}};
+load();setTab("dashboard");
+})();
+</script>
+</body>
+</html>

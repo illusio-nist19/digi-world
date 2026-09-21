@@ -1,0 +1,29 @@
+# Digi World Client Onboarding Desk — START HERE
+
+Run every new client through the same checklist without a project tool subscription.
+Stages, templates, and per-client progress — all offline on this computer.
+
+## Open
+1. Unzip this folder
+2. Double-click **Client-Onboarding-Desk.html**
+3. Work in Chrome, Edge, or Safari
+
+## First 10 minutes
+1. **Setup** — business name and default onboarding template
+2. **Checklists** — review or edit template steps
+3. **Clients** — add a new client and set their stage
+4. **Dashboard** — pipeline count, average completion, live clients
+5. Tick off checklist items as each client moves invited → live
+6. Update stage when they hit kickoff or go live
+
+## Licence
+One studio / one seat (or the duo seats you bought). Personal use.
+Do not redistribute or resell.
+
+## Privacy
+localStorage only. Digi World never sees your clients or checklists.
+
+## Support
+hello@digi-world.online · https://digi-world.online
+
+Digi World · Digital systems, not files.

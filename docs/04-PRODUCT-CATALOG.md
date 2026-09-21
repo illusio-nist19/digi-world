@@ -167,6 +167,96 @@ These sit above Drop 01. They are **not** inside `the-vault`. One studio / one o
 | Cross-sell | invoice-desk |
 | Zip | `products/releases/DW-SYS-017-time-rate-desk.zip` · `backend/vault/` |
 
+### DW-SYS-018 Contract & Agreement Desk
+
+| | |
+| --- | --- |
+| sku | `DW-SYS-018` |
+| slug | `contract-desk` |
+| collection | creator-lab |
+| serial | DW-SYS-018 |
+| EN name | Contract & Agreement Desk |
+| Price | **$27** one studio · **$42** two seats |
+| EN headline | Draft. Send. Sign. |
+| EN sub | Status pipeline + renewals. |
+| Contains | START-HERE, Contract-Agreement-Desk.html |
+| Pain | Contracts scattered in email; no view of draft/sent/signed/expired |
+| Desire | Track status, renewal dates, print PDF — not legal advice |
+| Cross-sell | invoice-desk |
+| Zip | `products/releases/DW-SYS-018-contract-desk.zip` · `backend/vault/` |
+
+### DW-SYS-019 Client Onboarding Desk
+
+| | |
+| --- | --- |
+| sku | `DW-SYS-019` |
+| slug | `onboarding-desk` |
+| collection | creator-lab |
+| serial | DW-SYS-019 |
+| EN name | Client Onboarding Desk |
+| Price | **$24** one studio · **$39** two seats |
+| EN headline | Invite. Form. Kickoff. Live. |
+| EN sub | Onboarding checklists. |
+| Contains | START-HERE, Client-Onboarding-Desk.html |
+| Pain | New clients stall between signed and first deliverable |
+| Desire | Stages invited → forms → kickoff → live with checklists |
+| Cross-sell | client-tracker |
+| Zip | `products/releases/DW-SYS-019-onboarding-desk.zip` · `backend/vault/` |
+
+### DW-SYS-020 SOP & Process Desk
+
+| | |
+| --- | --- |
+| sku | `DW-SYS-020` |
+| slug | `sop-desk` |
+| collection | creator-lab |
+| serial | DW-SYS-020 |
+| EN name | SOP & Process Desk |
+| Price | **$25** one studio · **$39** two seats |
+| EN headline | Document once. Run every time. |
+| EN sub | Playbooks, steps, owners. |
+| Contains | START-HERE, SOP-Process-Desk.html |
+| Pain | Processes live in one person's head; no review cycle |
+| Desire | Playbooks with steps, owners, and last-reviewed dates |
+| Cross-sell | client-tracker |
+| Zip | `products/releases/DW-SYS-020-sop-desk.zip` · `backend/vault/` |
+
+### DW-SYS-021 Testimonial Vault
+
+| | |
+| --- | --- |
+| sku | `DW-SYS-021` |
+| slug | `testimonial-vault` |
+| collection | creator-lab |
+| serial | DW-SYS-021 |
+| EN name | Testimonial Vault |
+| Price | **$22** one studio · **$35** two seats |
+| EN headline | Collect. Approve. Publish. |
+| EN sub | Quotes, stars, permission. |
+| Contains | START-HERE, Testimonial-Vault.html |
+| Pain | Testimonials buried in DMs; no permission tracking |
+| Desire | Quotes with stars, approved/pending permission, ready for website |
+| Cross-sell | content-planner |
+| Zip | `products/releases/DW-SYS-021-testimonial-vault.zip` · `backend/vault/` |
+
+### DW-SYS-022 Subscription Audit Desk
+
+| | |
+| --- | --- |
+| sku | `DW-SYS-022` |
+| slug | `subscription-desk` |
+| collection | creator-lab |
+| serial | DW-SYS-022 |
+| EN name | Subscription Audit Desk |
+| Price | **$23** one studio · **$36** two seats |
+| EN headline | See the burn. Cut the waste. |
+| EN sub | Renewals + CSV export. |
+| Contains | START-HERE, Subscription-Audit-Desk.html |
+| Pain | SaaS subscriptions auto-renew unnoticed; monthly burn invisible |
+| Desire | Monthly burn, renewal dates, keep/review/cancel, CSV export |
+| Cross-sell | expense-desk |
+| Zip | `products/releases/DW-SYS-022-subscription-desk.zip` · `backend/vault/` |
+
 ### DW-EBK-001 Key Fob Programming Mastery
 
 | | |

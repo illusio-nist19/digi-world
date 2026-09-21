@@ -1,0 +1,29 @@
+# Digi World SOP & Process Desk — START HERE
+
+Document how your studio runs — hiring, kickoff, delivery, closeout — in one place.
+Playbooks with steps and review dates — all offline on this computer.
+
+## Open
+1. Unzip this folder
+2. Double-click **SOP-Process-Desk.html**
+3. Work in Chrome, Edge, or Safari
+
+## First 10 minutes
+1. **Setup** — business name and default categories
+2. **Playbooks** — browse sample SOPs (Hiring, Kickoff, Delivery, Closeout)
+3. **Editor** — edit steps or add a new playbook
+4. **Dashboard** — total SOPs, categories, reviewed this month
+5. Set owner and last reviewed date on each playbook
+6. Revisit monthly and update steps as your process evolves
+
+## Licence
+One studio / one seat (or the duo seats you bought). Personal use.
+Do not redistribute or resell.
+
+## Privacy
+localStorage only. Digi World never sees your playbooks or process docs.
+
+## Support
+hello@digi-world.online · https://digi-world.online
+
+Digi World · Digital systems, not files.

@@ -1,0 +1,29 @@
+# Digi World Subscription Audit Desk — START HERE
+
+See what your studio spends on software every month and what to cut.
+Monthly burn, renewals, and cancel savings — all offline on this computer.
+
+## Open
+1. Unzip this folder
+2. Double-click **Subscription-Audit-Desk.html**
+3. Work in Chrome, Edge, or Safari
+
+## First 10 minutes
+1. **Setup** — business name and currency
+2. **Subscriptions** — review sample tools (Adobe, Notion, Spotify…)
+3. **Editor** — add your real subscriptions with amount and billing cycle
+4. **Dashboard** — monthly burn, yearly estimate, cancel savings
+5. Mark status keep / review / cancel as you audit
+6. **Export CSV** — share with your bookkeeper or team
+
+## Licence
+One studio / one seat (or the duo seats you bought). Personal use.
+Do not redistribute or resell.
+
+## Privacy
+localStorage only. Digi World never sees your subscription list or spend.
+
+## Support
+hello@digi-world.online · https://digi-world.online
+
+Digi World · Digital systems, not files.

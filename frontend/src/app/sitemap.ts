@@ -21,6 +21,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/systems/content-planner",
     "/systems/meeting-desk",
     "/systems/time-rate-desk",
+    "/systems/contract-desk",
+    "/systems/onboarding-desk",
+    "/systems/sop-desk",
+    "/systems/testimonial-vault",
+    "/systems/subscription-desk",
     "/systems/key-fob-programming-mastery",
     "/systems/photographer-os",
   ];
@@ -34,6 +39,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/systems/content-planner",
     "/systems/meeting-desk",
     "/systems/time-rate-desk",
+    "/systems/contract-desk",
+    "/systems/onboarding-desk",
+    "/systems/sop-desk",
+    "/systems/testimonial-vault",
+    "/systems/subscription-desk",
   ]);
   const highPriority = (p: string) =>
     p.includes("client-tracker") ||
@@ -43,7 +53,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     p.includes("expense-desk") ||
     p.includes("content-planner") ||
     p.includes("meeting-desk") ||
-    p.includes("time-rate-desk");
+    p.includes("time-rate-desk") ||
+    p.includes("contract-desk") ||
+    p.includes("onboarding-desk") ||
+    p.includes("sop-desk") ||
+    p.includes("testimonial-vault") ||
+    p.includes("subscription-desk");
   const now = new Date();
   const entries: MetadataRoute.Sitemap = [];
   for (const locale of routing.locales) {

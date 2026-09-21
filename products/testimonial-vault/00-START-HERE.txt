@@ -1,0 +1,30 @@
+# Digi World Testimonial Vault — START HERE
+
+Collect, permission-track, and organize client quotes for your site and proposals.
+Stars, source, and approval status — all offline on this computer.
+
+## Open
+1. Unzip this folder
+2. Double-click **Testimonial-Vault.html**
+3. Work in Chrome, Edge, or Safari
+
+## First 10 minutes
+1. **Setup** — business name
+2. **Testimonials** — browse sample quotes and filters
+3. **Editor** — add a new quote with stars and source
+4. Set permission to pending until the client approves
+5. **Dashboard** — approved count, average stars, pending permissions
+6. Filter by status before copying quotes to your website
+
+## Licence
+One studio / one seat (or the duo seats you bought). Personal use.
+Do not redistribute or resell.
+
+## Privacy
+localStorage only. Digi World never sees your testimonials or client names.
+
+## Support
+hello@digi-world.online · https://digi-world.online
+
+Digi World · Digital systems, not files.
+Always get written permission before publishing client quotes.

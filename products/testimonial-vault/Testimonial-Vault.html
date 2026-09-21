@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#1c334c"/>
+<title>Digi World · Testimonial Vault</title>
+<style>
+:root{--ink:#14202c;--ink-soft:#3d4f5f;--muted:#7a8794;--line:#e3d9cc;--cream:#efe6d6;--paper:#fffaf2;--sage:#1f6f62;--sage-soft:#d5efe8;--terra:#c4513a;--terra-soft:#f8ddd4;--gold:#d4a054;--navy:#1c334c;--font:"Segoe UI",system-ui,sans-serif;--display:Georgia,serif;--shadow:0 18px 50px rgba(20,32,44,.12)}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--cream);color:var(--ink);font:15px/1.45 var(--font)}
+button,input,select,textarea{font:inherit}.app{min-height:100vh;display:flex;flex-direction:column}
+.top{position:sticky;top:0;z-index:20;background:rgba(255,250,242,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:12px 16px 0}
+.top-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.brand{display:flex;gap:10px;align-items:center}.mark{width:36px;height:36px;border-radius:50%;background:var(--navy);color:var(--gold);display:grid;place-items:center;font-weight:800;font-size:12px}
+.brand h1{margin:0;font:700 18px/1.2 var(--display)}.brand p{margin:2px 0 0;font-size:12px;color:var(--muted)}
+.nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:10px}.nav button{border:0;background:transparent;padding:10px 14px;border-radius:10px;color:var(--ink-soft);white-space:nowrap;cursor:pointer;font-weight:600}
+.nav button.active{background:var(--sage);color:#fff}.main{flex:1;padding:18px 16px 40px;width:min(1100px,100%);margin:0 auto}
+.panel{display:none}.panel.active{display:block}.page-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:end;margin-bottom:16px}
+.page-head h2{margin:0;font:700 28px/1.15 var(--display)}.lede{margin:6px 0 0;color:var(--ink-soft);max-width:52ch}
+.btn{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:10px 16px;cursor:pointer;font-weight:650;color:var(--ink)}
+.btn-primary{background:var(--navy);color:#fff;border-color:var(--navy)}.btn-sage{background:var(--sage);color:#fff;border-color:var(--sage)}.btn-sm{padding:7px 12px;font-size:13px}.btn-danger{background:var(--terra-soft);color:#8a3a2e;border-color:#e8c4bc}
+.grid{display:grid;gap:12px}.grid-2{grid-template-columns:1fr 1fr}.grid-3{grid-template-columns:repeat(3,1fr)}@media(max-width:640px){.grid-2,.grid-3{grid-template-columns:1fr}}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+.card-h{padding:12px 16px;border-bottom:1px solid var(--line);font-weight:700;background:#efe6d8;font-size:13px;letter-spacing:.04em;text-transform:uppercase}
+.card-b{padding:16px}.kpi{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.kpi .l{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700}.kpi .n{margin-top:6px;font:700 26px/1.1 var(--display)}.kpi.ok .n{color:var(--sage)}.kpi.warn .n{color:var(--terra)}
+.field label{display:block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff}.field textarea{min-height:90px;resize:vertical}
+.table-wrap{overflow:auto}table.data{width:100%;border-collapse:collapse;min-width:640px}table.data th,table.data td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line)}
+table.data th{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);background:#efe6d8}table.data tr:hover td{background:#f5efe4}
+.chip{display:inline-flex;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:700;border:1px solid var(--line);background:var(--cream)}
+.chip.approved{background:#d9f0e8;color:#1d4d44}.chip.pending{background:#eee}.chip.denied{background:var(--terra-soft);color:#8a3f2e}
+.stars{color:var(--gold);letter-spacing:1px;font-size:14px}.filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.quote-preview{font-style:italic;color:var(--ink-soft);max-width:40ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.toast{position:fixed;bottom:16px;right:16px;left:16px;max-width:420px;margin-left:auto;background:var(--ink);color:#fff;padding:12px 16px;border-radius:12px;display:none;z-index:50}.toast.show{display:block}
+.foot{text-align:center;padding:18px;color:var(--muted);font-size:12px;border-top:1px solid var(--line)}.empty{padding:24px;text-align:center;color:var(--muted)}.actions{display:flex;gap:8px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top"><div class="top-row"><div class="brand"><div class="mark">DW</div><div><h1>Testimonial Vault</h1><p>Digi World · quotes, stars, and permissions</p></div></div>
+<div class="actions" style="margin-left:auto"><button class="btn btn-sm btn-sage" type="button" id="btnNew">+ Testimonial</button></div></div>
+<nav class="nav"><button type="button" data-tab="dashboard" class="active">Dashboard</button><button type="button" data-tab="testimonials">Testimonials</button><button type="button" data-tab="editor">Editor</button><button type="button" data-tab="setup">Setup</button></nav></header>
+<main class="main">
+<section class="panel active" id="tab-dashboard"><div class="page-head"><div><h2>Social proof at a glance</h2><p class="lede">Approved quotes, average rating, and pending permissions.</p></div></div>
+<div class="grid grid-3" id="dashKpis"></div><div class="card" style="margin-top:14px"><div class="card-h">Recent approved</div><div class="card-b" id="dashRecent"></div></div></section>
+<section class="panel" id="tab-testimonials"><div class="page-head"><div><h2>Testimonials</h2><p class="lede">Filter by permission status and source.</p></div><button class="btn btn-sage" type="button" id="btnNew2">+ New</button></div>
+<div class="filter-bar"><button class="btn btn-sm active" type="button" data-filter="all">All</button><button class="btn btn-sm" type="button" data-filter="approved">Approved</button><button class="btn btn-sm" type="button" data-filter="pending">Pending</button><button class="btn btn-sm" type="button" data-filter="denied">Denied</button></div>
+<div class="card"><div class="card-b table-wrap"><table class="data" id="testTable"></table></div></div></section>
+<section class="panel" id="tab-editor"><div class="page-head"><div><h2 id="edTitle">New testimonial</h2><p class="lede">Client name, quote, stars, source, and permission.</p></div><button class="btn btn-primary" type="button" id="btnSave">Save</button></div>
+<div class="card"><div class="card-b grid grid-2" style="gap:12px">
+<div class="field"><label>Client name</label><input id="edClient" placeholder="Jane Smith"/></div>
+<div class="field"><label>Company</label><input id="edCompany" placeholder="Northline Studio"/></div>
+<div class="field" style="grid-column:1/-1"><label>Quote</label><textarea id="edQuote" placeholder="Working with this team was…"></textarea></div>
+<div class="field"><label>Stars (1–5)</label><select id="edStars"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></div>
+<div class="field"><label>Source</label><select id="edSource"><option>email</option><option>linkedin</option><option>google</option><option>other</option></select></div>
+<div class="field"><label>Permission</label><select id="edPerm"><option>pending</option><option>approved</option><option>denied</option></select></div>
+<div class="field"><label>Date</label><input id="edDate" type="date"/></div></div></div></section>
+<section class="panel" id="tab-setup"><div class="page-head"><div><h2>Setup</h2><p class="lede">Business name for quote attribution.</p></div><button class="btn btn-primary" type="button" id="btnSaveSetup">Save</button></div>
+<div class="card"><div class="card-b"><div class="field"><label>Business name</label><input id="sName"/></div></div></div></section>
+</main>
+<footer class="foot">Digi World · Testimonial Vault · hello@digi-world.online</footer></div>
+<div class="toast" id="toast"></div>
+<script>
+(function(){
+const KEY="dw_testimonial_vault_v1",$=id=>document.getElementById(id),uid=()=>"t"+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+const today=()=>new Date().toISOString().slice(0,10),esc=s=>String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+let state,tab="dashboard",editId=null,filter="all";
+function def(){const d=today();return{settings:{name:"Your Studio"},testimonials:[
+{id:"t1",clientName:"Nina Park",company:"Parcel & Press",quote:"They turned our messy rebrand into a clear system we still use every day. Fast, thoughtful, and zero drama.",stars:5,source:"email",permission:"approved",date:d},
+{id:"t2",clientName:"Marcus Chen",company:"Northline Studio",quote:"Best design partner we've worked with. Delivered on time, communicated clearly, and the final work exceeded expectations.",stars:5,source:"linkedin",permission:"approved",date:d},
+{id:"t3",clientName:"Sarah Okonkwo",company:"Brightfield Co.",quote:"Professional from kickoff to delivery. Our site launch was smooth and our team actually uses the handoff docs.",stars:5,source:"google",permission:"pending",date:d},
+{id:"t4",clientName:"Tom Reyes",company:"Oak & Ember",quote:"Great eye for detail and a process that kept us on track. Would hire again for our next product launch.",stars:5,source:"email",permission:"approved",date:d},
+{id:"t5",clientName:"Elena Voss",company:"Harbor Lane",quote:"Responsive, organized, and genuinely invested in our outcome. Five stars without hesitation.",stars:5,source:"other",permission:"pending",date:d}]};}
+function load(){try{const r=localStorage.getItem(KEY);state=r?JSON.parse(r):def();if(!state.testimonials)state=def();}catch{state=def();}}
+function save(){localStorage.setItem(KEY,JSON.stringify(state));}
+function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove("show"),2400);}
+function stars(n){return"★".repeat(+n||0)+"☆".repeat(5-(+n||0));}
+function chip(p){return`<span class="chip ${esc(p)}">${esc(p)}</span>`;}
+function avgStars(list){if(!list.length)return 0;return Math.round(list.reduce((s,t)=>s+(+t.stars||0),0)/list.length*10)/10;}
+function filtered(){return filter==="all"?state.testimonials:state.testimonials.filter(t=>t.permission===filter);}
+function setTab(n){tab=n;document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===n));document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id==="tab-"+n));render();}
+function blank(){return{id:uid(),clientName:"",company:"",quote:"",stars:5,source:"email",permission:"pending",date:today()};}
+function openEd(t){editId=t.id;if(!state.testimonials.find(x=>x.id===t.id))state.testimonials.unshift(t);$("edTitle").textContent=t.clientName?"Edit: "+t.clientName:"New testimonial";$("edClient").value=t.clientName||"";$("edCompany").value=t.company||"";$("edQuote").value=t.quote||"";$("edStars").value=String(t.stars||5);$("edSource").value=t.source||"email";$("edPerm").value=t.permission||"pending";$("edDate").value=t.date||today();setTab("editor");}
+function readEd(){const ex=state.testimonials.find(x=>x.id===editId)||blank();return{...ex,id:editId||ex.id,clientName:$("edClient").value.trim(),company:$("edCompany").value.trim(),quote:$("edQuote").value.trim(),stars:+$("edStars").value||5,source:$("edSource").value,permission:$("edPerm").value,date:$("edDate").value||today()};}
+function renderDash(){const approved=state.testimonials.filter(t=>t.permission==="approved");const pending=state.testimonials.filter(t=>t.permission==="pending");
+$("dashKpis").innerHTML=`<div class="kpi ok"><div class="l">Approved</div><div class="n">${approved.length}</div></div><div class="kpi"><div class="l">Avg stars</div><div class="n">${avgStars(approved)||avgStars(state.testimonials)}</div></div><div class="kpi warn"><div class="l">Pending permissions</div><div class="n">${pending.length}</div></div>`;
+$("dashRecent").innerHTML=approved.slice(0,5).map(t=>`<div style="padding:10px 0;border-bottom:1px solid var(--line);cursor:pointer" data-open="${esc(t.id)}"><div class="stars">${stars(t.stars)}</div><p style="margin:6px 0;font-style:italic">"${esc(t.quote.slice(0,120))}${t.quote.length>120?"…":""}"</p><div style="font-size:13px;color:var(--muted)">— ${esc(t.clientName)}, ${esc(t.company)}</div></div>`).join("")||'<div class="empty">No approved testimonials yet</div>';}
+function renderList(){const list=filtered();$("testTable").innerHTML=`<thead><tr><th>Client</th><th>Company</th><th>Quote</th><th>Stars</th><th>Source</th><th>Permission</th><th>Date</th><th></th></tr></thead><tbody>${list.map(t=>`<tr><td><b>${esc(t.clientName)}</b></td><td>${esc(t.company||"—")}</td><td><span class="quote-preview">"${esc(t.quote)}"</span></td><td class="stars">${stars(t.stars)}</td><td>${esc(t.source)}</td><td>${chip(t.permission)}</td><td>${esc(t.date||"—")}</td><td><button class="btn btn-sm" data-open="${esc(t.id)}">Edit</button> <button class="btn btn-sm btn-danger" data-del="${esc(t.id)}">×</button></td></tr>`).join("")||'<tr><td colspan="8"><div class="empty">No testimonials match this filter</div></td></tr>'}</tbody>`;}
+function render(){if(tab==="dashboard")renderDash();if(tab==="testimonials")renderList();if(tab==="setup"){$("sName").value=state.settings.name||"";}}
+document.querySelector(".nav").onclick=e=>{const b=e.target.closest("[data-tab]");if(b)setTab(b.dataset.tab);};
+document.querySelector(".filter-bar").onclick=e=>{const b=e.target.closest("[data-filter]");if(!b)return;filter=b.dataset.filter;document.querySelectorAll(".filter-bar .btn").forEach(x=>x.classList.toggle("active",x.dataset.filter===filter));renderList();};
+$("btnNew").onclick=$("btnNew2").onclick=()=>openEd(blank());
+$("btnSave").onclick=()=>{const t=readEd();if(!t.clientName||!t.quote){toast("Add client name and quote");return;}const i=state.testimonials.findIndex(x=>x.id===t.id);if(i>=0)state.testimonials[i]=t;else state.testimonials.unshift(t);editId=t.id;save();toast("Saved");setTab("testimonials");};
+$("btnSaveSetup").onclick=()=>{state.settings.name=$("sName").value.trim()||"Your Studio";save();toast("Setup saved");};
+document.body.onclick=e=>{const o=e.target.closest("[data-open]");if(o){const t=state.testimonials.find(x=>x.id===o.dataset.open);if(t)openEd(t);}const d=e.target.closest("[data-del]");if(d){state.testimonials=state.testimonials.filter(x=>x.id!==d.dataset.del);save();render();toast("Deleted");}};
+load();setTab("dashboard");
+})();
+</script>
+</body>
+</html>

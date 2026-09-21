@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#1c334c"/>
+<title>Digi World · Client Onboarding Desk</title>
+<style>
+:root{--ink:#14202c;--ink-soft:#3d4f5f;--muted:#7a8794;--line:#e3d9cc;--cream:#efe6d6;--paper:#fffaf2;--sage:#1f6f62;--sage-soft:#d5efe8;--terra:#c4513a;--terra-soft:#f8ddd4;--gold:#d4a054;--navy:#1c334c;--font:"Segoe UI",system-ui,sans-serif;--display:Georgia,serif;--shadow:0 18px 50px rgba(20,32,44,.12)}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--cream);color:var(--ink);font:15px/1.45 var(--font)}
+button,input,select,textarea{font:inherit}.app{min-height:100vh;display:flex;flex-direction:column}
+.top{position:sticky;top:0;z-index:20;background:rgba(255,250,242,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:12px 16px 0}
+.top-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.brand{display:flex;gap:10px;align-items:center}.mark{width:36px;height:36px;border-radius:50%;background:var(--navy);color:var(--gold);display:grid;place-items:center;font-weight:800;font-size:12px}
+.brand h1{margin:0;font:700 18px/1.2 var(--display)}.brand p{margin:2px 0 0;font-size:12px;color:var(--muted)}
+.nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:10px}.nav button{border:0;background:transparent;padding:10px 14px;border-radius:10px;color:var(--ink-soft);white-space:nowrap;cursor:pointer;font-weight:600}
+.nav button.active{background:var(--sage);color:#fff}.main{flex:1;padding:18px 16px 40px;width:min(1100px,100%);margin:0 auto}
+.panel{display:none}.panel.active{display:block}.page-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:end;margin-bottom:16px}
+.page-head h2{margin:0;font:700 28px/1.15 var(--display)}.lede{margin:6px 0 0;color:var(--ink-soft);max-width:52ch}
+.btn{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:10px 16px;cursor:pointer;font-weight:650;color:var(--ink)}
+.btn-primary{background:var(--navy);color:#fff;border-color:var(--navy)}.btn-sage{background:var(--sage);color:#fff;border-color:var(--sage)}.btn-sm{padding:7px 12px;font-size:13px}.btn-danger{background:var(--terra-soft);color:#8a3a2e;border-color:#e8c4bc}
+.grid{display:grid;gap:12px}.grid-2{grid-template-columns:1fr 1fr}.grid-3{grid-template-columns:repeat(3,1fr)}@media(max-width:640px){.grid-2,.grid-3{grid-template-columns:1fr}}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+.card-h{padding:12px 16px;border-bottom:1px solid var(--line);font-weight:700;background:#efe6d8;font-size:13px;letter-spacing:.04em;text-transform:uppercase}
+.card-b{padding:16px}.kpi{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.kpi .l{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700}.kpi .n{margin-top:6px;font:700 26px/1.1 var(--display)}.kpi.ok .n{color:var(--sage)}
+.field label{display:block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff}.field textarea{min-height:80px;resize:vertical}
+.table-wrap{overflow:auto}table.data{width:100%;border-collapse:collapse;min-width:560px}table.data th,table.data td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line)}
+table.data th{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);background:#efe6d8}table.data tr:hover td{background:#f5efe4}
+.chip{display:inline-flex;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:700;border:1px solid var(--line);background:var(--cream)}
+.chip.invited{background:#eee}.chip.forms{background:#e8eef5;color:#2a4a6a}.chip.kickoff{background:var(--sage-soft);color:#2f5a43}.chip.live{background:#d9f0e8;color:#1d4d44}
+.check-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}.check-row input{width:18px;height:18px;accent-color:var(--sage)}
+.progress{height:8px;background:var(--line);border-radius:999px;overflow:hidden;margin-top:6px}.progress b{display:block;height:100%;background:var(--sage)}
+.step-line{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;margin-bottom:8px}
+.toast{position:fixed;bottom:16px;right:16px;left:16px;max-width:420px;margin-left:auto;background:var(--ink);color:#fff;padding:12px 16px;border-radius:12px;display:none;z-index:50}.toast.show{display:block}
+.foot{text-align:center;padding:18px;color:var(--muted);font-size:12px;border-top:1px solid var(--line)}.empty{padding:24px;text-align:center;color:var(--muted)}.actions{display:flex;gap:8px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top"><div class="top-row"><div class="brand"><div class="mark">DW</div><div><h1>Client Onboarding Desk</h1><p>Digi World · same checklist, every new client</p></div></div>
+<div class="actions" style="margin-left:auto"><button class="btn btn-sm btn-sage" type="button" id="btnNewClient">+ Client</button></div></div>
+<nav class="nav"><button type="button" data-tab="dashboard" class="active">Dashboard</button><button type="button" data-tab="clients">Clients</button><button type="button" data-tab="checklists">Checklists</button><button type="button" data-tab="setup">Setup</button></nav></header>
+<main class="main">
+<section class="panel active" id="tab-dashboard"><div class="page-head"><div><h2>Onboarding at a glance</h2><p class="lede">Pipeline, average completion, and live clients.</p></div></div>
+<div class="grid grid-3" id="dashKpis"></div><div class="card" style="margin-top:14px"><div class="card-h">Clients in pipeline</div><div class="card-b" id="dashRecent"></div></div></section>
+<section class="panel" id="tab-clients"><div class="page-head"><div><h2>Clients</h2><p class="lede">Stage and checklist progress for each onboarding.</p></div><button class="btn btn-sage" type="button" id="btnNewClient2">+ Client</button></div>
+<div class="card"><div class="card-b table-wrap"><table class="data" id="clientsTable"></table></div></div>
+<div class="card" style="margin-top:14px;display:none" id="clientDetail"><div class="card-h" id="detailTitle">Client checklist</div><div class="card-b"><div id="detailChecks"></div><div class="actions" style="margin-top:12px"><button class="btn btn-primary btn-sm" type="button" id="btnSaveChecks">Save progress</button></div></div></div></section>
+<section class="panel" id="tab-checklists"><div class="page-head"><div><h2>Checklist templates</h2><p class="lede">Default steps applied to every new client.</p></div><button class="btn btn-primary" type="button" id="btnSaveTemplate">Save template</button></div>
+<div class="card"><div class="card-b"><div id="templateSteps"></div><button class="btn btn-sm" type="button" id="btnAddStep">+ Step</button></div></div></section>
+<section class="panel" id="tab-setup"><div class="page-head"><div><h2>Setup</h2><p class="lede">Business name and template label.</p></div><button class="btn btn-primary" type="button" id="btnSaveSetup">Save</button></div>
+<div class="card"><div class="card-b grid grid-2"><div class="field"><label>Business name</label><input id="sName"/></div><div class="field"><label>Template name</label><input id="sTemplate" placeholder="Standard onboarding"/></div></div></div></section>
+</main>
+<footer class="foot">Digi World · Client Onboarding Desk · hello@digi-world.online</footer></div>
+<div class="toast" id="toast"></div>
+<script>
+(function(){
+const KEY="dw_onboarding_desk_v1",$=id=>document.getElementById(id),uid=()=>"o"+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+const esc=s=>String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const STAGES=["invited","forms","kickoff","live"];
+let state,tab="dashboard",detailId=null;
+const defaultSteps=["Send welcome email","Collect signed contract","Invoice deposit","Share intake form","Schedule kickoff call","Set up project folder","Add to CRM / tracker","Confirm access & assets","Send kickoff agenda","Mark client live"];
+function def(){return{settings:{name:"Your Studio",templateName:"Standard onboarding"},template:{steps:[...defaultSteps]},clients:[
+{id:"cl1",name:"Northline Studio",email:"ops@northline.example",stage:"kickoff",checked:[true,true,true,true,true,false,false,false,false,false]},
+{id:"cl2",name:"Parcel & Press",email:"nina@parcelpress.example",stage:"forms",checked:[true,true,false,false,false,false,false,false,false,false]},
+{id:"cl3",name:"Brightfield Co.",email:"hello@brightfield.example",stage:"live",checked:defaultSteps.map(()=>true)},
+{id:"cl4",name:"Oak & Ember",email:"team@oakember.example",stage:"invited",checked:defaultSteps.map(()=>false)}]};}
+function load(){try{const r=localStorage.getItem(KEY);state=r?JSON.parse(r):def();if(!state.clients)state=def();}catch{state=def();}}
+function save(){localStorage.setItem(KEY,JSON.stringify(state));}
+function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove("show"),2400);}
+function chip(st){return`<span class="chip ${esc(st)}">${esc(st)}</span>`;}
+function pct(c){const steps=state.template.steps||[];if(!steps.length)return 0;const done=(c.checked||[]).filter(Boolean).length;return Math.round(done/steps.length*100);}
+function avgPct(){if(!state.clients.length)return 0;return Math.round(state.clients.reduce((s,c)=>s+pct(c),0)/state.clients.length);}
+function setTab(n){tab=n;document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===n));document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id==="tab-"+n));render();}
+function ensureChecks(c){const n=state.template.steps.length;while((c.checked||[]).length<n)c.checked.push(false);c.checked=c.checked.slice(0,n);}
+function openDetail(id){detailId=id;const c=state.clients.find(x=>x.id===id);if(!c)return;ensureChecks(c);$("clientDetail").style.display="block";$("detailTitle").textContent=c.name+" — checklist";$("detailChecks").innerHTML=state.template.steps.map((s,i)=>`<label class="check-row"><input type="checkbox" data-i="${i}" ${c.checked[i]?"checked":""}/><span>${esc(s)}</span></label>`).join("");}
+function renderDash(){const pipeline=state.clients.filter(c=>c.stage!=="live");const live=state.clients.filter(c=>c.stage==="live");
+$("dashKpis").innerHTML=`<div class="kpi"><div class="l">In pipeline</div><div class="n">${pipeline.length}</div></div><div class="kpi ok"><div class="l">Avg complete</div><div class="n">${avgPct()}%</div></div><div class="kpi ok"><div class="l">Live clients</div><div class="n">${live.length}</div></div>`;
+$("dashRecent").innerHTML=pipeline.map(c=>`<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);cursor:pointer" data-detail="${esc(c.id)}"><span><b>${esc(c.name)}</b> ${chip(c.stage)}</span><span>${pct(c)}%</span></div>`).join("")||'<div class="empty">All clients are live</div>';}
+function renderClients(){$("clientsTable").innerHTML=`<thead><tr><th>Name</th><th>Email</th><th>Stage</th><th>Progress</th><th></th></tr></thead><tbody>${state.clients.map(c=>`<tr><td><b>${esc(c.name)}</b></td><td>${esc(c.email||"—")}</td><td>${chip(c.stage)}</td><td><div>${pct(c)}%</div><div class="progress"><b style="width:${pct(c)}%"></b></div></td><td><button class="btn btn-sm" data-detail="${esc(c.id)}">Checklist</button> <button class="btn btn-sm btn-danger" data-del="${esc(c.id)}">×</button></td></tr>`).join("")||'<tr><td colspan="5"><div class="empty">No clients</div></td></tr>'}</tbody>`;}
+function renderTemplate(){$("templateSteps").innerHTML=state.template.steps.map((s,i)=>`<div class="step-line"><input value="${esc(s)}" data-i="${i}"/><button class="btn btn-sm btn-danger" type="button" data-dels="${i}">×</button></div>`).join("");}
+function render(){if(tab==="dashboard")renderDash();if(tab==="clients")renderClients();if(tab==="checklists")renderTemplate();if(tab==="setup"){$("sName").value=state.settings.name||"";$("sTemplate").value=state.settings.templateName||"";}}
+function addClient(){const name=prompt("Client name");if(!name)return;const c={id:uid(),name:name.trim(),email:"",stage:"invited",checked:state.template.steps.map(()=>false)};state.clients.unshift(c);save();render();toast("Client added");}
+document.querySelector(".nav").onclick=e=>{const b=e.target.closest("[data-tab]");if(b)setTab(b.dataset.tab);};
+$("btnNewClient").onclick=$("btnNewClient2").onclick=addClient;
+$("btnAddStep").onclick=()=>{state.template.steps.push("New step");state.clients.forEach(c=>{ensureChecks(c);c.checked.push(false);});save();renderTemplate();toast("Step added");};
+$("templateSteps").oninput=e=>{const inp=e.target.closest("[data-i]");if(!inp)return;state.template.steps[+inp.dataset.i]=inp.value;};
+$("templateSteps").onclick=e=>{const d=e.target.closest("[data-dels]");if(!d)return;const i=+d.dataset.dels;state.template.steps.splice(i,1);state.clients.forEach(c=>{c.checked.splice(i,1);});save();renderTemplate();toast("Step removed");};
+$("btnSaveTemplate").onclick=()=>{state.template.steps=state.template.steps.map(s=>s.trim()).filter(Boolean);if(!state.template.steps.length)state.template.steps=[...defaultSteps];state.clients.forEach(ensureChecks);save();toast("Template saved");render();};
+$("btnSaveChecks").onclick=()=>{const c=state.clients.find(x=>x.id===detailId);if(!c)return;[...$("detailChecks").querySelectorAll("input")].forEach(inp=>{c.checked[+inp.dataset.i]=inp.checked;});save();render();toast("Progress saved");};
+$("btnSaveSetup").onclick=()=>{state.settings.name=$("sName").value.trim()||"Your Studio";state.settings.templateName=$("sTemplate").value.trim()||"Standard onboarding";save();toast("Setup saved");};
+document.body.onclick=e=>{const d=e.target.closest("[data-detail]");if(d){openDetail(d.dataset.detail);setTab("clients");}const del=e.target.closest("[data-del]");if(del){state.clients=state.clients.filter(c=>c.id!==del.dataset.del);if(detailId===del.dataset.del){detailId=null;$("clientDetail").style.display="none";}save();render();toast("Deleted");}};
+load();setTab("dashboard");
+})();
+</script>
+</body>
+</html>

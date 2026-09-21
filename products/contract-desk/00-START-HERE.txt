@@ -1,0 +1,30 @@
+# Digi World Contract & Agreement Desk — START HERE
+
+Track client contracts, renewals, and signatures without another SaaS bill.
+Clients, contract status, and print-ready previews — all offline on this computer.
+
+## Open
+1. Unzip this folder
+2. Double-click **Contract-Agreement-Desk.html**
+3. Work in Chrome, Edge, or Safari
+
+## First 10 minutes
+1. **Setup** — business name and currency
+2. **Clients** — add the studios and brands you contract with
+3. **Dashboard** — active contracts, pending signatures, renewals due
+4. **Editor** — create a contract with dates, value, and notes
+5. **Print / PDF** — preview and save a clean copy for records
+6. Mark status as draft → sent → signed as deals progress
+
+## Licence
+One studio / one seat (or the duo seats you bought). Personal use.
+Do not redistribute or resell.
+
+## Privacy
+localStorage only. Digi World never sees your contracts or client data.
+
+## Support
+hello@digi-world.online · https://digi-world.online
+
+Digi World · Digital systems, not files.
+Not legal advice — consult a lawyer for binding agreements.
