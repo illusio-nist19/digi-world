@@ -96,11 +96,26 @@ export const CLIENT_TRACKER_SHOTS: DemoShot[] = [
   {
     src: "/images/products/client-tracker/01.png",
     label: "Professional CRM",
-    caption: "Customer Relationship Management — one offline HTML desk.",
+    caption: "All-in-one small business CRM — buy once, use forever.",
+  },
+  {
+    src: "/images/products/client-tracker/12.png",
+    label: "Dashboard",
+    caption: "KPIs, pipeline, and charts on a laptop you open tonight.",
+  },
+  {
+    src: "/images/products/client-tracker/13.png",
+    label: "Mobile",
+    caption: "Phone tabs for clients, tasks, calendar, and invoices.",
+  },
+  {
+    src: "/images/products/client-tracker/14.png",
+    label: "Desk + phone",
+    caption: "Same Customer Relationship Management on every screen.",
   },
   {
     src: "/images/products/client-tracker/02.png",
-    label: "Dashboard",
+    label: "Command",
     caption: "Welcome, leftover, invoices and the next event — the second you open the file.",
   },
   {
@@ -154,7 +169,12 @@ export const INVOICE_DESK_SHOTS: DemoShot[] = [
   {
     src: "/images/products/invoice-desk/01.png",
     label: "Quote & Invoice Desk",
-    caption: "Quote. Invoice. Get paid — one offline HTML money desk.",
+    caption: "Laptop mockup — quote, invoice, get paid. Buy once.",
+  },
+  {
+    src: "/images/products/invoice-desk/08.png",
+    label: "Desk + phone",
+    caption: "Same money desk on laptop and phone.",
   },
   {
     src: "/images/products/invoice-desk/02.png",

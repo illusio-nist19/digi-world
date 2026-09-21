@@ -23,7 +23,7 @@ const SCROLL_SCENES = [
   { id: "home-help", src: "/images/intro-crm-hq.png" },
   { id: "systems", src: "/images/scroll-crm-office.png" },
   { id: "home-why", src: "/images/scroll-crm-desk.png" },
-  { id: "home-close", src: "/images/hero-home-hq.png" },
+  { id: "home-close", src: "/images/crm-product-hero.png" },
 ];
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
@@ -47,7 +47,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <ScrollBackdrop scenes={SCROLL_SCENES} />
 
       <section className="relative min-h-[88vh]">
-        <Image src="/images/hero-home-hq.png" alt="" fill priority className="object-cover object-center" sizes="100vw" />
+        <Image src="/images/crm-product-hero.png" alt="" fill priority className="object-cover object-center" sizes="100vw" />
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/75 to-ink/40" />
         <Container className="relative flex min-h-[88vh] flex-col justify-end pb-16 pt-28">
           <p className="text-xs uppercase tracking-[0.25em] text-gold">{t("eyebrow")}</p>

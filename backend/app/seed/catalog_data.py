@@ -462,7 +462,7 @@ PRODUCTS = [
             "START-HERE\nClient-Tracker.html (7 fenêtres)\nSetup listes\nBase clients + graphiques\nJournal de communication\nTâches (KPI, retard, filtres)\nCalendrier\nVue client\nDashboard\nExport / import CSV\nDonnées exemple",
             "START-HERE\nClient-Tracker.html (7 ventanas)\nSetup listas\nBase de clientes + gráficos\nLog de comunicación\nTareas (KPI, vencidas, filtros)\nCalendario\nVista de cliente\nPanel\nExport / import CSV\nDatos de ejemplo",
         ),
-        "images": imgs("client-tracker", 11),
+        "images": imgs("client-tracker", 14),
         "faq": CRM_FAQS,
     },
     {
@@ -506,7 +506,7 @@ PRODUCTS = [
             "START-HERE\nInvoice-Quote-Desk.html\nSetup (marque, taxe, devise, note)\nDashboard (ouverts / impayés / retard)\nDevis + lignes + statut\nConvertir devis → facture\nFactures + Marquer payé\nImprimer / PDF\nDonnées exemple",
             "START-HERE\nInvoice-Quote-Desk.html\nSetup (marca, impuesto, moneda, nota)\nPanel (abiertos / impagos / vencidos)\nPresupuestos + líneas + estado\nConvertir presupuesto → factura\nFacturas + Marcar pagado\nImprimir / PDF\nDatos de ejemplo",
         ),
-        "images": imgs("invoice-desk", 7),
+        "images": imgs("invoice-desk", 8),
         "faq": INVOICE_FAQS,
     },
 ]

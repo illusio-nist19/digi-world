@@ -413,6 +413,9 @@ export const FALLBACK_CATALOG: Catalog = {
       ],
       images: [
         "/images/products/client-tracker/01.png",
+        "/images/products/client-tracker/12.png",
+        "/images/products/client-tracker/13.png",
+        "/images/products/client-tracker/14.png",
         "/images/products/client-tracker/02.png",
         "/images/products/client-tracker/03.png",
         "/images/products/client-tracker/04.png",
@@ -496,6 +499,7 @@ export const FALLBACK_CATALOG: Catalog = {
       ],
       images: [
         "/images/products/invoice-desk/01.png",
+        "/images/products/invoice-desk/08.png",
         "/images/products/invoice-desk/02.png",
         "/images/products/invoice-desk/03.png",
         "/images/products/invoice-desk/04.png",
