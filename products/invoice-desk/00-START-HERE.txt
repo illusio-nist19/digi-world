@@ -1,0 +1,30 @@
+# Digi World Quote & Invoice Desk — START HERE
+
+High-demand money desk for freelancers and small studios: quote → invoice → get paid.
+No Google Sheets. No subscription. Data stays on this computer.
+
+## Open
+1. Unzip this folder
+2. Double-click **Invoice-Quote-Desk.html**
+3. Work in Chrome, Edge, or Safari
+
+## First 10 minutes
+1. **Setup** — business name, email, currency, tax %, payment terms, invoice prefix
+2. **Dashboard** — open quotes, unpaid invoices, overdue total
+3. **New quote** — client + line items → Save quote
+4. **Convert** — turn an accepted quote into an invoice in one click
+5. **Print / PDF** — open the document → Print → Save as PDF
+6. Mark invoices **Paid** when the money lands
+
+## Licence
+One studio / one seat (or the duo seats you bought). Personal use.
+Do not redistribute or resell.
+
+## Privacy
+localStorage only. Digi World never sees your clients or amounts.
+
+## Support
+hello@digi-world.online · https://digi-world.online
+
+Digi World · Digital systems, not files.
+Not legal, tax, or accounting advice.

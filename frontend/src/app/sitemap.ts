@@ -15,6 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/digital-tracker",
     "/business-crm-tracker",
     "/systems/client-tracker",
+    "/systems/invoice-desk",
     "/systems/key-fob-programming-mastery",
     "/systems/photographer-os",
   ];
@@ -25,8 +26,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
       entries.push({
         url: `${base}/${locale}${p}`,
         lastModified: now,
-        changeFrequency: p === "" || p === "/business-crm-tracker" || p === "/systems/client-tracker" ? "weekly" : "monthly",
-        priority: p === "" ? 1 : p.includes("client-tracker") || p.includes("business-crm") ? 0.9 : 0.7,
+        changeFrequency: p === "" || p === "/business-crm-tracker" || p === "/systems/client-tracker" || p === "/systems/invoice-desk" ? "weekly" : "monthly",
+        priority: p === "" ? 1 : p.includes("client-tracker") || p.includes("business-crm") || p.includes("invoice-desk") ? 0.9 : 0.7,
       });
     }
   }

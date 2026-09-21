@@ -7,7 +7,7 @@ import { Container, Split, StarRow } from "@/components/ui";
 import { getCatalog, productBySlug } from "@/lib/catalog";
 import { isPremium, loc, money } from "@/lib/types";
 import { ViewContentPing } from "@/components/view-content";
-import { ProductGallery, CLIENT_TRACKER_SHOTS } from "@/components/product-gallery";
+import { ProductGallery, CLIENT_TRACKER_SHOTS, INVOICE_DESK_SHOTS } from "@/components/product-gallery";
 import type { Metadata } from "next";
 
 export function generateStaticParams() {
@@ -24,23 +24,53 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   if (slug === "client-tracker") {
     const base = process.env.NEXT_PUBLIC_SITE_URL || "https://digi-world.online";
     return {
-      title: "Business CRM Tracker | Offline Client, Invoice & Task Desk | Digi World",
+      title: "Business CRM Tracker | Offline Client CRM for Small Business | Digi World",
       description:
-        "Business CRM tracker for small studios: clients, invoices, budget, tasks, and calendar. One HTML file. Works offline. No subscription. Instant download from Digi World.",
+        "Business CRM tracker for clients, invoices, budget, tasks, and calendar. One HTML file. Works offline. No Google account. Instant download from Digi World.",
       keywords: [
         "business CRM tracker",
         "CRM tracker",
+        "digital tracker",
         "offline CRM",
-        "client tracker",
-        "small business CRM",
         "HTML client tracker",
+        "small business CRM",
         "freelancer invoice tracker",
       ],
       alternates: {
         canonical: `${base}/${locale}/systems/client-tracker`,
-        languages: Object.fromEntries(
-          ["ar", "en", "fr", "es"].map((l) => [l, `${base}/${l}/systems/client-tracker`]),
-        ),
+        languages: {
+          ar: `${base}/ar/systems/client-tracker`,
+          en: `${base}/en/systems/client-tracker`,
+          fr: `${base}/fr/systems/client-tracker`,
+          es: `${base}/es/systems/client-tracker`,
+          "x-default": `${base}/en/systems/client-tracker`,
+        },
+      },
+      openGraph: { images: product.images[0] ? [product.images[0]] : undefined },
+    };
+  }
+  if (slug === "invoice-desk") {
+    const base = process.env.NEXT_PUBLIC_SITE_URL || "https://digi-world.online";
+    return {
+      title: "Quote & Invoice Desk | Offline Freelance Invoicing HTML | Digi World",
+      description:
+        "Offline quote and invoice desk for freelancers: quote → invoice → paid, print PDF, no QuickBooks. Instant download from Digi World.",
+      keywords: [
+        "freelance invoice template",
+        "quote to invoice",
+        "offline invoice HTML",
+        "small business invoicing",
+        "freelancer quote tool",
+      ],
+      alternates: {
+        canonical: `${base}/${locale}/systems/invoice-desk`,
+        languages: {
+          ar: `${base}/ar/systems/invoice-desk`,
+          en: `${base}/en/systems/invoice-desk`,
+          fr: `${base}/fr/systems/invoice-desk`,
+          es: `${base}/es/systems/invoice-desk`,
+          "x-default": `${base}/en/systems/invoice-desk`,
+        },
       },
       openGraph: { images: product.images[0] ? [product.images[0]] : undefined },
     };
@@ -79,7 +109,8 @@ export default async function ProductPage({ params }: { params: Promise<{ locale
   const photo = product.slug === "photographer-os";
   const keys = product.slug === "key-fob-programming-mastery";
   const crm = product.slug === "client-tracker";
-  const featured = gov || photo || keys || crm;
+  const invoice = product.slug === "invoice-desk";
+  const featured = gov || photo || keys || crm || invoice;
   const productLd =
     crm
       ? {
@@ -98,7 +129,24 @@ export default async function ProductPage({ params }: { params: Promise<{ locale
           },
           brand: { "@type": "Brand", name: "Digi World" },
         }
-      : null;
+      : invoice
+        ? {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            name: "Digi World Quote & Invoice Desk",
+            alternateName: ["Quote Invoice Desk", "Freelance Invoice HTML"],
+            applicationCategory: "BusinessApplication",
+            operatingSystem: "Windows, macOS, Linux",
+            offers: {
+              "@type": "Offer",
+              price: (product.price_cents / 100).toFixed(2),
+              priceCurrency: "USD",
+              availability: "https://schema.org/InStock",
+              url: `https://digi-world.online/${locale}/systems/invoice-desk`,
+            },
+            brand: { "@type": "Brand", name: "Digi World" },
+          }
+        : null;
 
   return (
     <>
@@ -109,6 +157,8 @@ export default async function ProductPage({ params }: { params: Promise<{ locale
       <Container className="grid gap-10 py-10 md:grid-cols-2">
         {crm ? (
           <ProductGallery shots={CLIENT_TRACKER_SHOTS} alt={loc(product.name, locale)} />
+        ) : invoice ? (
+          <ProductGallery shots={INVOICE_DESK_SHOTS} alt={loc(product.name, locale)} />
         ) : (
           <Gallery images={product.images} alt={loc(product.name, locale)} />
         )}
@@ -123,10 +173,10 @@ export default async function ProductPage({ params }: { params: Promise<{ locale
             <span className="rounded-full border border-gold/40 px-3 py-1 text-xs text-gold">{t("certified")}</span>
             {premium ? <span className="rounded-full border border-ivory/20 px-3 py-1 text-xs text-ivory/70">{photo ? t("studioBadge") : t("orgBadge")}</span> : null}
             {keys ? <span className="rounded-full border border-ivory/20 px-3 py-1 text-xs text-ivory/70">{t("techBadge")}</span> : null}
-            {crm ? <span className="rounded-full border border-ivory/20 px-3 py-1 text-xs text-ivory/70">{t("crmBadge")}</span> : null}
+            {crm || invoice ? <span className="rounded-full border border-ivory/20 px-3 py-1 text-xs text-ivory/70">{t("crmBadge")}</span> : null}
           </div>
           <p className="mt-4 font-display text-3xl text-gold">{money(product.price_cents)}</p>
-          <p className="mt-1 text-sm text-stone">{crm ? t("crmPriceNote") : keys ? t("techPriceNote") : photo ? t("studioPriceNote") : premium ? t("orgPriceNote") : t("usd")}</p>
+          <p className="mt-1 text-sm text-stone">{crm || invoice ? t("crmPriceNote") : keys ? t("techPriceNote") : photo ? t("studioPriceNote") : premium ? t("orgPriceNote") : t("usd")}</p>
           <div className="mt-6">
             <PdpOffers product={product} catalog={catalog} />
           </div>
@@ -149,6 +199,13 @@ export default async function ProductPage({ params }: { params: Promise<{ locale
                   [t("crmP2"), t("crmP2l")],
                   [t("crmP3"), t("crmP3l")],
                   [t("crmP4"), t("crmP4l")],
+                ]
+              : invoice
+              ? [
+                  [t("invP1"), t("invP1l")],
+                  [t("invP2"), t("invP2l")],
+                  [t("invP3"), t("invP3l")],
+                  [t("invP4"), t("invP4l")],
                 ]
               : photo
               ? [
@@ -183,10 +240,11 @@ export default async function ProductPage({ params }: { params: Promise<{ locale
       </Split>
       <Split image={product.images[3] || product.images[0]} alt="" flip={false} tone="light">
         <h2 className="font-display text-4xl">{t("for")}</h2>
-        <p className="mt-4 text-ivory/70">{gov ? t("govFor") : photo ? t("photoFor") : keys ? t("keysFor") : crm ? t("crmFor") : t("notFor")}</p>
+        <p className="mt-4 text-ivory/70">{gov ? t("govFor") : photo ? t("photoFor") : keys ? t("keysFor") : invoice ? t("invFor") : crm ? t("crmFor") : t("notFor")}</p>
         {gov ? <p className="mt-4 text-ivory/70">{t("govNotFor")}</p> : null}
         {photo ? <p className="mt-4 text-ivory/70">{t("photoNotFor")}</p> : null}
-        {crm ? <p className="mt-4 text-ivory/70">{t("crmNotFor")}</p> : null}
+        {invoice ? <p className="mt-4 text-ivory/70">{t("invNotFor")}</p> : null}
+        {crm && !invoice ? <p className="mt-4 text-ivory/70">{t("crmNotFor")}</p> : null}
         {keys ? (
           <>
             <p className="mt-4 text-ivory/70">{t("keysNotFor")}</p>
@@ -198,7 +256,7 @@ export default async function ProductPage({ params }: { params: Promise<{ locale
       <section className="py-16">
         <Container>
           <h2 className="font-display text-4xl">{t("science")}</h2>
-          <p className="mt-4 max-w-2xl text-ivory/70">{gov ? t("govScience") : photo ? t("photoScience") : keys ? t("keysScience") : crm ? t("crmScience") : t("scienceBody")}</p>
+          <p className="mt-4 max-w-2xl text-ivory/70">{gov ? t("govScience") : photo ? t("photoScience") : keys ? t("keysScience") : invoice ? t("invScience") : crm ? t("crmScience") : t("scienceBody")}</p>
         </Container>
       </section>
 

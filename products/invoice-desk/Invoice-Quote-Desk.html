@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#1c334c" />
+<title>Digi World · Quote & Invoice Desk</title>
+<style>
+:root {
+  --ink: #14202c; --ink-soft: #3d4f5f; --muted: #7a8794; --line: #e3d9cc;
+  --cream: #efe6d6; --paper: #fffaf2; --sage: #1f6f62; --sage-soft: #d5efe8;
+  --terra: #c4513a; --terra-soft: #f8ddd4; --sky: #3b6f92; --honey: #c4892b;
+  --gold: #d4a054; --navy: #1c334c; --danger: #b44538; --ok: #1f6f62;
+  --font: "Segoe UI", "Helvetica Neue", system-ui, sans-serif;
+  --display: Georgia, "Times New Roman", serif;
+  --shadow: 0 18px 50px rgba(20,32,44,.12);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; background: var(--cream); color: var(--ink); font: 15px/1.45 var(--font); }
+button, input, select, textarea { font: inherit; }
+.app { min-height: 100vh; display: flex; flex-direction: column; }
+.top {
+  position: sticky; top: 0; z-index: 20;
+  background: rgba(255,250,242,.92); backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line); padding: 12px 16px 0;
+}
+.top-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
+.brand { display: flex; gap: 10px; align-items: center; min-width: 0; }
+.mark {
+  width: 36px; height: 36px; border-radius: 50%; background: var(--navy); color: var(--gold);
+  display: grid; place-items: center; font-weight: 800; font-size: 12px; letter-spacing: .04em;
+}
+.brand h1 { margin: 0; font: 700 18px/1.2 var(--display); }
+.brand p { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
+.nav { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 10px; -webkit-overflow-scrolling: touch; }
+.nav button {
+  border: 0; background: transparent; padding: 10px 14px; border-radius: 10px;
+  color: var(--ink-soft); white-space: nowrap; cursor: pointer; font-weight: 600;
+}
+.nav button.active { background: var(--sage); color: #fff; }
+.main { flex: 1; padding: 18px 16px 40px; width: min(1100px, 100%); margin: 0 auto; }
+.panel { display: none; }
+.panel.active { display: block; }
+.page-head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: end; margin-bottom: 16px; }
+.page-head h2 { margin: 0; font: 700 28px/1.15 var(--display); }
+.lede { margin: 6px 0 0; color: var(--ink-soft); max-width: 52ch; }
+.btn {
+  border: 1px solid var(--line); background: var(--paper); border-radius: 999px;
+  padding: 10px 16px; cursor: pointer; font-weight: 650; color: var(--ink);
+}
+.btn:hover { border-color: var(--sage); }
+.btn-primary { background: var(--navy); color: #fff; border-color: var(--navy); }
+.btn-sage { background: var(--sage); color: #fff; border-color: var(--sage); }
+.btn-ghost { background: transparent; }
+.btn-danger { background: var(--terra-soft); color: #8a3a2e; border-color: #e8c4bc; }
+.btn-sm { padding: 7px 12px; font-size: 13px; }
+.grid { display: grid; gap: 12px; }
+.grid-2 { grid-template-columns: 1fr 1fr; }
+.grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 900px) { .grid-3, .grid-4 { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 640px) { .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; } }
+.card {
+  background: var(--paper); border: 1px solid var(--line); border-radius: 16px;
+  box-shadow: var(--shadow); overflow: hidden; min-width: 0;
+}
+.card-h {
+  padding: 12px 16px; border-bottom: 1px solid var(--line); font-weight: 700;
+  background: #efe6d8; font-size: 13px; letter-spacing: .04em; text-transform: uppercase;
+}
+.card-b { padding: 16px; }
+.kpi {
+  background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px;
+}
+.kpi .l { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 700; }
+.kpi .n { margin-top: 6px; font: 700 26px/1.1 var(--display); }
+.kpi.warn .n { color: var(--terra); }
+.kpi.ok .n { color: var(--ok); }
+.field label { display: block; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
+.field input, .field select, .field textarea {
+  width: 100%; border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; background: #fff;
+}
+.field textarea { min-height: 80px; resize: vertical; }
+.table-wrap { overflow: auto; }
+table.data { width: 100%; border-collapse: collapse; min-width: 640px; }
+table.data th, table.data td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+table.data th { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); background: #efe6d8; position: sticky; top: 0; }
+table.data tr:hover td { background: #f5efe4; }
+.chip {
+  display: inline-flex; align-items: center; padding: 3px 8px; border-radius: 999px;
+  font-size: 11px; font-weight: 700; border: 1px solid var(--line); background: var(--cream);
+}
+.chip.draft { background: #eee; }
+.chip.sent { background: var(--sage-soft); color: #2f5a43; }
+.chip.accepted { background: #d9f0e8; color: #1d4d44; }
+.chip.unpaid { background: var(--terra-soft); color: #8a3f2e; }
+.chip.paid { background: var(--sage-soft); color: #1d4d44; }
+.chip.overdue { background: #f5cfc8; color: #7a2e22; }
+.lines { display: grid; gap: 8px; }
+.line {
+  display: grid; grid-template-columns: 1.6fr .7fr .7fr .7fr auto; gap: 8px; align-items: end;
+}
+@media (max-width: 800px) { .line { grid-template-columns: 1fr 1fr; } }
+.doc {
+  background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 28px;
+  box-shadow: var(--shadow);
+}
+.doc-head { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+.doc h3 { margin: 0; font: 700 28px/1.1 var(--display); }
+.doc .meta { color: var(--muted); font-size: 13px; }
+.doc table { width: 100%; border-collapse: collapse; margin-top: 18px; }
+.doc th, .doc td { padding: 10px 8px; border-bottom: 1px solid #eee; text-align: left; }
+.doc th { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.doc .totals { margin-top: 16px; margin-left: auto; width: min(280px, 100%); }
+.doc .totals div { display: flex; justify-content: space-between; padding: 6px 0; }
+.doc .totals .grand { font-weight: 800; font-size: 18px; border-top: 2px solid var(--ink); margin-top: 8px; padding-top: 10px; }
+.toast {
+  position: fixed; bottom: 16px; right: 16px; left: 16px; max-width: 420px; margin-left: auto;
+  background: var(--ink); color: #fff; padding: 12px 16px; border-radius: 12px; display: none; z-index: 50;
+}
+.toast.show { display: block; }
+.foot { text-align: center; padding: 18px; color: var(--muted); font-size: 12px; border-top: 1px solid var(--line); }
+.empty { padding: 24px; text-align: center; color: var(--muted); }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; }
+@media print {
+  .top, .foot, .no-print, .toast { display: none !important; }
+  .main { padding: 0; width: 100%; }
+  .panel { display: none !important; }
+  .panel.print-only { display: block !important; }
+  body { background: #fff; }
+  .doc { box-shadow: none; border: 0; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top no-print">
+    <div class="top-row">
+      <div class="brand">
+        <div class="mark">DW</div>
+        <div>
+          <h1>Quote & Invoice Desk</h1>
+          <p>Digi World · get paid without another SaaS bill</p>
+        </div>
+      </div>
+      <div class="actions" style="margin-left:auto">
+        <button class="btn btn-sm" type="button" id="btnExport">Export JSON</button>
+        <button class="btn btn-sm btn-sage" type="button" id="btnNewQuote">+ Quote</button>
+      </div>
+    </div>
+    <nav class="nav">
+      <button type="button" data-tab="dashboard" class="active">Dashboard</button>
+      <button type="button" data-tab="quotes">Quotes</button>
+      <button type="button" data-tab="invoices">Invoices</button>
+      <button type="button" data-tab="editor">Editor</button>
+      <button type="button" data-tab="setup">Setup</button>
+    </nav>
+  </header>
+
+  <main class="main">
+    <section class="panel active" id="tab-dashboard">
+      <div class="page-head">
+        <div>
+          <h2>Money at a glance</h2>
+          <p class="lede">Open quotes, unpaid invoices, and what is overdue — the second you open the file.</p>
+        </div>
+      </div>
+      <div class="grid grid-4" id="dashKpis"></div>
+      <div class="grid grid-2" style="margin-top:14px">
+        <div class="card"><div class="card-h">Needs attention</div><div class="card-b" id="dashAttention"></div></div>
+        <div class="card"><div class="card-h">Recent documents</div><div class="card-b" id="dashRecent"></div></div>
+      </div>
+    </section>
+
+    <section class="panel" id="tab-quotes">
+      <div class="page-head">
+        <div>
+          <h2>Quotes</h2>
+          <p class="lede">Send the number before you start the work.</p>
+        </div>
+        <button class="btn btn-sage" type="button" id="btnNewQuote2">+ New quote</button>
+      </div>
+      <div class="card"><div class="card-b table-wrap"><table class="data" id="quotesTable"></table></div></div>
+    </section>
+
+    <section class="panel" id="tab-invoices">
+      <div class="page-head">
+        <div>
+          <h2>Invoices</h2>
+          <p class="lede">Who still owes you — paid, unpaid, overdue.</p>
+        </div>
+      </div>
+      <div class="card"><div class="card-b table-wrap"><table class="data" id="invoicesTable"></table></div></div>
+    </section>
+
+    <section class="panel" id="tab-editor">
+      <div class="page-head">
+        <div>
+          <h2 id="editorTitle">New quote</h2>
+          <p class="lede">Line items calculate live. Print or save as PDF when ready.</p>
+        </div>
+        <div class="actions">
+          <button class="btn" type="button" id="btnPrint">Print / PDF</button>
+          <button class="btn btn-primary" type="button" id="btnSave">Save</button>
+        </div>
+      </div>
+      <div class="grid grid-2">
+        <div class="card">
+          <div class="card-h">Document</div>
+          <div class="card-b grid" style="gap:12px">
+            <div class="field"><label>Type</label>
+              <select id="edType"><option value="quote">Quote</option><option value="invoice">Invoice</option></select>
+            </div>
+            <div class="field"><label>Status</label>
+              <select id="edStatus"></select>
+            </div>
+            <div class="field"><label>Client name</label><input id="edClient" placeholder="Studio or person" /></div>
+            <div class="field"><label>Client email</label><input id="edEmail" type="email" placeholder="client@email.com" /></div>
+            <div class="grid grid-2">
+              <div class="field"><label>Issue date</label><input id="edIssue" type="date" /></div>
+              <div class="field"><label>Due date</label><input id="edDue" type="date" /></div>
+            </div>
+            <div class="field"><label>Notes / payment terms</label><textarea id="edNotes" placeholder="50% to start. Balance before delivery."></textarea></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-h">Line items</div>
+          <div class="card-b">
+            <div class="lines" id="edLines"></div>
+            <button class="btn btn-sm" type="button" id="btnAddLine" style="margin-top:10px">+ Line</button>
+            <div class="doc totals" style="margin-top:16px" id="edTotals"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:14px">
+        <div class="card-h">Preview</div>
+        <div class="card-b"><div class="doc" id="docPreview"></div></div>
+      </div>
+    </section>
+
+    <section class="panel print-only" id="tab-print">
+      <div class="doc" id="docPrint"></div>
+    </section>
+
+    <section class="panel" id="tab-setup">
+      <div class="page-head">
+        <div>
+          <h2>Setup</h2>
+          <p class="lede">Your letterhead lives here. Ten minutes, then the desk runs itself.</p>
+        </div>
+        <button class="btn btn-primary" type="button" id="btnSaveSetup">Save setup</button>
+      </div>
+      <div class="card"><div class="card-b grid grid-2">
+        <div class="field"><label>Business name</label><input id="sName" /></div>
+        <div class="field"><label>Email</label><input id="sEmail" type="email" /></div>
+        <div class="field"><label>Phone</label><input id="sPhone" /></div>
+        <div class="field"><label>Website</label><input id="sWeb" placeholder="https://digi-world.online" /></div>
+        <div class="field"><label>Address</label><textarea id="sAddress"></textarea></div>
+        <div class="field"><label>Default payment terms</label><textarea id="sTerms"></textarea></div>
+        <div class="field"><label>Currency</label><input id="sCurrency" placeholder="USD" /></div>
+        <div class="field"><label>Tax % (0 if none)</label><input id="sTax" type="number" min="0" step="0.01" /></div>
+        <div class="field"><label>Quote prefix</label><input id="sQPrefix" placeholder="Q" /></div>
+        <div class="field"><label>Invoice prefix</label><input id="sIPrefix" placeholder="INV" /></div>
+      </div></div>
+    </section>
+  </main>
+
+  <footer class="foot no-print">Digi World · Quote & Invoice Desk · Not legal or tax advice · hello@digi-world.online</footer>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function () {
+  const KEY = "dw_invoice_quote_desk_v1";
+  const $ = (id) => document.getElementById(id);
+  const uid = () => "d" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  const today = () => new Date().toISOString().slice(0, 10);
+  const addDays = (iso, n) => {
+    const d = new Date(iso + "T12:00:00");
+    d.setDate(d.getDate() + n);
+    return d.toISOString().slice(0, 10);
+  };
+  const esc = (s) => String(s ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+
+  let state = null;
+  let tab = "dashboard";
+  let editingId = null;
+
+  function defaultState() {
+    return {
+      settings: {
+        name: "Your Studio",
+        email: "hello@studio.example",
+        phone: "",
+        web: "https://digi-world.online",
+        address: "",
+        terms: "50% deposit to start. Balance due before final delivery.",
+        currency: "USD",
+        tax: 0,
+        qPrefix: "Q",
+        iPrefix: "INV",
+        qSeq: 1001,
+        iSeq: 2001,
+      },
+      docs: [
+        sampleQuote(),
+        sampleInvoice(),
+      ],
+    };
+  }
+  function sampleQuote() {
+    return {
+      id: "sample_q",
+      type: "quote",
+      number: "Q-1000",
+      status: "sent",
+      client: "Northline Studio",
+      email: "ops@northline.example",
+      issue: today(),
+      due: addDays(today(), 14),
+      notes: "Valid 14 days. Includes two revision rounds.",
+      lines: [
+        { desc: "Brand site design", qty: 1, price: 1800 },
+        { desc: "Launch support (2 weeks)", qty: 1, price: 600 },
+      ],
+    };
+  }
+  function sampleInvoice() {
+    return {
+      id: "sample_i",
+      type: "invoice",
+      number: "INV-2000",
+      status: "unpaid",
+      client: "Parcel & Press",
+      email: "nina@parcelpress.example",
+      issue: today(),
+      due: addDays(today(), 7),
+      notes: "Thank you. Wire details on request.",
+      lines: [
+        { desc: "Retainer — September", qty: 1, price: 1250 },
+      ],
+    };
+  }
+
+  function load() {
+    try {
+      const raw = localStorage.getItem(KEY);
+      state = raw ? JSON.parse(raw) : defaultState();
+      if (!state.settings || !Array.isArray(state.docs)) state = defaultState();
+    } catch {
+      state = defaultState();
+    }
+  }
+  function save() {
+    localStorage.setItem(KEY, JSON.stringify(state));
+  }
+  function toast(msg) {
+    const el = $("toast");
+    el.textContent = msg;
+    el.classList.add("show");
+    clearTimeout(toast._t);
+    toast._t = setTimeout(() => el.classList.remove("show"), 2600);
+  }
+  function money(n) {
+    const c = (state.settings.currency || "USD").trim();
+    const v = Math.round((Number(n) || 0) * 100) / 100;
+    const num = v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    if (["$", "€", "£", "¥"].includes(c)) return c + num;
+    return num + " " + c;
+  }
+  function lineTotal(l) { return (Number(l.qty) || 0) * (Number(l.price) || 0); }
+  function docSubtotal(doc) { return (doc.lines || []).reduce((s, l) => s + lineTotal(l), 0); }
+  function docTax(doc) { return docSubtotal(doc) * ((Number(state.settings.tax) || 0) / 100); }
+  function docTotal(doc) { return docSubtotal(doc) + docTax(doc); }
+  function isOverdue(doc) {
+    if (doc.type !== "invoice" || doc.status === "paid") return false;
+    return doc.due && doc.due < today();
+  }
+  function statusChip(doc) {
+    let st = doc.status;
+    if (isOverdue(doc)) st = "overdue";
+    return `<span class="chip ${esc(st)}">${esc(st)}</span>`;
+  }
+
+  function setTab(name) {
+    tab = name;
+    document.querySelectorAll(".nav button").forEach((b) => b.classList.toggle("active", b.dataset.tab === name));
+    document.querySelectorAll(".panel").forEach((p) => p.classList.toggle("active", p.id === "tab-" + name));
+    render();
+  }
+
+  function fillSetup() {
+    const s = state.settings;
+    $("sName").value = s.name || "";
+    $("sEmail").value = s.email || "";
+    $("sPhone").value = s.phone || "";
+    $("sWeb").value = s.web || "";
+    $("sAddress").value = s.address || "";
+    $("sTerms").value = s.terms || "";
+    $("sCurrency").value = s.currency || "USD";
+    $("sTax").value = s.tax ?? 0;
+    $("sQPrefix").value = s.qPrefix || "Q";
+    $("sIPrefix").value = s.iPrefix || "INV";
+  }
+  function readSetup() {
+    const s = state.settings;
+    s.name = $("sName").value.trim() || "Your Studio";
+    s.email = $("sEmail").value.trim();
+    s.phone = $("sPhone").value.trim();
+    s.web = $("sWeb").value.trim();
+    s.address = $("sAddress").value.trim();
+    s.terms = $("sTerms").value.trim();
+    s.currency = $("sCurrency").value.trim() || "USD";
+    s.tax = Number($("sTax").value) || 0;
+    s.qPrefix = $("sQPrefix").value.trim() || "Q";
+    s.iPrefix = $("sIPrefix").value.trim() || "INV";
+    save();
+    toast("Setup saved");
+  }
+
+  function blankDoc(type) {
+    const s = state.settings;
+    const isQ = type === "quote";
+    const num = isQ ? `${s.qPrefix}-${s.qSeq++}` : `${s.iPrefix}-${s.iSeq++}`;
+    return {
+      id: uid(),
+      type,
+      number: num,
+      status: isQ ? "draft" : "unpaid",
+      client: "",
+      email: "",
+      issue: today(),
+      due: addDays(today(), isQ ? 14 : 7),
+      notes: s.terms || "",
+      lines: [{ desc: "", qty: 1, price: 0 }],
+    };
+  }
+
+  function openEditor(doc) {
+    editingId = doc.id;
+    if (!state.docs.find((d) => d.id === doc.id)) state.docs.unshift(doc);
+    $("edType").value = doc.type;
+    fillStatusOptions(doc.type, doc.status);
+    $("edClient").value = doc.client || "";
+    $("edEmail").value = doc.email || "";
+    $("edIssue").value = doc.issue || today();
+    $("edDue").value = doc.due || "";
+    $("edNotes").value = doc.notes || "";
+    $("editorTitle").textContent = (doc.type === "quote" ? "Quote " : "Invoice ") + doc.number;
+    renderLines(doc.lines || []);
+    setTab("editor");
+    refreshEditorTotals();
+    renderPreview();
+  }
+
+  function fillStatusOptions(type, current) {
+    const opts = type === "quote"
+      ? ["draft", "sent", "accepted", "declined"]
+      : ["unpaid", "paid", "void"];
+    $("edStatus").innerHTML = opts.map((o) => `<option value="${o}" ${o === current ? "selected" : ""}>${o}</option>`).join("");
+  }
+
+  function renderLines(lines) {
+    $("edLines").innerHTML = lines.map((l, i) => `
+      <div class="line" data-i="${i}">
+        <div class="field"><label>Description</label><input data-k="desc" value="${esc(l.desc)}" /></div>
+        <div class="field"><label>Qty</label><input data-k="qty" type="number" min="0" step="0.01" value="${esc(l.qty)}" /></div>
+        <div class="field"><label>Unit</label><input data-k="price" type="number" min="0" step="0.01" value="${esc(l.price)}" /></div>
+        <div class="field"><label>Total</label><input value="${esc(money(lineTotal(l)))}" disabled /></div>
+        <button class="btn btn-sm btn-danger" type="button" data-del="${i}">×</button>
+      </div>
+    `).join("");
+  }
+
+  function readEditorDoc() {
+    const type = $("edType").value;
+    const lines = [...$("edLines").querySelectorAll(".line")].map((row) => ({
+      desc: row.querySelector('[data-k="desc"]').value.trim(),
+      qty: Number(row.querySelector('[data-k="qty"]').value) || 0,
+      price: Number(row.querySelector('[data-k="price"]').value) || 0,
+    }));
+    const existing = state.docs.find((d) => d.id === editingId) || blankDoc(type);
+    return {
+      ...existing,
+      id: editingId || existing.id,
+      type,
+      status: $("edStatus").value,
+      client: $("edClient").value.trim(),
+      email: $("edEmail").value.trim(),
+      issue: $("edIssue").value || today(),
+      due: $("edDue").value || "",
+      notes: $("edNotes").value.trim(),
+      lines: lines.length ? lines : [{ desc: "", qty: 1, price: 0 }],
+    };
+  }
+
+  function refreshEditorTotals() {
+    const doc = readEditorDoc();
+    $("edTotals").innerHTML = `
+      <div><span>Subtotal</span><span>${esc(money(docSubtotal(doc)))}</span></div>
+      <div><span>Tax (${esc(state.settings.tax || 0)}%)</span><span>${esc(money(docTax(doc)))}</span></div>
+      <div class="grand"><span>Total</span><span>${esc(money(docTotal(doc)))}</span></div>
+    `;
+  }
+
+  function renderDocHtml(doc) {
+    const s = state.settings;
+    return `
+      <div class="doc-head">
+        <div>
+          <h3>${esc(s.name)}</h3>
+          <div class="meta">${esc(s.email)}${s.phone ? " · " + esc(s.phone) : ""}</div>
+          <div class="meta">${esc(s.address)}</div>
+          <div class="meta">${esc(s.web)}</div>
+        </div>
+        <div style="text-align:right">
+          <h3>${doc.type === "quote" ? "QUOTE" : "INVOICE"}</h3>
+          <div class="meta"><strong>${esc(doc.number)}</strong></div>
+          <div class="meta">Issued ${esc(doc.issue)}</div>
+          ${doc.due ? `<div class="meta">Due ${esc(doc.due)}</div>` : ""}
+          <div class="meta" style="margin-top:6px">${statusChip(doc)}</div>
+        </div>
+      </div>
+      <div>
+        <div class="meta" style="text-transform:uppercase;letter-spacing:.08em;font-weight:700;font-size:11px">Bill to</div>
+        <div style="font-weight:700;margin-top:4px">${esc(doc.client || "—")}</div>
+        <div class="meta">${esc(doc.email || "")}</div>
+      </div>
+      <table>
+        <thead><tr><th>Description</th><th>Qty</th><th>Unit</th><th>Amount</th></tr></thead>
+        <tbody>
+          ${(doc.lines || []).map((l) => `
+            <tr>
+              <td>${esc(l.desc || "—")}</td>
+              <td>${esc(l.qty)}</td>
+              <td>${esc(money(l.price))}</td>
+              <td>${esc(money(lineTotal(l)))}</td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+      <div class="totals">
+        <div><span>Subtotal</span><span>${esc(money(docSubtotal(doc)))}</span></div>
+        <div><span>Tax</span><span>${esc(money(docTax(doc)))}</span></div>
+        <div class="grand"><span>Total</span><span>${esc(money(docTotal(doc)))}</span></div>
+      </div>
+      ${doc.notes ? `<p style="margin-top:22px;color:var(--ink-soft);white-space:pre-wrap">${esc(doc.notes)}</p>` : ""}
+      <p class="meta" style="margin-top:28px">Generated with Digi World Quote & Invoice Desk · digi-world.online</p>
+    `;
+  }
+
+  function renderPreview() {
+    const doc = readEditorDoc();
+    $("docPreview").innerHTML = renderDocHtml(doc);
+  }
+
+  function saveEditor() {
+    const doc = readEditorDoc();
+    if (!doc.client) { toast("Add a client name"); return; }
+    const i = state.docs.findIndex((d) => d.id === doc.id);
+    if (i >= 0) state.docs[i] = doc;
+    else state.docs.unshift(doc);
+    editingId = doc.id;
+    save();
+    $("editorTitle").textContent = (doc.type === "quote" ? "Quote " : "Invoice ") + doc.number;
+    toast("Saved " + doc.number);
+    renderPreview();
+  }
+
+  function convertQuote(id) {
+    const q = state.docs.find((d) => d.id === id && d.type === "quote");
+    if (!q) return;
+    const inv = {
+      ...JSON.parse(JSON.stringify(q)),
+      id: uid(),
+      type: "invoice",
+      number: `${state.settings.iPrefix}-${state.settings.iSeq++}`,
+      status: "unpaid",
+      issue: today(),
+      due: addDays(today(), 7),
+    };
+    q.status = "accepted";
+    state.docs.unshift(inv);
+    save();
+    toast("Invoice " + inv.number + " created");
+    openEditor(inv);
+  }
+
+  function renderDashboard() {
+    const quotes = state.docs.filter((d) => d.type === "quote");
+    const invoices = state.docs.filter((d) => d.type === "invoice");
+    const openQ = quotes.filter((d) => d.status === "draft" || d.status === "sent").length;
+    const unpaid = invoices.filter((d) => d.status !== "paid" && d.status !== "void");
+    const overdue = unpaid.filter(isOverdue);
+    const unpaidTotal = unpaid.reduce((s, d) => s + docTotal(d), 0);
+    const overdueTotal = overdue.reduce((s, d) => s + docTotal(d), 0);
+    $("dashKpis").innerHTML = `
+      <div class="kpi"><div class="l">Open quotes</div><div class="n">${openQ}</div></div>
+      <div class="kpi"><div class="l">Unpaid invoices</div><div class="n">${unpaid.length}</div></div>
+      <div class="kpi warn"><div class="l">Overdue</div><div class="n">${money(overdueTotal)}</div></div>
+      <div class="kpi ok"><div class="l">Outstanding</div><div class="n">${money(unpaidTotal)}</div></div>
+    `;
+    const attn = [...overdue, ...unpaid.filter((d) => !isOverdue(d))].slice(0, 6);
+    $("dashAttention").innerHTML = attn.length
+      ? attn.map((d) => `<div style="display:flex;justify-content:space-between;gap:8px;padding:8px 0;border-bottom:1px solid var(--line);cursor:pointer" data-open="${esc(d.id)}"><div><b>${esc(d.number)}</b> · ${esc(d.client)}<div class="meta" style="color:var(--muted);font-size:12px">${esc(d.due || "")}</div></div>${statusChip(d)}</div>`).join("")
+      : `<div class="empty">Clear desk — nothing overdue</div>`;
+    const recent = state.docs.slice(0, 8);
+    $("dashRecent").innerHTML = recent.map((d) =>
+      `<div style="display:flex;justify-content:space-between;gap:8px;padding:8px 0;border-bottom:1px solid var(--line);cursor:pointer" data-open="${esc(d.id)}"><span><b>${esc(d.number)}</b> · ${esc(d.client)}</span><span>${esc(money(docTotal(d)))}</span></div>`
+    ).join("") || `<div class="empty">No documents yet</div>`;
+  }
+
+  function renderQuotes() {
+    const rows = state.docs.filter((d) => d.type === "quote");
+    $("quotesTable").innerHTML = `
+      <thead><tr><th>Number</th><th>Client</th><th>Issue</th><th>Total</th><th>Status</th><th></th></tr></thead>
+      <tbody>
+        ${rows.map((d) => `
+          <tr>
+            <td><b>${esc(d.number)}</b></td>
+            <td>${esc(d.client)}</td>
+            <td>${esc(d.issue)}</td>
+            <td>${esc(money(docTotal(d)))}</td>
+            <td>${statusChip(d)}</td>
+            <td class="actions">
+              <button class="btn btn-sm" type="button" data-open="${esc(d.id)}">Edit</button>
+              <button class="btn btn-sm btn-sage" type="button" data-convert="${esc(d.id)}">→ Invoice</button>
+            </td>
+          </tr>
+        `).join("") || `<tr><td colspan="6"><div class="empty">No quotes yet</div></td></tr>`}
+      </tbody>`;
+  }
+
+  function renderInvoices() {
+    const rows = state.docs.filter((d) => d.type === "invoice");
+    $("invoicesTable").innerHTML = `
+      <thead><tr><th>Number</th><th>Client</th><th>Due</th><th>Total</th><th>Status</th><th></th></tr></thead>
+      <tbody>
+        ${rows.map((d) => `
+          <tr>
+            <td><b>${esc(d.number)}</b></td>
+            <td>${esc(d.client)}</td>
+            <td>${esc(d.due || "—")}</td>
+            <td>${esc(money(docTotal(d)))}</td>
+            <td>${statusChip(d)}</td>
+            <td class="actions">
+              <button class="btn btn-sm" type="button" data-open="${esc(d.id)}">Edit</button>
+              ${d.status !== "paid" ? `<button class="btn btn-sm btn-sage" type="button" data-paid="${esc(d.id)}">Mark paid</button>` : ""}
+            </td>
+          </tr>
+        `).join("") || `<tr><td colspan="6"><div class="empty">No invoices yet</div></td></tr>`}
+      </tbody>`;
+  }
+
+  function render() {
+    if (tab === "dashboard") renderDashboard();
+    if (tab === "quotes") renderQuotes();
+    if (tab === "invoices") renderInvoices();
+    if (tab === "setup") fillSetup();
+    if (tab === "editor" && editingId) {
+      refreshEditorTotals();
+      renderPreview();
+    }
+  }
+
+  document.querySelector(".nav").addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-tab]");
+    if (b) setTab(b.dataset.tab);
+  });
+  $("btnNewQuote").onclick = $("btnNewQuote2").onclick = () => openEditor(blankDoc("quote"));
+  $("btnSaveSetup").onclick = readSetup;
+  $("btnSave").onclick = saveEditor;
+  $("btnAddLine").onclick = () => {
+    const doc = readEditorDoc();
+    doc.lines.push({ desc: "", qty: 1, price: 0 });
+    renderLines(doc.lines);
+    refreshEditorTotals();
+    renderPreview();
+  };
+  $("edType").onchange = () => {
+    fillStatusOptions($("edType").value, $("edStatus").value);
+    refreshEditorTotals();
+    renderPreview();
+  };
+  $("edLines").addEventListener("input", () => { refreshEditorTotals(); renderPreview(); });
+  $("edLines").addEventListener("click", (e) => {
+    const del = e.target.closest("[data-del]");
+    if (!del) return;
+    const doc = readEditorDoc();
+    doc.lines.splice(Number(del.dataset.del), 1);
+    if (!doc.lines.length) doc.lines.push({ desc: "", qty: 1, price: 0 });
+    renderLines(doc.lines);
+    refreshEditorTotals();
+    renderPreview();
+  });
+  ["edClient","edEmail","edIssue","edDue","edNotes","edStatus"].forEach((id) => {
+    $(id).addEventListener("input", renderPreview);
+    $(id).addEventListener("change", renderPreview);
+  });
+  $("btnPrint").onclick = () => {
+    saveEditor();
+    const doc = readEditorDoc();
+    $("docPrint").innerHTML = renderDocHtml(doc);
+    document.querySelectorAll(".panel").forEach((p) => p.classList.remove("active"));
+    $("tab-print").classList.add("active");
+    window.print();
+    setTab("editor");
+  };
+  $("btnExport").onclick = () => {
+    const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "digi-world-invoice-quote-desk.json";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  };
+
+  document.body.addEventListener("click", (e) => {
+    const open = e.target.closest("[data-open]");
+    if (open) {
+      const doc = state.docs.find((d) => d.id === open.dataset.open);
+      if (doc) openEditor(doc);
+      return;
+    }
+    const convert = e.target.closest("[data-convert]");
+    if (convert) { convertQuote(convert.dataset.convert); return; }
+    const paid = e.target.closest("[data-paid]");
+    if (paid) {
+      const doc = state.docs.find((d) => d.id === paid.dataset.paid);
+      if (doc) { doc.status = "paid"; save(); toast(doc.number + " marked paid"); render(); }
+    }
+  });
+
+  load();
+  fillSetup();
+  setTab("dashboard");
+})();
+</script>
+</body>
+</html>

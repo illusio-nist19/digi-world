@@ -27,7 +27,7 @@ export function OfferTiles({
   const t = useTranslations("product");
   const photo = product.slug === "photographer-os";
   const keys = product.slug === "key-fob-programming-mastery";
-  const crm = product.slug === "client-tracker";
+  const crm = product.slug === "client-tracker" || product.slug === "invoice-desk";
   const premium = isPremium(product);
   if (product.type === "addon") return null;
   if (product.type === "vault") {

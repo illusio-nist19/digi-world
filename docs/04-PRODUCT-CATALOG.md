@@ -59,6 +59,24 @@ These sit above Drop 01. They are **not** inside `the-vault`. One studio / one o
 | Licence | One studio / two seats; personal use; no redistribution |
 | Zip | `products/releases/DW-SYS-011-client-tracker.zip` · `backend/vault/` |
 
+### DW-SYS-012 Quote & Invoice Desk
+
+| | |
+| --- | --- |
+| sku | `DW-SYS-012` |
+| slug | `invoice-desk` |
+| collection | creator-lab |
+| serial | DW-SYS-012 |
+| EN name | Quote & Invoice Desk |
+| Price | **$29** one studio · **$45** two seats |
+| EN headline | Quote. Invoice. Get paid. |
+| EN sub | Offline HTML money desk: quotes → invoices → paid. Print PDF. No QuickBooks login. Complements Client Tracker. |
+| Contains | START-HERE, Invoice-Quote-Desk.html |
+| Pain | Quotes in WhatsApp, Word invoices, overdue as a vague feeling |
+| Desire | One local desk: quote → convert → print PDF → mark paid |
+| Licence | One studio / two seats; personal use; no redistribution |
+| Zip | `products/releases/DW-SYS-012-invoice-desk.zip` · `backend/vault/` |
+
 ### DW-EBK-001 Key Fob Programming Mastery
 
 | | |

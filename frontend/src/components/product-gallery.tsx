@@ -149,3 +149,41 @@ export const CLIENT_TRACKER_SHOTS: DemoShot[] = [
     caption: "Business name, currency, lists. Then the desk runs itself.",
   },
 ];
+
+export const INVOICE_DESK_SHOTS: DemoShot[] = [
+  {
+    src: "/images/products/invoice-desk/01.png",
+    label: "Quote & Invoice Desk",
+    caption: "Quote. Invoice. Get paid — one offline HTML money desk.",
+  },
+  {
+    src: "/images/products/invoice-desk/02.png",
+    label: "Dashboard",
+    caption: "Open quotes, unpaid, overdue, outstanding — money at a glance.",
+  },
+  {
+    src: "/images/products/invoice-desk/03.png",
+    label: "Quotes",
+    caption: "Send the number before the work. Draft, sent, accepted.",
+  },
+  {
+    src: "/images/products/invoice-desk/04.png",
+    label: "Invoices",
+    caption: "See who still owes you. Mark paid when the wire lands.",
+  },
+  {
+    src: "/images/products/invoice-desk/05.png",
+    label: "Print / PDF",
+    caption: "Client-ready in one click — Print → Save as PDF.",
+  },
+  {
+    src: "/images/products/invoice-desk/06.png",
+    label: "Setup",
+    caption: "Your brand, tax, currency, and payment note on every page.",
+  },
+  {
+    src: "/images/products/invoice-desk/07.png",
+    label: "Desk",
+    caption: "No QuickBooks login. Data stays on this computer.",
+  },
+];
