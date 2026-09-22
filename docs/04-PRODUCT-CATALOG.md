@@ -280,6 +280,27 @@ These sit above Drop 01. They are **not** inside `the-vault`. One studio / one o
 | Compliance | Authorized work for verified owners only. Not theft, bypass, stolen-vehicle, EEPROM-attack, or dealer-login content. |
 | Zip | `products/releases/DW-EBK-001-key-fob-programming-mastery.zip` |
 
+### DW-EBK-002 Little Cozy Days
+
+| | |
+| --- | --- |
+| sku | `DW-EBK-002` |
+| slug | `little-cozy-days` |
+| collection | glow-ritual |
+| serial | DW-EBK-002 |
+| type | system (ebook line) |
+| EN name | Little Cozy Days |
+| AR name | أيام دافئة صغيرة |
+| Price | **$12** one family · **$18** two seats |
+| EN headline | Eighteen cozy pages. Bold lines for little hands. |
+| EN sub | Printable coloring ebook for ages 3–4. |
+| Contains | START-HERE, Little-Cozy-Days.pdf (full-color cover + 18 B&W scenes) |
+| Pain | Screen time guilt, coloring pages too detailed for toddlers, no calm at-home activity |
+| Desire | Print-at-home cozy scenes with bold lines sized for ages 3–4 |
+| Cross-sell | none |
+| Licence | One family / two seats; personal use; no redistribution; no marketplace dump of the PDF |
+| Zip | `products/releases/DW-EBK-002-little-cozy-days.zip` · `backend/vault/` |
+
 ### DW-SYS-009 SMB AI Governance Kit
 
 | | |

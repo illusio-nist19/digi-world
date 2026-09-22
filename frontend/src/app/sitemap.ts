@@ -27,6 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/systems/testimonial-vault",
     "/systems/subscription-desk",
     "/systems/key-fob-programming-mastery",
+    "/systems/little-cozy-days",
     "/systems/photographer-os",
   ];
   const weeklyPaths = new Set([
@@ -44,6 +45,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/systems/sop-desk",
     "/systems/testimonial-vault",
     "/systems/subscription-desk",
+    "/systems/little-cozy-days",
   ]);
   const highPriority = (p: string) =>
     p.includes("client-tracker") ||
@@ -58,7 +60,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     p.includes("onboarding-desk") ||
     p.includes("sop-desk") ||
     p.includes("testimonial-vault") ||
-    p.includes("subscription-desk");
+    p.includes("subscription-desk") ||
+    p.includes("little-cozy-days");
   const now = new Date();
   const entries: MetadataRoute.Sitemap = [];
   for (const locale of routing.locales) {

@@ -1,0 +1,8 @@
+{
+  "name": "little-cozy-days",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "pdf-lib": "^1.17.1"
+  }
+}

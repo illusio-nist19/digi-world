@@ -87,9 +87,8 @@ export default async function About({ params }: { params: Promise<{ locale: stri
         monthlySave={t("saveMonthlySave")}
         cta={t("saveCta")}
         imageSrc="/images/crm-onetime-savings.png"
-        photoBadgeTop={t("saveBadgeTop")}
-        photoBadgeMid={t("saveBadgeMid")}
-        photoBadgeBottom={t("saveBadgeBottom")}
+        discountImageSrc="/images/crm-save-70-tag.png"
+        priceTagImageSrc="/images/crm-under50-tag.png"
         cards={[
           { eyebrow: t("saveCard1Eyebrow"), title: t("saveCard1Title"), body: t("saveCard1Body") },
           { eyebrow: t("saveCard2Eyebrow"), title: t("saveCard2Title"), body: t("saveCard2Body") },

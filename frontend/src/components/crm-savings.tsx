@@ -3,6 +3,27 @@ import { Link } from "@/i18n/navigation";
 
 type BenefitCard = { eyebrow: string; title: string; body: string };
 
+const CARD_TONES = [
+  {
+    shell: "bg-[#fff1e8] border-[#f0c4a8] hover:border-[#e8a87a] hover:shadow-[0_20px_48px_rgba(232,168,122,.28)]",
+    eyebrow: "text-[#c96b52]",
+    title: "text-[#5c3a2e]",
+    body: "text-[#8a6554]",
+  },
+  {
+    shell: "bg-[#e8f6ef] border-[#b8dfcb] hover:border-[#7cbc9a] hover:shadow-[0_20px_48px_rgba(92,143,114,.28)]",
+    eyebrow: "text-[#3f7a5c]",
+    title: "text-[#2f4f3d]",
+    body: "text-[#5a7a68]",
+  },
+  {
+    shell: "bg-[#fff6dd] border-[#efd89a] hover:border-[#e0c05a] hover:shadow-[0_20px_48px_rgba(217,146,74,.28)]",
+    eyebrow: "text-[#b07a28]",
+    title: "text-[#5c4520]",
+    body: "text-[#8a7040]",
+  },
+] as const;
+
 export function CrmSavingsSection({
   title,
   highlightName,
@@ -13,9 +34,8 @@ export function CrmSavingsSection({
   cta,
   cards,
   imageSrc,
-  photoBadgeTop,
-  photoBadgeMid,
-  photoBadgeBottom,
+  discountImageSrc,
+  priceTagImageSrc,
 }: {
   title: string;
   highlightName: string;
@@ -26,13 +46,12 @@ export function CrmSavingsSection({
   cta: string;
   cards: BenefitCard[];
   imageSrc: string;
-  photoBadgeTop: string;
-  photoBadgeMid: string;
-  photoBadgeBottom: string;
+  discountImageSrc: string;
+  priceTagImageSrc: string;
 }) {
   return (
     <section className="overflow-hidden">
-      <div className="bg-gradient-to-br from-[#3d322a] via-[#53463c] to-[#c96b52] px-5 py-12 text-center md:py-16">
+      <div className="bg-gradient-to-br from-[#5c3a2e] via-[#c96b52] to-[#d9924a] px-5 py-12 text-center md:py-16">
         <h2 className="mx-auto max-w-3xl font-display text-3xl font-semibold text-[#fff8f1] md:text-5xl">
           {title}
         </h2>
@@ -66,46 +85,66 @@ export function CrmSavingsSection({
                 className="object-cover object-center transition duration-500 group-hover:scale-[1.03]"
                 sizes="(min-width: 1024px) 50vw, 100vw"
               />
-              <div className="pointer-events-none absolute inset-y-[18%] right-[4%] flex w-[28%] min-w-[7.5rem] max-w-[11rem] items-center justify-center sm:right-[5%]">
-                <div className="w-full rounded-md border-2 border-[#c96b52] bg-[#fff8f1]/96 px-2 py-3 text-center shadow-[0_10px_28px_rgba(61,50,42,.25)] backdrop-blur-[2px] sm:px-3 sm:py-4">
-                  <p className="text-[8px] font-semibold uppercase tracking-[0.14em] text-[#c96b52] sm:text-[9px]">
-                    {photoBadgeTop}
-                  </p>
-                  <p className="mt-1 font-display text-[clamp(0.85rem,2.6vw,1.35rem)] font-bold leading-tight text-[#3d322a]">
-                    {photoBadgeMid}
-                  </p>
-                  <p className="mt-1 text-[8px] font-semibold uppercase tracking-[0.12em] text-[#c96b52] sm:text-[9px]">
-                    {photoBadgeBottom}
-                  </p>
-                </div>
-              </div>
             </div>
           </div>
 
           <div className="flex flex-col gap-4">
-            <div className="rounded-2xl border border-[#e4d0bc] bg-[#3d322a] px-5 py-6 shadow-[0_18px_50px_rgba(61,50,42,.12)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_22px_56px_rgba(61,50,42,.2)] md:px-6">
-              <span className="inline-flex rounded-full bg-[#e4efe8] px-3 py-1 text-[11px] font-semibold text-[#3d322a]">
-                {savingsLabel}
-              </span>
-              <p className="mt-4 font-display text-5xl font-bold text-[#fff8f1] md:text-6xl">{monthlySave}</p>
-              <p className="mt-2 text-sm text-[#efe4d6]">{cards[1]?.title}</p>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="group/tag relative overflow-hidden rounded-2xl border border-[#efd89a] bg-[#fff6dd] shadow-[0_14px_40px_rgba(217,146,74,.18)] transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_22px_52px_rgba(217,146,74,.28)]">
+                <div className="relative aspect-square w-full">
+                  <Image
+                    src={discountImageSrc}
+                    alt={savingsLabel}
+                    fill
+                    className="object-cover transition duration-500 group-hover/tag:scale-[1.04]"
+                    sizes="(min-width: 1024px) 22vw, 45vw"
+                  />
+                </div>
+                <div className="border-t border-[#efd89a]/80 px-4 py-3 text-center">
+                  <p className="font-display text-3xl font-bold text-[#b07a28]">{monthlySave}</p>
+                  <p className="mt-1 text-xs font-semibold uppercase tracking-[0.14em] text-[#8a7040]">
+                    {savingsLabel}
+                  </p>
+                </div>
+              </div>
+
+              <div className="group/tag relative overflow-hidden rounded-2xl border border-[#f0c4a8] bg-[#fff1e8] shadow-[0_14px_40px_rgba(201,107,82,.16)] transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_22px_52px_rgba(201,107,82,.26)]">
+                <div className="relative aspect-square w-full">
+                  <Image
+                    src={priceTagImageSrc}
+                    alt={highlightPrice}
+                    fill
+                    className="object-cover transition duration-500 group-hover/tag:scale-[1.04]"
+                    sizes="(min-width: 1024px) 22vw, 45vw"
+                  />
+                </div>
+                <div className="border-t border-[#f0c4a8]/80 px-4 py-3 text-center">
+                  <p className="font-display text-2xl font-bold text-[#c96b52] md:text-3xl">{highlightPrice}</p>
+                  <p className="mt-1 text-xs font-semibold uppercase tracking-[0.14em] text-[#8a6554]">
+                    {cards[0]?.title}
+                  </p>
+                </div>
+              </div>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
-              {cards.map((card) => (
-                <article
-                  key={card.eyebrow}
-                  className="group/card rounded-2xl border border-[#e4d0bc] bg-[#fff8f1] p-5 shadow-[0_12px_36px_rgba(61,50,42,.08)] transition duration-300 hover:-translate-y-1.5 hover:border-[#c96b52]/55 hover:bg-white hover:shadow-[0_20px_48px_rgba(201,107,82,.18)]"
-                >
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#c96b52] transition group-hover/card:text-[#d9924a]">
-                    {card.eyebrow}
-                  </p>
-                  <h3 className="mt-3 font-display text-xl font-semibold text-[#3d322a] md:text-2xl">
-                    {card.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-[#7a6b5c]">{card.body}</p>
-                </article>
-              ))}
+              {cards.map((card, i) => {
+                const tone = CARD_TONES[i % CARD_TONES.length];
+                return (
+                  <article
+                    key={card.eyebrow}
+                    className={`group/card rounded-2xl border p-5 shadow-[0_12px_36px_rgba(61,50,42,.08)] transition duration-300 hover:-translate-y-1.5 ${tone.shell}`}
+                  >
+                    <p className={`text-[11px] font-semibold uppercase tracking-[0.16em] ${tone.eyebrow}`}>
+                      {card.eyebrow}
+                    </p>
+                    <h3 className={`mt-3 font-display text-xl font-semibold md:text-2xl ${tone.title}`}>
+                      {card.title}
+                    </h3>
+                    <p className={`mt-2 text-sm leading-relaxed ${tone.body}`}>{card.body}</p>
+                  </article>
+                );
+              })}
             </div>
           </div>
         </div>

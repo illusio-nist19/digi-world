@@ -128,9 +128,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         monthlySave={ta("saveMonthlySave")}
         cta={ta("saveCta")}
         imageSrc="/images/crm-onetime-savings.png"
-        photoBadgeTop={ta("saveBadgeTop")}
-        photoBadgeMid={ta("saveBadgeMid")}
-        photoBadgeBottom={ta("saveBadgeBottom")}
+        discountImageSrc="/images/crm-save-70-tag.png"
+        priceTagImageSrc="/images/crm-under50-tag.png"
         cards={[
           { eyebrow: ta("saveCard1Eyebrow"), title: ta("saveCard1Title"), body: ta("saveCard1Body") },
           { eyebrow: ta("saveCard2Eyebrow"), title: ta("saveCard2Title"), body: ta("saveCard2Body") },

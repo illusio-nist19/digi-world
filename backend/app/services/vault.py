@@ -21,6 +21,7 @@ VAULT_FILES: dict[str, str] = {
     "DW-SYS-021": "DW-SYS-021-testimonial-vault.zip",
     "DW-SYS-022": "DW-SYS-022-subscription-desk.zip",
     "DW-EBK-001": "DW-EBK-001-key-fob-programming-mastery.zip",
+    "DW-EBK-002": "DW-EBK-002-little-cozy-days.zip",
 }
 
 ROOTS = (
