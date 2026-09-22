@@ -1,0 +1,11 @@
+{
+  "name": "the-secret-sleep-keeps",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build-pdf.mjs"
+  },
+  "dependencies": {
+    "pdf-lib": "^1.17.1"
+  }
+}

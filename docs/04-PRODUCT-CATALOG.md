@@ -316,6 +316,25 @@ These sit above Drop 01. They are **not** inside `the-vault`. One studio / one o
 ### DW-EBK-007 Busy Little Wheels
 | sku | `DW-EBK-007` | slug | `busy-little-wheels` | $12 / $18 | Cute vehicles · PDF cover + 18 scenes | Zip `DW-EBK-007-busy-little-wheels.zip`
 
+### DW-EBK-008 The Secret Sleep Keeps
+| | |
+| --- | --- |
+| sku | `DW-EBK-008` |
+| slug | `the-secret-sleep-keeps` |
+| collection | glow-ritual |
+| serial | DW-EBK-008 |
+| type | system (story ebook) |
+| EN name | The Secret Sleep Keeps |
+| Price | **$14** one family · **$21** two seats |
+| EN headline | Bedtime isn’t boring — it’s how brave tomorrows grow. |
+| EN sub | 15-page illustrated wisdom storybook for ages 3–7. |
+| Contains | START-HERE, LICENSE, STORY.txt, The-Secret-Sleep-Keeps.pdf (cover + 15 pages + end), social-kit (TikTok/IG/FB carousels + captions) |
+| Pain | Bedtime battles, “sleep is boring,” screens at night |
+| Desire | Cozy original story with funny + wise dialogues that teach rest builds courage |
+| Cross-sell | DW-EBK-002 |
+| Licence | One family / two seats; personal use; no marketplace dump |
+| Zip | `products/releases/DW-EBK-008-the-secret-sleep-keeps.zip` · `backend/vault/` |
+
 ### DW-SYS-009 SMB AI Governance Kit
 
 | | |
