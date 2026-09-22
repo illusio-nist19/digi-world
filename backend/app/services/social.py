@@ -57,10 +57,21 @@ def caption_for(product: Product, store_url: str) -> str:
     return "\n\n".join(p for p in parts if p)[:2200]
 
 
-def image_urls(product: Product, store_url: str, limit: int = 8) -> list[str]:
+def image_urls(product: Product, store_url: str, limit: int = 8, *, for_tiktok: bool = False) -> list[str]:
     raw = product.images if isinstance(product.images, list) else []
-    urls = [public_image(store_url, str(p)) for p in raw[:limit]]
-    return [u for u in urls if u]
+    if for_tiktok:
+        # Photo Direct Post: JPEG/WebP only. We ship hero as 01.jpg next to 01.png.
+        raw = raw[:1]
+    urls: list[str] = []
+    for path in raw[:limit]:
+        url = public_image(store_url, str(path))
+        if not url:
+            continue
+        if for_tiktok and url.lower().endswith(".png"):
+            urls.append(url[:-4] + ".jpg")
+            continue
+        urls.append(url)
+    return urls
 
 
 def configured() -> dict[str, bool]:
@@ -339,6 +350,7 @@ async def announce_product(
     ready = configured()
     ready["tiktok"] = bool(await tiktok_access_token(db))
     images = image_urls(product, s.store_url)
+    tiktok_images = image_urls(product, s.store_url, for_tiktok=True)
     caption = caption_for(product, s.store_url)
     results: dict[str, Any] = {}
     if not images:
@@ -362,7 +374,7 @@ async def announce_product(
             elif platform == "instagram":
                 out = await post_instagram(hero, caption)
             else:
-                out = await post_tiktok(images, loc(product.name), caption, await tiktok_access_token(db))
+                out = await post_tiktok(tiktok_images or images, loc(product.name), caption, await tiktok_access_token(db))
         except Exception as exc:  # noqa: BLE001
             log.exception("social %s %s failed", platform, product.sku)
             out = {"ok": False, "error": str(exc)[:500]}

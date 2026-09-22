@@ -34,8 +34,8 @@ export function OpsSocial() {
   const [platforms, setPlatforms] = useState<Record<string, boolean>>({});
   const [products, setProducts] = useState<Row[]>([]);
   const [picked, setPicked] = useState<Record<Platform, boolean>>({
-    facebook: true,
-    instagram: true,
+    facebook: false,
+    instagram: false,
     tiktok: true,
   });
   const [force, setForce] = useState(false);
@@ -81,6 +81,12 @@ export function OpsSocial() {
     setPlatforms(data.platforms || {});
     setTiktok(data.tiktok || {});
     setProducts(data.products || []);
+    const ready = data.platforms || {};
+    setPicked({
+      facebook: Boolean(ready.facebook),
+      instagram: Boolean(ready.instagram),
+      tiktok: Boolean(data.tiktok?.connected || ready.tiktok),
+    });
     setNote("Signed in. Connect TikTok, then Publish a product.");
   }
 
@@ -147,7 +153,10 @@ export function OpsSocial() {
         const row = v as { status?: string; error?: string };
         return `${p}: ${row.status}${row.error ? ` (${row.error})` : ""}`;
       });
-      setNote(`${sku} — ${parts.join(" · ")}`);
+      const failed = Object.values(data.results || {}).some((v) => (v as { status?: string }).status === "failed");
+      const msg = `${sku} — ${parts.join(" · ")}`;
+      if (failed) setError(msg);
+      else setNote(msg);
       await load();
     } finally {
       setBusy(null);
