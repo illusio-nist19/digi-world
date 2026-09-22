@@ -34,6 +34,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/systems/magic-unicorn-days",
     "/systems/busy-little-wheels",
     "/systems/the-secret-sleep-keeps",
+    "/systems/the-kindness-cave",
+    "/systems/ember-who-shared-his-fire",
+    "/systems/the-brave-little-lantern",
+    "/systems/the-whispering-market",
+    "/systems/the-fox-who-kept-his-word",
     "/systems/photographer-os",
   ];
   const weeklyPaths = new Set([
@@ -58,6 +63,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/systems/magic-unicorn-days",
     "/systems/busy-little-wheels",
     "/systems/the-secret-sleep-keeps",
+    "/systems/the-kindness-cave",
+    "/systems/ember-who-shared-his-fire",
+    "/systems/the-brave-little-lantern",
+    "/systems/the-whispering-market",
+    "/systems/the-fox-who-kept-his-word",
   ]);
   const highPriority = (p: string) =>
     p.includes("client-tracker") ||
@@ -79,7 +89,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     p.includes("dino-friends") ||
     p.includes("magic-unicorn-days") ||
     p.includes("busy-little-wheels") ||
-    p.includes("the-secret-sleep-keeps");
+    p.includes("the-secret-sleep-keeps") ||
+    p.includes("the-kindness-cave") ||
+    p.includes("ember-who-shared") ||
+    p.includes("brave-little-lantern") ||
+    p.includes("whispering-market") ||
+    p.includes("fox-who-kept");
   const now = new Date();
   const entries: MetadataRoute.Sitemap = [];
   for (const locale of routing.locales) {
