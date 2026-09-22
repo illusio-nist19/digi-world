@@ -125,12 +125,16 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         highlightPrice={ta("saveHighlightPrice")}
         highlightNote={ta("saveHighlightNote")}
         savingsLabel={ta("saveLabel")}
+        monthlySave={ta("saveMonthlySave")}
         cta={ta("saveCta")}
         imageSrc="/images/crm-onetime-savings.png"
-        competitors={[
-          { name: ta("saveComp1Name"), price: ta("saveComp1Price"), plan: ta("saveComp1Plan"), save: ta("saveComp1Save") },
-          { name: ta("saveComp2Name"), price: ta("saveComp2Price"), plan: ta("saveComp2Plan"), save: ta("saveComp2Save") },
-          { name: ta("saveComp3Name"), price: ta("saveComp3Price"), plan: ta("saveComp3Plan"), save: ta("saveComp3Save") },
+        photoBadgeTop={ta("saveBadgeTop")}
+        photoBadgeMid={ta("saveBadgeMid")}
+        photoBadgeBottom={ta("saveBadgeBottom")}
+        cards={[
+          { eyebrow: ta("saveCard1Eyebrow"), title: ta("saveCard1Title"), body: ta("saveCard1Body") },
+          { eyebrow: ta("saveCard2Eyebrow"), title: ta("saveCard2Title"), body: ta("saveCard2Body") },
+          { eyebrow: ta("saveCard3Eyebrow"), title: ta("saveCard3Title"), body: ta("saveCard3Body") },
         ]}
       />
 
