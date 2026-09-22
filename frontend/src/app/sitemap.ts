@@ -28,6 +28,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/systems/subscription-desk",
     "/systems/key-fob-programming-mastery",
     "/systems/little-cozy-days",
+    "/systems/cartoon-buddies",
+    "/systems/cozy-little-animals",
+    "/systems/dino-friends",
+    "/systems/magic-unicorn-days",
+    "/systems/busy-little-wheels",
     "/systems/photographer-os",
   ];
   const weeklyPaths = new Set([
@@ -46,6 +51,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/systems/testimonial-vault",
     "/systems/subscription-desk",
     "/systems/little-cozy-days",
+    "/systems/cartoon-buddies",
+    "/systems/cozy-little-animals",
+    "/systems/dino-friends",
+    "/systems/magic-unicorn-days",
+    "/systems/busy-little-wheels",
   ]);
   const highPriority = (p: string) =>
     p.includes("client-tracker") ||
@@ -61,7 +71,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     p.includes("sop-desk") ||
     p.includes("testimonial-vault") ||
     p.includes("subscription-desk") ||
-    p.includes("little-cozy-days");
+    p.includes("little-cozy-days") ||
+    p.includes("cartoon-buddies") ||
+    p.includes("cozy-little-animals") ||
+    p.includes("dino-friends") ||
+    p.includes("magic-unicorn-days") ||
+    p.includes("busy-little-wheels");
   const now = new Date();
   const entries: MetadataRoute.Sitemap = [];
   for (const locale of routing.locales) {

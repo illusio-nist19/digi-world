@@ -301,6 +301,21 @@ These sit above Drop 01. They are **not** inside `the-vault`. One studio / one o
 | Licence | One family / two seats; personal use; no redistribution; no marketplace dump of the PDF |
 | Zip | `products/releases/DW-EBK-002-little-cozy-days.zip` · `backend/vault/` |
 
+### DW-EBK-003 Cartoon Buddies
+| sku | `DW-EBK-003` | slug | `cartoon-buddies` | $12 / $18 | Original bear/mouse/bunny/fox friends · PDF cover + 18 scenes | Zip `DW-EBK-003-cartoon-buddies.zip`
+
+### DW-EBK-004 Cozy Little Animals
+| sku | `DW-EBK-004` | slug | `cozy-little-animals` | $12 / $18 | Minimalist cozy animals · PDF cover + 18 scenes | Zip `DW-EBK-004-cozy-little-animals.zip`
+
+### DW-EBK-005 Dino Friends
+| sku | `DW-EBK-005` | slug | `dino-friends` | $12 / $18 | Friendly baby dinos · PDF cover + 18 scenes | Zip `DW-EBK-005-dino-friends.zip`
+
+### DW-EBK-006 Magic Unicorn Days
+| sku | `DW-EBK-006` | slug | `magic-unicorn-days` | $12 / $18 | Soft unicorn fantasy · PDF cover + 18 scenes | Zip `DW-EBK-006-magic-unicorn-days.zip`
+
+### DW-EBK-007 Busy Little Wheels
+| sku | `DW-EBK-007` | slug | `busy-little-wheels` | $12 / $18 | Cute vehicles · PDF cover + 18 scenes | Zip `DW-EBK-007-busy-little-wheels.zip`
+
 ### DW-SYS-009 SMB AI Governance Kit
 
 | | |

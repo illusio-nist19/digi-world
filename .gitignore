@@ -13,3 +13,11 @@ venv/
 .DS_Store
 dist/
 *.log
+
+# Coloring book page sources (PDFs/zips are the deliverable)
+products/cartoon-buddies/pages/
+products/cozy-little-animals/pages/
+products/dino-friends/pages/
+products/magic-unicorn-days/pages/
+products/busy-little-wheels/pages/
+products/*/node_modules/
