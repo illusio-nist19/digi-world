@@ -49,6 +49,16 @@ class Settings(BaseSettings):
     resend_from: str = "Digi World <hello@digi-world.online>"
     admin_token: str = ""
     checkout_rate_per_min: int = 10
+    social_auto_announce: bool = False
+    meta_graph_version: str = "v21.0"
+    meta_page_id: str = ""
+    meta_page_access_token: str = ""
+    meta_ig_user_id: str = ""
+    tiktok_publish_access_token: str = ""
+    tiktok_privacy_level: str = "SELF_ONLY"
+    tiktok_client_key: str = ""
+    tiktok_client_secret: str = ""
+    tiktok_redirect_uri: str = "https://digi-world.online/en/ops/social"
 
     @property
     def async_database_url(self) -> str:

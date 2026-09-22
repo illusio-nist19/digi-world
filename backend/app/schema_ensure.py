@@ -21,9 +21,42 @@ _PATCHES: list[tuple[str, str, str]] = [
     ("order_items", "is_upsell", "BOOLEAN DEFAULT false"),
 ]
 
+_TABLES = [
+    """
+    CREATE TABLE IF NOT EXISTS social_announcements (
+        id SERIAL PRIMARY KEY,
+        sku VARCHAR(40) NOT NULL,
+        platform VARCHAR(20) NOT NULL,
+        status VARCHAR(20) NOT NULL,
+        remote_id VARCHAR(80),
+        error TEXT,
+        created_at TIMESTAMPTZ DEFAULT now()
+    )
+    """,
+    "CREATE INDEX IF NOT EXISTS ix_social_announcements_sku ON social_announcements (sku)",
+    "CREATE INDEX IF NOT EXISTS ix_social_announcements_platform ON social_announcements (platform)",
+    """
+    CREATE TABLE IF NOT EXISTS social_oauth (
+        platform VARCHAR(20) PRIMARY KEY,
+        open_id VARCHAR(80),
+        username VARCHAR(80),
+        access_token TEXT NOT NULL,
+        refresh_token TEXT,
+        scope VARCHAR(255),
+        expires_at TIMESTAMPTZ,
+        updated_at TIMESTAMPTZ DEFAULT now()
+    )
+    """,
+]
+
 
 async def ensure_schema(engine: AsyncEngine) -> None:
     async with engine.begin() as conn:
+        for stmt in _TABLES:
+            try:
+                await conn.execute(text(stmt))
+            except Exception as exc:  # noqa: BLE001
+                log.warning("schema table failed: %s", exc)
         for table, column, ddl in _PATCHES:
             exists = await conn.scalar(
                 text(

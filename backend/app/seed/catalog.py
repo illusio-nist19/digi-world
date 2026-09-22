@@ -56,8 +56,9 @@ async def upsert_collections(session: AsyncSession) -> dict[str, int]:
     return {slug: col.id for slug, col in existing.items()}
 
 
-async def upsert_products(session: AsyncSession, col_ids: dict[str, int]) -> None:
+async def upsert_products(session: AsyncSession, col_ids: dict[str, int]) -> list[str]:
     existing = {p.sku: p for p in (await session.execute(select(Product))).scalars().all()}
+    new_skus: list[str] = []
     for row in PRODUCTS:
         collection_id = col_ids.get(row["collection"])
         if not collection_id:
@@ -67,8 +68,10 @@ async def upsert_products(session: AsyncSession, col_ids: dict[str, int]) -> Non
         if product is None:
             product = Product(sku=row["sku"], licenses_issued=0)
             session.add(product)
+            new_skus.append(row["sku"])
         _fill_product(product, row, collection_id)
     await session.flush()
+    return new_skus
 
 
 async def upsert_reviews(session: AsyncSession) -> None:
@@ -103,11 +106,12 @@ async def prune_removed(session: AsyncSession) -> None:
             await session.delete(review)
 
 
-async def seed_catalog(session: AsyncSession) -> None:
+async def seed_catalog(session: AsyncSession) -> list[str]:
     col_ids = await upsert_collections(session)
-    await upsert_products(session, col_ids)
+    new_skus = await upsert_products(session, col_ids)
     await upsert_reviews(session)
     await prune_removed(session)
     await session.commit()
     skus = [row["sku"] for row in PRODUCTS]
-    log.info("catalog ready skus=%s", skus)
+    log.info("catalog ready skus=%s new=%s", skus, new_skus)
+    return new_skus

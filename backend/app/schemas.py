@@ -50,6 +50,17 @@ class UpsellCreate(BaseModel):
     user_agent: str | None = None
 
 
+class SocialAnnounceIn(BaseModel):
+    sku: str = Field(min_length=1, max_length=40)
+    platforms: list[Literal["facebook", "instagram", "tiktok"]] | None = None
+    force: bool = False
+
+
+class TikTokExchangeIn(BaseModel):
+    code: str = Field(min_length=4, max_length=512)
+    state: str | None = None
+
+
 class ContactCreate(BaseModel):
     name: str = Field(min_length=2, max_length=80)
     email: EmailStr

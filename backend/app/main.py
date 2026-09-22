@@ -5,6 +5,7 @@ import sys
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.api.admin import router as admin_router
 from app.api.catalog import router as catalog_router
 from app.api.contact import router as contact_router
 from app.api.health import router as health_router
@@ -40,7 +41,13 @@ async def lifespan(_app: FastAPI):
     except Exception:
         log.exception("schema ensure failed")
     async with SessionLocal() as session:
-        await seed_catalog(session)
+        new_skus = await seed_catalog(session)
+    try:
+        from app.services.social import announce_new_skus
+
+        await announce_new_skus(new_skus)
+    except Exception:
+        log.exception("social auto-announce failed")
     yield
     await engine.dispose()
 
@@ -70,3 +77,4 @@ app.include_router(orders_router)
 app.include_router(stripe_hooks)
 app.include_router(contact_router)
 app.include_router(track_router)
+app.include_router(admin_router)
