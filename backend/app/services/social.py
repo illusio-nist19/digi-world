@@ -307,6 +307,34 @@ async def post_tiktok(images: list[str], title: str, description: str, access_to
             privacy = wanted if wanted in options else (options[0] if options else wanted)
         comment_disabled = bool((data or {}).get("comment_disabled"))
 
+        # Unaudited TikTok apps: MEDIA_UPLOAD (inbox draft) works on public accounts.
+        # Direct Post is blocked unless the TikTok account is Private.
+        inbox = await _tiktok_photo_init(
+            client,
+            headers,
+            photos=photos,
+            title=title,
+            description=description,
+            privacy=privacy,
+            post_mode="MEDIA_UPLOAD",
+            disable_comment=False,
+        )
+        inbox_err = str(inbox.get("error") or "")
+        if inbox.get("ok"):
+            publish_id = str(inbox.get("id") or "")
+            fail = await _tiktok_wait_status(client, headers, publish_id, inbox_ok=True)
+            if not fail:
+                return {
+                    "ok": True,
+                    "id": publish_id,
+                    "privacy": privacy,
+                    "mode": "MEDIA_UPLOAD",
+                    "inbox": True,
+                    "note": "Sent to TikTok inbox — open the TikTok app notification to finish publishing.",
+                    "body": inbox.get("body"),
+                }
+            inbox_err = fail
+
         direct = await _tiktok_photo_init(
             client,
             headers,
@@ -328,54 +356,24 @@ async def post_tiktok(images: list[str], title: str, description: str, access_to
                     "mode": "DIRECT_POST",
                     "body": direct.get("body"),
                 }
-            return {"ok": False, "error": fail, "id": publish_id}
-
-        code = str(direct.get("code") or "")
-        msg = str(direct.get("error") or "")
-        needs_inbox = (
-            code
-            in {
-                "unaudited_client_can_only_post_to_private_accounts",
-                "privacy_level_option_mismatch",
-            }
-            or "integration guidelines" in msg.lower()
-            or "private account" in msg.lower()
-        )
-        if not needs_inbox:
-            return {"ok": False, "error": msg or "tiktok direct post failed", "code": code}
-
-        inbox = await _tiktok_photo_init(
-            client,
-            headers,
-            photos=photos,
-            title=title,
-            description=description,
-            privacy=privacy,
-            post_mode="MEDIA_UPLOAD",
-            disable_comment=False,
-        )
-        if not inbox.get("ok"):
             return {
                 "ok": False,
                 "error": (
-                    f"{inbox.get('error') or msg}. "
-                    "Until TikTok audits the app: set the TikTok account to Private for Direct Post, "
-                    "or complete an inbox draft. Also verify digi-world.online under TikTok URL properties."
+                    f"{fail}. Inbox also failed: {inbox_err}. "
+                    "Verify digi-world.online under TikTok URL properties, or set the TikTok account to Private."
                 )[:500],
-                "code": inbox.get("code") or code,
+                "id": publish_id,
+                "mode": "DIRECT_POST",
             }
-        publish_id = str(inbox.get("id") or "")
-        fail = await _tiktok_wait_status(client, headers, publish_id, inbox_ok=True)
-        if fail:
-            return {"ok": False, "error": fail, "id": publish_id, "mode": "MEDIA_UPLOAD"}
+
         return {
-            "ok": True,
-            "id": publish_id,
-            "privacy": privacy,
-            "mode": "MEDIA_UPLOAD",
-            "inbox": True,
-            "note": "Sent to TikTok inbox — open the TikTok app notification to finish publishing.",
-            "body": inbox.get("body"),
+            "ok": False,
+            "error": (
+                f"{direct.get('error') or inbox_err}. "
+                "Until TikTok audits the app: open the TikTok inbox draft after a successful upload, "
+                "or set the account to Private for Direct Post. Also verify digi-world.online under TikTok URL properties."
+            )[:500],
+            "code": direct.get("code") or inbox.get("code"),
         }
 
 
