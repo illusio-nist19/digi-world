@@ -150,8 +150,9 @@ export function OpsSocial() {
         return;
       }
       const parts = Object.entries(data.results || {}).map(([p, v]) => {
-        const row = v as { status?: string; error?: string };
-        return `${p}: ${row.status}${row.error ? ` (${row.error})` : ""}`;
+        const row = v as { status?: string; error?: string; note?: string; mode?: string };
+        const extra = row.error || row.note || (row.mode === "MEDIA_UPLOAD" ? "inbox draft — open TikTok app" : "");
+        return `${p}: ${row.status}${extra ? ` (${extra})` : ""}`;
       });
       const failed = Object.values(data.results || {}).some((v) => (v as { status?: string }).status === "failed");
       const msg = `${sku} — ${parts.join(" · ")}`;
@@ -200,10 +201,20 @@ export function OpsSocial() {
               Facebook {platforms.facebook ? "ready" : "needs Page token"} · Instagram{" "}
               {platforms.instagram ? "ready" : "needs IG user id"}
             </p>
+            <p className="mt-3 text-stone">
+              TikTok app is not audited yet: Direct Post only works if the TikTok account is{" "}
+              <strong className="text-ivory">Private</strong>. Otherwise we send an{" "}
+              <strong className="text-ivory">inbox draft</strong> — open the TikTok app notification to finish.
+              Also verify <code className="text-ivory">digi-world.online</code> under TikTok Developer → URL properties.
+            </p>
             <div className="mt-4 flex flex-wrap items-center gap-3">
               <p className="text-ivory">
                 TikTok Login Kit:{" "}
-                <strong>{tiktok.connected ? `connected${tiktok.username ? ` @${tiktok.username}` : ""}` : "not connected"}</strong>
+                <strong>
+                  {tiktok.connected
+                    ? `connected${tiktok.username ? ` @${tiktok.username}` : ""}`
+                    : "not connected"}
+                </strong>
                 {tiktok.scope ? <span className="text-stone"> · {tiktok.scope}</span> : null}
               </p>
               {tiktok.login ? (

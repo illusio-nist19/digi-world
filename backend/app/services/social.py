@@ -288,83 +288,177 @@ async def post_tiktok(images: list[str], title: str, description: str, access_to
         "Authorization": f"Bearer {access_token}",
         "Content-Type": "application/json; charset=UTF-8",
     }
-    async with httpx.AsyncClient(timeout=40) as client:
+    async with httpx.AsyncClient(timeout=60) as client:
         info = await client.post(TIKTOK_CREATOR, headers=headers, json={})
         info_body = info.json() if info.content else {}
         data = info_body.get("data") if isinstance(info_body, dict) else {}
         err = info_body.get("error") if isinstance(info_body, dict) else None
         if not info.is_success or (isinstance(err, dict) and err.get("code") not in (None, "", "ok")):
             return {"ok": False, "error": _err(info_body) or f"tiktok creator {info.status_code}"}
+
+        if data and data.get("can_post") is False:
+            return {"ok": False, "error": "TikTok creator hit the daily post limit — try again tomorrow."}
+
         options = list((data or {}).get("privacy_level_options") or [])
         wanted = (s.tiktok_privacy_level or "SELF_ONLY").strip()
-        # Unaudited TikTok apps can only Direct Post as SELF_ONLY.
-        if "SELF_ONLY" in options and wanted not in options:
-            privacy = "SELF_ONLY"
+        if "SELF_ONLY" in options:
+            privacy = wanted if wanted in options else "SELF_ONLY"
         else:
             privacy = wanted if wanted in options else (options[0] if options else wanted)
-        payload = {
-            "post_info": {
-                "title": title[:90],
-                "description": description[:4000],
+        comment_disabled = bool((data or {}).get("comment_disabled"))
+
+        direct = await _tiktok_photo_init(
+            client,
+            headers,
+            photos=photos,
+            title=title,
+            description=description,
+            privacy=privacy,
+            post_mode="DIRECT_POST",
+            disable_comment=comment_disabled,
+        )
+        if direct.get("ok"):
+            publish_id = str(direct.get("id") or "")
+            fail = await _tiktok_wait_status(client, headers, publish_id)
+            if not fail:
+                return {
+                    "ok": True,
+                    "id": publish_id,
+                    "privacy": privacy,
+                    "mode": "DIRECT_POST",
+                    "body": direct.get("body"),
+                }
+            return {"ok": False, "error": fail, "id": publish_id}
+
+        code = str(direct.get("code") or "")
+        msg = str(direct.get("error") or "")
+        needs_inbox = (
+            code
+            in {
+                "unaudited_client_can_only_post_to_private_accounts",
+                "privacy_level_option_mismatch",
+            }
+            or "integration guidelines" in msg.lower()
+            or "private account" in msg.lower()
+        )
+        if not needs_inbox:
+            return {"ok": False, "error": msg or "tiktok direct post failed", "code": code}
+
+        inbox = await _tiktok_photo_init(
+            client,
+            headers,
+            photos=photos,
+            title=title,
+            description=description,
+            privacy=privacy,
+            post_mode="MEDIA_UPLOAD",
+            disable_comment=False,
+        )
+        if not inbox.get("ok"):
+            return {
+                "ok": False,
+                "error": (
+                    f"{inbox.get('error') or msg}. "
+                    "Until TikTok audits the app: set the TikTok account to Private for Direct Post, "
+                    "or complete an inbox draft. Also verify digi-world.online under TikTok URL properties."
+                )[:500],
+                "code": inbox.get("code") or code,
+            }
+        publish_id = str(inbox.get("id") or "")
+        fail = await _tiktok_wait_status(client, headers, publish_id, inbox_ok=True)
+        if fail:
+            return {"ok": False, "error": fail, "id": publish_id, "mode": "MEDIA_UPLOAD"}
+        return {
+            "ok": True,
+            "id": publish_id,
+            "privacy": privacy,
+            "mode": "MEDIA_UPLOAD",
+            "inbox": True,
+            "note": "Sent to TikTok inbox — open the TikTok app notification to finish publishing.",
+            "body": inbox.get("body"),
+        }
+
+
+async def _tiktok_photo_init(
+    client: httpx.AsyncClient,
+    headers: dict[str, str],
+    *,
+    photos: list[str],
+    title: str,
+    description: str,
+    privacy: str,
+    post_mode: str,
+    disable_comment: bool,
+) -> dict[str, Any]:
+    post_info: dict[str, Any] = {
+        "title": title[:90],
+        "description": description[:4000],
+    }
+    if post_mode == "DIRECT_POST":
+        post_info.update(
+            {
                 "privacy_level": privacy,
-                "disable_comment": False,
+                "disable_comment": bool(disable_comment),
                 "auto_add_music": True,
                 "brand_content_toggle": False,
                 "brand_organic_toggle": False,
-            },
-            "source_info": {
-                "source": "PULL_FROM_URL",
-                "photo_cover_index": 0,
-                "photo_images": photos[:12],
-            },
-            "post_mode": "DIRECT_POST",
-            "media_type": "PHOTO",
+            }
+        )
+    payload = {
+        "post_info": post_info,
+        "source_info": {
+            "source": "PULL_FROM_URL",
+            "photo_cover_index": 0,
+            "photo_images": photos[:12],
+        },
+        "post_mode": post_mode,
+        "media_type": "PHOTO",
+    }
+    posted = await client.post(TIKTOK_PHOTO, headers=headers, json=payload)
+    body = posted.json() if posted.content else {}
+    post_err = body.get("error") if isinstance(body, dict) else None
+    code = str(post_err.get("code") or "") if isinstance(post_err, dict) else ""
+    if not posted.is_success or (isinstance(post_err, dict) and code not in ("", "ok")):
+        return {
+            "ok": False,
+            "error": _err(body) or f"tiktok {post_mode} {posted.status_code}",
+            "code": code,
+            "body": body,
         }
-        posted = await client.post(TIKTOK_PHOTO, headers=headers, json=payload)
-        body = posted.json() if posted.content else {}
-        post_err = body.get("error") if isinstance(body, dict) else None
-        if not posted.is_success or (isinstance(post_err, dict) and post_err.get("code") not in (None, "", "ok")):
-            msg = _err(body) or f"tiktok post {posted.status_code}"
-            # Common unaudited-app failure: retry once as SELF_ONLY.
-            code = post_err.get("code") if isinstance(post_err, dict) else ""
-            if code == "unaudited_client_can_only_post_to_private_accounts" and privacy != "SELF_ONLY":
-                payload["post_info"]["privacy_level"] = "SELF_ONLY"
-                posted = await client.post(TIKTOK_PHOTO, headers=headers, json=payload)
-                body = posted.json() if posted.content else {}
-                post_err = body.get("error") if isinstance(body, dict) else None
-                if not posted.is_success or (isinstance(post_err, dict) and post_err.get("code") not in (None, "", "ok")):
-                    return {"ok": False, "error": _err(body) or msg}
-            else:
-                return {"ok": False, "error": msg}
-        publish_id = str((body.get("data") or {}).get("publish_id") or "")
-        fail = await _tiktok_wait_status(client, headers, publish_id)
-        if fail:
-            return {"ok": False, "error": fail, "id": publish_id}
-        return {"ok": True, "id": publish_id, "privacy": payload["post_info"]["privacy_level"], "body": body}
+    publish_id = str((body.get("data") or {}).get("publish_id") or "")
+    return {"ok": True, "id": publish_id, "code": code or "ok", "body": body}
 
 
-async def _tiktok_wait_status(client: httpx.AsyncClient, headers: dict[str, str], publish_id: str) -> str | None:
+async def _tiktok_wait_status(
+    client: httpx.AsyncClient,
+    headers: dict[str, str],
+    publish_id: str,
+    *,
+    inbox_ok: bool = False,
+) -> str | None:
     """Poll until complete; return fail_reason text or None on success."""
     if not publish_id:
         return None
     last = ""
-    for _ in range(12):
+    for _ in range(20):
         r = await client.post(TIKTOK_STATUS, headers=headers, json={"publish_id": publish_id})
         body = r.json() if r.content else {}
         data = body.get("data") if isinstance(body, dict) else {}
         status = str((data or {}).get("status") or "")
-        if status == "PUBLISH_COMPLETE":
+        if status in {"PUBLISH_COMPLETE", "SEND_TO_USER_INBOX"}:
             return None
         if status == "FAILED":
             reason = str((data or {}).get("fail_reason") or _err(body) or "tiktok publish failed")
             hints = {
                 "file_format_check_failed": "TikTok rejected the image format — use real JPEG/WebP (not PNG).",
-                "photo_pull_failed": "TikTok could not download the image URL — check public HTTPS + domain verification.",
+                "photo_pull_failed": "TikTok could not download the image — verify digi-world.online in TikTok URL properties.",
                 "picture_size_check_failed": "Image too large for TikTok photo posts (max ~1080p / 20MB).",
             }
             return hints.get(reason, reason)[:500]
         last = status or _err(body) or "processing"
         await asyncio.sleep(2)
+    if inbox_ok:
+        return None
     return f"tiktok still {last or 'processing'} (publish_id={publish_id})"[:500]
 
 
@@ -443,7 +537,14 @@ async def announce_product(
             out = {"ok": False, "error": str(exc)[:500]}
         status = "posted" if out.get("ok") else "failed"
         await _record(db, product.sku, platform, status, out.get("id"), None if out.get("ok") else out.get("error"))
-        results[platform] = {"ok": bool(out.get("ok")), "status": status, "id": out.get("id"), "error": out.get("error")}
+        results[platform] = {
+            "ok": bool(out.get("ok")),
+            "status": status,
+            "id": out.get("id"),
+            "error": out.get("error"),
+            "mode": out.get("mode"),
+            "note": out.get("note"),
+        }
     await db.commit()
     return {
         "sku": product.sku,
