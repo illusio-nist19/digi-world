@@ -39,6 +39,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/systems/the-brave-little-lantern",
     "/systems/the-whispering-market",
     "/systems/the-fox-who-kept-his-word",
+    "/systems/the-soft-word-door",
+    "/systems/flash-and-nibble",
+    "/systems/the-friendship-pot",
+    "/systems/ruby-cloaks-true-path",
+    "/systems/three-little-nest-builders",
     "/systems/photographer-os",
   ];
   const weeklyPaths = new Set([
@@ -68,6 +73,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/systems/the-brave-little-lantern",
     "/systems/the-whispering-market",
     "/systems/the-fox-who-kept-his-word",
+    "/systems/the-soft-word-door",
+    "/systems/flash-and-nibble",
+    "/systems/the-friendship-pot",
+    "/systems/ruby-cloaks-true-path",
+    "/systems/three-little-nest-builders",
   ]);
   const highPriority = (p: string) =>
     p.includes("client-tracker") ||

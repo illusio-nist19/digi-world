@@ -16,6 +16,11 @@ export function generateStaticParams() {
     { slug: "photographer-os" },
     { slug: "key-fob-programming-mastery" },
     { slug: "invoice-desk" },
+    { slug: "the-soft-word-door" },
+    { slug: "flash-and-nibble" },
+    { slug: "the-friendship-pot" },
+    { slug: "ruby-cloaks-true-path" },
+    { slug: "three-little-nest-builders" },
   ];
 }
 
