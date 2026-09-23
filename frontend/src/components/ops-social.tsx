@@ -202,10 +202,10 @@ export function OpsSocial() {
               {platforms.instagram ? "ready" : "needs IG user id"}
             </p>
             <p className="mt-3 text-stone">
-              TikTok app is not audited yet: Direct Post only works if the TikTok account is{" "}
-              <strong className="text-ivory">Private</strong>. Otherwise we send an{" "}
-              <strong className="text-ivory">inbox draft</strong> — open the TikTok app notification to finish.
-              Also verify <code className="text-ivory">digi-world.online</code> under TikTok Developer → URL properties.
+              TikTok posts go to an <strong className="text-ivory">inbox draft</strong> until the app is audited —
+              open the TikTok app notification to finish. Direct Post only works if the account is{" "}
+              <strong className="text-ivory">Private</strong>. Also verify{" "}
+              <code className="text-ivory">digi-world.online</code> under TikTok Developer → URL properties.
             </p>
             <div className="mt-4 flex flex-wrap items-center gap-3">
               <p className="text-ivory">
