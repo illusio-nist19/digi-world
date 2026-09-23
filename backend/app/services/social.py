@@ -22,9 +22,11 @@ HASHTAGS = "#DigiWorld #DigitalPlanner #BusinessCRM"
 GRAPH = "https://graph.facebook.com"
 TIKTOK_CREATOR = "https://open.tiktokapis.com/v2/post/publish/creator_info/query/"
 TIKTOK_PHOTO = "https://open.tiktokapis.com/v2/post/publish/content/init/"
+TIKTOK_STATUS = "https://open.tiktokapis.com/v2/post/publish/status/fetch/"
 TIKTOK_TOKEN = "https://open.tiktokapis.com/v2/oauth/token/"
 TIKTOK_AUTHORIZE = "https://www.tiktok.com/v2/auth/authorize/"
-TIKTOK_SCOPES = "user.info.basic,video.publish"
+# Direct Post needs video.publish; MEDIA_UPLOAD fallback needs video.upload.
+TIKTOK_SCOPES = "user.info.basic,video.publish,video.upload"
 
 
 def loc(value: Any, locale: str = "en") -> str:
@@ -60,15 +62,20 @@ def caption_for(product: Product, store_url: str) -> str:
 def image_urls(product: Product, store_url: str, limit: int = 8, *, for_tiktok: bool = False) -> list[str]:
     raw = product.images if isinstance(product.images, list) else []
     if for_tiktok:
-        # Photo Direct Post: JPEG/WebP only. We ship hero as 01.jpg next to 01.png.
+        # Photo Direct Post: JPEG/WebP only (PNG → file_format_check_failed).
+        # Prefer shipped 01.jpg next to 01.png; never send .png to TikTok.
         raw = raw[:1]
     urls: list[str] = []
     for path in raw[:limit]:
         url = public_image(store_url, str(path))
         if not url:
             continue
-        if for_tiktok and url.lower().endswith(".png"):
-            urls.append(url[:-4] + ".jpg")
+        lower = url.lower()
+        if for_tiktok:
+            if lower.endswith(".png"):
+                urls.append(url[:-4] + ".jpg")
+            elif lower.endswith((".jpg", ".jpeg", ".webp")):
+                urls.append(url)
             continue
         urls.append(url)
     return urls
@@ -270,6 +277,12 @@ async def post_instagram(image_url: str, caption: str) -> dict[str, Any]:
 async def post_tiktok(images: list[str], title: str, description: str, access_token: str) -> dict[str, Any]:
     if not access_token:
         return {"ok": False, "error": "tiktok not connected"}
+    photos = [u for u in images if u.lower().endswith((".jpg", ".jpeg", ".webp"))]
+    if not photos:
+        return {
+            "ok": False,
+            "error": "tiktok needs a public JPEG/WebP hero (01.jpg). PNG is rejected by TikTok.",
+        }
     s = get_settings()
     headers = {
         "Authorization": f"Bearer {access_token}",
@@ -283,8 +296,12 @@ async def post_tiktok(images: list[str], title: str, description: str, access_to
         if not info.is_success or (isinstance(err, dict) and err.get("code") not in (None, "", "ok")):
             return {"ok": False, "error": _err(info_body) or f"tiktok creator {info.status_code}"}
         options = list((data or {}).get("privacy_level_options") or [])
-        wanted = (s.tiktok_privacy_level or "PUBLIC_TO_EVERYONE").strip()
-        privacy = wanted if wanted in options else (options[0] if options else wanted)
+        wanted = (s.tiktok_privacy_level or "SELF_ONLY").strip()
+        # Unaudited TikTok apps can only Direct Post as SELF_ONLY.
+        if "SELF_ONLY" in options and wanted not in options:
+            privacy = "SELF_ONLY"
+        else:
+            privacy = wanted if wanted in options else (options[0] if options else wanted)
         payload = {
             "post_info": {
                 "title": title[:90],
@@ -293,12 +310,12 @@ async def post_tiktok(images: list[str], title: str, description: str, access_to
                 "disable_comment": False,
                 "auto_add_music": True,
                 "brand_content_toggle": False,
-                "brand_organic_toggle": True,
+                "brand_organic_toggle": False,
             },
             "source_info": {
                 "source": "PULL_FROM_URL",
                 "photo_cover_index": 0,
-                "photo_images": images[:12],
+                "photo_images": photos[:12],
             },
             "post_mode": "DIRECT_POST",
             "media_type": "PHOTO",
@@ -307,9 +324,48 @@ async def post_tiktok(images: list[str], title: str, description: str, access_to
         body = posted.json() if posted.content else {}
         post_err = body.get("error") if isinstance(body, dict) else None
         if not posted.is_success or (isinstance(post_err, dict) and post_err.get("code") not in (None, "", "ok")):
-            return {"ok": False, "error": _err(body) or f"tiktok post {posted.status_code}"}
+            msg = _err(body) or f"tiktok post {posted.status_code}"
+            # Common unaudited-app failure: retry once as SELF_ONLY.
+            code = post_err.get("code") if isinstance(post_err, dict) else ""
+            if code == "unaudited_client_can_only_post_to_private_accounts" and privacy != "SELF_ONLY":
+                payload["post_info"]["privacy_level"] = "SELF_ONLY"
+                posted = await client.post(TIKTOK_PHOTO, headers=headers, json=payload)
+                body = posted.json() if posted.content else {}
+                post_err = body.get("error") if isinstance(body, dict) else None
+                if not posted.is_success or (isinstance(post_err, dict) and post_err.get("code") not in (None, "", "ok")):
+                    return {"ok": False, "error": _err(body) or msg}
+            else:
+                return {"ok": False, "error": msg}
         publish_id = str((body.get("data") or {}).get("publish_id") or "")
-        return {"ok": True, "id": publish_id, "privacy": privacy, "body": body}
+        fail = await _tiktok_wait_status(client, headers, publish_id)
+        if fail:
+            return {"ok": False, "error": fail, "id": publish_id}
+        return {"ok": True, "id": publish_id, "privacy": payload["post_info"]["privacy_level"], "body": body}
+
+
+async def _tiktok_wait_status(client: httpx.AsyncClient, headers: dict[str, str], publish_id: str) -> str | None:
+    """Poll until complete; return fail_reason text or None on success."""
+    if not publish_id:
+        return None
+    last = ""
+    for _ in range(12):
+        r = await client.post(TIKTOK_STATUS, headers=headers, json={"publish_id": publish_id})
+        body = r.json() if r.content else {}
+        data = body.get("data") if isinstance(body, dict) else {}
+        status = str((data or {}).get("status") or "")
+        if status == "PUBLISH_COMPLETE":
+            return None
+        if status == "FAILED":
+            reason = str((data or {}).get("fail_reason") or _err(body) or "tiktok publish failed")
+            hints = {
+                "file_format_check_failed": "TikTok rejected the image format — use real JPEG/WebP (not PNG).",
+                "photo_pull_failed": "TikTok could not download the image URL — check public HTTPS + domain verification.",
+                "picture_size_check_failed": "Image too large for TikTok photo posts (max ~1080p / 20MB).",
+            }
+            return hints.get(reason, reason)[:500]
+        last = status or _err(body) or "processing"
+        await asyncio.sleep(2)
+    return f"tiktok still {last or 'processing'} (publish_id={publish_id})"[:500]
 
 
 async def _already_posted(db: AsyncSession, sku: str, platform: str) -> bool:
@@ -374,7 +430,14 @@ async def announce_product(
             elif platform == "instagram":
                 out = await post_instagram(hero, caption)
             else:
-                out = await post_tiktok(tiktok_images or images, loc(product.name), caption, await tiktok_access_token(db))
+                tt_imgs = tiktok_images or []
+                if not tt_imgs:
+                    out = {
+                        "ok": False,
+                        "error": "tiktok needs 01.jpg next to the product hero (PNG-only heroes fail)",
+                    }
+                else:
+                    out = await post_tiktok(tt_imgs, loc(product.name), caption, await tiktok_access_token(db))
         except Exception as exc:  # noqa: BLE001
             log.exception("social %s %s failed", platform, product.sku)
             out = {"ok": False, "error": str(exc)[:500]}
