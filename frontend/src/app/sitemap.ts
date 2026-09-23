@@ -44,6 +44,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/systems/the-friendship-pot",
     "/systems/ruby-cloaks-true-path",
     "/systems/three-little-nest-builders",
+    "/systems/luna-and-the-three-soft-chairs",
+    "/systems/pip-and-the-sky-beans",
+    "/systems/the-speckled-duckling",
+    "/systems/cinders-and-the-kind-slippers",
+    "/systems/tiny-paws-big-rescue",
     "/systems/photographer-os",
   ];
   const weeklyPaths = new Set([
@@ -78,6 +83,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/systems/the-friendship-pot",
     "/systems/ruby-cloaks-true-path",
     "/systems/three-little-nest-builders",
+    "/systems/luna-and-the-three-soft-chairs",
+    "/systems/pip-and-the-sky-beans",
+    "/systems/the-speckled-duckling",
+    "/systems/cinders-and-the-kind-slippers",
+    "/systems/tiny-paws-big-rescue",
   ]);
   const highPriority = (p: string) =>
     p.includes("client-tracker") ||

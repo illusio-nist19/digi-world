@@ -21,6 +21,11 @@ export function generateStaticParams() {
     { slug: "the-friendship-pot" },
     { slug: "ruby-cloaks-true-path" },
     { slug: "three-little-nest-builders" },
+    { slug: "luna-and-the-three-soft-chairs" },
+    { slug: "pip-and-the-sky-beans" },
+    { slug: "the-speckled-duckling" },
+    { slug: "cinders-and-the-kind-slippers" },
+    { slug: "tiny-paws-big-rescue" },
   ];
 }
 

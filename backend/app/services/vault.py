@@ -38,6 +38,11 @@ VAULT_FILES: dict[str, str] = {
     "DW-EBK-016": "DW-EBK-016-the-friendship-pot.zip",
     "DW-EBK-017": "DW-EBK-017-ruby-cloaks-true-path.zip",
     "DW-EBK-018": "DW-EBK-018-three-little-nest-builders.zip",
+    "DW-EBK-019": "DW-EBK-019-luna-and-the-three-soft-chairs.zip",
+    "DW-EBK-020": "DW-EBK-020-pip-and-the-sky-beans.zip",
+    "DW-EBK-021": "DW-EBK-021-the-speckled-duckling.zip",
+    "DW-EBK-022": "DW-EBK-022-cinders-and-the-kind-slippers.zip",
+    "DW-EBK-023": "DW-EBK-023-tiny-paws-big-rescue.zip",
 }
 
 ROOTS = (
