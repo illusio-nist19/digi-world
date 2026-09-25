@@ -49,6 +49,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/systems/the-speckled-duckling",
     "/systems/cinders-and-the-kind-slippers",
     "/systems/tiny-paws-big-rescue",
+    "/systems/cozy-club-friends",
     "/systems/photographer-os",
   ];
   const weeklyPaths = new Set([
@@ -88,6 +89,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/systems/the-speckled-duckling",
     "/systems/cinders-and-the-kind-slippers",
     "/systems/tiny-paws-big-rescue",
+    "/systems/cozy-club-friends",
   ]);
   const highPriority = (p: string) =>
     p.includes("client-tracker") ||
@@ -114,7 +116,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     p.includes("ember-who-shared") ||
     p.includes("brave-little-lantern") ||
     p.includes("whispering-market") ||
-    p.includes("fox-who-kept");
+    p.includes("fox-who-kept") ||
+    p.includes("cozy-club-friends");
   const now = new Date();
   const entries: MetadataRoute.Sitemap = [];
   for (const locale of routing.locales) {
