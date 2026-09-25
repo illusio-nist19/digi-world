@@ -8,6 +8,7 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { PixelBoot } from "@/components/pixels";
 import { getCatalog } from "@/lib/catalog";
+import { siteUrl } from "@/lib/seo";
 import { routing, type Locale } from "@/i18n/routing";
 import "../globals.css";
 
@@ -20,9 +21,14 @@ export function generateStaticParams() {
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://digi-world.online"),
+  metadataBase: new URL(siteUrl()),
   icons: { icon: "/favicon.svg" },
   openGraph: { images: ["/images/og-default.png"] },
+  robots: { index: true, follow: true },
+  // Prefer HTTPS apex; individual pages set canonical + hreflang
+  alternates: {
+    canonical: "./",
+  },
 };
 
 export default async function LocaleLayout({

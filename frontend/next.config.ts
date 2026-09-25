@@ -12,7 +12,10 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      { source: "/vault/:path*", destination: "/en", permanent: false },
+      // Broken product URL (the-vault is a collection, not a system)
+      { source: "/:locale(ar|en|fr|es)/systems/the-vault", destination: "/:locale/collections/the-vault", permanent: true },
+      { source: "/systems/the-vault", destination: "/ar/collections/the-vault", permanent: true },
+      { source: "/vault/:path*", destination: "/ar", permanent: true },
       { source: "/:locale(ar|en|fr|es)/sitemap.xml", destination: "/sitemap.xml", permanent: true },
       { source: "/:locale(ar|en|fr|es)/robots.txt", destination: "/robots.txt", permanent: true },
     ];

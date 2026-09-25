@@ -1,16 +1,30 @@
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import type { Metadata } from "next";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { getCatalog, productsIn } from "@/lib/catalog";
 import { loc, money } from "@/lib/types";
 import { Container, ProductCard, Split } from "@/components/ui";
 import { routing } from "@/i18n/routing";
+import { pageAlternates } from "@/lib/seo";
 
 export function generateStaticParams() {
   return routing.locales.flatMap((locale) =>
     ["creator-lab", "ai-command", "wealth-os", "glow-ritual", "the-vault", "trades-lab"].map((collection) => ({ locale, collection })),
   );
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string; collection: string }> }): Promise<Metadata> {
+  const { locale, collection } = await params;
+  const catalog = await getCatalog();
+  const col = catalog.collections.find((c) => c.slug === collection);
+  if (!col) return { robots: { index: false, follow: false } };
+  return {
+    title: loc(col.name, locale),
+    description: loc(col.sub, locale),
+    alternates: pageAlternates(locale, `/collections/${collection}`),
+  };
 }
 
 export default async function CollectionPage({ params }: { params: Promise<{ locale: string; collection: string }> }) {
@@ -43,7 +57,7 @@ export default async function CollectionPage({ params }: { params: Promise<{ loc
         <Split image={vault.images[0] || "/images/hero-home.png"} alt="" flip>
           <h2 className="font-display text-4xl">{loc(vault.headline, locale)}</h2>
           <p className="mt-4 text-ivory/80">{loc(vault.sub, locale)}</p>
-          <Link href="/systems/the-vault" className="mt-6 inline-flex h-12 items-center rounded-full bg-gold px-6 text-ink">
+          <Link href="/collections/the-vault" className="mt-6 inline-flex h-12 items-center rounded-full bg-gold px-6 text-ink">
             {money(vault.price_cents)}
           </Link>
         </Split>

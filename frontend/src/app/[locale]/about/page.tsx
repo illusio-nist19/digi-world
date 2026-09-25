@@ -1,10 +1,22 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import type { Metadata } from "next";
 import { Container, Split, StarRow } from "@/components/ui";
 import { CrmSavingsSection } from "@/components/crm-savings";
 import { routing } from "@/i18n/routing";
+import { pageAlternates } from "@/lib/seo";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "about" });
+  return {
+    title: t("title"),
+    description: t("body").slice(0, 160),
+    alternates: pageAlternates(locale, "/about"),
+  };
 }
 
 const CUSTOMER_REVIEWS = [

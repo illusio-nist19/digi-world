@@ -3,6 +3,7 @@ import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { Container } from "@/components/ui";
+import { pageAlternates, absoluteUrl } from "@/lib/seo";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -10,26 +11,16 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
-  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://digi-world.online";
-  const path = `/${locale}/digital-tracker`;
+  const path = "/digital-tracker";
   return {
     title: "Digital Tracker for Small Business | Offline Client CRM | Digi World",
     description:
       "Digital tracker for freelancers and studios: clients, invoices, budget, tasks, calendar, and private files. One HTML file. Works offline. Instant download.",
-    alternates: {
-      canonical: `${base}${path}`,
-      languages: {
-        ar: `${base}/ar/digital-tracker`,
-        en: `${base}/en/digital-tracker`,
-        fr: `${base}/fr/digital-tracker`,
-        es: `${base}/es/digital-tracker`,
-        "x-default": `${base}/en/digital-tracker`,
-      },
-    },
+    alternates: pageAlternates(locale, path),
     openGraph: {
       title: "Digital Tracker for Small Business | Digi World",
       description: "Offline digital tracker — clients, money, tasks, and reminders in one desk. No subscription.",
-      url: `${base}${path}`,
+      url: absoluteUrl(locale, path),
       images: ["/images/products/client-tracker/01.png"],
     },
   };

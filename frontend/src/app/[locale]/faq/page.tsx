@@ -1,7 +1,8 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import type { Metadata } from "next";
 import { getCatalog } from "@/lib/catalog";
 import { routing } from "@/i18n/routing";
-import type { Metadata } from "next";
+import { pageAlternates } from "@/lib/seo";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -10,7 +11,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "faqPage" });
-  return { title: t("title") };
+  return { title: t("title"), alternates: pageAlternates(locale, "/faq") };
 }
 
 export default async function FAQ({ params }: { params: Promise<{ locale: string }> }) {

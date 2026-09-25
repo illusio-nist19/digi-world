@@ -8,6 +8,7 @@ import { Container, ProductCard, Split, StarRow } from "@/components/ui";
 import { ScrollBackdrop } from "@/components/scroll-backdrop";
 import { CrmSavingsSection } from "@/components/crm-savings";
 import { routing } from "@/i18n/routing";
+import { pageAlternates } from "@/lib/seo";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -16,7 +17,11 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "meta" });
-  return { title: t("title"), description: t("description") };
+  return {
+    title: t("title"),
+    description: t("description"),
+    alternates: pageAlternates(locale, ""),
+  };
 }
 
 const SCROLL_SCENES = [

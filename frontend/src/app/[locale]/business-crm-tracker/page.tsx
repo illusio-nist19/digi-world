@@ -3,6 +3,7 @@ import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { Container } from "@/components/ui";
+import { pageAlternates, absoluteUrl } from "@/lib/seo";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -10,8 +11,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
-  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://digi-world.online";
-  const path = `/${locale}/business-crm-tracker`;
+  const path = "/business-crm-tracker";
   return {
     title: "Business CRM Tracker for Small Business | Offline Client Desk | Digi World",
     description:
@@ -25,20 +25,11 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       "freelancer CRM",
       "invoice tracker",
     ],
-    alternates: {
-      canonical: `${base}${path}`,
-      languages: {
-        ar: `${base}/ar/business-crm-tracker`,
-        en: `${base}/en/business-crm-tracker`,
-        fr: `${base}/fr/business-crm-tracker`,
-        es: `${base}/es/business-crm-tracker`,
-        "x-default": `${base}/en/business-crm-tracker`,
-      },
-    },
+    alternates: pageAlternates(locale, path),
     openGraph: {
       title: "Business CRM Tracker | Digi World",
       description: "Offline business CRM tracker — clients, money, tasks, and reminders. One file. No subscription.",
-      url: `${base}${path}`,
+      url: absoluteUrl(locale, path),
       images: ["/images/products/client-tracker/01.png"],
     },
   };

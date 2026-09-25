@@ -7,26 +7,51 @@ import { Container, Split, StarRow } from "@/components/ui";
 import { getCatalog, productBySlug } from "@/lib/catalog";
 import { isPremium, loc, money } from "@/lib/types";
 import { ViewContentPing } from "@/components/view-content";
-import { ProductGallery, CLIENT_TRACKER_SHOTS, INVOICE_DESK_SHOTS } from "@/components/product-gallery";
 import type { Metadata } from "next";
+import { ProductGallery, CLIENT_TRACKER_SHOTS, INVOICE_DESK_SHOTS } from "@/components/product-gallery";
+import { pageAlternates } from "@/lib/seo";
 
 export function generateStaticParams() {
-  return [
-    { slug: "client-tracker" },
-    { slug: "photographer-os" },
-    { slug: "key-fob-programming-mastery" },
-    { slug: "invoice-desk" },
-    { slug: "the-soft-word-door" },
-    { slug: "flash-and-nibble" },
-    { slug: "the-friendship-pot" },
-    { slug: "ruby-cloaks-true-path" },
-    { slug: "three-little-nest-builders" },
-    { slug: "luna-and-the-three-soft-chairs" },
-    { slug: "pip-and-the-sky-beans" },
-    { slug: "the-speckled-duckling" },
-    { slug: "cinders-and-the-kind-slippers" },
-    { slug: "tiny-paws-big-rescue" },
+  const slugs = [
+    "client-tracker",
+    "photographer-os",
+    "key-fob-programming-mastery",
+    "invoice-desk",
+    "proposal-desk",
+    "expense-desk",
+    "content-planner",
+    "meeting-desk",
+    "time-rate-desk",
+    "contract-desk",
+    "onboarding-desk",
+    "sop-desk",
+    "testimonial-vault",
+    "subscription-desk",
+    "little-cozy-days",
+    "cartoon-buddies",
+    "cozy-little-animals",
+    "dino-friends",
+    "magic-unicorn-days",
+    "busy-little-wheels",
+    "the-secret-sleep-keeps",
+    "the-kindness-cave",
+    "ember-who-shared-his-fire",
+    "the-brave-little-lantern",
+    "the-whispering-market",
+    "the-fox-who-kept-his-word",
+    "the-soft-word-door",
+    "flash-and-nibble",
+    "the-friendship-pot",
+    "ruby-cloaks-true-path",
+    "three-little-nest-builders",
+    "luna-and-the-three-soft-chairs",
+    "pip-and-the-sky-beans",
+    "the-speckled-duckling",
+    "cinders-and-the-kind-slippers",
+    "tiny-paws-big-rescue",
+    "cozy-club-friends",
   ];
+  return slugs.map((slug) => ({ slug }));
 }
 
 export const dynamicParams = true;
@@ -35,9 +60,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale, slug } = await params;
   const catalog = await getCatalog();
   const product = productBySlug(catalog, slug);
-  if (!product) return {};
+  if (!product) return { robots: { index: false, follow: false } };
+  const path = `/systems/${slug}`;
+  const alts = pageAlternates(locale, path);
   if (slug === "client-tracker") {
-    const base = process.env.NEXT_PUBLIC_SITE_URL || "https://digi-world.online";
     return {
       title: "Business CRM Tracker | Professional CRM · Customer Relationship Management | Digi World",
       description:
@@ -53,21 +79,11 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
         "small business CRM",
         "freelancer invoice tracker",
       ],
-      alternates: {
-        canonical: `${base}/${locale}/systems/client-tracker`,
-        languages: {
-          ar: `${base}/ar/systems/client-tracker`,
-          en: `${base}/en/systems/client-tracker`,
-          fr: `${base}/fr/systems/client-tracker`,
-          es: `${base}/es/systems/client-tracker`,
-          "x-default": `${base}/en/systems/client-tracker`,
-        },
-      },
+      alternates: alts,
       openGraph: { images: product.images[0] ? [product.images[0]] : undefined },
     };
   }
   if (slug === "invoice-desk") {
-    const base = process.env.NEXT_PUBLIC_SITE_URL || "https://digi-world.online";
     return {
       title: "Quote & Invoice Desk | Offline Freelance Invoicing HTML | Digi World",
       description:
@@ -79,29 +95,23 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
         "small business invoicing",
         "freelancer quote tool",
       ],
-      alternates: {
-        canonical: `${base}/${locale}/systems/invoice-desk`,
-        languages: {
-          ar: `${base}/ar/systems/invoice-desk`,
-          en: `${base}/en/systems/invoice-desk`,
-          fr: `${base}/fr/systems/invoice-desk`,
-          es: `${base}/es/systems/invoice-desk`,
-          "x-default": `${base}/en/systems/invoice-desk`,
-        },
-      },
+      alternates: alts,
       openGraph: { images: product.images[0] ? [product.images[0]] : undefined },
     };
   }
   if (slug === "key-fob-programming-mastery") {
     return {
       title: "Key Fob Programming Mastery | Automotive Remote & Immobilizer Training E-Book",
-      description: "Visual locksmith training for authorized Add Key / remote programming — ownership verification, procedures, testing, 90-day path. Digi World.",
+      description:
+        "Visual locksmith training for authorized Add Key / remote programming — ownership verification, procedures, testing, 90-day path. Digi World.",
+      alternates: alts,
       openGraph: { images: product.images[0] ? [product.images[0]] : undefined },
     };
   }
   return {
     title: loc(product.name, locale),
     description: loc(product.sub, locale),
+    alternates: alts,
     openGraph: { images: product.images[0] ? [product.images[0]] : undefined },
   };
 }
@@ -321,7 +331,7 @@ export default async function ProductPage({ params }: { params: Promise<{ locale
         <section className="border-t border-gold/30 py-12">
           <Container className="flex flex-wrap items-center justify-between gap-4">
             <p className="font-display text-2xl">{t("vaultStrip")}</p>
-            <Link href="/systems/the-vault" className="inline-flex h-12 items-center rounded-full bg-gold px-6 text-ink">
+            <Link href="/collections/the-vault" className="inline-flex h-12 items-center rounded-full bg-gold px-6 text-ink">
               {t("vaultCta")}
             </Link>
           </Container>
